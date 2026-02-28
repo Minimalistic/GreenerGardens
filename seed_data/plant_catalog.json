@@ -1,0 +1,2933 @@
+[
+  {
+    "common_name": "Tomato",
+    "scientific_name": "Solanum lycopersicum",
+    "family": "Solanaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Popular garden fruit grown as a warm-season annual. Available in determinate and indeterminate varieties.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 11,
+    "spacing_inches": 24,
+    "row_spacing_inches": 36,
+    "height_inches_min": 36,
+    "height_inches_max": 72,
+    "days_to_germination_min": 5,
+    "days_to_germination_max": 10,
+    "days_to_maturity_min": 60,
+    "days_to_maturity_max": 85,
+    "planting_depth_inches": 0.25,
+    "indoor_start_weeks_before_frost": 6,
+    "outdoor_sow_weeks_after_frost": 2,
+    "harvest_instructions": "Pick when fully colored and slightly soft to touch.",
+    "storage_instructions": "Store at room temperature. Do not refrigerate unripe tomatoes.",
+    "companions": [
+      "Basil",
+      "Carrot",
+      "Parsley",
+      "Marigold"
+    ],
+    "antagonists": [
+      "Fennel",
+      "Cabbage",
+      "Walnut"
+    ],
+    "rotation_family": "Solanaceae",
+    "growing_tips": [
+      "Bury stems deep when transplanting for stronger roots",
+      "Remove suckers for indeterminate varieties",
+      "Mulch heavily to retain moisture"
+    ]
+  },
+  {
+    "common_name": "Bell Pepper",
+    "scientific_name": "Capsicum annuum",
+    "family": "Solanaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Sweet pepper available in green, red, yellow, and orange varieties.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 11,
+    "spacing_inches": 18,
+    "row_spacing_inches": 24,
+    "height_inches_min": 18,
+    "height_inches_max": 36,
+    "days_to_germination_min": 7,
+    "days_to_germination_max": 14,
+    "days_to_maturity_min": 60,
+    "days_to_maturity_max": 90,
+    "planting_depth_inches": 0.25,
+    "indoor_start_weeks_before_frost": 8,
+    "outdoor_sow_weeks_after_frost": 2,
+    "harvest_instructions": "Pick when firm and fully colored.",
+    "storage_instructions": "Refrigerate in plastic bag for up to 2 weeks.",
+    "companions": [
+      "Basil",
+      "Tomato",
+      "Carrot"
+    ],
+    "antagonists": [
+      "Fennel",
+      "Kohlrabi"
+    ],
+    "rotation_family": "Solanaceae",
+    "growing_tips": [
+      "Start seeds early indoors as peppers need a long season",
+      "Stake plants when fruit develops"
+    ]
+  },
+  {
+    "common_name": "Hot Pepper",
+    "scientific_name": "Capsicum spp.",
+    "family": "Solanaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Spicy peppers ranging from mild jalapeno to fiery habanero.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 11,
+    "spacing_inches": 18,
+    "row_spacing_inches": 24,
+    "height_inches_min": 18,
+    "height_inches_max": 36,
+    "days_to_maturity_min": 70,
+    "days_to_maturity_max": 100,
+    "planting_depth_inches": 0.25,
+    "indoor_start_weeks_before_frost": 8,
+    "companions": [
+      "Basil",
+      "Tomato"
+    ],
+    "antagonists": [
+      "Fennel"
+    ],
+    "rotation_family": "Solanaceae",
+    "growing_tips": [
+      "Stress slightly by reducing water to increase heat",
+      "Wear gloves when harvesting hot varieties"
+    ]
+  },
+  {
+    "common_name": "Cucumber",
+    "scientific_name": "Cucumis sativus",
+    "family": "Cucurbitaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Refreshing vine crop available in slicing and pickling varieties.",
+    "sun_exposure": "full_sun",
+    "water_needs": "high",
+    "min_zone": 3,
+    "max_zone": 11,
+    "spacing_inches": 12,
+    "row_spacing_inches": 48,
+    "height_inches_min": 12,
+    "height_inches_max": 72,
+    "days_to_germination_min": 3,
+    "days_to_germination_max": 10,
+    "days_to_maturity_min": 50,
+    "days_to_maturity_max": 70,
+    "planting_depth_inches": 1,
+    "outdoor_sow_weeks_after_frost": 2,
+    "harvest_instructions": "Pick when firm and medium-sized. Don't let them turn yellow.",
+    "storage_instructions": "Refrigerate unwashed for up to 1 week.",
+    "companions": [
+      "Beans",
+      "Corn",
+      "Sunflower",
+      "Peas"
+    ],
+    "antagonists": [
+      "Potato",
+      "Aromatic herbs"
+    ],
+    "rotation_family": "Cucurbitaceae",
+    "growing_tips": [
+      "Provide trellis for better fruit and space efficiency",
+      "Keep soil consistently moist",
+      "Harvest frequently to encourage production"
+    ]
+  },
+  {
+    "common_name": "Zucchini",
+    "scientific_name": "Cucurbita pepo",
+    "family": "Cucurbitaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Prolific summer squash that produces abundantly.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 11,
+    "spacing_inches": 36,
+    "row_spacing_inches": 48,
+    "height_inches_min": 24,
+    "height_inches_max": 36,
+    "days_to_germination_min": 4,
+    "days_to_germination_max": 8,
+    "days_to_maturity_min": 45,
+    "days_to_maturity_max": 60,
+    "planting_depth_inches": 1,
+    "outdoor_sow_weeks_after_frost": 2,
+    "harvest_instructions": "Pick when 6-8 inches long for best flavor.",
+    "companions": [
+      "Corn",
+      "Beans",
+      "Nasturtium"
+    ],
+    "antagonists": [
+      "Potato"
+    ],
+    "rotation_family": "Cucurbitaceae",
+    "growing_tips": [
+      "Harvest regularly to keep plants producing",
+      "Watch for squash vine borers"
+    ]
+  },
+  {
+    "common_name": "Summer Squash",
+    "scientific_name": "Cucurbita pepo",
+    "family": "Cucurbitaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Fast-growing squash including patty pan and crookneck varieties.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 11,
+    "spacing_inches": 36,
+    "row_spacing_inches": 48,
+    "days_to_maturity_min": 45,
+    "days_to_maturity_max": 65,
+    "planting_depth_inches": 1,
+    "outdoor_sow_weeks_after_frost": 2,
+    "companions": [
+      "Corn",
+      "Beans"
+    ],
+    "antagonists": [
+      "Potato"
+    ],
+    "rotation_family": "Cucurbitaceae",
+    "growing_tips": [
+      "Pick young for tender flesh"
+    ]
+  },
+  {
+    "common_name": "Winter Squash",
+    "scientific_name": "Cucurbita maxima",
+    "family": "Cucurbitaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Hard-shelled squash including butternut, acorn, and spaghetti varieties.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 11,
+    "spacing_inches": 48,
+    "row_spacing_inches": 72,
+    "days_to_maturity_min": 80,
+    "days_to_maturity_max": 110,
+    "planting_depth_inches": 1,
+    "outdoor_sow_weeks_after_frost": 2,
+    "harvest_instructions": "Harvest when rind is hard and stem is dry.",
+    "storage_instructions": "Cure in warm area 2 weeks, then store in cool dry place for months.",
+    "companions": [
+      "Corn",
+      "Beans"
+    ],
+    "antagonists": [
+      "Potato"
+    ],
+    "rotation_family": "Cucurbitaceae",
+    "growing_tips": [
+      "Allow plenty of space for vines to spread",
+      "Cure before long-term storage"
+    ]
+  },
+  {
+    "common_name": "Pumpkin",
+    "scientific_name": "Cucurbita pepo",
+    "family": "Cucurbitaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Large-fruited vine used for decoration and cooking.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 9,
+    "spacing_inches": 60,
+    "row_spacing_inches": 96,
+    "days_to_maturity_min": 90,
+    "days_to_maturity_max": 120,
+    "planting_depth_inches": 1,
+    "outdoor_sow_weeks_after_frost": 2,
+    "companions": [
+      "Corn",
+      "Beans"
+    ],
+    "antagonists": [
+      "Potato"
+    ],
+    "rotation_family": "Cucurbitaceae",
+    "growing_tips": [
+      "Plant in hills of 2-3 seeds",
+      "Place cardboard under fruit to prevent rot"
+    ]
+  },
+  {
+    "common_name": "Lettuce",
+    "scientific_name": "Lactuca sativa",
+    "family": "Asteraceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Cool-season salad green available in leaf, romaine, and head varieties.",
+    "sun_exposure": "partial_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 11,
+    "spacing_inches": 6,
+    "row_spacing_inches": 12,
+    "height_inches_min": 6,
+    "height_inches_max": 12,
+    "days_to_germination_min": 2,
+    "days_to_germination_max": 10,
+    "days_to_maturity_min": 30,
+    "days_to_maturity_max": 70,
+    "planting_depth_inches": 0.125,
+    "outdoor_sow_weeks_after_frost": -4,
+    "harvest_instructions": "Cut outer leaves or harvest whole head when firm.",
+    "storage_instructions": "Wash, dry, and refrigerate in produce bag.",
+    "companions": [
+      "Carrot",
+      "Radish",
+      "Strawberry",
+      "Chives"
+    ],
+    "antagonists": [
+      "Celery"
+    ],
+    "rotation_family": "Asteraceae",
+    "growing_tips": [
+      "Succession plant every 2 weeks",
+      "Provide afternoon shade in hot weather",
+      "Bolt-resistant varieties extend harvest"
+    ]
+  },
+  {
+    "common_name": "Spinach",
+    "scientific_name": "Spinacia oleracea",
+    "family": "Amaranthaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Nutrient-dense cool-season green rich in iron and vitamins.",
+    "sun_exposure": "partial_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 9,
+    "spacing_inches": 4,
+    "row_spacing_inches": 12,
+    "height_inches_min": 6,
+    "height_inches_max": 12,
+    "days_to_germination_min": 5,
+    "days_to_germination_max": 14,
+    "days_to_maturity_min": 35,
+    "days_to_maturity_max": 50,
+    "planting_depth_inches": 0.5,
+    "outdoor_sow_weeks_after_frost": -6,
+    "companions": [
+      "Strawberry",
+      "Peas",
+      "Beans"
+    ],
+    "antagonists": [],
+    "rotation_family": "Amaranthaceae",
+    "growing_tips": [
+      "Plant in early spring or fall for best results",
+      "Bolts quickly in hot weather"
+    ]
+  },
+  {
+    "common_name": "Kale",
+    "scientific_name": "Brassica oleracea var. sabellica",
+    "family": "Brassicaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "biennial",
+    "description": "Hardy leafy green that becomes sweeter after frost.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 9,
+    "spacing_inches": 18,
+    "row_spacing_inches": 24,
+    "height_inches_min": 12,
+    "height_inches_max": 24,
+    "days_to_germination_min": 5,
+    "days_to_germination_max": 10,
+    "days_to_maturity_min": 50,
+    "days_to_maturity_max": 65,
+    "planting_depth_inches": 0.5,
+    "indoor_start_weeks_before_frost": 6,
+    "companions": [
+      "Beets",
+      "Celery",
+      "Herbs"
+    ],
+    "antagonists": [
+      "Strawberry"
+    ],
+    "rotation_family": "Brassicaceae",
+    "growing_tips": [
+      "Harvest lower leaves first",
+      "Flavor improves after frost"
+    ]
+  },
+  {
+    "common_name": "Swiss Chard",
+    "scientific_name": "Beta vulgaris subsp. cicla",
+    "family": "Amaranthaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "biennial",
+    "description": "Colorful leafy green with edible stalks in rainbow colors.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 10,
+    "spacing_inches": 12,
+    "row_spacing_inches": 18,
+    "height_inches_min": 12,
+    "height_inches_max": 24,
+    "days_to_germination_min": 5,
+    "days_to_germination_max": 10,
+    "days_to_maturity_min": 50,
+    "days_to_maturity_max": 60,
+    "planting_depth_inches": 0.5,
+    "companions": [
+      "Beans",
+      "Cabbage",
+      "Onion"
+    ],
+    "antagonists": [],
+    "rotation_family": "Amaranthaceae",
+    "growing_tips": [
+      "Cut-and-come-again harvesting extends production"
+    ]
+  },
+  {
+    "common_name": "Carrot",
+    "scientific_name": "Daucus carota",
+    "family": "Apiaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "biennial",
+    "description": "Root vegetable available in many colors and sizes.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 10,
+    "spacing_inches": 3,
+    "row_spacing_inches": 12,
+    "height_inches_min": 8,
+    "height_inches_max": 12,
+    "days_to_germination_min": 10,
+    "days_to_germination_max": 21,
+    "days_to_maturity_min": 60,
+    "days_to_maturity_max": 80,
+    "planting_depth_inches": 0.25,
+    "outdoor_sow_weeks_after_frost": -2,
+    "harvest_instructions": "Pull when tops are about 3/4 inch diameter.",
+    "storage_instructions": "Remove tops and store in sand or refrigerate.",
+    "companions": [
+      "Tomato",
+      "Lettuce",
+      "Onion",
+      "Rosemary"
+    ],
+    "antagonists": [
+      "Dill"
+    ],
+    "rotation_family": "Apiaceae",
+    "growing_tips": [
+      "Keep soil loose and free of rocks",
+      "Thin seedlings to proper spacing",
+      "Keep soil consistently moist for germination"
+    ]
+  },
+  {
+    "common_name": "Beet",
+    "scientific_name": "Beta vulgaris",
+    "family": "Amaranthaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "biennial",
+    "description": "Versatile root vegetable with edible leaves and roots.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 10,
+    "spacing_inches": 4,
+    "row_spacing_inches": 12,
+    "height_inches_min": 8,
+    "height_inches_max": 14,
+    "days_to_germination_min": 5,
+    "days_to_germination_max": 14,
+    "days_to_maturity_min": 50,
+    "days_to_maturity_max": 70,
+    "planting_depth_inches": 0.5,
+    "outdoor_sow_weeks_after_frost": -4,
+    "companions": [
+      "Onion",
+      "Lettuce",
+      "Cabbage"
+    ],
+    "antagonists": [
+      "Pole Beans"
+    ],
+    "rotation_family": "Amaranthaceae",
+    "growing_tips": [
+      "Soak seeds overnight before planting",
+      "Each seed cluster produces multiple plants—thin early"
+    ]
+  },
+  {
+    "common_name": "Radish",
+    "scientific_name": "Raphanus sativus",
+    "family": "Brassicaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Fast-growing root vegetable perfect for succession planting.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 10,
+    "spacing_inches": 2,
+    "row_spacing_inches": 8,
+    "height_inches_min": 4,
+    "height_inches_max": 8,
+    "days_to_germination_min": 3,
+    "days_to_germination_max": 7,
+    "days_to_maturity_min": 22,
+    "days_to_maturity_max": 30,
+    "planting_depth_inches": 0.5,
+    "outdoor_sow_weeks_after_frost": -4,
+    "companions": [
+      "Peas",
+      "Lettuce",
+      "Cucumber"
+    ],
+    "antagonists": [
+      "Hyssop"
+    ],
+    "rotation_family": "Brassicaceae",
+    "growing_tips": [
+      "Harvest promptly to avoid pithy roots",
+      "Great row marker for slow-germinating crops"
+    ]
+  },
+  {
+    "common_name": "Onion",
+    "scientific_name": "Allium cepa",
+    "family": "Amaryllidaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "biennial",
+    "description": "Essential kitchen staple available as short-day or long-day varieties.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 9,
+    "spacing_inches": 4,
+    "row_spacing_inches": 12,
+    "height_inches_min": 12,
+    "height_inches_max": 18,
+    "days_to_germination_min": 7,
+    "days_to_germination_max": 14,
+    "days_to_maturity_min": 90,
+    "days_to_maturity_max": 120,
+    "planting_depth_inches": 0.25,
+    "indoor_start_weeks_before_frost": 10,
+    "harvest_instructions": "Harvest when tops fall over and begin to yellow.",
+    "storage_instructions": "Cure in dry, warm area for 2 weeks then store in cool, dry place.",
+    "companions": [
+      "Carrot",
+      "Lettuce",
+      "Beet",
+      "Tomato"
+    ],
+    "antagonists": [
+      "Beans",
+      "Peas"
+    ],
+    "rotation_family": "Allium",
+    "growing_tips": [
+      "Choose correct day-length variety for your latitude",
+      "Sets are easier than seed for beginners"
+    ]
+  },
+  {
+    "common_name": "Garlic",
+    "scientific_name": "Allium sativum",
+    "family": "Amaryllidaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "perennial",
+    "description": "Aromatic bulb planted in fall for summer harvest.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 8,
+    "spacing_inches": 6,
+    "row_spacing_inches": 12,
+    "height_inches_min": 12,
+    "height_inches_max": 24,
+    "days_to_maturity_min": 240,
+    "days_to_maturity_max": 270,
+    "planting_depth_inches": 2,
+    "harvest_instructions": "Harvest when lower leaves brown but upper leaves are still green.",
+    "storage_instructions": "Cure for 2-4 weeks, then store in cool, dry place.",
+    "companions": [
+      "Tomato",
+      "Beet",
+      "Lettuce",
+      "Strawberry"
+    ],
+    "antagonists": [
+      "Beans",
+      "Peas"
+    ],
+    "rotation_family": "Allium",
+    "growing_tips": [
+      "Plant cloves in fall, 4-6 weeks before ground freezes",
+      "Cut scapes in spring to redirect energy to bulb"
+    ]
+  },
+  {
+    "common_name": "Potato",
+    "scientific_name": "Solanum tuberosum",
+    "family": "Solanaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Starchy tuber crop grown from seed potatoes.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 10,
+    "spacing_inches": 12,
+    "row_spacing_inches": 30,
+    "height_inches_min": 18,
+    "height_inches_max": 24,
+    "days_to_maturity_min": 70,
+    "days_to_maturity_max": 120,
+    "planting_depth_inches": 4,
+    "outdoor_sow_weeks_after_frost": -2,
+    "harvest_instructions": "Harvest new potatoes 2-3 weeks after flowering. Harvest main crop after vines die.",
+    "storage_instructions": "Cure in dark place 1-2 weeks. Store in cool, dark, humid place.",
+    "companions": [
+      "Beans",
+      "Corn",
+      "Cabbage",
+      "Horseradish"
+    ],
+    "antagonists": [
+      "Tomato",
+      "Cucumber",
+      "Squash"
+    ],
+    "rotation_family": "Solanaceae",
+    "growing_tips": [
+      "Hill soil around stems as plants grow",
+      "Never eat green potatoes"
+    ]
+  },
+  {
+    "common_name": "Sweet Potato",
+    "scientific_name": "Ipomoea batatas",
+    "family": "Convolvulaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Warm-season root crop grown from slips.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 5,
+    "max_zone": 11,
+    "spacing_inches": 12,
+    "row_spacing_inches": 36,
+    "days_to_maturity_min": 90,
+    "days_to_maturity_max": 120,
+    "companions": [
+      "Beans",
+      "Thyme"
+    ],
+    "antagonists": [],
+    "rotation_family": "Convolvulaceae",
+    "growing_tips": [
+      "Start slips 6-8 weeks before transplanting",
+      "Cure harvested tubers at 85°F for 10 days"
+    ]
+  },
+  {
+    "common_name": "Green Bean",
+    "scientific_name": "Phaseolus vulgaris",
+    "family": "Fabaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Warm-season legume available as bush or pole varieties.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 10,
+    "spacing_inches": 4,
+    "row_spacing_inches": 18,
+    "height_inches_min": 12,
+    "height_inches_max": 72,
+    "days_to_germination_min": 5,
+    "days_to_germination_max": 10,
+    "days_to_maturity_min": 50,
+    "days_to_maturity_max": 65,
+    "planting_depth_inches": 1.5,
+    "outdoor_sow_weeks_after_frost": 1,
+    "harvest_instructions": "Pick when pods are firm and before seeds bulge.",
+    "companions": [
+      "Corn",
+      "Squash",
+      "Carrot",
+      "Cucumber"
+    ],
+    "antagonists": [
+      "Onion",
+      "Garlic",
+      "Fennel"
+    ],
+    "rotation_family": "Fabaceae",
+    "growing_tips": [
+      "Don't soak seeds before planting",
+      "Inoculate with rhizobia for nitrogen fixing",
+      "Pole beans need sturdy support"
+    ]
+  },
+  {
+    "common_name": "Snap Pea",
+    "scientific_name": "Pisum sativum var. macrocarpon",
+    "family": "Fabaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Cool-season legume with edible sweet pods.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 9,
+    "spacing_inches": 3,
+    "row_spacing_inches": 18,
+    "height_inches_min": 24,
+    "height_inches_max": 72,
+    "days_to_germination_min": 7,
+    "days_to_germination_max": 14,
+    "days_to_maturity_min": 55,
+    "days_to_maturity_max": 70,
+    "planting_depth_inches": 1,
+    "outdoor_sow_weeks_after_frost": -6,
+    "companions": [
+      "Carrot",
+      "Radish",
+      "Turnip",
+      "Corn"
+    ],
+    "antagonists": [
+      "Onion",
+      "Garlic"
+    ],
+    "rotation_family": "Fabaceae",
+    "growing_tips": [
+      "Provide trellis or netting for climbing",
+      "Plant in early spring as soon as soil can be worked"
+    ]
+  },
+  {
+    "common_name": "Sweet Corn",
+    "scientific_name": "Zea mays",
+    "family": "Poaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Warm-season grain grown for fresh eating.",
+    "sun_exposure": "full_sun",
+    "water_needs": "high",
+    "min_zone": 3,
+    "max_zone": 11,
+    "spacing_inches": 12,
+    "row_spacing_inches": 30,
+    "height_inches_min": 60,
+    "height_inches_max": 96,
+    "days_to_germination_min": 5,
+    "days_to_germination_max": 10,
+    "days_to_maturity_min": 60,
+    "days_to_maturity_max": 100,
+    "planting_depth_inches": 1.5,
+    "outdoor_sow_weeks_after_frost": 2,
+    "harvest_instructions": "Pick when silks are brown and kernels are milky when punctured.",
+    "companions": [
+      "Beans",
+      "Squash",
+      "Cucumber",
+      "Pumpkin"
+    ],
+    "antagonists": [
+      "Tomato"
+    ],
+    "rotation_family": "Poaceae",
+    "growing_tips": [
+      "Plant in blocks of at least 4 rows for pollination",
+      "Hill soil around base for stability"
+    ]
+  },
+  {
+    "common_name": "Broccoli",
+    "scientific_name": "Brassica oleracea var. italica",
+    "family": "Brassicaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Cool-season crop producing nutritious florets.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 10,
+    "spacing_inches": 18,
+    "row_spacing_inches": 24,
+    "height_inches_min": 18,
+    "height_inches_max": 30,
+    "days_to_germination_min": 4,
+    "days_to_germination_max": 10,
+    "days_to_maturity_min": 60,
+    "days_to_maturity_max": 90,
+    "planting_depth_inches": 0.5,
+    "indoor_start_weeks_before_frost": 6,
+    "harvest_instructions": "Cut main head when florets are tight. Side shoots will continue.",
+    "companions": [
+      "Onion",
+      "Celery",
+      "Potato",
+      "Dill"
+    ],
+    "antagonists": [
+      "Strawberry",
+      "Tomato"
+    ],
+    "rotation_family": "Brassicaceae",
+    "growing_tips": [
+      "Harvest before flowers open",
+      "Side shoots produce for weeks after main head cut"
+    ]
+  },
+  {
+    "common_name": "Cauliflower",
+    "scientific_name": "Brassica oleracea var. botrytis",
+    "family": "Brassicaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Cool-season crop requiring consistent conditions for good heads.",
+    "sun_exposure": "full_sun",
+    "water_needs": "high",
+    "min_zone": 3,
+    "max_zone": 10,
+    "spacing_inches": 18,
+    "row_spacing_inches": 24,
+    "height_inches_min": 12,
+    "height_inches_max": 24,
+    "days_to_maturity_min": 55,
+    "days_to_maturity_max": 80,
+    "indoor_start_weeks_before_frost": 6,
+    "companions": [
+      "Celery",
+      "Beans",
+      "Onion"
+    ],
+    "antagonists": [
+      "Strawberry",
+      "Tomato"
+    ],
+    "rotation_family": "Brassicaceae",
+    "growing_tips": [
+      "Blanch heads by tying outer leaves over developing curd"
+    ]
+  },
+  {
+    "common_name": "Cabbage",
+    "scientific_name": "Brassica oleracea var. capitata",
+    "family": "Brassicaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "biennial",
+    "description": "Cool-season crop producing tight, leafy heads.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 10,
+    "spacing_inches": 18,
+    "row_spacing_inches": 24,
+    "height_inches_min": 12,
+    "height_inches_max": 18,
+    "days_to_germination_min": 4,
+    "days_to_germination_max": 10,
+    "days_to_maturity_min": 70,
+    "days_to_maturity_max": 100,
+    "indoor_start_weeks_before_frost": 6,
+    "companions": [
+      "Celery",
+      "Dill",
+      "Onion",
+      "Potato"
+    ],
+    "antagonists": [
+      "Strawberry",
+      "Tomato",
+      "Grape"
+    ],
+    "rotation_family": "Brassicaceae",
+    "growing_tips": [
+      "Consistent watering prevents splitting",
+      "Use row covers against cabbage worms"
+    ]
+  },
+  {
+    "common_name": "Brussels Sprouts",
+    "scientific_name": "Brassica oleracea var. gemmifera",
+    "family": "Brassicaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "biennial",
+    "description": "Cool-season crop producing small cabbage-like buds along tall stem.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 9,
+    "spacing_inches": 24,
+    "row_spacing_inches": 30,
+    "height_inches_min": 24,
+    "height_inches_max": 36,
+    "days_to_maturity_min": 90,
+    "days_to_maturity_max": 120,
+    "indoor_start_weeks_before_frost": 6,
+    "companions": [
+      "Thyme",
+      "Onion",
+      "Beet"
+    ],
+    "antagonists": [
+      "Strawberry"
+    ],
+    "rotation_family": "Brassicaceae",
+    "growing_tips": [
+      "Flavor improves after frost",
+      "Top plant 4 weeks before harvest to encourage sprout development"
+    ]
+  },
+  {
+    "common_name": "Eggplant",
+    "scientific_name": "Solanum melongena",
+    "family": "Solanaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Warm-season crop with glossy purple, white, or striped fruit.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 5,
+    "max_zone": 11,
+    "spacing_inches": 24,
+    "row_spacing_inches": 30,
+    "height_inches_min": 24,
+    "height_inches_max": 48,
+    "days_to_germination_min": 7,
+    "days_to_germination_max": 14,
+    "days_to_maturity_min": 65,
+    "days_to_maturity_max": 85,
+    "indoor_start_weeks_before_frost": 8,
+    "companions": [
+      "Beans",
+      "Pepper",
+      "Spinach"
+    ],
+    "antagonists": [
+      "Fennel"
+    ],
+    "rotation_family": "Solanaceae",
+    "growing_tips": [
+      "Needs very warm soil to thrive",
+      "Harvest when skin is glossy—dull skin means overripe"
+    ]
+  },
+  {
+    "common_name": "Celery",
+    "scientific_name": "Apium graveolens",
+    "family": "Apiaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "biennial",
+    "description": "Crisp-stalked vegetable that needs consistent moisture.",
+    "sun_exposure": "full_sun",
+    "water_needs": "high",
+    "min_zone": 3,
+    "max_zone": 10,
+    "spacing_inches": 8,
+    "row_spacing_inches": 24,
+    "height_inches_min": 12,
+    "height_inches_max": 24,
+    "days_to_maturity_min": 80,
+    "days_to_maturity_max": 120,
+    "indoor_start_weeks_before_frost": 10,
+    "companions": [
+      "Tomato",
+      "Beans",
+      "Cabbage"
+    ],
+    "antagonists": [
+      "Parsnip"
+    ],
+    "rotation_family": "Apiaceae",
+    "growing_tips": [
+      "Keep soil consistently moist",
+      "Blanch stalks by hilling soil or wrapping with cardboard"
+    ]
+  },
+  {
+    "common_name": "Asparagus",
+    "scientific_name": "Asparagus officinalis",
+    "family": "Asparagaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "perennial",
+    "description": "Long-lived perennial that produces spears in spring for 15-20 years.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 8,
+    "spacing_inches": 18,
+    "row_spacing_inches": 48,
+    "height_inches_min": 36,
+    "height_inches_max": 60,
+    "days_to_maturity_min": 730,
+    "days_to_maturity_max": 1095,
+    "companions": [
+      "Tomato",
+      "Parsley",
+      "Basil"
+    ],
+    "antagonists": [
+      "Onion",
+      "Garlic"
+    ],
+    "rotation_family": "Asparagaceae",
+    "growing_tips": [
+      "Don't harvest first 2 years",
+      "Mulch heavily in fall",
+      "All-male hybrids produce more spears"
+    ]
+  },
+  {
+    "common_name": "Okra",
+    "scientific_name": "Abelmoschus esculentus",
+    "family": "Malvaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Heat-loving Southern staple with edible pods.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 5,
+    "max_zone": 11,
+    "spacing_inches": 12,
+    "row_spacing_inches": 36,
+    "height_inches_min": 36,
+    "height_inches_max": 72,
+    "days_to_germination_min": 7,
+    "days_to_germination_max": 14,
+    "days_to_maturity_min": 50,
+    "days_to_maturity_max": 65,
+    "outdoor_sow_weeks_after_frost": 3,
+    "companions": [
+      "Pepper",
+      "Sunflower"
+    ],
+    "antagonists": [],
+    "rotation_family": "Malvaceae",
+    "growing_tips": [
+      "Soak seeds overnight before planting",
+      "Harvest pods when 3-4 inches long"
+    ]
+  },
+  {
+    "common_name": "Turnip",
+    "scientific_name": "Brassica rapa subsp. rapa",
+    "family": "Brassicaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Quick-growing root vegetable with edible greens.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 9,
+    "spacing_inches": 4,
+    "row_spacing_inches": 12,
+    "days_to_germination_min": 3,
+    "days_to_germination_max": 7,
+    "days_to_maturity_min": 35,
+    "days_to_maturity_max": 60,
+    "planting_depth_inches": 0.5,
+    "outdoor_sow_weeks_after_frost": -4,
+    "companions": [
+      "Peas",
+      "Onion"
+    ],
+    "antagonists": [
+      "Potato"
+    ],
+    "rotation_family": "Brassicaceae",
+    "growing_tips": [
+      "Both roots and greens are edible"
+    ]
+  },
+  {
+    "common_name": "Parsnip",
+    "scientific_name": "Pastinaca sativa",
+    "family": "Apiaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "biennial",
+    "description": "Sweet root vegetable that improves in flavor after frost.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 9,
+    "spacing_inches": 4,
+    "row_spacing_inches": 18,
+    "days_to_germination_min": 14,
+    "days_to_germination_max": 28,
+    "days_to_maturity_min": 100,
+    "days_to_maturity_max": 130,
+    "planting_depth_inches": 0.5,
+    "companions": [
+      "Radish",
+      "Onion"
+    ],
+    "antagonists": [
+      "Celery",
+      "Carrot"
+    ],
+    "rotation_family": "Apiaceae",
+    "growing_tips": [
+      "Use only fresh seed—viability drops quickly",
+      "Flavor sweetens after frost"
+    ]
+  },
+  {
+    "common_name": "Leek",
+    "scientific_name": "Allium ampeloprasum",
+    "family": "Amaryllidaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "biennial",
+    "description": "Mild onion relative prized for its thick white stalk.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 9,
+    "spacing_inches": 6,
+    "row_spacing_inches": 12,
+    "height_inches_min": 18,
+    "height_inches_max": 30,
+    "days_to_maturity_min": 100,
+    "days_to_maturity_max": 130,
+    "indoor_start_weeks_before_frost": 10,
+    "companions": [
+      "Carrot",
+      "Celery"
+    ],
+    "antagonists": [
+      "Beans",
+      "Peas"
+    ],
+    "rotation_family": "Allium",
+    "growing_tips": [
+      "Hill soil around stalks to blanch and lengthen the white portion"
+    ]
+  },
+  {
+    "common_name": "Kohlrabi",
+    "scientific_name": "Brassica oleracea var. gongylodes",
+    "family": "Brassicaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "biennial",
+    "description": "Unusual brassica with a mild, sweet, swollen stem.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 10,
+    "spacing_inches": 6,
+    "row_spacing_inches": 12,
+    "days_to_maturity_min": 45,
+    "days_to_maturity_max": 60,
+    "companions": [
+      "Beet",
+      "Cucumber",
+      "Onion"
+    ],
+    "antagonists": [
+      "Strawberry",
+      "Tomato",
+      "Pepper"
+    ],
+    "rotation_family": "Brassicaceae",
+    "growing_tips": [
+      "Harvest when bulb is 2-3 inches for best tenderness"
+    ]
+  },
+  {
+    "common_name": "Arugula",
+    "scientific_name": "Eruca vesicaria",
+    "family": "Brassicaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "annual",
+    "description": "Peppery salad green that grows quickly in cool weather.",
+    "sun_exposure": "partial_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 11,
+    "spacing_inches": 4,
+    "row_spacing_inches": 8,
+    "days_to_germination_min": 3,
+    "days_to_germination_max": 7,
+    "days_to_maturity_min": 25,
+    "days_to_maturity_max": 40,
+    "planting_depth_inches": 0.25,
+    "outdoor_sow_weeks_after_frost": -4,
+    "companions": [
+      "Beans",
+      "Beet"
+    ],
+    "antagonists": [],
+    "rotation_family": "Brassicaceae",
+    "growing_tips": [
+      "Succession plant every 2-3 weeks",
+      "Bolts in heat—grow in spring and fall"
+    ]
+  },
+  {
+    "common_name": "Collard Greens",
+    "scientific_name": "Brassica oleracea var. viridis",
+    "family": "Brassicaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "biennial",
+    "description": "Heat-tolerant brassica with large, nutritious leaves.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 11,
+    "spacing_inches": 18,
+    "row_spacing_inches": 24,
+    "height_inches_min": 24,
+    "height_inches_max": 36,
+    "days_to_maturity_min": 55,
+    "days_to_maturity_max": 75,
+    "companions": [
+      "Onion",
+      "Potato",
+      "Thyme"
+    ],
+    "antagonists": [
+      "Strawberry"
+    ],
+    "rotation_family": "Brassicaceae",
+    "growing_tips": [
+      "More heat-tolerant than other brassicas",
+      "Harvest lower leaves first"
+    ]
+  },
+  {
+    "common_name": "Rhubarb",
+    "scientific_name": "Rheum rhabarbarum",
+    "family": "Polygonaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "perennial",
+    "description": "Tart perennial used in pies and preserves. Leaves are toxic.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 8,
+    "spacing_inches": 36,
+    "row_spacing_inches": 48,
+    "height_inches_min": 24,
+    "height_inches_max": 48,
+    "days_to_maturity_min": 365,
+    "companions": [
+      "Garlic",
+      "Onion"
+    ],
+    "antagonists": [],
+    "rotation_family": "Polygonaceae",
+    "growing_tips": [
+      "Don't harvest first year",
+      "Only eat stalks—leaves are poisonous",
+      "Divide crowns every 4-5 years"
+    ]
+  },
+  {
+    "common_name": "Artichoke",
+    "scientific_name": "Cynara cardunculus var. scolymus",
+    "family": "Asteraceae",
+    "plant_type": "vegetable",
+    "lifecycle": "perennial",
+    "description": "Edible thistle producing large flower buds.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 7,
+    "max_zone": 11,
+    "spacing_inches": 36,
+    "row_spacing_inches": 48,
+    "height_inches_min": 36,
+    "height_inches_max": 60,
+    "days_to_maturity_min": 120,
+    "days_to_maturity_max": 180,
+    "companions": [
+      "Sunflower",
+      "Tarragon"
+    ],
+    "antagonists": [],
+    "rotation_family": "Asteraceae",
+    "growing_tips": [
+      "Can be grown as annual in cold climates with vernalization"
+    ]
+  },
+  {
+    "common_name": "Fennel",
+    "scientific_name": "Foeniculum vulgare",
+    "family": "Apiaceae",
+    "plant_type": "vegetable",
+    "lifecycle": "perennial",
+    "description": "Licorice-flavored bulb vegetable with feathery fronds.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 4,
+    "max_zone": 9,
+    "spacing_inches": 12,
+    "row_spacing_inches": 18,
+    "height_inches_min": 24,
+    "height_inches_max": 48,
+    "days_to_maturity_min": 65,
+    "days_to_maturity_max": 90,
+    "companions": [],
+    "antagonists": [
+      "Tomato",
+      "Beans",
+      "Most vegetables"
+    ],
+    "rotation_family": "Apiaceae",
+    "growing_tips": [
+      "Plant away from most other vegetables—inhibits their growth",
+      "Hill soil around bulb to blanch"
+    ]
+  },
+  {
+    "common_name": "Basil",
+    "scientific_name": "Ocimum basilicum",
+    "family": "Lamiaceae",
+    "plant_type": "herb",
+    "lifecycle": "annual",
+    "description": "Aromatic herb essential for Italian and Thai cooking.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 4,
+    "max_zone": 10,
+    "spacing_inches": 12,
+    "row_spacing_inches": 18,
+    "height_inches_min": 12,
+    "height_inches_max": 24,
+    "days_to_germination_min": 5,
+    "days_to_germination_max": 10,
+    "days_to_maturity_min": 50,
+    "days_to_maturity_max": 75,
+    "planting_depth_inches": 0.25,
+    "indoor_start_weeks_before_frost": 6,
+    "companions": [
+      "Tomato",
+      "Pepper",
+      "Oregano"
+    ],
+    "antagonists": [
+      "Rue",
+      "Sage"
+    ],
+    "rotation_family": "Lamiaceae",
+    "growing_tips": [
+      "Pinch flower buds to extend leaf production",
+      "Very frost sensitive"
+    ]
+  },
+  {
+    "common_name": "Cilantro",
+    "scientific_name": "Coriandrum sativum",
+    "family": "Apiaceae",
+    "plant_type": "herb",
+    "lifecycle": "annual",
+    "description": "Dual-purpose herb yielding cilantro leaves and coriander seeds.",
+    "sun_exposure": "partial_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 11,
+    "spacing_inches": 6,
+    "row_spacing_inches": 12,
+    "height_inches_min": 12,
+    "height_inches_max": 24,
+    "days_to_germination_min": 7,
+    "days_to_germination_max": 14,
+    "days_to_maturity_min": 45,
+    "days_to_maturity_max": 70,
+    "planting_depth_inches": 0.25,
+    "outdoor_sow_weeks_after_frost": -2,
+    "companions": [
+      "Beans",
+      "Peas",
+      "Tomato"
+    ],
+    "antagonists": [
+      "Fennel"
+    ],
+    "rotation_family": "Apiaceae",
+    "growing_tips": [
+      "Succession plant every 2-3 weeks",
+      "Bolts quickly in heat—grow in cool season",
+      "Slow-bolt varieties extend harvest"
+    ]
+  },
+  {
+    "common_name": "Parsley",
+    "scientific_name": "Petroselinum crispum",
+    "family": "Apiaceae",
+    "plant_type": "herb",
+    "lifecycle": "biennial",
+    "description": "Versatile herb available in curly and flat-leaf varieties.",
+    "sun_exposure": "partial_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 9,
+    "spacing_inches": 8,
+    "row_spacing_inches": 12,
+    "height_inches_min": 12,
+    "height_inches_max": 18,
+    "days_to_germination_min": 14,
+    "days_to_germination_max": 28,
+    "days_to_maturity_min": 70,
+    "days_to_maturity_max": 90,
+    "planting_depth_inches": 0.25,
+    "indoor_start_weeks_before_frost": 8,
+    "companions": [
+      "Tomato",
+      "Asparagus",
+      "Corn"
+    ],
+    "antagonists": [
+      "Lettuce"
+    ],
+    "rotation_family": "Apiaceae",
+    "growing_tips": [
+      "Soak seeds overnight to speed germination",
+      "Host plant for swallowtail butterflies"
+    ]
+  },
+  {
+    "common_name": "Rosemary",
+    "scientific_name": "Salvia rosmarinus",
+    "family": "Lamiaceae",
+    "plant_type": "herb",
+    "lifecycle": "perennial",
+    "description": "Woody Mediterranean herb with needle-like leaves.",
+    "sun_exposure": "full_sun",
+    "water_needs": "low",
+    "min_zone": 7,
+    "max_zone": 10,
+    "spacing_inches": 24,
+    "row_spacing_inches": 36,
+    "height_inches_min": 24,
+    "height_inches_max": 48,
+    "days_to_germination_min": 14,
+    "days_to_germination_max": 28,
+    "days_to_maturity_min": 80,
+    "days_to_maturity_max": 120,
+    "companions": [
+      "Beans",
+      "Cabbage",
+      "Carrot",
+      "Sage"
+    ],
+    "antagonists": [],
+    "rotation_family": "Lamiaceae",
+    "growing_tips": [
+      "Needs excellent drainage",
+      "Can be grown in pots and overwintered indoors in cold climates"
+    ]
+  },
+  {
+    "common_name": "Thyme",
+    "scientific_name": "Thymus vulgaris",
+    "family": "Lamiaceae",
+    "plant_type": "herb",
+    "lifecycle": "perennial",
+    "description": "Low-growing herb with tiny aromatic leaves.",
+    "sun_exposure": "full_sun",
+    "water_needs": "low",
+    "min_zone": 5,
+    "max_zone": 9,
+    "spacing_inches": 12,
+    "row_spacing_inches": 18,
+    "height_inches_min": 6,
+    "height_inches_max": 12,
+    "days_to_germination_min": 14,
+    "days_to_germination_max": 21,
+    "days_to_maturity_min": 70,
+    "days_to_maturity_max": 90,
+    "companions": [
+      "Cabbage",
+      "Tomato",
+      "Eggplant",
+      "Strawberry"
+    ],
+    "antagonists": [],
+    "rotation_family": "Lamiaceae",
+    "growing_tips": [
+      "Trim after flowering to prevent woodiness",
+      "Excellent ground cover and border plant"
+    ]
+  },
+  {
+    "common_name": "Sage",
+    "scientific_name": "Salvia officinalis",
+    "family": "Lamiaceae",
+    "plant_type": "herb",
+    "lifecycle": "perennial",
+    "description": "Hardy herb with soft, gray-green aromatic leaves.",
+    "sun_exposure": "full_sun",
+    "water_needs": "low",
+    "min_zone": 4,
+    "max_zone": 8,
+    "spacing_inches": 18,
+    "row_spacing_inches": 24,
+    "height_inches_min": 12,
+    "height_inches_max": 24,
+    "days_to_germination_min": 10,
+    "days_to_germination_max": 21,
+    "days_to_maturity_min": 75,
+    "days_to_maturity_max": 90,
+    "companions": [
+      "Rosemary",
+      "Cabbage",
+      "Carrot"
+    ],
+    "antagonists": [
+      "Cucumber",
+      "Rue"
+    ],
+    "rotation_family": "Lamiaceae",
+    "growing_tips": [
+      "Replace plants every 3-4 years as they become woody"
+    ]
+  },
+  {
+    "common_name": "Mint",
+    "scientific_name": "Mentha spp.",
+    "family": "Lamiaceae",
+    "plant_type": "herb",
+    "lifecycle": "perennial",
+    "description": "Vigorous spreading herb. Best grown in containers.",
+    "sun_exposure": "partial_sun",
+    "water_needs": "high",
+    "min_zone": 3,
+    "max_zone": 8,
+    "spacing_inches": 18,
+    "row_spacing_inches": 24,
+    "height_inches_min": 12,
+    "height_inches_max": 24,
+    "days_to_maturity_min": 60,
+    "days_to_maturity_max": 90,
+    "companions": [
+      "Cabbage",
+      "Tomato",
+      "Peas"
+    ],
+    "antagonists": [
+      "Parsley"
+    ],
+    "rotation_family": "Lamiaceae",
+    "growing_tips": [
+      "ALWAYS grow in containers—extremely invasive",
+      "Harvest frequently to encourage bushy growth"
+    ]
+  },
+  {
+    "common_name": "Oregano",
+    "scientific_name": "Origanum vulgare",
+    "family": "Lamiaceae",
+    "plant_type": "herb",
+    "lifecycle": "perennial",
+    "description": "Mediterranean herb essential for pizza and pasta sauces.",
+    "sun_exposure": "full_sun",
+    "water_needs": "low",
+    "min_zone": 5,
+    "max_zone": 10,
+    "spacing_inches": 12,
+    "row_spacing_inches": 18,
+    "height_inches_min": 12,
+    "height_inches_max": 24,
+    "days_to_germination_min": 7,
+    "days_to_germination_max": 14,
+    "days_to_maturity_min": 60,
+    "days_to_maturity_max": 90,
+    "companions": [
+      "Tomato",
+      "Pepper",
+      "Basil"
+    ],
+    "antagonists": [],
+    "rotation_family": "Lamiaceae",
+    "growing_tips": [
+      "Flavor is strongest just before flowering",
+      "Divide plants every 2-3 years"
+    ]
+  },
+  {
+    "common_name": "Dill",
+    "scientific_name": "Anethum graveolens",
+    "family": "Apiaceae",
+    "plant_type": "herb",
+    "lifecycle": "annual",
+    "description": "Tall, feathery herb used fresh, dried, or in pickling.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 11,
+    "spacing_inches": 12,
+    "row_spacing_inches": 18,
+    "height_inches_min": 24,
+    "height_inches_max": 48,
+    "days_to_germination_min": 7,
+    "days_to_germination_max": 14,
+    "days_to_maturity_min": 40,
+    "days_to_maturity_max": 65,
+    "planting_depth_inches": 0.25,
+    "outdoor_sow_weeks_after_frost": 0,
+    "companions": [
+      "Cabbage",
+      "Lettuce",
+      "Cucumber",
+      "Onion"
+    ],
+    "antagonists": [
+      "Carrot",
+      "Tomato"
+    ],
+    "rotation_family": "Apiaceae",
+    "growing_tips": [
+      "Let some plants flower to attract beneficial insects",
+      "Self-seeds readily"
+    ]
+  },
+  {
+    "common_name": "Chives",
+    "scientific_name": "Allium schoenoprasum",
+    "family": "Amaryllidaceae",
+    "plant_type": "herb",
+    "lifecycle": "perennial",
+    "description": "Mild onion-flavored herb with edible purple flowers.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 9,
+    "spacing_inches": 8,
+    "row_spacing_inches": 12,
+    "height_inches_min": 8,
+    "height_inches_max": 12,
+    "days_to_germination_min": 7,
+    "days_to_germination_max": 14,
+    "days_to_maturity_min": 60,
+    "days_to_maturity_max": 90,
+    "companions": [
+      "Carrot",
+      "Tomato",
+      "Rose"
+    ],
+    "antagonists": [
+      "Beans",
+      "Peas"
+    ],
+    "rotation_family": "Allium",
+    "growing_tips": [
+      "Cut back to 2 inches to encourage regrowth",
+      "Divide clumps every 3 years"
+    ]
+  },
+  {
+    "common_name": "Lavender",
+    "scientific_name": "Lavandula angustifolia",
+    "family": "Lamiaceae",
+    "plant_type": "herb",
+    "lifecycle": "perennial",
+    "description": "Fragrant Mediterranean herb with purple flower spikes.",
+    "sun_exposure": "full_sun",
+    "water_needs": "low",
+    "min_zone": 5,
+    "max_zone": 9,
+    "spacing_inches": 18,
+    "row_spacing_inches": 24,
+    "height_inches_min": 18,
+    "height_inches_max": 36,
+    "days_to_germination_min": 14,
+    "days_to_germination_max": 28,
+    "days_to_maturity_min": 90,
+    "days_to_maturity_max": 200,
+    "companions": [
+      "Rose",
+      "Thyme",
+      "Oregano"
+    ],
+    "antagonists": [],
+    "rotation_family": "Lamiaceae",
+    "growing_tips": [
+      "Needs excellent drainage—amend clay soils with gravel",
+      "Prune after flowering to maintain shape"
+    ]
+  },
+  {
+    "common_name": "Lemon Balm",
+    "scientific_name": "Melissa officinalis",
+    "family": "Lamiaceae",
+    "plant_type": "herb",
+    "lifecycle": "perennial",
+    "description": "Lemon-scented herb used in teas and cooking.",
+    "sun_exposure": "partial_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 7,
+    "spacing_inches": 18,
+    "row_spacing_inches": 24,
+    "height_inches_min": 12,
+    "height_inches_max": 24,
+    "days_to_maturity_min": 70,
+    "companions": [
+      "Most plants"
+    ],
+    "antagonists": [],
+    "rotation_family": "Lamiaceae",
+    "growing_tips": [
+      "Can spread aggressively—consider container growing"
+    ]
+  },
+  {
+    "common_name": "Tarragon",
+    "scientific_name": "Artemisia dracunculus",
+    "family": "Asteraceae",
+    "plant_type": "herb",
+    "lifecycle": "perennial",
+    "description": "French herb with delicate anise flavor.",
+    "sun_exposure": "full_sun",
+    "water_needs": "low",
+    "min_zone": 4,
+    "max_zone": 8,
+    "spacing_inches": 18,
+    "row_spacing_inches": 24,
+    "height_inches_min": 18,
+    "height_inches_max": 36,
+    "days_to_maturity_min": 60,
+    "companions": [
+      "Most vegetables"
+    ],
+    "antagonists": [],
+    "rotation_family": "Asteraceae",
+    "growing_tips": [
+      "French tarragon must be propagated from cuttings—seeds are Russian tarragon"
+    ]
+  },
+  {
+    "common_name": "Chamomile",
+    "scientific_name": "Matricaria chamomilla",
+    "family": "Asteraceae",
+    "plant_type": "herb",
+    "lifecycle": "annual",
+    "description": "Daisy-like flowers used for soothing herbal tea.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 9,
+    "spacing_inches": 8,
+    "row_spacing_inches": 12,
+    "height_inches_min": 12,
+    "height_inches_max": 24,
+    "days_to_germination_min": 7,
+    "days_to_germination_max": 14,
+    "days_to_maturity_min": 60,
+    "days_to_maturity_max": 90,
+    "companions": [
+      "Cabbage",
+      "Onion",
+      "Mint"
+    ],
+    "antagonists": [],
+    "rotation_family": "Asteraceae",
+    "growing_tips": [
+      "Self-seeds readily",
+      "Harvest flowers when petals are fully open"
+    ]
+  },
+  {
+    "common_name": "Stevia",
+    "scientific_name": "Stevia rebaudiana",
+    "family": "Asteraceae",
+    "plant_type": "herb",
+    "lifecycle": "perennial",
+    "description": "Natural sweetener herb with intensely sweet leaves.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 9,
+    "max_zone": 11,
+    "spacing_inches": 12,
+    "row_spacing_inches": 18,
+    "height_inches_min": 12,
+    "height_inches_max": 24,
+    "days_to_maturity_min": 60,
+    "companions": [],
+    "antagonists": [],
+    "rotation_family": "Asteraceae",
+    "growing_tips": [
+      "Grow as annual in cold climates",
+      "Pinch flowers to extend leaf production"
+    ]
+  },
+  {
+    "common_name": "Marjoram",
+    "scientific_name": "Origanum majorana",
+    "family": "Lamiaceae",
+    "plant_type": "herb",
+    "lifecycle": "perennial",
+    "description": "Milder relative of oregano with sweet flavor.",
+    "sun_exposure": "full_sun",
+    "water_needs": "low",
+    "min_zone": 7,
+    "max_zone": 9,
+    "spacing_inches": 10,
+    "row_spacing_inches": 14,
+    "height_inches_min": 8,
+    "height_inches_max": 16,
+    "days_to_maturity_min": 60,
+    "companions": [
+      "Most vegetables"
+    ],
+    "antagonists": [],
+    "rotation_family": "Lamiaceae",
+    "growing_tips": [
+      "Grow as annual in cold climates"
+    ]
+  },
+  {
+    "common_name": "Borage",
+    "scientific_name": "Borago officinalis",
+    "family": "Boraginaceae",
+    "plant_type": "herb",
+    "lifecycle": "annual",
+    "description": "Star-shaped blue flowers attract pollinators. Cucumber-flavored leaves.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 10,
+    "spacing_inches": 18,
+    "row_spacing_inches": 24,
+    "height_inches_min": 18,
+    "height_inches_max": 36,
+    "days_to_germination_min": 5,
+    "days_to_germination_max": 10,
+    "days_to_maturity_min": 50,
+    "days_to_maturity_max": 60,
+    "companions": [
+      "Tomato",
+      "Squash",
+      "Strawberry"
+    ],
+    "antagonists": [],
+    "rotation_family": "Boraginaceae",
+    "growing_tips": [
+      "Excellent pollinator attractor",
+      "Self-seeds readily"
+    ]
+  },
+  {
+    "common_name": "Lemongrass",
+    "scientific_name": "Cymbopogon citratus",
+    "family": "Poaceae",
+    "plant_type": "herb",
+    "lifecycle": "perennial",
+    "description": "Tropical grass with citrus flavor used in Asian cooking.",
+    "sun_exposure": "full_sun",
+    "water_needs": "high",
+    "min_zone": 9,
+    "max_zone": 11,
+    "spacing_inches": 24,
+    "row_spacing_inches": 36,
+    "height_inches_min": 36,
+    "height_inches_max": 60,
+    "companions": [],
+    "antagonists": [],
+    "rotation_family": "Poaceae",
+    "growing_tips": [
+      "Grow as annual in cold climates",
+      "Can be started from grocery store stalks"
+    ]
+  },
+  {
+    "common_name": "Bay Laurel",
+    "scientific_name": "Laurus nobilis",
+    "family": "Lauraceae",
+    "plant_type": "herb",
+    "lifecycle": "perennial",
+    "description": "Evergreen tree with aromatic leaves used in cooking.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 8,
+    "max_zone": 10,
+    "spacing_inches": 48,
+    "height_inches_min": 48,
+    "height_inches_max": 360,
+    "companions": [],
+    "antagonists": [],
+    "rotation_family": "Lauraceae",
+    "growing_tips": [
+      "Grow in containers in cold climates",
+      "Slow-growing but long-lived"
+    ]
+  },
+  {
+    "common_name": "Sorrel",
+    "scientific_name": "Rumex acetosa",
+    "family": "Polygonaceae",
+    "plant_type": "herb",
+    "lifecycle": "perennial",
+    "description": "Lemony, tangy leafy herb used in soups and salads.",
+    "sun_exposure": "partial_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 7,
+    "spacing_inches": 12,
+    "row_spacing_inches": 18,
+    "height_inches_min": 12,
+    "height_inches_max": 18,
+    "days_to_maturity_min": 60,
+    "companions": [
+      "Strawberry"
+    ],
+    "antagonists": [],
+    "rotation_family": "Polygonaceae",
+    "growing_tips": [
+      "Remove flower stalks to encourage leaf growth"
+    ]
+  },
+  {
+    "common_name": "Strawberry",
+    "scientific_name": "Fragaria × ananassa",
+    "family": "Rosaceae",
+    "plant_type": "fruit",
+    "lifecycle": "perennial",
+    "description": "Popular small fruit available as June-bearing or everbearing varieties.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 10,
+    "spacing_inches": 12,
+    "row_spacing_inches": 36,
+    "height_inches_min": 6,
+    "height_inches_max": 12,
+    "days_to_maturity_min": 60,
+    "days_to_maturity_max": 90,
+    "harvest_instructions": "Pick when fully red and slightly soft.",
+    "storage_instructions": "Refrigerate unwashed for 3-5 days.",
+    "companions": [
+      "Borage",
+      "Lettuce",
+      "Spinach",
+      "Thyme"
+    ],
+    "antagonists": [
+      "Cabbage",
+      "Broccoli"
+    ],
+    "rotation_family": "Rosaceae",
+    "growing_tips": [
+      "Remove runners first year to strengthen plants",
+      "Mulch with straw to keep fruit clean"
+    ]
+  },
+  {
+    "common_name": "Blueberry",
+    "scientific_name": "Vaccinium corymbosum",
+    "family": "Ericaceae",
+    "plant_type": "fruit",
+    "lifecycle": "perennial",
+    "description": "Acid-loving shrub with antioxidant-rich berries.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 8,
+    "spacing_inches": 48,
+    "row_spacing_inches": 96,
+    "height_inches_min": 36,
+    "height_inches_max": 72,
+    "days_to_maturity_min": 730,
+    "harvest_instructions": "Pick when berries are fully blue and come off easily.",
+    "storage_instructions": "Refrigerate up to 2 weeks or freeze.",
+    "companions": [
+      "Azalea",
+      "Rhododendron"
+    ],
+    "antagonists": [],
+    "rotation_family": "Ericaceae",
+    "growing_tips": [
+      "Requires acidic soil pH 4.5-5.5",
+      "Plant 2+ varieties for cross-pollination",
+      "Use sulfur or pine needles to acidify soil"
+    ]
+  },
+  {
+    "common_name": "Raspberry",
+    "scientific_name": "Rubus idaeus",
+    "family": "Rosaceae",
+    "plant_type": "fruit",
+    "lifecycle": "perennial",
+    "description": "Bramble fruit available as summer-bearing or everbearing.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 8,
+    "spacing_inches": 24,
+    "row_spacing_inches": 72,
+    "height_inches_min": 36,
+    "height_inches_max": 72,
+    "days_to_maturity_min": 365,
+    "harvest_instructions": "Pick when berries slide easily off the core.",
+    "storage_instructions": "Refrigerate immediately, use within 2-3 days.",
+    "companions": [
+      "Garlic",
+      "Tansy"
+    ],
+    "antagonists": [
+      "Potato",
+      "Tomato"
+    ],
+    "rotation_family": "Rosaceae",
+    "growing_tips": [
+      "Prune spent canes after fruiting",
+      "Trellis for easier harvesting"
+    ]
+  },
+  {
+    "common_name": "Blackberry",
+    "scientific_name": "Rubus fruticosus",
+    "family": "Rosaceae",
+    "plant_type": "fruit",
+    "lifecycle": "perennial",
+    "description": "Vigorous bramble with sweet-tart berries.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 5,
+    "max_zone": 9,
+    "spacing_inches": 36,
+    "row_spacing_inches": 96,
+    "height_inches_min": 48,
+    "height_inches_max": 96,
+    "days_to_maturity_min": 365,
+    "companions": [
+      "Tansy",
+      "Garlic"
+    ],
+    "antagonists": [],
+    "rotation_family": "Rosaceae",
+    "growing_tips": [
+      "Thornless varieties are easier to manage",
+      "Trellis canes for best production"
+    ]
+  },
+  {
+    "common_name": "Grape",
+    "scientific_name": "Vitis vinifera",
+    "family": "Vitaceae",
+    "plant_type": "fruit",
+    "lifecycle": "perennial",
+    "description": "Vine fruit for fresh eating, wine, or preserves.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 4,
+    "max_zone": 10,
+    "spacing_inches": 72,
+    "row_spacing_inches": 96,
+    "height_inches_min": 72,
+    "height_inches_max": 240,
+    "days_to_maturity_min": 1095,
+    "companions": [
+      "Basil",
+      "Beans",
+      "Geranium"
+    ],
+    "antagonists": [
+      "Cabbage",
+      "Radish"
+    ],
+    "rotation_family": "Vitaceae",
+    "growing_tips": [
+      "Requires sturdy trellis system",
+      "Prune heavily in late winter"
+    ]
+  },
+  {
+    "common_name": "Watermelon",
+    "scientific_name": "Citrullus lanatus",
+    "family": "Cucurbitaceae",
+    "plant_type": "fruit",
+    "lifecycle": "annual",
+    "description": "Large, sprawling vine producing sweet, juicy melons.",
+    "sun_exposure": "full_sun",
+    "water_needs": "high",
+    "min_zone": 3,
+    "max_zone": 11,
+    "spacing_inches": 60,
+    "row_spacing_inches": 96,
+    "height_inches_min": 12,
+    "height_inches_max": 24,
+    "days_to_germination_min": 4,
+    "days_to_germination_max": 12,
+    "days_to_maturity_min": 70,
+    "days_to_maturity_max": 90,
+    "planting_depth_inches": 1,
+    "outdoor_sow_weeks_after_frost": 2,
+    "harvest_instructions": "Ripe when ground spot turns yellow and tendril near fruit dries.",
+    "companions": [
+      "Corn",
+      "Sunflower",
+      "Radish"
+    ],
+    "antagonists": [
+      "Potato"
+    ],
+    "rotation_family": "Cucurbitaceae",
+    "growing_tips": [
+      "Needs warm soil—use black plastic mulch",
+      "Reduce watering as fruit ripens for sweeter flavor"
+    ]
+  },
+  {
+    "common_name": "Cantaloupe",
+    "scientific_name": "Cucumis melo",
+    "family": "Cucurbitaceae",
+    "plant_type": "fruit",
+    "lifecycle": "annual",
+    "description": "Sweet, aromatic melon with netted rind.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 4,
+    "max_zone": 11,
+    "spacing_inches": 36,
+    "row_spacing_inches": 72,
+    "days_to_germination_min": 4,
+    "days_to_germination_max": 10,
+    "days_to_maturity_min": 70,
+    "days_to_maturity_max": 90,
+    "planting_depth_inches": 0.5,
+    "outdoor_sow_weeks_after_frost": 2,
+    "harvest_instructions": "Harvest when stem separates easily from fruit.",
+    "companions": [
+      "Corn",
+      "Sunflower"
+    ],
+    "antagonists": [
+      "Potato"
+    ],
+    "rotation_family": "Cucurbitaceae",
+    "growing_tips": [
+      "Fruit is ripe when it 'slips' from the vine with gentle pressure"
+    ]
+  },
+  {
+    "common_name": "Fig",
+    "scientific_name": "Ficus carica",
+    "family": "Moraceae",
+    "plant_type": "fruit",
+    "lifecycle": "perennial",
+    "description": "Mediterranean tree producing sweet, soft fruit.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 7,
+    "max_zone": 11,
+    "spacing_inches": 120,
+    "height_inches_min": 120,
+    "height_inches_max": 360,
+    "companions": [],
+    "antagonists": [],
+    "rotation_family": "Moraceae",
+    "growing_tips": [
+      "Can be grown in containers and brought indoors in winter",
+      "Plant against south-facing wall for warmth"
+    ]
+  },
+  {
+    "common_name": "Kiwi",
+    "scientific_name": "Actinidia deliciosa",
+    "family": "Actinidiaceae",
+    "plant_type": "fruit",
+    "lifecycle": "perennial",
+    "description": "Vigorous vine producing fuzzy, tart-sweet fruit.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 7,
+    "max_zone": 9,
+    "spacing_inches": 120,
+    "days_to_maturity_min": 1095,
+    "companions": [],
+    "antagonists": [],
+    "rotation_family": "Actinidiaceae",
+    "growing_tips": [
+      "Need male and female plants for fruit production",
+      "Hardy kiwi (A. arguta) grows in zones 4-8"
+    ]
+  },
+  {
+    "common_name": "Passion Fruit",
+    "scientific_name": "Passiflora edulis",
+    "family": "Passifloraceae",
+    "plant_type": "fruit",
+    "lifecycle": "perennial",
+    "description": "Tropical vine with aromatic, tangy fruit.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 9,
+    "max_zone": 11,
+    "spacing_inches": 120,
+    "companions": [],
+    "antagonists": [],
+    "rotation_family": "Passifloraceae",
+    "growing_tips": [
+      "Needs trellis or fence for support"
+    ]
+  },
+  {
+    "common_name": "Gooseberry",
+    "scientific_name": "Ribes uva-crispa",
+    "family": "Grossulariaceae",
+    "plant_type": "fruit",
+    "lifecycle": "perennial",
+    "description": "Small tart berry used in jams and desserts.",
+    "sun_exposure": "partial_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 8,
+    "spacing_inches": 48,
+    "height_inches_min": 36,
+    "height_inches_max": 60,
+    "companions": [],
+    "antagonists": [],
+    "rotation_family": "Grossulariaceae",
+    "growing_tips": [
+      "Tolerates partial shade better than most fruit"
+    ]
+  },
+  {
+    "common_name": "Currant",
+    "scientific_name": "Ribes rubrum",
+    "family": "Grossulariaceae",
+    "plant_type": "fruit",
+    "lifecycle": "perennial",
+    "description": "Small tart berries in red, black, or white varieties.",
+    "sun_exposure": "partial_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 7,
+    "spacing_inches": 48,
+    "height_inches_min": 36,
+    "height_inches_max": 60,
+    "companions": [],
+    "antagonists": [],
+    "rotation_family": "Grossulariaceae",
+    "growing_tips": [
+      "Excellent for jams and preserves"
+    ]
+  },
+  {
+    "common_name": "Honeyberry",
+    "scientific_name": "Lonicera caerulea",
+    "family": "Caprifoliaceae",
+    "plant_type": "fruit",
+    "lifecycle": "perennial",
+    "description": "Hardy shrub producing elongated blue berries in early summer.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 7,
+    "spacing_inches": 48,
+    "height_inches_min": 48,
+    "height_inches_max": 72,
+    "companions": [],
+    "antagonists": [],
+    "rotation_family": "Caprifoliaceae",
+    "growing_tips": [
+      "Plant 2 varieties for cross-pollination",
+      "Fruit ripens before strawberries"
+    ]
+  },
+  {
+    "common_name": "Sunflower",
+    "scientific_name": "Helianthus annuus",
+    "family": "Asteraceae",
+    "plant_type": "flower",
+    "lifecycle": "annual",
+    "description": "Tall, cheerful flower that produces edible seeds.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 11,
+    "spacing_inches": 18,
+    "row_spacing_inches": 30,
+    "height_inches_min": 36,
+    "height_inches_max": 144,
+    "days_to_germination_min": 7,
+    "days_to_germination_max": 14,
+    "days_to_maturity_min": 60,
+    "days_to_maturity_max": 90,
+    "planting_depth_inches": 1,
+    "outdoor_sow_weeks_after_frost": 1,
+    "companions": [
+      "Cucumber",
+      "Beans",
+      "Corn"
+    ],
+    "antagonists": [
+      "Potato"
+    ],
+    "rotation_family": "Asteraceae",
+    "growing_tips": [
+      "Stake tall varieties",
+      "Attracts pollinators and birds"
+    ]
+  },
+  {
+    "common_name": "Marigold",
+    "scientific_name": "Tagetes spp.",
+    "family": "Asteraceae",
+    "plant_type": "flower",
+    "lifecycle": "annual",
+    "description": "Bright companion plant that repels many garden pests.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 11,
+    "spacing_inches": 8,
+    "row_spacing_inches": 12,
+    "height_inches_min": 6,
+    "height_inches_max": 36,
+    "days_to_germination_min": 5,
+    "days_to_germination_max": 10,
+    "days_to_maturity_min": 45,
+    "days_to_maturity_max": 65,
+    "planting_depth_inches": 0.25,
+    "indoor_start_weeks_before_frost": 4,
+    "companions": [
+      "Tomato",
+      "Pepper",
+      "Beans",
+      "Squash"
+    ],
+    "antagonists": [],
+    "rotation_family": "Asteraceae",
+    "growing_tips": [
+      "Deadhead for continuous blooming",
+      "French marigolds repel nematodes"
+    ]
+  },
+  {
+    "common_name": "Zinnia",
+    "scientific_name": "Zinnia elegans",
+    "family": "Asteraceae",
+    "plant_type": "flower",
+    "lifecycle": "annual",
+    "description": "Colorful cut flower that attracts butterflies.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 11,
+    "spacing_inches": 8,
+    "row_spacing_inches": 12,
+    "height_inches_min": 12,
+    "height_inches_max": 48,
+    "days_to_germination_min": 5,
+    "days_to_germination_max": 7,
+    "days_to_maturity_min": 60,
+    "days_to_maturity_max": 70,
+    "planting_depth_inches": 0.25,
+    "outdoor_sow_weeks_after_frost": 1,
+    "companions": [
+      "Most plants"
+    ],
+    "antagonists": [],
+    "rotation_family": "Asteraceae",
+    "growing_tips": [
+      "Cut flowers for bouquets—promotes more blooms",
+      "Good air circulation prevents powdery mildew"
+    ]
+  },
+  {
+    "common_name": "Cosmos",
+    "scientific_name": "Cosmos bipinnatus",
+    "family": "Asteraceae",
+    "plant_type": "flower",
+    "lifecycle": "annual",
+    "description": "Delicate, daisy-like flowers in pink, white, and crimson.",
+    "sun_exposure": "full_sun",
+    "water_needs": "low",
+    "min_zone": 2,
+    "max_zone": 11,
+    "spacing_inches": 12,
+    "row_spacing_inches": 18,
+    "height_inches_min": 36,
+    "height_inches_max": 72,
+    "days_to_germination_min": 5,
+    "days_to_germination_max": 10,
+    "days_to_maturity_min": 50,
+    "days_to_maturity_max": 60,
+    "planting_depth_inches": 0.25,
+    "outdoor_sow_weeks_after_frost": 1,
+    "companions": [
+      "Most plants"
+    ],
+    "antagonists": [],
+    "rotation_family": "Asteraceae",
+    "growing_tips": [
+      "Thrives in poor soil—rich soil produces more foliage than flowers"
+    ]
+  },
+  {
+    "common_name": "Nasturtium",
+    "scientific_name": "Tropaeolum majus",
+    "family": "Tropaeolaceae",
+    "plant_type": "flower",
+    "lifecycle": "annual",
+    "description": "Edible flower and leaves with peppery flavor. Trap crop for aphids.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 11,
+    "spacing_inches": 12,
+    "row_spacing_inches": 24,
+    "height_inches_min": 12,
+    "height_inches_max": 36,
+    "days_to_germination_min": 7,
+    "days_to_germination_max": 14,
+    "days_to_maturity_min": 35,
+    "days_to_maturity_max": 52,
+    "planting_depth_inches": 0.5,
+    "outdoor_sow_weeks_after_frost": 1,
+    "companions": [
+      "Tomato",
+      "Cucumber",
+      "Squash",
+      "Beans"
+    ],
+    "antagonists": [],
+    "rotation_family": "Tropaeolaceae",
+    "growing_tips": [
+      "Acts as trap crop for aphids",
+      "Flowers, leaves, and seeds are all edible"
+    ]
+  },
+  {
+    "common_name": "Echinacea",
+    "scientific_name": "Echinacea purpurea",
+    "family": "Asteraceae",
+    "plant_type": "flower",
+    "lifecycle": "perennial",
+    "description": "Purple coneflower used medicinally and valued by pollinators.",
+    "sun_exposure": "full_sun",
+    "water_needs": "low",
+    "min_zone": 3,
+    "max_zone": 8,
+    "spacing_inches": 18,
+    "row_spacing_inches": 24,
+    "height_inches_min": 24,
+    "height_inches_max": 48,
+    "days_to_germination_min": 10,
+    "days_to_germination_max": 21,
+    "days_to_maturity_min": 120,
+    "days_to_maturity_max": 180,
+    "companions": [
+      "Black-eyed Susan",
+      "Bee Balm"
+    ],
+    "antagonists": [],
+    "rotation_family": "Asteraceae",
+    "growing_tips": [
+      "Drought-tolerant once established",
+      "Leave seed heads for winter bird food"
+    ]
+  },
+  {
+    "common_name": "Petunia",
+    "scientific_name": "Petunia × hybrida",
+    "family": "Solanaceae",
+    "plant_type": "flower",
+    "lifecycle": "annual",
+    "description": "Prolific bloomers in many colors, great for containers.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 11,
+    "spacing_inches": 12,
+    "row_spacing_inches": 12,
+    "height_inches_min": 6,
+    "height_inches_max": 18,
+    "days_to_germination_min": 7,
+    "days_to_germination_max": 14,
+    "days_to_maturity_min": 60,
+    "days_to_maturity_max": 75,
+    "indoor_start_weeks_before_frost": 10,
+    "companions": [
+      "Tomato",
+      "Squash"
+    ],
+    "antagonists": [],
+    "rotation_family": "Solanaceae",
+    "growing_tips": [
+      "Deadhead spent flowers for continuous blooming",
+      "Trail from hanging baskets"
+    ]
+  },
+  {
+    "common_name": "Dahlia",
+    "scientific_name": "Dahlia spp.",
+    "family": "Asteraceae",
+    "plant_type": "flower",
+    "lifecycle": "perennial",
+    "description": "Showy tuberous plant with diverse flower forms and colors.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 8,
+    "max_zone": 11,
+    "spacing_inches": 18,
+    "row_spacing_inches": 36,
+    "height_inches_min": 12,
+    "height_inches_max": 72,
+    "days_to_maturity_min": 90,
+    "days_to_maturity_max": 120,
+    "companions": [],
+    "antagonists": [],
+    "rotation_family": "Asteraceae",
+    "growing_tips": [
+      "Dig tubers before frost in cold climates",
+      "Pinch growing tip for bushier plants",
+      "Stake tall varieties"
+    ]
+  },
+  {
+    "common_name": "Sweet Pea",
+    "scientific_name": "Lathyrus odoratus",
+    "family": "Fabaceae",
+    "plant_type": "flower",
+    "lifecycle": "annual",
+    "description": "Fragrant climbing flower in pastel colors.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 11,
+    "spacing_inches": 6,
+    "row_spacing_inches": 12,
+    "height_inches_min": 48,
+    "height_inches_max": 96,
+    "days_to_germination_min": 7,
+    "days_to_germination_max": 14,
+    "days_to_maturity_min": 65,
+    "days_to_maturity_max": 85,
+    "planting_depth_inches": 1,
+    "outdoor_sow_weeks_after_frost": -4,
+    "companions": [
+      "Most plants"
+    ],
+    "antagonists": [],
+    "rotation_family": "Fabaceae",
+    "growing_tips": [
+      "Soak seeds overnight before planting",
+      "Provide trellis for climbing"
+    ]
+  },
+  {
+    "common_name": "Black-Eyed Susan",
+    "scientific_name": "Rudbeckia hirta",
+    "family": "Asteraceae",
+    "plant_type": "flower",
+    "lifecycle": "perennial",
+    "description": "Cheerful native wildflower with golden petals and dark centers.",
+    "sun_exposure": "full_sun",
+    "water_needs": "low",
+    "min_zone": 3,
+    "max_zone": 9,
+    "spacing_inches": 18,
+    "row_spacing_inches": 24,
+    "height_inches_min": 24,
+    "height_inches_max": 36,
+    "days_to_maturity_min": 90,
+    "days_to_maturity_max": 120,
+    "companions": [
+      "Echinacea",
+      "Bee Balm"
+    ],
+    "antagonists": [],
+    "rotation_family": "Asteraceae",
+    "growing_tips": [
+      "Very drought-tolerant once established",
+      "Self-seeds readily"
+    ]
+  },
+  {
+    "common_name": "Morning Glory",
+    "scientific_name": "Ipomoea purpurea",
+    "family": "Convolvulaceae",
+    "plant_type": "flower",
+    "lifecycle": "annual",
+    "description": "Fast-growing vine with trumpet-shaped flowers.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 11,
+    "spacing_inches": 12,
+    "height_inches_min": 72,
+    "height_inches_max": 180,
+    "days_to_germination_min": 5,
+    "days_to_germination_max": 14,
+    "days_to_maturity_min": 60,
+    "days_to_maturity_max": 80,
+    "planting_depth_inches": 0.5,
+    "outdoor_sow_weeks_after_frost": 1,
+    "companions": [],
+    "antagonists": [],
+    "rotation_family": "Convolvulaceae",
+    "growing_tips": [
+      "Nick seed coat before planting for better germination",
+      "Can become invasive—deadhead to prevent self-seeding"
+    ]
+  },
+  {
+    "common_name": "Bee Balm",
+    "scientific_name": "Monarda didyma",
+    "family": "Lamiaceae",
+    "plant_type": "flower",
+    "lifecycle": "perennial",
+    "description": "Native wildflower beloved by hummingbirds and pollinators.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 9,
+    "spacing_inches": 18,
+    "row_spacing_inches": 24,
+    "height_inches_min": 24,
+    "height_inches_max": 48,
+    "days_to_maturity_min": 110,
+    "companions": [
+      "Tomato",
+      "Basil"
+    ],
+    "antagonists": [],
+    "rotation_family": "Lamiaceae",
+    "growing_tips": [
+      "Good air circulation prevents powdery mildew",
+      "Divide every 2-3 years"
+    ]
+  },
+  {
+    "common_name": "Calendula",
+    "scientific_name": "Calendula officinalis",
+    "family": "Asteraceae",
+    "plant_type": "flower",
+    "lifecycle": "annual",
+    "description": "Edible flower with healing properties, also known as pot marigold.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 11,
+    "spacing_inches": 12,
+    "row_spacing_inches": 18,
+    "height_inches_min": 12,
+    "height_inches_max": 24,
+    "days_to_germination_min": 5,
+    "days_to_germination_max": 14,
+    "days_to_maturity_min": 45,
+    "days_to_maturity_max": 65,
+    "planting_depth_inches": 0.5,
+    "outdoor_sow_weeks_after_frost": -4,
+    "companions": [
+      "Tomato",
+      "Peas",
+      "Cabbage"
+    ],
+    "antagonists": [],
+    "rotation_family": "Asteraceae",
+    "growing_tips": [
+      "Deadhead for continuous blooming",
+      "Petals are edible and add color to salads"
+    ]
+  },
+  {
+    "common_name": "Snapdragon",
+    "scientific_name": "Antirrhinum majus",
+    "family": "Plantaginaceae",
+    "plant_type": "flower",
+    "lifecycle": "annual",
+    "description": "Tall spikes of colorful dragon-shaped flowers.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 11,
+    "spacing_inches": 8,
+    "row_spacing_inches": 12,
+    "height_inches_min": 12,
+    "height_inches_max": 36,
+    "days_to_germination_min": 7,
+    "days_to_germination_max": 14,
+    "days_to_maturity_min": 80,
+    "days_to_maturity_max": 100,
+    "indoor_start_weeks_before_frost": 8,
+    "companions": [],
+    "antagonists": [],
+    "rotation_family": "Plantaginaceae",
+    "growing_tips": [
+      "Pinch tips for bushier growth",
+      "Tolerates light frost"
+    ]
+  },
+  {
+    "common_name": "Pansy",
+    "scientific_name": "Viola × wittrockiana",
+    "family": "Violaceae",
+    "plant_type": "flower",
+    "lifecycle": "annual",
+    "description": "Cool-season favorite with colorful face-like blooms.",
+    "sun_exposure": "partial_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 9,
+    "spacing_inches": 8,
+    "height_inches_min": 6,
+    "height_inches_max": 10,
+    "days_to_maturity_min": 70,
+    "days_to_maturity_max": 90,
+    "companions": [],
+    "antagonists": [],
+    "rotation_family": "Violaceae",
+    "growing_tips": [
+      "Plant in fall or early spring",
+      "Edible flowers for garnish"
+    ]
+  },
+  {
+    "common_name": "Impatiens",
+    "scientific_name": "Impatiens walleriana",
+    "family": "Balsaminaceae",
+    "plant_type": "flower",
+    "lifecycle": "annual",
+    "description": "Shade-loving flower that blooms continuously.",
+    "sun_exposure": "partial_shade",
+    "water_needs": "high",
+    "min_zone": 2,
+    "max_zone": 11,
+    "spacing_inches": 10,
+    "height_inches_min": 6,
+    "height_inches_max": 24,
+    "days_to_maturity_min": 60,
+    "companions": [],
+    "antagonists": [],
+    "rotation_family": "Balsaminaceae",
+    "growing_tips": [
+      "One of the best flowers for full shade",
+      "Keep soil consistently moist"
+    ]
+  },
+  {
+    "common_name": "Geranium",
+    "scientific_name": "Pelargonium × hortorum",
+    "family": "Geraniaceae",
+    "plant_type": "flower",
+    "lifecycle": "annual",
+    "description": "Classic container plant with round flower clusters.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 11,
+    "spacing_inches": 12,
+    "height_inches_min": 10,
+    "height_inches_max": 24,
+    "days_to_maturity_min": 60,
+    "companions": [
+      "Grape",
+      "Rose"
+    ],
+    "antagonists": [],
+    "rotation_family": "Geraniaceae",
+    "growing_tips": [
+      "Deadhead regularly for continuous bloom",
+      "Allow soil to dry between waterings"
+    ]
+  },
+  {
+    "common_name": "Alyssum",
+    "scientific_name": "Lobularia maritima",
+    "family": "Brassicaceae",
+    "plant_type": "flower",
+    "lifecycle": "annual",
+    "description": "Low-growing, fragrant ground cover that attracts beneficial insects.",
+    "sun_exposure": "full_sun",
+    "water_needs": "low",
+    "min_zone": 3,
+    "max_zone": 11,
+    "spacing_inches": 6,
+    "height_inches_min": 3,
+    "height_inches_max": 8,
+    "days_to_germination_min": 4,
+    "days_to_germination_max": 10,
+    "days_to_maturity_min": 45,
+    "days_to_maturity_max": 60,
+    "companions": [
+      "Most vegetables and flowers"
+    ],
+    "antagonists": [],
+    "rotation_family": "Brassicaceae",
+    "growing_tips": [
+      "Shear back mid-season if plants become leggy",
+      "Attracts hoverflies which eat aphids"
+    ]
+  },
+  {
+    "common_name": "Salvia",
+    "scientific_name": "Salvia splendens",
+    "family": "Lamiaceae",
+    "plant_type": "flower",
+    "lifecycle": "annual",
+    "description": "Brilliant red spikes that attract hummingbirds.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 2,
+    "max_zone": 11,
+    "spacing_inches": 12,
+    "height_inches_min": 12,
+    "height_inches_max": 30,
+    "days_to_maturity_min": 60,
+    "companions": [],
+    "antagonists": [],
+    "rotation_family": "Lamiaceae",
+    "growing_tips": [
+      "Many perennial species available for different zones"
+    ]
+  },
+  {
+    "common_name": "Yarrow",
+    "scientific_name": "Achillea millefolium",
+    "family": "Asteraceae",
+    "plant_type": "flower",
+    "lifecycle": "perennial",
+    "description": "Tough native wildflower with flat flower clusters.",
+    "sun_exposure": "full_sun",
+    "water_needs": "low",
+    "min_zone": 3,
+    "max_zone": 9,
+    "spacing_inches": 18,
+    "row_spacing_inches": 24,
+    "height_inches_min": 24,
+    "height_inches_max": 36,
+    "companions": [
+      "Most plants"
+    ],
+    "antagonists": [],
+    "rotation_family": "Asteraceae",
+    "growing_tips": [
+      "Extremely drought-tolerant",
+      "Attracts beneficial insects"
+    ]
+  },
+  {
+    "common_name": "Columbine",
+    "scientific_name": "Aquilegia spp.",
+    "family": "Ranunculaceae",
+    "plant_type": "flower",
+    "lifecycle": "perennial",
+    "description": "Graceful woodland flower with spurred blooms.",
+    "sun_exposure": "partial_shade",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 9,
+    "spacing_inches": 12,
+    "height_inches_min": 12,
+    "height_inches_max": 36,
+    "days_to_maturity_min": 365,
+    "companions": [],
+    "antagonists": [],
+    "rotation_family": "Ranunculaceae",
+    "growing_tips": [
+      "Self-seeds readily",
+      "Attracts hummingbirds"
+    ]
+  },
+  {
+    "common_name": "Dianthus",
+    "scientific_name": "Dianthus spp.",
+    "family": "Caryophyllaceae",
+    "plant_type": "flower",
+    "lifecycle": "perennial",
+    "description": "Fragrant pinks with fringed petals in many colors.",
+    "sun_exposure": "full_sun",
+    "water_needs": "low",
+    "min_zone": 3,
+    "max_zone": 9,
+    "spacing_inches": 10,
+    "height_inches_min": 6,
+    "height_inches_max": 18,
+    "days_to_maturity_min": 90,
+    "companions": [],
+    "antagonists": [],
+    "rotation_family": "Caryophyllaceae",
+    "growing_tips": [
+      "Needs excellent drainage",
+      "Deadhead for repeat blooming"
+    ]
+  },
+  {
+    "common_name": "Hollyhock",
+    "scientific_name": "Alcea rosea",
+    "family": "Malvaceae",
+    "plant_type": "flower",
+    "lifecycle": "biennial",
+    "description": "Tall, stately flower for cottage gardens.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 8,
+    "spacing_inches": 18,
+    "height_inches_min": 48,
+    "height_inches_max": 96,
+    "days_to_maturity_min": 365,
+    "companions": [],
+    "antagonists": [],
+    "rotation_family": "Malvaceae",
+    "growing_tips": [
+      "Stake tall varieties",
+      "Watch for rust disease"
+    ]
+  },
+  {
+    "common_name": "Delphinium",
+    "scientific_name": "Delphinium spp.",
+    "family": "Ranunculaceae",
+    "plant_type": "flower",
+    "lifecycle": "perennial",
+    "description": "Tall spikes of blue, purple, white, or pink flowers.",
+    "sun_exposure": "full_sun",
+    "water_needs": "moderate",
+    "min_zone": 3,
+    "max_zone": 7,
+    "spacing_inches": 18,
+    "height_inches_min": 36,
+    "height_inches_max": 72,
+    "companions": [],
+    "antagonists": [],
+    "rotation_family": "Ranunculaceae",
+    "growing_tips": [
+      "Stake tall varieties against wind",
+      "Prefers cool summer climates"
+    ]
+  }
+]

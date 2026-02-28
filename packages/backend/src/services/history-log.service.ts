@@ -1,0 +1,36 @@
+import type { HistoryLogRepository, HistoryLogRow } from '../db/repositories/history-log.repository.js';
+
+export class HistoryLogService {
+  constructor(private historyRepo: HistoryLogRepository) {}
+
+  getRecent(limit: number = 20, offset: number = 0) {
+    const data = this.historyRepo.findRecent(limit, offset);
+    return {
+      data: data.map(row => this.deserialize(row)),
+      pagination: {
+        total: this.historyRepo.count(),
+        page: Math.floor(offset / limit) + 1,
+        limit,
+        total_pages: Math.ceil(this.historyRepo.count() / limit),
+      },
+    };
+  }
+
+  getByEntity(entityType: string, entityId: string) {
+    return this.historyRepo.findByEntity(entityType, entityId)
+      .map(row => this.deserialize(row));
+  }
+
+  getByDateRange(startDate: string, endDate: string) {
+    return this.historyRepo.findByDateRange(startDate, endDate)
+      .map(row => this.deserialize(row));
+  }
+
+  private deserialize(row: HistoryLogRow) {
+    return {
+      ...row,
+      field_changes: row.field_changes_json ? JSON.parse(row.field_changes_json) : null,
+      snapshot: row.snapshot_json ? JSON.parse(row.snapshot_json) : null,
+    };
+  }
+}
