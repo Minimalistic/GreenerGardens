@@ -1,13 +1,37 @@
+# Dependencies
 node_modules/
+
+# Build output
 dist/
+
+# SQLite databases
 data/*.db
 data/*.db-wal
 data/*.db-shm
-data/uploads/
-data/backups/
 *.db
 *.db-wal
 *.db-shm
+
+# Environment variables
 .env
+.env.*
+
+# Logs
 *.log
+
+# OS files
 .DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+
+# Vite
+.vite/
+
+# Test / coverage
+coverage/
+
+# Claude Code
+.claude/
