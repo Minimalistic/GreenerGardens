@@ -343,6 +343,7 @@ export function GardenLayout() {
             onSelectPlot={setSelectedPlotId}
             onPlotDragEnd={handlePlotDragEnd}
             onContextMenu={handleContextMenu}
+            onPlotDoubleClick={(id) => navigate(`/garden/plots/${id}`)}
             subPlotsByPlot={subPlotsByPlot}
           />
         )}
@@ -461,8 +462,8 @@ export function GardenLayout() {
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={handleCopy}
-                  title="Copy plot"
+                  onClick={handleDuplicate}
+                  title="Duplicate plot"
                 >
                   <Copy className="w-4 h-4" />
                 </Button>

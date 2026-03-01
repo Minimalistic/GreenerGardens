@@ -20,7 +20,7 @@ import { Label } from '@/components/ui/label';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import { SuccessionPlantingDialog } from '@/components/garden/succession-planting-dialog';
-import { ArrowLeft, Layers, Sprout, Plus, Trash2, X } from 'lucide-react';
+import { ArrowLeft, Layers, Sprout, Plus, Trash2, X, Copy } from 'lucide-react';
 
 export function PlotDetail() {
   const { plotId } = useParams<{ plotId: string }>();
@@ -131,6 +131,30 @@ export function PlotDetail() {
     }
   };
 
+  const handleDuplicateSubPlot = async () => {
+    if (!selectedSubPlotId || !plotId) return;
+    const sp = subPlots.find(s => s.id === selectedSubPlotId);
+    if (!sp) return;
+    const offsetPx = 40; // 1ft
+    try {
+      await createSubPlot.mutateAsync({
+        plot_id: plotId,
+        grid_position: { row: 0, col: 0 },
+        geometry: {
+          x: sp.geometry.x + offsetPx,
+          y: sp.geometry.y + offsetPx,
+          width: sp.geometry.width,
+          height: sp.geometry.height,
+          rotation: sp.geometry.rotation,
+        },
+        notes: sp.notes || undefined,
+      });
+      toast({ title: 'Sub-plot duplicated' });
+    } catch {
+      toast({ title: 'Failed to duplicate sub-plot', variant: 'destructive' });
+    }
+  };
+
   const handleDeleteSubPlot = async () => {
     if (!selectedSubPlotId) return;
     if (!confirm('Delete this sub-plot?')) return;
@@ -232,6 +256,17 @@ export function PlotDetail() {
                     Assign Plant
                   </Button>
                 )}
+
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full"
+                  onClick={handleDuplicateSubPlot}
+                  disabled={createSubPlot.isPending}
+                >
+                  <Copy className="w-4 h-4 mr-1" />
+                  Duplicate
+                </Button>
 
                 <Button
                   variant="destructive"
