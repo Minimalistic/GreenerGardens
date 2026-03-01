@@ -89,6 +89,24 @@ export function GardenCanvas({
     node.y(snapTo(node.y(), PX_PER_FT));
   }, [snapEnabled]);
 
+  // Compute the minimum width/height for a plot based on its sub-plots
+  const getMinPlotSize = useCallback((plotId: string) => {
+    const subs = subPlotsByPlot?.get(plotId);
+    if (!subs || subs.length === 0) return { minW: PX_PER_FT, minH: PX_PER_FT };
+    let maxRight = 0;
+    let maxBottom = 0;
+    for (const sp of subs) {
+      const g = sp.geometry;
+      if (!g) continue;
+      maxRight = Math.max(maxRight, g.x + g.width);
+      maxBottom = Math.max(maxBottom, g.y + g.height);
+    }
+    return {
+      minW: Math.max(PX_PER_FT, snapTo(Math.ceil(maxRight), PX_PER_FT)),
+      minH: Math.max(PX_PER_FT, snapTo(Math.ceil(maxBottom), PX_PER_FT)),
+    };
+  }, [subPlotsByPlot]);
+
   const handleTransformEnd = useCallback((plotId: string, geometry: any) => {
     const node = plotRefs.current.get(plotId);
     if (!node) return;
@@ -99,14 +117,16 @@ export function GardenCanvas({
     node.scaleX(1);
     node.scaleY(1);
 
-    let newWidth = Math.max(PX_PER_FT, Math.round(geometry.width * scaleX));
-    let newHeight = Math.max(PX_PER_FT, Math.round(geometry.height * scaleY));
+    const { minW, minH } = getMinPlotSize(plotId);
+
+    let newWidth = Math.max(minW, Math.round(geometry.width * scaleX));
+    let newHeight = Math.max(minH, Math.round(geometry.height * scaleY));
     let newX = node.x();
     let newY = node.y();
 
     if (snapEnabled) {
-      newWidth = Math.max(PX_PER_FT, snapTo(newWidth, PX_PER_FT));
-      newHeight = Math.max(PX_PER_FT, snapTo(newHeight, PX_PER_FT));
+      newWidth = Math.max(minW, snapTo(newWidth, PX_PER_FT));
+      newHeight = Math.max(minH, snapTo(newHeight, PX_PER_FT));
       newX = snapTo(newX, PX_PER_FT);
       newY = snapTo(newY, PX_PER_FT);
     }
@@ -116,9 +136,9 @@ export function GardenCanvas({
       y: newY,
       width: newWidth,
       height: newHeight,
-      rotation: node.rotation(),
+      rotation: 0,
     });
-  }, [onPlotDragEnd, snapEnabled]);
+  }, [onPlotDragEnd, snapEnabled, getMinPlotSize]);
 
   // Right-click handler
   const handleContextMenu = useCallback((e: Konva.KonvaEventObject<PointerEvent>) => {
@@ -283,7 +303,7 @@ export function GardenCanvas({
                 }}
                 x={g.x}
                 y={g.y}
-                rotation={g.rotation}
+                rotation={0}
                 draggable
                 onClick={() => onSelectPlot(plot.id)}
                 onTap={() => onSelectPlot(plot.id)}
@@ -361,7 +381,7 @@ export function GardenCanvas({
 
           <Transformer
             ref={transformerRef}
-            rotateEnabled={true}
+            rotateEnabled={false}
             enabledAnchors={[
               'top-left', 'top-right', 'bottom-left', 'bottom-right',
               'middle-left', 'middle-right', 'top-center', 'bottom-center',
@@ -372,7 +392,11 @@ export function GardenCanvas({
             anchorFill="#fff"
             anchorSize={8}
             boundBoxFunc={(_oldBox, newBox) => {
-              if (newBox.width < PX_PER_FT || newBox.height < PX_PER_FT) {
+              // Enforce minimum 1ft and sub-plot extent
+              const { minW, minH } = selectedPlotId
+                ? getMinPlotSize(selectedPlotId)
+                : { minW: PX_PER_FT, minH: PX_PER_FT };
+              if (newBox.width < minW || newBox.height < minH) {
                 return _oldBox;
               }
               return newBox;
