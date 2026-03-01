@@ -46,6 +46,14 @@ export function useUpdatePlot() {
   });
 }
 
+export function usePlotDeletionImpact(plotId: string | null, enabled = false) {
+  return useQuery({
+    queryKey: ['plot-deletion-impact', plotId],
+    queryFn: () => api.get<ApiResponse<{ sub_plots: number; plant_instances: number; harvests: number; soil_tests: number; notes: number }>>(`/plots/${plotId}/deletion-impact`),
+    enabled: !!plotId && enabled,
+  });
+}
+
 export function useDeletePlot() {
   const queryClient = useQueryClient();
   return useMutation({

@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
-import { useGardens, useCreateGarden, useUpdateGarden, useDeleteGarden } from '@/hooks/use-gardens';
+import { useGardens, useCreateGarden, useUpdateGarden, useDeleteGarden, useGardenDeletionImpact } from '@/hooks/use-gardens';
 import { useGardenContext } from '@/contexts/garden-context';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Pencil, Trash2, Check, X, Plus } from 'lucide-react';
+import { ConfirmDeleteDialog } from '@/components/confirm-delete-dialog';
 import type { Garden } from '@gardenvault/shared';
 
 interface GardenManagerDialogProps {
@@ -24,7 +25,10 @@ export function GardenManagerDialog({ open, onOpenChange }: GardenManagerDialogP
   const [newName, setNewName] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState('');
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [gardenToDelete, setGardenToDelete] = useState<string | null>(null);
   const editInputRef = useRef<HTMLInputElement>(null);
+  const { data: impactData } = useGardenDeletionImpact(gardenToDelete, deleteDialogOpen);
 
   const gardens = gardensData?.data ?? [];
 
@@ -61,13 +65,20 @@ export function GardenManagerDialog({ open, onOpenChange }: GardenManagerDialogP
     cancelEditing();
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Delete this garden and all its plots? This cannot be undone.')) return;
+  const openDeleteDialog = (id: string) => {
+    setGardenToDelete(id);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDeleteGarden = async () => {
+    if (!gardenToDelete) return;
     try {
-      await deleteGarden.mutateAsync(id);
-      if (id === currentGardenId) {
+      await deleteGarden.mutateAsync(gardenToDelete);
+      if (gardenToDelete === currentGardenId) {
         clearCurrentGardenId();
       }
+      setDeleteDialogOpen(false);
+      setGardenToDelete(null);
       toast({ title: 'Garden deleted' });
     } catch {
       toast({ title: 'Failed to delete garden', variant: 'destructive' });
@@ -140,7 +151,7 @@ export function GardenManagerDialog({ open, onOpenChange }: GardenManagerDialogP
                     variant="ghost"
                     size="icon"
                     className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity text-destructive hover:text-destructive"
-                    onClick={() => handleDelete(garden.id)}
+                    onClick={() => openDeleteDialog(garden.id)}
                     disabled={gardens.length <= 1}
                     title={gardens.length <= 1 ? 'Cannot delete the only garden' : 'Delete garden'}
                   >
@@ -171,6 +182,26 @@ export function GardenManagerDialog({ open, onOpenChange }: GardenManagerDialogP
           </Button>
         </div>
       </DialogContent>
+
+      <ConfirmDeleteDialog
+        open={deleteDialogOpen}
+        onOpenChange={(open) => {
+          setDeleteDialogOpen(open);
+          if (!open) setGardenToDelete(null);
+        }}
+        title="Delete Garden?"
+        description="This will permanently delete this garden and all its contents."
+        impacts={impactData?.data ? [
+          { label: 'Plots', count: impactData.data.plots },
+          { label: 'Sub-plots', count: impactData.data.sub_plots },
+          { label: 'Plant instances', count: impactData.data.plant_instances },
+          { label: 'Harvests', count: impactData.data.harvests },
+          { label: 'Soil tests', count: impactData.data.soil_tests },
+          { label: 'Notes', count: impactData.data.notes },
+        ] : undefined}
+        loading={deleteGarden.isPending}
+        onConfirm={confirmDeleteGarden}
+      />
     </Dialog>
   );
 }

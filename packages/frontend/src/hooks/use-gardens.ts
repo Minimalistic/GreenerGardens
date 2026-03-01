@@ -40,6 +40,14 @@ export function useUpdateGarden() {
   });
 }
 
+export function useGardenDeletionImpact(gardenId: string | null, enabled = false) {
+  return useQuery({
+    queryKey: ['garden-deletion-impact', gardenId],
+    queryFn: () => api.get<ApiResponse<{ plots: number; sub_plots: number; plant_instances: number; harvests: number; soil_tests: number; notes: number }>>(`/gardens/${gardenId}/deletion-impact`),
+    enabled: !!gardenId && enabled,
+  });
+}
+
 export function useDeleteGarden() {
   const queryClient = useQueryClient();
   return useMutation({

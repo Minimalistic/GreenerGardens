@@ -24,6 +24,11 @@ export function gardenRoutes(fastify: FastifyInstance, gardenService: GardenServ
     return { success: true, data: garden };
   });
 
+  fastify.get<{ Params: { id: string } }>('/api/v1/gardens/:id/deletion-impact', async (request) => {
+    const data = gardenService.getDeletionImpact(request.params.id);
+    return { success: true, data };
+  });
+
   fastify.delete<{ Params: { id: string } }>('/api/v1/gardens/:id', async (request, reply) => {
     gardenService.delete(request.params.id);
     reply.status(204);

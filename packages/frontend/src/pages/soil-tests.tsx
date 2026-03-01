@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Plus, FlaskConical, TrendingUp } from 'lucide-react';
+import { Plus, FlaskConical, TrendingUp, LayoutGrid, TableIcon } from 'lucide-react';
 import { useSoilTests, useCreateSoilTest, useDeleteSoilTest } from '@/hooks/use-soil-tests';
 import { usePlotsByGarden } from '@/hooks/use-plots';
 import { useGardenContext } from '@/contexts/garden-context';
+import { DataTable, type Column } from '@/components/data-table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -35,6 +36,32 @@ function nutrientColor(ppm: number | null, low: number, high: number): string {
   if (ppm <= high) return 'text-green-500';
   return 'text-orange-500';
 }
+
+const soilTestColumns: Column<any>[] = [
+  { key: 'test_date', label: 'Date' },
+  { key: 'ph', label: 'pH', render: (row) => row.ph !== null ? (
+    <span className={`font-medium ${phColor(row.ph)}`}>{row.ph}</span>
+  ) : '-' },
+  { key: 'nitrogen_ppm', label: 'N (ppm)', render: (row) => row.nitrogen_ppm !== null ? (
+    <span className={nutrientColor(row.nitrogen_ppm, 25, 50)}>
+      {row.nitrogen_ppm} <Badge variant="outline" className={`ml-1 text-xs ${nutrientColor(row.nitrogen_ppm, 25, 50)}`}>{nutrientLevel(row.nitrogen_ppm, 25, 50)}</Badge>
+    </span>
+  ) : '-' },
+  { key: 'phosphorus_ppm', label: 'P (ppm)', render: (row) => row.phosphorus_ppm !== null ? (
+    <span className={nutrientColor(row.phosphorus_ppm, 15, 40)}>
+      {row.phosphorus_ppm} <Badge variant="outline" className={`ml-1 text-xs ${nutrientColor(row.phosphorus_ppm, 15, 40)}`}>{nutrientLevel(row.phosphorus_ppm, 15, 40)}</Badge>
+    </span>
+  ) : '-' },
+  { key: 'potassium_ppm', label: 'K (ppm)', render: (row) => row.potassium_ppm !== null ? (
+    <span className={nutrientColor(row.potassium_ppm, 100, 200)}>
+      {row.potassium_ppm} <Badge variant="outline" className={`ml-1 text-xs ${nutrientColor(row.potassium_ppm, 100, 200)}`}>{nutrientLevel(row.potassium_ppm, 100, 200)}</Badge>
+    </span>
+  ) : '-' },
+  { key: 'organic_matter_pct', label: 'Organic %', render: (row) => row.organic_matter_pct !== null ? `${row.organic_matter_pct}%` : '-' },
+  { key: 'moisture_level', label: 'Moisture', render: (row) => row.moisture_level ? (
+    <span className="capitalize">{row.moisture_level.replace(/_/g, ' ')}</span>
+  ) : '-' },
+];
 
 function CreateSoilTestDialog({ plots }: { plots: any[] }) {
   const [open, setOpen] = useState(false);
@@ -137,6 +164,14 @@ function CreateSoilTestDialog({ plots }: { plots: any[] }) {
 }
 
 export function SoilTestsPage() {
+  const [view, setView] = useState<'card' | 'table'>(() =>
+    (localStorage.getItem('soil-tests-view') as 'card' | 'table') ?? 'card'
+  );
+  const toggleView = (v: 'card' | 'table') => {
+    setView(v);
+    localStorage.setItem('soil-tests-view', v);
+  };
+
   const { currentGardenId } = useGardenContext();
   const { data: plotsData } = usePlotsByGarden(currentGardenId);
   const plots = plotsData?.data ?? [];
@@ -151,7 +186,17 @@ export function SoilTestsPage() {
     <div className="space-y-4 max-w-3xl mx-auto">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">Soil Tests</h2>
-        <CreateSoilTestDialog plots={plots} />
+        <div className="flex items-center gap-2">
+          <div className="flex gap-1">
+            <Button variant={view === 'card' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('card')}>
+              <LayoutGrid className="w-4 h-4" />
+            </Button>
+            <Button variant={view === 'table' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('table')}>
+              <TableIcon className="w-4 h-4" />
+            </Button>
+          </div>
+          <CreateSoilTestDialog plots={plots} />
+        </div>
       </div>
 
       <div>
@@ -179,6 +224,8 @@ export function SoilTestsPage() {
             <p>No soil tests recorded for this plot</p>
           </CardContent>
         </Card>
+      ) : view === 'table' ? (
+        <DataTable data={tests} columns={soilTestColumns} exportFilename="soil-tests" />
       ) : (
         <div className="space-y-3">
           {tests.map((test: any) => (
@@ -187,6 +234,7 @@ export function SoilTestsPage() {
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-sm font-medium">{test.test_date}</CardTitle>
                   <Button size="sm" variant="ghost" onClick={() => {
+                    if (!confirm('Delete this soil test?')) return;
                     deleteSoilTest.mutate(test.id, { onSuccess: () => toast({ title: 'Deleted' }) });
                   }}>Delete</Button>
                 </div>

@@ -161,11 +161,12 @@ export function EntityNotes({ entityType, entityId }: EntityNotesProps) {
                           size="icon"
                           variant="ghost"
                           className="h-6 w-6"
-                          onClick={() =>
+                          onClick={() => {
+                            if (!confirm('Delete this note?')) return;
                             deleteNote.mutate(note.id, {
                               onSuccess: () => toast({ title: 'Deleted' }),
-                            })
-                          }
+                            });
+                          }}
                         >
                           <Trash2 className="w-3 h-3" />
                         </Button>

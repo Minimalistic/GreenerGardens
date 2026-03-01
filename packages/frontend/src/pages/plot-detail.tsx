@@ -133,6 +133,7 @@ export function PlotDetail() {
 
   const handleDeleteSubPlot = async () => {
     if (!selectedSubPlotId) return;
+    if (!confirm('Delete this sub-plot?')) return;
     try {
       await deleteSubPlot.mutateAsync({ id: selectedSubPlotId, plotId: plotId! });
       setSelectedSubPlotId(null);

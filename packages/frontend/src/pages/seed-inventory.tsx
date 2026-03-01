@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Sprout, Plus, AlertTriangle, Package, Trash2 } from 'lucide-react';
+import { Sprout, Plus, AlertTriangle, Package, Trash2, LayoutGrid, TableIcon } from 'lucide-react';
 import { useSeedInventory, useCreateSeedInventory, useUpdateSeedInventory, useDeleteSeedInventory } from '@/hooks/use-seed-inventory';
+import { DataTable, type Column } from '@/components/data-table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -29,7 +30,44 @@ const emptyForm: SeedFormData = {
   storage_location: '', cost_cents: undefined, notes: '',
 };
 
+function isExpiringSeed(date: string | null) {
+  if (!date) return false;
+  const exp = new Date(date);
+  const now = new Date();
+  const diff = (exp.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
+  return diff >= 0 && diff <= 90;
+}
+
+const seedColumns: Column<any>[] = [
+  { key: 'variety_name', label: 'Variety' },
+  { key: 'brand', label: 'Brand', render: (row) => row.brand || '-' },
+  { key: 'quantity_packets', label: 'Packets', render: (row) => (
+    <span>
+      {row.quantity_packets}
+      {row.quantity_packets <= 1 && <Badge variant="destructive" className="ml-1 text-xs">Low</Badge>}
+    </span>
+  )},
+  { key: 'quantity_seeds_approx', label: 'Seeds (approx)', render: (row) => row.quantity_seeds_approx || '-' },
+  { key: 'expiration_date', label: 'Expires', render: (row) => row.expiration_date ? (
+    <span>
+      {row.expiration_date}
+      {isExpiringSeed(row.expiration_date) && <Badge variant="secondary" className="ml-1 text-xs">Expiring</Badge>}
+    </span>
+  ) : '-' },
+  { key: 'storage_location', label: 'Storage', render: (row) => row.storage_location || '-' },
+  { key: 'cost_cents', label: 'Cost', render: (row) => row.cost_cents != null ? `$${(row.cost_cents / 100).toFixed(2)}` : '-',
+    getValue: (row) => row.cost_cents ?? 0 },
+];
+
 export function SeedInventoryPage() {
+  const [view, setView] = useState<'card' | 'table'>(() =>
+    (localStorage.getItem('seeds-view') as 'card' | 'table') ?? 'card'
+  );
+  const toggleView = (v: 'card' | 'table') => {
+    setView(v);
+    localStorage.setItem('seeds-view', v);
+  };
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
   const [form, setForm] = useState<SeedFormData>(emptyForm);
@@ -90,20 +128,13 @@ export function SeedInventoryPage() {
   };
 
   const handleDelete = async (id: string) => {
+    if (!confirm('Delete this seed packet?')) return;
     try {
       await deleteSeed.mutateAsync(id);
       toast({ title: 'Seed packet deleted' });
     } catch {
       toast({ title: 'Failed to delete', variant: 'destructive' });
     }
-  };
-
-  const isExpiring = (date: string | null) => {
-    if (!date) return false;
-    const exp = new Date(date);
-    const now = new Date();
-    const diff = (exp.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
-    return diff >= 0 && diff <= 90;
   };
 
   return (
@@ -113,10 +144,20 @@ export function SeedInventoryPage() {
           <Sprout className="w-5 h-5" />
           Seed Inventory
         </h2>
-        <Button onClick={openCreate} size="sm">
-          <Plus className="w-4 h-4 mr-1" />
-          Add Seeds
-        </Button>
+        <div className="flex items-center gap-2">
+          <div className="flex gap-1">
+            <Button variant={view === 'card' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('card')}>
+              <LayoutGrid className="w-4 h-4" />
+            </Button>
+            <Button variant={view === 'table' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('table')}>
+              <TableIcon className="w-4 h-4" />
+            </Button>
+          </div>
+          <Button onClick={openCreate} size="sm">
+            <Plus className="w-4 h-4 mr-1" />
+            Add Seeds
+          </Button>
+        </div>
       </div>
 
       <div className="flex gap-2">
@@ -145,6 +186,8 @@ export function SeedInventoryPage() {
             </p>
           </CardContent>
         </Card>
+      ) : view === 'table' ? (
+        <DataTable data={seeds} columns={seedColumns} exportFilename="seed-inventory" />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {seeds.map((seed: any) => (
@@ -156,7 +199,7 @@ export function SeedInventoryPage() {
                     {seed.quantity_packets <= 1 && (
                       <Badge variant="destructive" className="text-xs">Low</Badge>
                     )}
-                    {isExpiring(seed.expiration_date) && (
+                    {isExpiringSeed(seed.expiration_date) && (
                       <Badge variant="secondary" className="text-xs">
                         <AlertTriangle className="w-3 h-3 mr-0.5" />
                         Expiring

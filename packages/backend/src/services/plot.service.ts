@@ -94,14 +94,50 @@ export class PlotService {
     return result;
   }
 
+  getDeletionImpact(id: string) {
+    const plot = this.plotRepo.findById(id);
+    if (!plot) throw new NotFoundError('Plot', id);
+    return this.plotRepo.getDeletionImpact(id);
+  }
+
   delete(id: string): void {
     this.db.transaction(() => {
       const old = this.plotRepo.findById(id);
       if (!old) throw new NotFoundError('Plot', id);
 
+      // Clean up orphan-prone polymorphic records before cascade delete
+      this.cleanupOrphans(id);
+
       this.plotRepo.delete(id);
       this.history.logDelete('plot', old);
     })();
+  }
+
+  private cleanupOrphans(plotId: string): void {
+    const orphanTables = ['tasks', 'pest_events', 'uploads', 'cost_entries', 'entity_tags'];
+
+    // Delete records referencing the plot itself
+    for (const table of orphanTables) {
+      this.db.prepare(
+        `DELETE FROM ${table} WHERE entity_type = 'plot' AND entity_id = ?`
+      ).run(plotId);
+    }
+
+    // Delete records referencing plant instances in this plot
+    for (const table of orphanTables) {
+      this.db.prepare(
+        `DELETE FROM ${table} WHERE entity_type = 'plant_instance' AND entity_id IN (SELECT id FROM plant_instances WHERE plot_id = ?)`
+      ).run(plotId);
+    }
+
+    // Delete notes with entity_links referencing this plot or its plant instances
+    this.db.prepare(`
+      DELETE FROM notes WHERE id IN (
+        SELECT DISTINCT n.id FROM notes n, json_each(n.entity_links) je
+        WHERE (json_extract(je.value, '$.entity_type') = 'plot' AND json_extract(je.value, '$.entity_id') = ?)
+           OR (json_extract(je.value, '$.entity_type') = 'plant_instance' AND json_extract(je.value, '$.entity_id') IN (SELECT id FROM plant_instances WHERE plot_id = ?))
+      )
+    `).run(plotId, plotId);
   }
 
   private deserializePlot(row: PlotRow): any {

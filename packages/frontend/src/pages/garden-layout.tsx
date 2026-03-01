@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGardenContext } from '@/contexts/garden-context';
 import { useGardens } from '@/hooks/use-gardens';
-import { usePlotsByGarden, useCreatePlot, useUpdatePlot, useDeletePlot } from '@/hooks/use-plots';
+import { usePlotsByGarden, useCreatePlot, useUpdatePlot, useDeletePlot, usePlotDeletionImpact } from '@/hooks/use-plots';
 import { useSubPlotsForPlots } from '@/hooks/use-sub-plots';
 import { useCanvasKeyboard } from '@/hooks/use-canvas-keyboard';
 import { GardenCanvas, PX_PER_FT } from '@/components/garden/garden-canvas';
@@ -19,6 +19,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Plus, Map as MapIcon, Sprout, Trash2, Copy, Clipboard } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ConfirmDeleteDialog } from '@/components/confirm-delete-dialog';
 import type { SubPlot } from '@gardenvault/shared';
 
 interface PlotFormData {
@@ -67,6 +68,9 @@ export function GardenLayout() {
   const [clipboard, setClipboard] = useState<ClipboardData | null>(null);
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
   const [managerOpen, setManagerOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [plotToDelete, setPlotToDelete] = useState<string | null>(null);
+  const { data: impactData } = usePlotDeletionImpact(plotToDelete, deleteDialogOpen);
 
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<PlotFormData>({
     defaultValues: {
@@ -188,23 +192,30 @@ export function GardenLayout() {
 
   // --- Delete ---
 
-  const handleDeletePlot = useCallback(async (id: string) => {
-    if (!confirm('Delete this plot? This cannot be undone.')) return;
+  const openDeleteDialog = useCallback((id: string) => {
+    setPlotToDelete(id);
+    setDeleteDialogOpen(true);
+  }, []);
+
+  const confirmDeletePlot = useCallback(async () => {
+    if (!plotToDelete) return;
     try {
-      await deletePlot.mutateAsync({ id, gardenId: currentGardenId! });
+      await deletePlot.mutateAsync({ id: plotToDelete, gardenId: currentGardenId! });
       setSelectedPlotId(null);
+      setDeleteDialogOpen(false);
+      setPlotToDelete(null);
       toast({ title: 'Plot deleted' });
     } catch {
       toast({ title: 'Failed to delete plot', variant: 'destructive' });
     }
-  }, [deletePlot, toast]);
+  }, [plotToDelete, deletePlot, currentGardenId, toast]);
 
   // --- Keyboard shortcuts ---
 
   useCanvasKeyboard(
     useMemo(() => ({
       onDelete: () => {
-        if (selectedPlotId) handleDeletePlot(selectedPlotId);
+        if (selectedPlotId) openDeleteDialog(selectedPlotId);
       },
       onCopy: handleCopy,
       onPaste: handlePaste,
@@ -213,7 +224,7 @@ export function GardenLayout() {
         setSelectedPlotId(null);
         setContextMenu(null);
       },
-    }), [selectedPlotId, handleDeletePlot, handleCopy, handlePaste, handleDuplicate]),
+    }), [selectedPlotId, openDeleteDialog, handleCopy, handlePaste, handleDuplicate]),
   );
 
   // --- Context menu ---
@@ -349,7 +360,7 @@ export function GardenLayout() {
               if (contextMenu.plotId) navigate(`/garden/plots/${contextMenu.plotId}`);
             }}
             onDelete={() => {
-              if (contextMenu.plotId) handleDeletePlot(contextMenu.plotId);
+              if (contextMenu.plotId) openDeleteDialog(contextMenu.plotId);
             }}
             onClose={closeContextMenu}
           />
@@ -458,7 +469,7 @@ export function GardenLayout() {
                 <Button
                   size="sm"
                   variant="destructive"
-                  onClick={() => handleDeletePlot(selectedPlotId!)}
+                  onClick={() => openDeleteDialog(selectedPlotId!)}
                   title="Delete plot"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -498,6 +509,25 @@ export function GardenLayout() {
           </Card>
         )}
       </div>
+
+      <ConfirmDeleteDialog
+        open={deleteDialogOpen}
+        onOpenChange={(open) => {
+          setDeleteDialogOpen(open);
+          if (!open) setPlotToDelete(null);
+        }}
+        title="Delete Plot?"
+        description="This will permanently delete this plot and all its contents."
+        impacts={impactData?.data ? [
+          { label: 'Sub-plots', count: impactData.data.sub_plots },
+          { label: 'Plant instances', count: impactData.data.plant_instances },
+          { label: 'Harvests', count: impactData.data.harvests },
+          { label: 'Soil tests', count: impactData.data.soil_tests },
+          { label: 'Notes', count: impactData.data.notes },
+        ] : undefined}
+        loading={deletePlot.isPending}
+        onConfirm={confirmDeletePlot}
+      />
     </div>
   );
 }

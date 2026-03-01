@@ -68,14 +68,58 @@ export class GardenService {
     return result;
   }
 
+  getDeletionImpact(id: string) {
+    const garden = this.gardenRepo.findById(id);
+    if (!garden) throw new NotFoundError('Garden', id);
+    return this.gardenRepo.getDeletionImpact(id);
+  }
+
   delete(id: string): void {
     this.db.transaction(() => {
       const old = this.gardenRepo.findById(id);
       if (!old) throw new NotFoundError('Garden', id);
 
+      // Clean up orphan-prone polymorphic records before cascade delete
+      this.cleanupOrphans(id);
+
       this.gardenRepo.delete(id);
       this.history.logDelete('garden', old);
     })();
+  }
+
+  private cleanupOrphans(gardenId: string): void {
+    const orphanTables = ['tasks', 'pest_events', 'uploads', 'cost_entries', 'entity_tags'];
+
+    // Delete records referencing the garden itself
+    for (const table of orphanTables) {
+      this.db.prepare(
+        `DELETE FROM ${table} WHERE entity_type = 'garden' AND entity_id = ?`
+      ).run(gardenId);
+    }
+
+    // Delete records referencing plots in this garden
+    for (const table of orphanTables) {
+      this.db.prepare(
+        `DELETE FROM ${table} WHERE entity_type = 'plot' AND entity_id IN (SELECT id FROM plots WHERE garden_id = ?)`
+      ).run(gardenId);
+    }
+
+    // Delete records referencing plant instances in plots of this garden
+    for (const table of orphanTables) {
+      this.db.prepare(
+        `DELETE FROM ${table} WHERE entity_type = 'plant_instance' AND entity_id IN (SELECT id FROM plant_instances WHERE plot_id IN (SELECT id FROM plots WHERE garden_id = ?))`
+      ).run(gardenId);
+    }
+
+    // Delete notes with entity_links referencing this garden, its plots, or their plant instances
+    this.db.prepare(`
+      DELETE FROM notes WHERE id IN (
+        SELECT DISTINCT n.id FROM notes n, json_each(n.entity_links) je
+        WHERE (json_extract(je.value, '$.entity_type') = 'garden' AND json_extract(je.value, '$.entity_id') = ?)
+           OR (json_extract(je.value, '$.entity_type') = 'plot' AND json_extract(je.value, '$.entity_id') IN (SELECT id FROM plots WHERE garden_id = ?))
+           OR (json_extract(je.value, '$.entity_type') = 'plant_instance' AND json_extract(je.value, '$.entity_id') IN (SELECT id FROM plant_instances WHERE plot_id IN (SELECT id FROM plots WHERE garden_id = ?)))
+      )
+    `).run(gardenId, gardenId, gardenId);
   }
 
   private deserialize(row: GardenRow): any {

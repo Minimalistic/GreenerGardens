@@ -24,6 +24,11 @@ export function plotRoutes(fastify: FastifyInstance, plotService: PlotService, s
     return { success: true, data: plot };
   });
 
+  fastify.get<{ Params: { id: string } }>('/api/v1/plots/:id/deletion-impact', async (request) => {
+    const data = plotService.getDeletionImpact(request.params.id);
+    return { success: true, data };
+  });
+
   fastify.delete<{ Params: { id: string } }>('/api/v1/plots/:id', async (request, reply) => {
     plotService.delete(request.params.id);
     reply.status(204);

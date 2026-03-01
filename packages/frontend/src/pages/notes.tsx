@@ -208,7 +208,7 @@ export function NotesPage() {
                       <Button
                         size="sm"
                         variant="ghost"
-                        onClick={() => deleteNote.mutate(note.id, { onSuccess: () => toast({ title: 'Deleted' }) })}
+                        onClick={() => { if (!confirm('Delete this note?')) return; deleteNote.mutate(note.id, { onSuccess: () => toast({ title: 'Deleted' }) }); }}
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Plus, Bug, AlertTriangle, CheckCircle2, Clock, X } from 'lucide-react';
+import { Plus, Bug, AlertTriangle, CheckCircle2, Clock, X, LayoutGrid, TableIcon } from 'lucide-react';
 import { usePestEvents, useCreatePestEvent, useUpdatePestEvent, useDeletePestEvent } from '@/hooks/use-pest-events';
 import { useGardenContext } from '@/contexts/garden-context';
 import { usePlotsByGarden } from '@/hooks/use-plots';
+import { DataTable, type Column } from '@/components/data-table';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -12,6 +13,21 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+
+const pestEventColumns: Column<any>[] = [
+  { key: 'pest_name', label: 'Pest Name' },
+  { key: 'pest_type', label: 'Type', render: (row) => (
+    <span className="capitalize">{row.pest_type?.replace(/_/g, ' ') ?? '-'}</span>
+  )},
+  { key: 'severity', label: 'Severity', render: (row) => (
+    <Badge variant="outline" className={severityColors[row.severity] ?? ''}>{row.severity}</Badge>
+  )},
+  { key: 'detected_date', label: 'Detected' },
+  { key: 'treatment_applied', label: 'Treatment', render: (row) => row.treatment_applied || '-' },
+  { key: 'outcome', label: 'Outcome', render: (row) => (
+    <span className="capitalize">{row.outcome ?? '-'}</span>
+  )},
+];
 
 const PEST_TYPES = ['insect', 'disease', 'fungal', 'bacterial', 'viral', 'animal', 'weed', 'nutrient_deficiency', 'other'];
 const SEVERITIES = ['low', 'medium', 'high', 'critical'];
@@ -211,6 +227,7 @@ function EditPestEventDialog({ event, open, onOpenChange }: { event: any; open: 
   };
 
   const handleDelete = () => {
+    if (!confirm('Delete this pest event?')) return;
     deletePestEvent.mutate(event.id, {
       onSuccess: () => {
         toast({ title: 'Pest event deleted' });
@@ -238,6 +255,14 @@ function EditPestEventDialog({ event, open, onOpenChange }: { event: any; open: 
 }
 
 export function PestEventsPage() {
+  const [view, setView] = useState<'card' | 'table'>(() =>
+    (localStorage.getItem('pest-events-view') as 'card' | 'table') ?? 'card'
+  );
+  const toggleView = (v: 'card' | 'table') => {
+    setView(v);
+    localStorage.setItem('pest-events-view', v);
+  };
+
   const [outcomeFilter, setOutcomeFilter] = useState<string | undefined>();
   const [pestTypeFilter, setPestTypeFilter] = useState<string | undefined>();
   const [severityFilter, setSeverityFilter] = useState<string | undefined>();
@@ -266,7 +291,17 @@ export function PestEventsPage() {
     <div className="space-y-4 max-w-3xl mx-auto">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">Pest & Disease Tracker</h2>
-        <CreatePestEventDialog />
+        <div className="flex items-center gap-2">
+          <div className="flex gap-1">
+            <Button variant={view === 'card' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('card')}>
+              <LayoutGrid className="w-4 h-4" />
+            </Button>
+            <Button variant={view === 'table' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('table')}>
+              <TableIcon className="w-4 h-4" />
+            </Button>
+          </div>
+          <CreatePestEventDialog />
+        </div>
       </div>
 
       <div className="flex flex-wrap gap-2">
@@ -314,6 +349,8 @@ export function PestEventsPage() {
             <p>No pest events recorded</p>
           </CardContent>
         </Card>
+      ) : view === 'table' ? (
+        <DataTable data={events} columns={pestEventColumns} exportFilename="pest-events" />
       ) : (
         <div className="space-y-3">
           {events.map((event: any) => {
