@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { Plus, Pencil, Trash2 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -13,7 +14,30 @@ const ENTITY_LABELS: Record<string, string> = {
   sub_plot: 'sub-plot',
   plant_instance: 'plant',
   harvest: 'harvest',
+  task: 'task',
+  pest_event: 'pest event',
+  soil_test: 'soil test',
+  note: 'note',
+  seed: 'seed',
+  cost_entry: 'cost entry',
 };
+
+function entityPath(type: string, id: string): string | null {
+  switch (type) {
+    case 'garden': return '/garden';
+    case 'plot': return `/garden/plots/${id}`;
+    case 'sub_plot': return null;
+    case 'plant_instance': return `/plants/${id}`;
+    case 'harvest': return '/harvests';
+    case 'task': return '/tasks';
+    case 'pest_event': return '/pest-events';
+    case 'soil_test': return '/soil-tests';
+    case 'note': return '/notes';
+    case 'seed': return '/seeds';
+    case 'cost_entry': return '/settings';
+    default: return null;
+  }
+}
 
 interface ActivityFeedItemProps {
   item: {
@@ -28,6 +52,7 @@ interface ActivityFeedItemProps {
 }
 
 export function ActivityFeedItem({ item }: ActivityFeedItemProps) {
+  const navigate = useNavigate();
   const config = ACTION_CONFIG[item.action as keyof typeof ACTION_CONFIG] ?? ACTION_CONFIG.update;
   const Icon = config.icon;
   const entityLabel = ENTITY_LABELS[item.entity_type] ?? item.entity_type;
@@ -45,9 +70,15 @@ export function ActivityFeedItem({ item }: ActivityFeedItemProps) {
   }
 
   const timeAgo = formatDistanceToNow(new Date(item.timestamp), { addSuffix: true });
+  const path = item.action !== 'delete' ? entityPath(item.entity_type, item.entity_id) : null;
 
   return (
-    <div className="flex gap-3 px-2 py-2 rounded-lg hover:bg-muted/50 transition-colors">
+    <div
+      className={`flex gap-3 px-2 py-2 rounded-lg transition-colors ${
+        path ? 'cursor-pointer hover:bg-muted' : 'hover:bg-muted/50'
+      }`}
+      onClick={path ? () => navigate(path) : undefined}
+    >
       <div className={`w-8 h-8 rounded-full flex items-center justify-center bg-muted ${config.color}`}>
         <Icon className="w-4 h-4" />
       </div>

@@ -35,7 +35,7 @@ export function AppShell() {
 
       <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
         <SheetContent side="left" className="w-60 p-4">
-          <Sidebar />
+          <Sidebar mobile onNavigate={() => setMobileMenuOpen(false)} />
         </SheetContent>
       </Sheet>
 

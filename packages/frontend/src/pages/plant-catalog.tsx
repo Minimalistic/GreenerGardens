@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePlantCatalogSearch } from '@/hooks/use-plant-catalog';
+import { DataTable, type Column } from '@/components/data-table';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Search, Sun, Droplets } from 'lucide-react';
+import { Search, LayoutGrid, TableIcon } from 'lucide-react';
 const TYPE_FILTERS = [
   { value: '', label: 'All Types' },
   { value: 'vegetable', label: 'Vegetables' },
@@ -28,16 +29,67 @@ export function PlantCatalogPage() {
   const [search, setSearch] = useState('');
   const [plantType, setPlantType] = useState('');
   const [page, setPage] = useState(1);
+  const [view, setView] = useState<'card' | 'table'>(() =>
+    (localStorage.getItem('catalog-view') as 'card' | 'table') ?? 'card'
+  );
+
+  const limit = view === 'table' ? 200 : 24;
 
   const { data, isLoading } = usePlantCatalogSearch({
     search: search || undefined,
     plant_type: plantType || undefined,
-    page,
-    limit: 24,
+    page: view === 'table' ? 1 : page,
+    limit,
   });
 
   const plants = data?.data ?? [];
   const pagination = data?.pagination;
+
+  const toggleView = (v: 'card' | 'table') => {
+    setView(v);
+    localStorage.setItem('catalog-view', v);
+    setPage(1);
+  };
+
+  const catalogColumns: Column<any>[] = [
+    {
+      key: 'common_name',
+      label: 'Name',
+      render: (row) => (
+        <button
+          className="text-left font-medium hover:underline"
+          onClick={() => navigate(`/catalog/${row.id}`)}
+        >
+          {row.common_name}
+        </button>
+      ),
+    },
+    { key: 'scientific_name', label: 'Scientific Name', render: (row) => (
+      <span className="italic text-muted-foreground">{row.scientific_name ?? '-'}</span>
+    )},
+    { key: 'plant_type', label: 'Type', render: (row) => (
+      <Badge
+        variant="outline"
+        className="capitalize cursor-pointer hover:ring-1 hover:ring-ring"
+        onClick={() => { setPlantType(row.plant_type); setPage(1); }}
+      >
+        {row.plant_type}
+      </Badge>
+    )},
+    { key: 'sun_exposure', label: 'Sun', render: (row) => (
+      <span className="capitalize">{row.sun_exposure?.replace(/_/g, ' ') ?? '-'}</span>
+    )},
+    { key: 'days_to_maturity_min', label: 'Days to Maturity', render: (row) =>
+      row.days_to_maturity_min
+        ? `${row.days_to_maturity_min}${row.days_to_maturity_max ? `-${row.days_to_maturity_max}` : ''}`
+        : '-',
+      getValue: (row) => row.days_to_maturity_min ?? 999,
+    },
+    { key: 'spacing_inches', label: 'Spacing (in)', render: (row) => row.spacing_inches ?? '-' },
+    { key: 'water_needs', label: 'Water', render: (row) => (
+      <span className="capitalize">{row.water_needs?.replace(/_/g, ' ') ?? '-'}</span>
+    )},
+  ];
 
   return (
     <div className="space-y-4 max-w-6xl mx-auto">
@@ -61,6 +113,14 @@ export function PlantCatalogPage() {
             ))}
           </SelectContent>
         </Select>
+        <div className="flex gap-1">
+          <Button variant={view === 'card' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('card')}>
+            <LayoutGrid className="w-4 h-4" />
+          </Button>
+          <Button variant={view === 'table' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('table')}>
+            <TableIcon className="w-4 h-4" />
+          </Button>
+        </div>
       </div>
 
       {isLoading && (
@@ -77,66 +137,83 @@ export function PlantCatalogPage() {
         </p>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {plants.map((plant: any) => (
-          <Card
-            key={plant.id}
-            className="cursor-pointer hover:shadow-md transition-shadow"
-            onClick={() => navigate(`/catalog/${plant.id}`)}
-          >
-            <CardContent className="p-4 space-y-2">
-              <div className="flex items-start justify-between">
-                <h3 className="font-semibold text-sm">{plant.common_name}</h3>
-                <Badge variant="outline" className="text-xs capitalize shrink-0 ml-2">
-                  {plant.plant_type}
-                </Badge>
-              </div>
-              {plant.scientific_name && (
-                <p className="text-xs text-muted-foreground italic">{plant.scientific_name}</p>
-              )}
-              <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                {plant.sun_exposure && (
-                  <span title={plant.sun_exposure}>
-                    {SUN_ICONS[plant.sun_exposure] ?? '☀️'} {plant.sun_exposure.replace('_', ' ')}
-                  </span>
-                )}
-                {plant.days_to_maturity_min && (
-                  <span>
-                    {plant.days_to_maturity_min}
-                    {plant.days_to_maturity_max ? `-${plant.days_to_maturity_max}` : ''} days
-                  </span>
-                )}
-              </div>
-              {plant.description && (
-                <p className="text-xs text-muted-foreground line-clamp-2">{plant.description}</p>
-              )}
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      {!isLoading && plants.length > 0 && view === 'table' && (
+        <DataTable
+          data={plants}
+          columns={catalogColumns}
+          searchable={false}
+          exportFilename="plant-catalog"
+        />
+      )}
 
-      {pagination && pagination.total_pages > 1 && (
-        <div className="flex justify-center gap-2 pt-4">
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={page <= 1}
-            onClick={() => setPage(p => p - 1)}
-          >
-            Previous
-          </Button>
-          <span className="text-sm text-muted-foreground flex items-center">
-            Page {page} of {pagination.total_pages}
-          </span>
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={page >= pagination.total_pages}
-            onClick={() => setPage(p => p + 1)}
-          >
-            Next
-          </Button>
-        </div>
+      {!isLoading && plants.length > 0 && view === 'card' && (
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {plants.map((plant: any) => (
+              <Card
+                key={plant.id}
+                className="cursor-pointer hover:shadow-md transition-shadow"
+                onClick={() => navigate(`/catalog/${plant.id}`)}
+              >
+                <CardContent className="p-4 space-y-2">
+                  <div className="flex items-start justify-between">
+                    <h3 className="font-semibold text-sm">{plant.common_name}</h3>
+                    <Badge
+                      variant="outline"
+                      className="text-xs capitalize shrink-0 ml-2 cursor-pointer hover:ring-1 hover:ring-ring"
+                      onClick={(e) => { e.stopPropagation(); setPlantType(plant.plant_type); setPage(1); }}
+                    >
+                      {plant.plant_type}
+                    </Badge>
+                  </div>
+                  {plant.scientific_name && (
+                    <p className="text-xs text-muted-foreground italic">{plant.scientific_name}</p>
+                  )}
+                  <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                    {plant.sun_exposure && (
+                      <span title={plant.sun_exposure}>
+                        {SUN_ICONS[plant.sun_exposure] ?? ''} {plant.sun_exposure.replace(/_/g, ' ')}
+                      </span>
+                    )}
+                    {plant.days_to_maturity_min && (
+                      <span>
+                        {plant.days_to_maturity_min}
+                        {plant.days_to_maturity_max ? `-${plant.days_to_maturity_max}` : ''} days
+                      </span>
+                    )}
+                  </div>
+                  {plant.description && (
+                    <p className="text-xs text-muted-foreground line-clamp-2">{plant.description}</p>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {pagination && pagination.total_pages > 1 && (
+            <div className="flex justify-center gap-2 pt-4">
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page <= 1}
+                onClick={() => setPage(p => p - 1)}
+              >
+                Previous
+              </Button>
+              <span className="text-sm text-muted-foreground flex items-center">
+                Page {page} of {pagination.total_pages}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page >= pagination.total_pages}
+                onClick={() => setPage(p => p + 1)}
+              >
+                Next
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

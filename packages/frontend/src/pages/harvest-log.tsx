@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useHarvests, useHarvestStats } from '@/hooks/use-harvests';
 import { StatCard } from '@/components/garden/stat-card';
 import { EmptyState } from '@/components/garden/empty-state';
@@ -34,6 +35,7 @@ export function HarvestLog() {
   const [view, setView] = useState<'card' | 'table'>(() =>
     (localStorage.getItem('harvest-view') as 'card' | 'table') ?? 'card'
   );
+  const navigate = useNavigate();
   const { data: harvestsData, isLoading } = useHarvests();
   const { data: statsData } = useHarvestStats();
   const harvests = harvestsData?.data ?? [];
@@ -91,7 +93,11 @@ export function HarvestLog() {
           ) : (
             <div className="space-y-2">
               {harvests.map((h: any) => (
-                <Card key={h.id}>
+                <Card
+                  key={h.id}
+                  className="cursor-pointer hover:shadow-md transition-shadow"
+                  onClick={() => h.plant_instance_id && navigate(`/plants/${h.plant_instance_id}`)}
+                >
                   <CardContent className="flex items-center gap-4 p-4">
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-sm truncate">

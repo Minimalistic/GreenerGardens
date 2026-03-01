@@ -11,6 +11,7 @@ import type { SubPlotWithPlant } from '@/hooks/use-sub-plots';
 import { usePlantCatalogSearch } from '@/hooks/use-plant-catalog';
 import { useCreatePlantInstance } from '@/hooks/use-plant-instances';
 import { SubPlotCanvas } from '@/components/garden/sub-plot-canvas';
+import { EntityNotes } from '@/components/notes/entity-notes';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -279,6 +280,8 @@ export function PlotDetail() {
               </CardContent>
             </Card>
           )}
+
+          <EntityNotes entityType="plot" entityId={plotId!} />
         </div>
       </div>
 

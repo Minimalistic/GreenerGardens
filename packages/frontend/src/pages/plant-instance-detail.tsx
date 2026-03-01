@@ -4,6 +4,7 @@ import { useEntityHistory } from '@/hooks/use-history';
 import { useHarvestsByPlant, useCreateHarvest } from '@/hooks/use-harvests';
 import { PlantStatusBadge } from '@/components/garden/plant-status-badge';
 import { SeedStartingTracker } from '@/components/garden/seed-starting-tracker';
+import { EntityNotes } from '@/components/notes/entity-notes';
 import { HarvestQuickLog } from '@/components/garden/harvest-quick-log';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -168,6 +169,8 @@ export function PlantInstanceDetail() {
           )}
         </CardContent>
       </Card>
+
+      <EntityNotes entityType="plant_instance" entityId={instanceId!} />
 
       <div className="flex gap-2">
         <Button className="flex-1" onClick={() => setHarvestOpen(true)}>

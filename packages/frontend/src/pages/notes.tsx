@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus, StickyNote, Pin, Trash2 } from 'lucide-react';
 import { useNotes, useCreateNote, useDeleteNote, useUpdateNote } from '@/hooks/use-notes';
 import { Card, CardContent } from '@/components/ui/card';
@@ -50,7 +51,24 @@ function CreateNoteDialog() {
   );
 }
 
+function entityLinkLabel(type: string): string {
+  switch (type) {
+    case 'plot': return 'Plot';
+    case 'plant_instance': return 'Plant';
+    default: return type;
+  }
+}
+
+function entityLinkPath(type: string, id: string): string | null {
+  switch (type) {
+    case 'plot': return `/garden/plots/${id}`;
+    case 'plant_instance': return `/plants/${id}`;
+    default: return null;
+  }
+}
+
 export function NotesPage() {
+  const navigate = useNavigate();
   const { data } = useNotes();
   const deleteNote = useDeleteNote();
   const updateNote = useUpdateNote();
@@ -94,8 +112,28 @@ export function NotesPage() {
                         {new Date(note.created_at).toLocaleDateString()}
                       </span>
                       {note.tags?.length > 0 && note.tags.map((tag: string) => (
-                        <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
+                        <Badge
+                          key={tag}
+                          variant="secondary"
+                          className="text-xs cursor-pointer hover:bg-muted"
+                          onClick={() => navigate(`/search?q=${encodeURIComponent(tag)}`)}
+                        >
+                          {tag}
+                        </Badge>
                       ))}
+                      {note.entity_links?.length > 0 && note.entity_links.map((link: any) => {
+                        const path = entityLinkPath(link.entity_type, link.entity_id);
+                        return (
+                          <Badge
+                            key={`${link.entity_type}-${link.entity_id}`}
+                            variant="outline"
+                            className={`text-xs ${path ? 'cursor-pointer hover:bg-muted' : ''}`}
+                            onClick={path ? () => navigate(path) : undefined}
+                          >
+                            {entityLinkLabel(link.entity_type)}
+                          </Badge>
+                        );
+                      })}
                     </div>
                   </div>
                   <div className="flex gap-1">

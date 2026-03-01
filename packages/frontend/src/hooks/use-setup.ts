@@ -15,7 +15,10 @@ export function useCompleteSetup() {
     mutationFn: (data: GardenCreate) =>
       api.post<ApiResponse<Garden>>('/setup/garden', data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['setup-status'] });
+      queryClient.setQueryData(['setup-status'], {
+        success: true,
+        data: { is_setup_complete: true, garden_count: 1 },
+      });
       queryClient.invalidateQueries({ queryKey: ['gardens'] });
     },
   });

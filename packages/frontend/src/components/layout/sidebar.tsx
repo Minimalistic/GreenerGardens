@@ -19,9 +19,9 @@ const links = [
   { to: '/settings', label: 'Settings', icon: Settings },
 ];
 
-export function Sidebar() {
+export function Sidebar({ mobile, onNavigate }: { mobile?: boolean; onNavigate?: () => void } = {}) {
   return (
-    <aside className="hidden lg:flex flex-col w-60 border-r bg-card min-h-screen p-4">
+    <aside className={cn(mobile ? 'flex flex-col' : 'hidden lg:flex flex-col w-60 border-r bg-card min-h-screen p-4')}>
       <div className="flex items-center gap-2 mb-8 px-2">
         <div className="w-8 h-8 rounded-lg garden-gradient flex items-center justify-center">
           <span className="text-white font-bold text-sm">GV</span>
@@ -33,6 +33,7 @@ export function Sidebar() {
           <NavLink
             key={to}
             to={to}
+            onClick={onNavigate}
             className={({ isActive }) =>
               cn(
                 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',

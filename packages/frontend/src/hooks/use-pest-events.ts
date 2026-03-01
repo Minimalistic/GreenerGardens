@@ -34,11 +34,13 @@ interface PestEventCreate {
   photos?: string[];
 }
 
-export function usePestEvents(filters?: { entity_type?: string; entity_id?: string; outcome?: string }) {
+export function usePestEvents(filters?: { entity_type?: string; entity_id?: string; outcome?: string; pest_type?: string; severity?: string }) {
   const params = new URLSearchParams();
   if (filters?.entity_type) params.set('entity_type', filters.entity_type);
   if (filters?.entity_id) params.set('entity_id', filters.entity_id);
   if (filters?.outcome) params.set('outcome', filters.outcome);
+  if (filters?.pest_type) params.set('pest_type', filters.pest_type);
+  if (filters?.severity) params.set('severity', filters.severity);
   const qs = params.toString();
   return useQuery({
     queryKey: ['pest-events', filters],
