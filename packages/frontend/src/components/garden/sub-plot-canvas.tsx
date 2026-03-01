@@ -38,8 +38,8 @@ export function SubPlotCanvas({
   const canvasWidth = widthFt * PX_PER_FT;
   const canvasHeight = lengthFt * PX_PER_FT;
 
-  // Scale to fit the container width
-  const scale = Math.min(1, containerWidth / canvasWidth);
+  // Scale to fit the container width (scale up for small plots, down for large)
+  const scale = containerWidth / canvasWidth;
   const displayWidth = canvasWidth * scale;
   const displayHeight = canvasHeight * scale;
 
@@ -155,30 +155,33 @@ export function SubPlotCanvas({
             <Line
               key={`gv-${i}`}
               points={[i * PX_PER_FT, 0, i * PX_PER_FT, canvasHeight]}
-              stroke={i % 5 === 0 ? '#c5c2b5' : '#e5e2d9'}
-              strokeWidth={i % 5 === 0 ? 1 : 0.5}
-              opacity={i % 5 === 0 ? 0.7 : 0.4}
+              stroke="#c5c2b5"
+              strokeWidth={1}
+              opacity={0.6}
             />
           ))}
           {Array.from({ length: rowCount + 1 }).map((_, i) => (
             <Line
               key={`gh-${i}`}
               points={[0, i * PX_PER_FT, canvasWidth, i * PX_PER_FT]}
-              stroke={i % 5 === 0 ? '#c5c2b5' : '#e5e2d9'}
-              strokeWidth={i % 5 === 0 ? 1 : 0.5}
-              opacity={i % 5 === 0 ? 0.7 : 0.4}
+              stroke="#c5c2b5"
+              strokeWidth={1}
+              opacity={0.6}
             />
           ))}
 
-          {/* Foot labels */}
+          {/* Foot labels — every foot for small plots, every 5ft for large */}
           {Array.from({ length: colCount + 1 }).map((_, i) => {
-            if (i === 0 || i % 5 !== 0) return null;
+            if (i === 0) return null;
+            // Show every foot if plot <= 10ft, otherwise every 5ft
+            if (colCount > 10 && i % 5 !== 0) return null;
             return (
               <Text key={`lx-${i}`} x={i * PX_PER_FT + 2} y={2} text={`${i}'`} fontSize={9} fill="#999" />
             );
           })}
           {Array.from({ length: rowCount + 1 }).map((_, i) => {
-            if (i === 0 || i % 5 !== 0) return null;
+            if (i === 0) return null;
+            if (rowCount > 10 && i % 5 !== 0) return null;
             return (
               <Text key={`ly-${i}`} x={2} y={i * PX_PER_FT + 2} text={`${i}'`} fontSize={9} fill="#999" />
             );
