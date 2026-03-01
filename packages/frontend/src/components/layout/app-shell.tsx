@@ -13,6 +13,10 @@ const PAGE_TITLES: Record<string, string> = {
   '/calendar': 'Calendar',
   '/harvests': 'Harvest Log',
   '/tasks': 'Tasks',
+  '/pest-events': 'Pest Tracker',
+  '/soil-tests': 'Soil Tests',
+  '/notes': 'Garden Notes',
+  '/search': 'Search',
   '/assistant': 'Garden Assistant',
   '/settings': 'Settings',
 };

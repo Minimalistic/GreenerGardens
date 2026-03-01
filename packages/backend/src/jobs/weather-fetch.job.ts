@@ -1,5 +1,12 @@
 import type { WeatherService } from '../services/weather.service.js';
 import type { GardenRepository } from '../db/repositories/garden.repository.js';
+import type { AlertService } from '../services/alert.service.js';
+
+let alertServiceRef: AlertService | null = null;
+
+export function setAlertService(alertService: AlertService) {
+  alertServiceRef = alertService;
+}
 
 export function startWeatherFetchJob(
   weatherService: WeatherService,
@@ -41,6 +48,15 @@ async function fetchForAllGardens(
           console.log(`[WeatherJob] Garden ${garden.id}: fetch error — ${result.error}`);
         } else {
           console.log(`[WeatherJob] Garden ${garden.id}: fresh weather data fetched`);
+          // Run alert checks after fresh weather data
+          if (alertServiceRef) {
+            try {
+              await alertServiceRef.checkFrostAlert(garden.id);
+              await alertServiceRef.checkHeatAlert(garden.id);
+            } catch (alertErr: any) {
+              console.error(`[WeatherJob] Alert check failed for garden ${garden.id}: ${alertErr.message}`);
+            }
+          }
         }
       } catch (err: any) {
         console.error(`[WeatherJob] Garden ${garden.id}: unexpected error — ${err.message}`);

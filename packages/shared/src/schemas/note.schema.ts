@@ -1,0 +1,26 @@
+import { z } from 'zod';
+import { BaseEntitySchema } from './common.js';
+import { NoteContentTypeEnum } from './enums.js';
+
+export const EntityLinkSchema = z.object({
+  entity_type: z.string().min(1),
+  entity_id: z.string().uuid(),
+});
+
+export const NoteCreateSchema = z.object({
+  content: z.string().min(1).max(10000),
+  content_type: NoteContentTypeEnum.default('text'),
+  entity_links: z.array(EntityLinkSchema).default([]),
+  photo_ids: z.array(z.string()).default([]),
+  tags: z.array(z.string()).default([]),
+  pinned: z.boolean().default(false),
+});
+
+export const NoteUpdateSchema = NoteCreateSchema.partial();
+
+export const NoteSchema = BaseEntitySchema.merge(NoteCreateSchema);
+
+export type Note = z.infer<typeof NoteSchema>;
+export type NoteCreate = z.infer<typeof NoteCreateSchema>;
+export type NoteUpdate = z.infer<typeof NoteUpdateSchema>;
+export type EntityLink = z.infer<typeof EntityLinkSchema>;

@@ -129,6 +129,9 @@ export const TaskTypeEnum = z.enum([
   'soil_prep',
   'seed_starting',
   'hardening_off',
+  'frost_alert',
+  'heat_alert',
+  'watering_reminder',
   'other',
 ]);
 export type TaskType = z.infer<typeof TaskTypeEnum>;
@@ -195,3 +198,60 @@ export const WaterNeedsEnum = z.enum([
   'very_high',
 ]);
 export type WaterNeeds = z.infer<typeof WaterNeedsEnum>;
+
+// Phase 5b enums
+
+export const PestTypeEnum = z.enum([
+  'insect',
+  'disease',
+  'fungal',
+  'bacterial',
+  'viral',
+  'animal',
+  'weed',
+  'nutrient_deficiency',
+  'other',
+]);
+export type PestType = z.infer<typeof PestTypeEnum>;
+
+export const SeverityEnum = z.enum([
+  'low',
+  'medium',
+  'high',
+  'critical',
+]);
+export type Severity = z.infer<typeof SeverityEnum>;
+
+export const TreatmentTypeEnum = z.enum([
+  'none',
+  'organic',
+  'chemical',
+  'biological',
+  'mechanical',
+  'cultural',
+  'other',
+]);
+export type TreatmentType = z.infer<typeof TreatmentTypeEnum>;
+
+export const OutcomeEnum = z.enum([
+  'ongoing',
+  'resolved',
+  'recurring',
+  'failed',
+]);
+export type Outcome = z.infer<typeof OutcomeEnum>;
+
+export const MoistureLevelEnum = z.enum([
+  'dry',
+  'slightly_moist',
+  'moist',
+  'wet',
+  'saturated',
+]);
+export type MoistureLevel = z.infer<typeof MoistureLevelEnum>;
+
+export const NoteContentTypeEnum = z.enum([
+  'text',
+  'markdown',
+]);
+export type NoteContentType = z.infer<typeof NoteContentTypeEnum>;

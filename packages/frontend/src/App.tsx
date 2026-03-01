@@ -17,6 +17,10 @@ import { TasksPage } from '@/pages/tasks';
 import { CalendarPage } from '@/pages/calendar';
 import { SettingsPage } from '@/pages/settings';
 import { AssistantPage } from '@/pages/assistant';
+import { PestEventsPage } from '@/pages/pest-events';
+import { SoilTestsPage } from '@/pages/soil-tests';
+import { NotesPage } from '@/pages/notes';
+import { SearchPage } from '@/pages/search';
 
 export default function App() {
   return (
@@ -38,6 +42,10 @@ export default function App() {
                 <Route path="/tasks" element={<TasksPage />} />
                 <Route path="/calendar" element={<CalendarPage />} />
                 <Route path="/assistant" element={<AssistantPage />} />
+                <Route path="/pest-events" element={<PestEventsPage />} />
+                <Route path="/soil-tests" element={<SoilTestsPage />} />
+                <Route path="/notes" element={<NotesPage />} />
+                <Route path="/search" element={<SearchPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
               </Route>
             </Route>

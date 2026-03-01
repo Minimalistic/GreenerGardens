@@ -11,6 +11,11 @@ import { HistoryLogRepository } from '../db/repositories/history-log.repository.
 import { WeatherReadingRepository, WeatherDailySummaryRepository } from '../db/repositories/weather.repository.js';
 import { TaskRepository } from '../db/repositories/task.repository.js';
 import { LlmConversationRepository, LlmMessageRepository } from '../db/repositories/llm.repository.js';
+import { UploadRepository } from '../db/repositories/upload.repository.js';
+import { PestEventRepository } from '../db/repositories/pest-event.repository.js';
+import { SoilTestRepository } from '../db/repositories/soil-test.repository.js';
+import { NoteRepository } from '../db/repositories/note.repository.js';
+import { TagRepository } from '../db/repositories/tag.repository.js';
 
 import { createHistoryLogger } from '../services/history.middleware.js';
 
@@ -26,6 +31,16 @@ import { TaskService } from '../services/task.service.js';
 import { CalendarService } from '../services/calendar.service.js';
 import { LlmContextService } from '../services/llm-context.service.js';
 import { LlmService } from '../services/llm.service.js';
+import { UploadService } from '../services/upload.service.js';
+import { PestEventService } from '../services/pest-event.service.js';
+import { SoilTestService } from '../services/soil-test.service.js';
+import { NoteService } from '../services/note.service.js';
+import { TagService } from '../services/tag.service.js';
+import { CompanionService } from '../services/companion.service.js';
+import { RotationService } from '../services/rotation.service.js';
+import { SearchService } from '../services/search.service.js';
+import { AlertService } from '../services/alert.service.js';
+import { PlantingGuideService } from '../services/planting-guide.service.js';
 
 import { setupRoutes } from './setup.routes.js';
 import { gardenRoutes } from './garden.routes.js';
@@ -41,8 +56,18 @@ import { taskRoutes } from './task.routes.js';
 import { calendarRoutes } from './calendar.routes.js';
 import { exportRoutes } from './export.routes.js';
 import { assistantRoutes } from './assistant.routes.js';
+import { uploadRoutes } from './upload.routes.js';
+import { pestEventRoutes } from './pest-event.routes.js';
+import { soilTestRoutes } from './soil-test.routes.js';
+import { noteRoutes } from './note.routes.js';
+import { tagRoutes } from './tag.routes.js';
+import { companionRoutes } from './companion.routes.js';
+import { rotationRoutes } from './rotation.routes.js';
+import { searchRoutes } from './search.routes.js';
+import { alertRoutes } from './alert.routes.js';
+import { plantingGuideRoutes } from './planting-guide.routes.js';
 
-import { startWeatherFetchJob } from '../jobs/weather-fetch.job.js';
+import { startWeatherFetchJob, setAlertService } from '../jobs/weather-fetch.job.js';
 
 export function registerRoutes(fastify: FastifyInstance, db: Database.Database) {
   // Repositories
@@ -58,6 +83,11 @@ export function registerRoutes(fastify: FastifyInstance, db: Database.Database) 
   const taskRepo = new TaskRepository(db);
   const llmConvRepo = new LlmConversationRepository(db);
   const llmMsgRepo = new LlmMessageRepository(db);
+  const uploadRepo = new UploadRepository(db);
+  const pestEventRepo = new PestEventRepository(db);
+  const soilTestRepo = new SoilTestRepository(db);
+  const noteRepo = new NoteRepository(db);
+  const tagRepo = new TagRepository(db);
 
   // History logger
   const history = createHistoryLogger(historyRepo);
@@ -75,6 +105,16 @@ export function registerRoutes(fastify: FastifyInstance, db: Database.Database) 
   const calendarService = new CalendarService(db, gardenRepo, catalogRepo, instanceRepo, taskRepo);
   const llmContextService = new LlmContextService(db, gardenRepo);
   const llmService = new LlmService(llmConvRepo, llmMsgRepo, llmContextService);
+  const uploadService = new UploadService(db, uploadRepo);
+  const pestEventService = new PestEventService(db, pestEventRepo, history);
+  const soilTestService = new SoilTestService(db, soilTestRepo, history);
+  const noteService = new NoteService(db, noteRepo, history);
+  const tagService = new TagService(db, tagRepo);
+  const companionService = new CompanionService(db, catalogRepo);
+  const rotationService = new RotationService(db, catalogRepo);
+  const searchService = new SearchService(db);
+  const alertService = new AlertService(db, weatherService, taskRepo, gardenRepo);
+  const plantingGuideService = new PlantingGuideService(db, gardenRepo, catalogRepo);
 
   // Wire up cross-service dependencies (post-construction to avoid circular issues)
   instanceService.setCalendarService(calendarService);
@@ -95,7 +135,18 @@ export function registerRoutes(fastify: FastifyInstance, db: Database.Database) 
   calendarRoutes(fastify, calendarService);
   exportRoutes(fastify, db);
   assistantRoutes(fastify, llmService);
+  uploadRoutes(fastify, uploadService);
+  pestEventRoutes(fastify, pestEventService);
+  soilTestRoutes(fastify, soilTestService);
+  noteRoutes(fastify, noteService);
+  tagRoutes(fastify, tagService);
+  companionRoutes(fastify, companionService);
+  rotationRoutes(fastify, rotationService);
+  searchRoutes(fastify, searchService);
+  alertRoutes(fastify, alertService);
+  plantingGuideRoutes(fastify, plantingGuideService);
 
   // Start background jobs
+  setAlertService(alertService);
   startWeatherFetchJob(weatherService, gardenRepo);
 }

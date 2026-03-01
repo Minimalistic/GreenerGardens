@@ -9,6 +9,8 @@ import { StatCard } from '@/components/garden/stat-card';
 import { ActivityFeed } from '@/components/garden/activity-feed';
 import { EmptyState } from '@/components/garden/empty-state';
 import { WeatherWidget } from '@/components/garden/weather-widget';
+import { PlantingGuideCard } from '@/components/garden/planting-guide-card';
+import { AlertBanner } from '@/components/garden/alert-banner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
@@ -58,6 +60,8 @@ export function Dashboard() {
         <StatCard icon={Scissors} label="Harvests This Season" value={harvestCount} />
       </div>
 
+      <AlertBanner />
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <WeatherWidget />
 
@@ -100,6 +104,8 @@ export function Dashboard() {
           </CardContent>
         </Card>
       </div>
+
+      <PlantingGuideCard />
 
       <Card>
         <CardHeader>

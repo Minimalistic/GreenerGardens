@@ -1,6 +1,7 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import fastifyStatic from '@fastify/static';
+import multipart from '@fastify/multipart';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
@@ -22,6 +23,22 @@ export async function buildApp() {
     credentials: true,
   });
 
+  // Multipart file upload support
+  await server.register(multipart, {
+    limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
+  });
+
+  // Serve uploaded files
+  const uploadPath = process.env.UPLOAD_PATH || path.resolve(process.cwd(), 'data/uploads');
+  if (!fs.existsSync(uploadPath)) {
+    fs.mkdirSync(uploadPath, { recursive: true });
+  }
+  await server.register(fastifyStatic, {
+    root: uploadPath,
+    prefix: '/uploads/',
+    decorateReply: false,
+  });
+
   // Serve frontend static files in production
   const frontendDist = path.resolve(__dirname, '../../../frontend/dist');
   if (fs.existsSync(frontendDist)) {
@@ -29,6 +46,7 @@ export async function buildApp() {
       root: frontendDist,
       prefix: '/',
       wildcard: false,
+      decorateReply: false,
     });
   }
 
