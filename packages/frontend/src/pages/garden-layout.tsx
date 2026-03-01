@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useGardenContext } from '@/contexts/garden-context';
 import { useGardens } from '@/hooks/use-gardens';
 import { usePlotsByGarden, useCreatePlot, useUpdatePlot, useDeletePlot, usePlotDeletionImpact } from '@/hooks/use-plots';
-import { useSubPlotsForPlots } from '@/hooks/use-sub-plots';
+import { useSubPlotsForPlots, type SubPlotWithPlant } from '@/hooks/use-sub-plots';
+import { api } from '@/lib/api';
 import { useCanvasKeyboard } from '@/hooks/use-canvas-keyboard';
 import { GardenCanvas, PX_PER_FT } from '@/components/garden/garden-canvas';
 import { CanvasContextMenu } from '@/components/garden/canvas-context-menu';
@@ -20,7 +21,7 @@ import { Plus, Map as MapIcon, Sprout, Trash2, Copy, Clipboard } from 'lucide-re
 import { useForm } from 'react-hook-form';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ConfirmDeleteDialog } from '@/components/confirm-delete-dialog';
-import type { SubPlot } from '@gardenvault/shared';
+import type { SubPlot, ApiResponse } from '@gardenvault/shared';
 
 interface PlotFormData {
   name: string;
@@ -172,7 +173,7 @@ export function GardenLayout() {
     const offsetPx = 2 * PX_PER_FT;
 
     try {
-      await createPlot.mutateAsync({
+      const newPlot = await createPlot.mutateAsync({
         garden_id: currentGardenId,
         name: `${plot.name} (copy)`,
         plot_type: plot.plot_type as any,
@@ -184,6 +185,35 @@ export function GardenLayout() {
         is_covered: plot.is_covered ?? false,
         tags: plot.tags ?? [],
       });
+
+      // Clone sub-plots (and their plants) into the new plot
+      const newPlotId = newPlot?.data?.id;
+      if (newPlotId) {
+        const spRes = await api.get<ApiResponse<SubPlotWithPlant[]>>(
+          `/plots/${selectedPlotId}/sub-plots-with-plants`,
+        );
+        for (const sp of spRes?.data ?? []) {
+          const newSp = await api.post<ApiResponse<SubPlot>>('/sub-plots', {
+            plot_id: newPlotId,
+            grid_position: { row: 0, col: 0 },
+            geometry: sp.geometry,
+            notes: sp.notes || undefined,
+          });
+          if (sp.plant_catalog_id && newSp?.data?.id) {
+            await api.post('/plant-instances', {
+              plant_catalog_id: sp.plant_catalog_id,
+              plot_id: newPlotId,
+              sub_plot_id: newSp.data.id,
+              variety_name: sp.variety_name || undefined,
+              status: 'planned',
+              health: 'good',
+              quantity: 1,
+              tags: [],
+            });
+          }
+        }
+      }
+
       toast({ title: 'Plot duplicated' });
     } catch {
       toast({ title: 'Failed to duplicate plot', variant: 'destructive' });
