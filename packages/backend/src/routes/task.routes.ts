@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 import type { TaskService } from '../services/task.service.js';
+import { safeParseInt } from '../utils/parse.js';
 
 export function taskRoutes(fastify: FastifyInstance, taskService: TaskService) {
   fastify.get<{ Querystring: { status?: string; priority?: string; task_type?: string; due_before?: string; due_after?: string; limit?: string; offset?: string } }>('/api/v1/tasks', async (request) => {
@@ -10,8 +11,8 @@ export function taskRoutes(fastify: FastifyInstance, taskService: TaskService) {
       task_type,
       due_before,
       due_after,
-      limit: limit ? parseInt(limit) : 50,
-      offset: offset ? parseInt(offset) : 0,
+      limit: safeParseInt(limit, 50),
+      offset: safeParseInt(offset, 0),
     });
     return { success: true, data };
   });

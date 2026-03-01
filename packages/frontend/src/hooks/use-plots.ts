@@ -23,8 +23,8 @@ export function useCreatePlot() {
   return useMutation({
     mutationFn: (data: PlotCreate) =>
       api.post<ApiResponse<Plot>>('/plots', data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['plots'] });
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['plots', variables.garden_id] });
     },
   });
 }
@@ -34,8 +34,13 @@ export function useUpdatePlot() {
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: PlotUpdate }) =>
       api.patch<ApiResponse<Plot>>(`/plots/${id}`, data),
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['plots'] });
+    onSuccess: (result, variables) => {
+      const gardenId = (result as any)?.data?.garden_id;
+      if (gardenId) {
+        queryClient.invalidateQueries({ queryKey: ['plots', gardenId] });
+      } else {
+        queryClient.invalidateQueries({ queryKey: ['plots'] });
+      }
       queryClient.invalidateQueries({ queryKey: ['plot', variables.id] });
     },
   });
@@ -44,9 +49,9 @@ export function useUpdatePlot() {
 export function useDeletePlot() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => api.delete(`/plots/${id}`),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['plots'] });
+    mutationFn: ({ id, gardenId }: { id: string; gardenId: string }) => api.delete(`/plots/${id}`),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['plots', variables.gardenId] });
     },
   });
 }

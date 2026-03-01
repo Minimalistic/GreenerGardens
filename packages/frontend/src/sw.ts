@@ -10,9 +10,15 @@ precacheAndRoute(self.__WB_MANIFEST);
 self.addEventListener('push', (event) => {
   if (!event.data) return;
 
-  const data = event.data.json();
+  let data: { title?: string; body?: string; url?: string };
+  try {
+    data = event.data.json();
+  } catch {
+    data = { title: 'GardenVault', body: event.data.text() || 'You have a new notification' };
+  }
+
   const options: NotificationOptions = {
-    body: data.body,
+    body: data.body || 'You have a new notification',
     icon: '/icon-192.png',
     badge: '/icon-192.png',
     data: { url: data.url || '/' },

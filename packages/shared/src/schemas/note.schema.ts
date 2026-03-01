@@ -16,7 +16,14 @@ export const NoteCreateSchema = z.object({
   pinned: z.boolean().default(false),
 });
 
-export const NoteUpdateSchema = NoteCreateSchema.partial();
+export const NoteUpdateSchema = z.object({
+  content: z.string().min(1).max(10000).optional(),
+  content_type: NoteContentTypeEnum.optional(),
+  entity_links: z.array(EntityLinkSchema).optional(),
+  photo_ids: z.array(z.string()).optional(),
+  tags: z.array(z.string()).optional(),
+  pinned: z.boolean().optional(),
+});
 
 export const NoteSchema = BaseEntitySchema.merge(NoteCreateSchema);
 

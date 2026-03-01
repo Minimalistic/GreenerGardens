@@ -1,12 +1,14 @@
 import type { FastifyInstance } from 'fastify';
 import type { PlantInstanceService } from '../services/plant-instance.service.js';
+import { replyError } from '../utils/reply-error.js';
+import { safeParseInt } from '../utils/parse.js';
 
 export function plantInstanceRoutes(fastify: FastifyInstance, instanceService: PlantInstanceService) {
   fastify.get<{ Querystring: { limit?: string; offset?: string } }>('/api/v1/plant-instances', async (request) => {
     const { limit, offset } = request.query;
     const data = instanceService.findAll({
-      limit: limit ? parseInt(limit) : 20,
-      offset: offset ? parseInt(offset) : 0,
+      limit: safeParseInt(limit, 20),
+      offset: safeParseInt(offset, 0),
     });
     return { success: true, data };
   });
@@ -55,13 +57,11 @@ export function plantInstanceRoutes(fastify: FastifyInstance, instanceService: P
     };
 
     if (!body.plant_catalog_id || !body.plot_id || !body.start_date || !body.interval_days || !body.count) {
-      reply.status(400);
-      return { success: false, error: 'plant_catalog_id, plot_id, start_date, interval_days, and count are required' };
+      return replyError(reply, 400, 'VALIDATION_ERROR', 'plant_catalog_id, plot_id, start_date, interval_days, and count are required');
     }
 
     if (body.count < 1 || body.count > 20) {
-      reply.status(400);
-      return { success: false, error: 'count must be between 1 and 20' };
+      return replyError(reply, 400, 'VALIDATION_ERROR', 'count must be between 1 and 20');
     }
 
     const instances = instanceService.createSuccession(body);

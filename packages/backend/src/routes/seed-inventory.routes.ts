@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 import type { SeedInventoryService } from '../services/seed-inventory.service.js';
+import { safeParseInt } from '../utils/parse.js';
 
 export function seedInventoryRoutes(fastify: FastifyInstance, seedService: SeedInventoryService) {
   fastify.get<{ Querystring: { limit?: string; offset?: string; expiring_soon?: string; low_quantity?: string } }>(
@@ -7,8 +8,8 @@ export function seedInventoryRoutes(fastify: FastifyInstance, seedService: SeedI
     async (request) => {
       const { limit, offset, expiring_soon, low_quantity } = request.query;
       const data = seedService.findAll({
-        limit: limit ? parseInt(limit) : undefined,
-        offset: offset ? parseInt(offset) : undefined,
+        limit: limit ? safeParseInt(limit, 20) : undefined,
+        offset: offset ? safeParseInt(offset, 0) : undefined,
         expiring_soon: expiring_soon === 'true',
         low_quantity: low_quantity === 'true',
       });

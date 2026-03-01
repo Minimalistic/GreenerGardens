@@ -3,18 +3,40 @@ const BASE_URL = '/api/v1';
 async function request<T>(method: string, path: string, body?: unknown): Promise<T> {
   const options: RequestInit = {
     method,
-    headers: { 'Content-Type': 'application/json' },
+    signal: AbortSignal.timeout(30_000),
   };
 
   if (body !== undefined) {
+    options.headers = { 'Content-Type': 'application/json' };
     options.body = JSON.stringify(body);
   }
 
-  const res = await fetch(`${BASE_URL}${path}`, options);
+  let res: Response;
+  try {
+    res = await fetch(`${BASE_URL}${path}`, options);
+  } catch (err) {
+    if (err instanceof DOMException && err.name === 'TimeoutError') {
+      throw new ApiError('Request timed out', 'TIMEOUT', 0);
+    }
+    throw new ApiError(
+      'Unable to connect to the server. Check your network connection.',
+      'NETWORK_ERROR',
+      0,
+    );
+  }
 
   if (res.status === 204) return undefined as T;
 
-  const json = await res.json();
+  let json: any;
+  try {
+    json = await res.json();
+  } catch {
+    throw new ApiError(
+      'Server returned an unexpected response',
+      'PARSE_ERROR',
+      res.status,
+    );
+  }
 
   if (!res.ok) {
     throw new ApiError(

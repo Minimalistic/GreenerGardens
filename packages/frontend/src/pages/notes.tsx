@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, StickyNote, Pin, Trash2 } from 'lucide-react';
+import { Plus, StickyNote, Pin, Trash2, Pencil, Check, X } from 'lucide-react';
 import { useNotes, useCreateNote, useDeleteNote, useUpdateNote } from '@/hooks/use-notes';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -73,6 +73,8 @@ export function NotesPage() {
   const deleteNote = useDeleteNote();
   const updateNote = useUpdateNote();
   const { toast } = useToast();
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editContent, setEditContent] = useState('');
 
   const notes = data?.data ?? [];
 
@@ -80,6 +82,31 @@ export function NotesPage() {
     updateNote.mutate({ id, pinned: !pinned }, {
       onSuccess: () => toast({ title: pinned ? 'Unpinned' : 'Pinned' }),
     });
+  };
+
+  const startEdit = (note: any) => {
+    setEditingId(note.id);
+    setEditContent(note.content);
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditContent('');
+  };
+
+  const saveEdit = () => {
+    if (!editingId || !editContent.trim()) return;
+    updateNote.mutate(
+      { id: editingId, content: editContent.trim() },
+      {
+        onSuccess: () => {
+          setEditingId(null);
+          setEditContent('');
+          toast({ title: 'Note updated' });
+        },
+        onError: () => toast({ title: 'Failed to update note', variant: 'destructive' }),
+      },
+    );
   };
 
   return (
@@ -106,52 +133,87 @@ export function NotesPage() {
                     {note.pinned && (
                       <Badge variant="outline" className="mb-2"><Pin className="w-3 h-3 mr-1" />Pinned</Badge>
                     )}
-                    <p className="whitespace-pre-wrap">{note.content}</p>
-                    <div className="flex items-center gap-2 mt-2">
-                      <span className="text-xs text-muted-foreground">
-                        {new Date(note.created_at).toLocaleDateString()}
-                      </span>
-                      {note.tags?.length > 0 && note.tags.map((tag: string) => (
-                        <Badge
-                          key={tag}
-                          variant="secondary"
-                          className="text-xs cursor-pointer hover:bg-muted"
-                          onClick={() => navigate(`/search?q=${encodeURIComponent(tag)}`)}
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
-                      {note.entity_links?.length > 0 && note.entity_links.map((link: any) => {
-                        const path = entityLinkPath(link.entity_type, link.entity_id);
-                        return (
-                          <Badge
-                            key={`${link.entity_type}-${link.entity_id}`}
-                            variant="outline"
-                            className={`text-xs ${path ? 'cursor-pointer hover:bg-muted' : ''}`}
-                            onClick={path ? () => navigate(path) : undefined}
+                    {editingId === note.id ? (
+                      <div className="space-y-2">
+                        <Textarea
+                          value={editContent}
+                          onChange={e => setEditContent(e.target.value)}
+                          rows={4}
+                          className="resize-none"
+                          autoFocus
+                        />
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="ghost" onClick={cancelEdit}>
+                            <X className="w-4 h-4 mr-1" />Cancel
+                          </Button>
+                          <Button
+                            size="sm"
+                            onClick={saveEdit}
+                            disabled={updateNote.isPending || !editContent.trim()}
                           >
-                            {entityLinkLabel(link.entity_type)}
-                          </Badge>
-                        );
-                      })}
+                            <Check className="w-4 h-4 mr-1" />Save
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <p className="whitespace-pre-wrap">{note.content}</p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <span className="text-xs text-muted-foreground">
+                            {new Date(note.created_at).toLocaleDateString()}
+                          </span>
+                          {note.tags?.length > 0 && note.tags.map((tag: string) => (
+                            <Badge
+                              key={tag}
+                              variant="secondary"
+                              className="text-xs cursor-pointer hover:bg-muted"
+                              onClick={() => navigate(`/search?q=${encodeURIComponent(tag)}`)}
+                            >
+                              {tag}
+                            </Badge>
+                          ))}
+                          {note.entity_links?.length > 0 && note.entity_links.map((link: any) => {
+                            const path = entityLinkPath(link.entity_type, link.entity_id);
+                            return (
+                              <Badge
+                                key={`${link.entity_type}-${link.entity_id}`}
+                                variant="outline"
+                                className={`text-xs ${path ? 'cursor-pointer hover:bg-muted' : ''}`}
+                                onClick={path ? () => navigate(path) : undefined}
+                              >
+                                {entityLinkLabel(link.entity_type)}
+                              </Badge>
+                            );
+                          })}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  {editingId !== note.id && (
+                    <div className="flex gap-1">
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => startEdit(note)}
+                      >
+                        <Pencil className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => togglePin(note.id, note.pinned)}
+                      >
+                        <Pin className={`w-4 h-4 ${note.pinned ? 'text-primary' : ''}`} />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => deleteNote.mutate(note.id, { onSuccess: () => toast({ title: 'Deleted' }) })}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
                     </div>
-                  </div>
-                  <div className="flex gap-1">
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => togglePin(note.id, note.pinned)}
-                    >
-                      <Pin className={`w-4 h-4 ${note.pinned ? 'text-primary' : ''}`} />
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => deleteNote.mutate(note.id, { onSuccess: () => toast({ title: 'Deleted' }) })}
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
-                  </div>
+                  )}
                 </div>
               </CardContent>
             </Card>

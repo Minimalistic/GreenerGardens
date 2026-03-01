@@ -69,6 +69,7 @@ export function PlotDetail() {
     try {
       await createSubPlot.mutateAsync({
         plot_id: plotId,
+        grid_position: { row: 0, col: 0 },
         geometry: { x: 0, y: 0, width: 40, height: 40, rotation: 0 },
       });
       toast({ title: 'Sub-plot added' });
@@ -133,7 +134,7 @@ export function PlotDetail() {
   const handleDeleteSubPlot = async () => {
     if (!selectedSubPlotId) return;
     try {
-      await deleteSubPlot.mutateAsync(selectedSubPlotId);
+      await deleteSubPlot.mutateAsync({ id: selectedSubPlotId, plotId: plotId! });
       setSelectedSubPlotId(null);
       toast({ title: 'Sub-plot deleted' });
     } catch {

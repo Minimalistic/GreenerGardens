@@ -46,9 +46,15 @@ export function useCreateSubPlot() {
   return useMutation({
     mutationFn: (data: SubPlotCreate) =>
       api.post<ApiResponse<SubPlot>>('/sub-plots', data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['sub-plots'] });
-      queryClient.invalidateQueries({ queryKey: ['sub-plots-with-plants'] });
+    onSuccess: (result) => {
+      const plotId = result?.data?.plot_id;
+      if (plotId) {
+        queryClient.invalidateQueries({ queryKey: ['sub-plots', plotId] });
+        queryClient.invalidateQueries({ queryKey: ['sub-plots-with-plants', plotId] });
+      } else {
+        queryClient.invalidateQueries({ queryKey: ['sub-plots'] });
+        queryClient.invalidateQueries({ queryKey: ['sub-plots-with-plants'] });
+      }
     },
   });
 }
@@ -58,9 +64,15 @@ export function useUpdateSubPlot() {
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: SubPlotUpdate }) =>
       api.patch<ApiResponse<SubPlot>>(`/sub-plots/${id}`, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['sub-plots'] });
-      queryClient.invalidateQueries({ queryKey: ['sub-plots-with-plants'] });
+    onSuccess: (result) => {
+      const plotId = result?.data?.plot_id;
+      if (plotId) {
+        queryClient.invalidateQueries({ queryKey: ['sub-plots', plotId] });
+        queryClient.invalidateQueries({ queryKey: ['sub-plots-with-plants', plotId] });
+      } else {
+        queryClient.invalidateQueries({ queryKey: ['sub-plots'] });
+        queryClient.invalidateQueries({ queryKey: ['sub-plots-with-plants'] });
+      }
     },
   });
 }
@@ -68,10 +80,10 @@ export function useUpdateSubPlot() {
 export function useDeleteSubPlot() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => api.delete(`/sub-plots/${id}`),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['sub-plots'] });
-      queryClient.invalidateQueries({ queryKey: ['sub-plots-with-plants'] });
+    mutationFn: ({ id, plotId }: { id: string; plotId: string }) => api.delete(`/sub-plots/${id}`),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['sub-plots', variables.plotId] });
+      queryClient.invalidateQueries({ queryKey: ['sub-plots-with-plants', variables.plotId] });
     },
   });
 }

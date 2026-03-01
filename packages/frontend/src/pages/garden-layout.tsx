@@ -18,6 +18,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/hooks/use-toast';
 import { Plus, Map as MapIcon, Sprout, Trash2, Copy, Clipboard } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import { Skeleton } from '@/components/ui/skeleton';
 import type { SubPlot } from '@gardenvault/shared';
 
 interface PlotFormData {
@@ -190,7 +191,7 @@ export function GardenLayout() {
   const handleDeletePlot = useCallback(async (id: string) => {
     if (!confirm('Delete this plot? This cannot be undone.')) return;
     try {
-      await deletePlot.mutateAsync(id);
+      await deletePlot.mutateAsync({ id, gardenId: currentGardenId! });
       setSelectedPlotId(null);
       toast({ title: 'Plot deleted' });
     } catch {
@@ -276,7 +277,20 @@ export function GardenLayout() {
     }
   }, [updatePlot, plots]);
 
-  if (gardensLoading || plotsLoading) return null;
+  if (gardensLoading || plotsLoading) {
+    return (
+      <div className="flex flex-col lg:flex-row gap-4 h-[calc(100vh-12rem)] lg:h-[calc(100vh-8rem)]">
+        <div className="flex-1 min-h-[400px]">
+          <Skeleton className="w-full h-full rounded-lg" />
+        </div>
+        <div className="w-full lg:w-72 space-y-4">
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-32 w-full rounded-lg" />
+          <Skeleton className="h-48 w-full rounded-lg" />
+        </div>
+      </div>
+    );
+  }
 
   // No gardens exist — prompt user to create one
   if (gardens.length === 0 && !currentGardenId) {

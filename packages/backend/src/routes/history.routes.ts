@@ -1,10 +1,11 @@
 import type { FastifyInstance } from 'fastify';
 import type { HistoryLogService } from '../services/history-log.service.js';
+import { safeParseInt } from '../utils/parse.js';
 
 export function historyRoutes(fastify: FastifyInstance, historyService: HistoryLogService) {
   fastify.get<{ Querystring: { limit?: string; page?: string } }>('/api/v1/history', async (request) => {
-    const limit = request.query.limit ? parseInt(request.query.limit) : 20;
-    const page = request.query.page ? parseInt(request.query.page) : 1;
+    const limit = safeParseInt(request.query.limit, 20);
+    const page = safeParseInt(request.query.page, 1);
     const offset = (page - 1) * limit;
     const result = historyService.getRecent(limit, offset);
     return { success: true, ...result };

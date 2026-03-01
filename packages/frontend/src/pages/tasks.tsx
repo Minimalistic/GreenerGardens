@@ -21,12 +21,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const PRIORITY_COLORS: Record<string, string> = {
-  urgent: 'bg-red-100 text-red-800',
-  high: 'bg-orange-100 text-orange-800',
-  medium: 'bg-blue-100 text-blue-800',
-  low: 'bg-gray-100 text-gray-600',
+  urgent: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+  high: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
+  medium: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+  low: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300',
 };
 
 function PriorityBadge({ priority }: { priority: string }) {
@@ -225,10 +226,11 @@ function TaskSection({ title, icon: Icon, tasks, variant, onComplete, onSkip, on
 }
 
 export function TasksPage() {
-  const { data: overdueData } = useOverdueTasks();
-  const { data: todayData } = useTodayTasks();
+  const { data: overdueData, isLoading: overdueLoading } = useOverdueTasks();
+  const { data: todayData, isLoading: todayLoading } = useTodayTasks();
   const { data: weekData } = useWeekTasks();
   const { data: allData } = useTasks();
+  const isLoading = overdueLoading || todayLoading;
   const completeTask = useCompleteTask();
   const skipTask = useSkipTask();
   const updateTask = useUpdateTask();
@@ -273,6 +275,20 @@ export function TasksPage() {
   };
 
   const isEmpty = overdue.length === 0 && today.length === 0 && week.length === 0 && later.length === 0;
+
+  if (isLoading) {
+    return (
+      <div className="space-y-4 max-w-3xl mx-auto">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold">Tasks</h2>
+          <Skeleton className="h-9 w-24" />
+        </div>
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Skeleton key={i} className="h-24 w-full rounded-lg" />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4 max-w-3xl mx-auto">

@@ -1,6 +1,8 @@
-# Phase 6a — Cleanup & Hardening
+# Phase 6a — Cleanup & Hardening — COMPLETE
 
 > Address tech debt, type safety issues, and structural problems discovered during Step 0 implementation. Do this before continuing with Phase 6 feature work (Steps 1-9).
+>
+> **Status**: All 4 tasks complete. Committed as `d5efa1b`.
 
 ## Context for AI Agents
 - **Monorepo**: `packages/backend` (Fastify), `packages/frontend` (React/Vite), `packages/shared` (Zod schemas)

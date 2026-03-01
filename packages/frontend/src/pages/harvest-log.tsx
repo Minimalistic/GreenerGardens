@@ -11,10 +11,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Scissors, Scale, Sprout, LayoutGrid, TableIcon } from 'lucide-react';
 
 const QUALITY_COLORS: Record<string, string> = {
-  excellent: 'bg-green-50 text-green-700',
-  good: 'bg-blue-50 text-blue-700',
-  fair: 'bg-yellow-50 text-yellow-700',
-  poor: 'bg-red-50 text-red-700',
+  excellent: 'bg-green-50 text-green-700 dark:bg-green-900 dark:text-green-200',
+  good: 'bg-blue-50 text-blue-700 dark:bg-blue-900 dark:text-blue-200',
+  fair: 'bg-yellow-50 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-200',
+  poor: 'bg-red-50 text-red-700 dark:bg-red-900 dark:text-red-200',
 };
 
 const harvestColumns: Column<any>[] = [

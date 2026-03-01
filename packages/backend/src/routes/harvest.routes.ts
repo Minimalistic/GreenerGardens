@@ -1,12 +1,13 @@
 import type { FastifyInstance } from 'fastify';
 import type { HarvestService } from '../services/harvest.service.js';
+import { safeParseInt } from '../utils/parse.js';
 
 export function harvestRoutes(fastify: FastifyInstance, harvestService: HarvestService) {
   fastify.get<{ Querystring: { limit?: string; offset?: string } }>('/api/v1/harvests', async (request) => {
     const { limit, offset } = request.query;
     const data = harvestService.findAll({
-      limit: limit ? parseInt(limit) : 20,
-      offset: offset ? parseInt(offset) : 0,
+      limit: safeParseInt(limit, 20),
+      offset: safeParseInt(offset, 0),
     });
     return { success: true, data };
   });

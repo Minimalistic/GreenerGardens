@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import type { PlantCatalogService } from '../services/plant-catalog.service.js';
 import { NotFoundError } from '../utils/errors.js';
+import { safeParseInt } from '../utils/parse.js';
 
 export function plantCatalogRoutes(fastify: FastifyInstance, catalogService: PlantCatalogService) {
   fastify.get<{ Querystring: Record<string, string> }>('/api/v1/plant-catalog', async (request) => {
@@ -11,10 +12,10 @@ export function plantCatalogRoutes(fastify: FastifyInstance, catalogService: Pla
       lifecycle,
       sun_exposure,
       water_needs,
-      min_zone: min_zone ? parseInt(min_zone) : undefined,
-      max_zone: max_zone ? parseInt(max_zone) : undefined,
-      page: page ? parseInt(page) : 1,
-      limit: limit ? parseInt(limit) : 20,
+      min_zone: min_zone ? safeParseInt(min_zone, 1) : undefined,
+      max_zone: max_zone ? safeParseInt(max_zone, 13) : undefined,
+      page: safeParseInt(page, 1),
+      limit: safeParseInt(limit, 20),
     });
     return { success: true, ...result };
   });

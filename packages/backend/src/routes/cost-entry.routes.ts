@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 import type { CostEntryService } from '../services/cost-entry.service.js';
+import { safeParseInt } from '../utils/parse.js';
 
 export function costEntryRoutes(fastify: FastifyInstance, costService: CostEntryService) {
   fastify.get<{ Querystring: { category?: string; limit?: string; offset?: string } }>(
@@ -8,8 +9,8 @@ export function costEntryRoutes(fastify: FastifyInstance, costService: CostEntry
       const { category, limit, offset } = request.query;
       const data = costService.findAll({
         category,
-        limit: limit ? parseInt(limit) : undefined,
-        offset: offset ? parseInt(offset) : undefined,
+        limit: limit ? safeParseInt(limit, 20) : undefined,
+        offset: offset ? safeParseInt(offset, 0) : undefined,
       });
       return { success: true, data };
     },
@@ -18,7 +19,7 @@ export function costEntryRoutes(fastify: FastifyInstance, costService: CostEntry
   fastify.get<{ Querystring: { year?: string } }>(
     '/api/v1/costs/summary',
     async (request) => {
-      const year = request.query.year ? parseInt(request.query.year) : undefined;
+      const year = request.query.year ? safeParseInt(request.query.year, new Date().getFullYear()) : undefined;
       const data = costService.getSummary(year);
       return { success: true, data };
     },

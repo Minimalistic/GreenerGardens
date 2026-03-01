@@ -19,7 +19,7 @@ export async function buildApp() {
 
   // CORS
   await server.register(cors, {
-    origin: true,
+    origin: process.env.CORS_ORIGIN || true,
     credentials: true,
   });
 
