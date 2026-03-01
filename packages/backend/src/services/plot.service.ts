@@ -59,24 +59,6 @@ export class PlotService {
     const result = this.db.transaction(() => {
       const created = this.plotRepo.insert(row);
       this.history.logCreate('plot', created);
-
-      // Auto-generate sub-plot grid
-      const cols = Math.max(1, Math.floor(parsed.dimensions.length_ft));
-      const rows = Math.max(1, Math.floor(parsed.dimensions.width_ft));
-
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          this.subPlotRepo.insert({
-            id: uuid(),
-            plot_id: id,
-            grid_row: r,
-            grid_col: c,
-            plant_instance_id: null,
-            notes: null,
-          });
-        }
-      }
-
       return this.deserializePlot(created);
     })();
 

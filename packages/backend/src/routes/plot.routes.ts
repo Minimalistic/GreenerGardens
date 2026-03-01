@@ -33,4 +33,9 @@ export function plotRoutes(fastify: FastifyInstance, plotService: PlotService, s
     const data = subPlotService.findByPlotId(request.params.id);
     return { success: true, data };
   });
+
+  fastify.get<{ Params: { id: string } }>('/api/v1/plots/:id/sub-plots-with-plants', async (request) => {
+    const data = subPlotService.findByPlotIdWithPlantInfo(request.params.id);
+    return { success: true, data };
+  });
 }

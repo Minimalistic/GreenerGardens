@@ -1,8 +1,13 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGardenContext } from '@/contexts/garden-context';
+import { useGardens } from '@/hooks/use-gardens';
 import { usePlotsByGarden, useCreatePlot, useUpdatePlot, useDeletePlot } from '@/hooks/use-plots';
-import { GardenCanvas } from '@/components/garden/garden-canvas';
+import { useSubPlotsForPlots } from '@/hooks/use-sub-plots';
+import { useCanvasKeyboard } from '@/hooks/use-canvas-keyboard';
+import { GardenCanvas, PX_PER_FT } from '@/components/garden/garden-canvas';
+import { CanvasContextMenu } from '@/components/garden/canvas-context-menu';
+import { GardenManagerDialog } from '@/components/garden/garden-manager-dialog';
 import { EmptyState } from '@/components/garden/empty-state';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,8 +16,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Map, Trash2 } from 'lucide-react';
+import { Plus, Map as MapIcon, Sprout, Trash2, Copy, Clipboard, Grid3X3 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import type { SubPlot } from '@gardenvault/shared';
 
 interface PlotFormData {
   name: string;
@@ -25,18 +31,44 @@ interface PlotFormData {
   irrigation: string;
 }
 
+interface ClipboardData {
+  name: string;
+  plot_type: string;
+  dimensions: { length_ft: number; width_ft: number; height_ft?: number };
+  geometry: { x: number; y: number; width: number; height: number; rotation: number };
+  soil_type?: string;
+  sun_exposure?: string;
+  irrigation?: string;
+  is_covered?: boolean;
+  tags?: string[];
+}
+
+interface ContextMenuState {
+  x: number;
+  y: number;
+  plotId: string | null;
+}
+
+const isMac = typeof navigator !== 'undefined' && navigator.platform.toUpperCase().includes('MAC');
+const mod = isMac ? '\u2318' : 'Ctrl+';
+
 export function GardenLayout() {
   const navigate = useNavigate();
-  const { currentGardenId } = useGardenContext();
-  const { data: plotsData, isLoading } = usePlotsByGarden(currentGardenId);
+  const { currentGardenId, setCurrentGardenId } = useGardenContext();
+  const { data: gardensData, isLoading: gardensLoading } = useGardens();
+  const { data: plotsData, isLoading: plotsLoading } = usePlotsByGarden(currentGardenId);
   const createPlot = useCreatePlot();
   const updatePlot = useUpdatePlot();
   const deletePlot = useDeletePlot();
   const { toast } = useToast();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedPlotId, setSelectedPlotId] = useState<string | null>(null);
+  const [clipboard, setClipboard] = useState<ClipboardData | null>(null);
+  const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
+  const [showSubPlots, setShowSubPlots] = useState(false);
+  const [managerOpen, setManagerOpen] = useState(false);
 
-  const { register, handleSubmit, reset, setValue } = useForm<PlotFormData>({
+  const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<PlotFormData>({
     defaultValues: {
       name: '',
       plot_type: 'raised_bed',
@@ -49,11 +81,157 @@ export function GardenLayout() {
     },
   });
 
+  const gardens = gardensData?.data ?? [];
+
+  // Auto-select a garden if none is selected but gardens exist
+  useEffect(() => {
+    if (!currentGardenId && gardens.length > 0) {
+      setCurrentGardenId(gardens[0].id);
+    }
+  }, [currentGardenId, gardens, setCurrentGardenId]);
+
   const plots = plotsData?.data ?? [];
   const selectedPlot = plots.find((p: any) => p.id === selectedPlotId);
 
+  // Sub-plots for canvas overlay
+  const plotIds = useMemo(() => plots.map((p: any) => p.id as string), [plots]);
+  const subPlotQueries = useSubPlotsForPlots(showSubPlots ? plotIds : []);
+  const subPlotsByPlot = useMemo(() => {
+    const map = new Map<string, SubPlot[]>();
+    if (!showSubPlots) return map;
+    subPlotQueries.forEach((q, i) => {
+      if (q.data?.data) {
+        map.set(plotIds[i], q.data.data);
+      }
+    });
+    return map;
+  }, [subPlotQueries, plotIds, showSubPlots]);
+
+  // --- Copy / Paste / Duplicate ---
+
+  const handleCopy = useCallback(() => {
+    if (!selectedPlotId) return;
+    const plot = plots.find((p: any) => p.id === selectedPlotId);
+    if (!plot) return;
+    const dims = plot.dimensions;
+    const defaultW = dims ? dims.width_ft * PX_PER_FT : 120;
+    const defaultH = dims ? dims.length_ft * PX_PER_FT : 80;
+    const g = plot.geometry ?? { x: PX_PER_FT, y: PX_PER_FT, width: defaultW, height: defaultH, rotation: 0 };
+
+    setClipboard({
+      name: plot.name,
+      plot_type: plot.plot_type,
+      dimensions: plot.dimensions,
+      geometry: g,
+      soil_type: plot.soil_type,
+      sun_exposure: plot.sun_exposure,
+      irrigation: plot.irrigation,
+      is_covered: plot.is_covered,
+      tags: plot.tags,
+    });
+    toast({ title: 'Plot copied' });
+  }, [selectedPlotId, plots, toast]);
+
+  const handlePaste = useCallback(async () => {
+    if (!clipboard || !currentGardenId) return;
+    try {
+      const offsetPx = 2 * PX_PER_FT;
+      await createPlot.mutateAsync({
+        garden_id: currentGardenId,
+        name: `${clipboard.name} (copy)`,
+        plot_type: clipboard.plot_type as any,
+        dimensions: clipboard.dimensions,
+        geometry: {
+          ...clipboard.geometry,
+          x: clipboard.geometry.x + offsetPx,
+          y: clipboard.geometry.y + offsetPx,
+        },
+        soil_type: clipboard.soil_type,
+        sun_exposure: clipboard.sun_exposure as any,
+        irrigation: clipboard.irrigation as any,
+        is_covered: clipboard.is_covered ?? false,
+        tags: clipboard.tags ?? [],
+      });
+      toast({ title: 'Plot pasted' });
+    } catch {
+      toast({ title: 'Failed to paste plot', variant: 'destructive' });
+    }
+  }, [clipboard, currentGardenId, createPlot, toast]);
+
+  const handleDuplicate = useCallback(async () => {
+    if (!selectedPlotId) return;
+    const plot = plots.find((p: any) => p.id === selectedPlotId);
+    if (!plot || !currentGardenId) return;
+    const dims = plot.dimensions;
+    const defaultW = dims ? dims.width_ft * PX_PER_FT : 120;
+    const defaultH = dims ? dims.length_ft * PX_PER_FT : 80;
+    const g = plot.geometry ?? { x: PX_PER_FT, y: PX_PER_FT, width: defaultW, height: defaultH, rotation: 0 };
+    const offsetPx = 2 * PX_PER_FT;
+
+    try {
+      await createPlot.mutateAsync({
+        garden_id: currentGardenId,
+        name: `${plot.name} (copy)`,
+        plot_type: plot.plot_type as any,
+        dimensions: plot.dimensions,
+        geometry: { ...g, x: g.x + offsetPx, y: g.y + offsetPx },
+        soil_type: plot.soil_type,
+        sun_exposure: plot.sun_exposure as any,
+        irrigation: plot.irrigation as any,
+        is_covered: plot.is_covered ?? false,
+        tags: plot.tags ?? [],
+      });
+      toast({ title: 'Plot duplicated' });
+    } catch {
+      toast({ title: 'Failed to duplicate plot', variant: 'destructive' });
+    }
+  }, [selectedPlotId, plots, currentGardenId, createPlot, toast]);
+
+  // --- Delete ---
+
+  const handleDeletePlot = useCallback(async (id: string) => {
+    if (!confirm('Delete this plot? This cannot be undone.')) return;
+    try {
+      await deletePlot.mutateAsync(id);
+      setSelectedPlotId(null);
+      toast({ title: 'Plot deleted' });
+    } catch {
+      toast({ title: 'Failed to delete plot', variant: 'destructive' });
+    }
+  }, [deletePlot, toast]);
+
+  // --- Keyboard shortcuts ---
+
+  useCanvasKeyboard(
+    useMemo(() => ({
+      onDelete: () => {
+        if (selectedPlotId) handleDeletePlot(selectedPlotId);
+      },
+      onCopy: handleCopy,
+      onPaste: handlePaste,
+      onDuplicate: handleDuplicate,
+      onEscape: () => {
+        setSelectedPlotId(null);
+        setContextMenu(null);
+      },
+    }), [selectedPlotId, handleDeletePlot, handleCopy, handlePaste, handleDuplicate]),
+  );
+
+  // --- Context menu ---
+
+  const handleContextMenu = useCallback((e: { x: number; y: number; plotId: string | null }) => {
+    setContextMenu(e);
+  }, []);
+
+  const closeContextMenu = useCallback(() => {
+    setContextMenu(null);
+  }, []);
+
   const onCreatePlot = async (formData: PlotFormData) => {
-    if (!currentGardenId) return;
+    if (!currentGardenId) {
+      toast({ title: 'No garden selected', description: 'Please select or create a garden first.', variant: 'destructive' });
+      return;
+    }
     try {
       await createPlot.mutateAsync({
         garden_id: currentGardenId,
@@ -86,24 +264,36 @@ export function GardenLayout() {
     }
   }, [updatePlot]);
 
-  const handleDeletePlot = async (id: string) => {
-    try {
-      await deletePlot.mutateAsync(id);
-      setSelectedPlotId(null);
-      toast({ title: 'Plot deleted' });
-    } catch {
-      toast({ title: 'Failed to delete plot', variant: 'destructive' });
-    }
-  };
+  if (gardensLoading || plotsLoading) return null;
 
-  if (isLoading) return null;
+  // No gardens exist — prompt user to create one
+  if (gardens.length === 0 && !currentGardenId) {
+    return (
+      <>
+        <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
+          <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
+            <Sprout className="w-8 h-8 text-muted-foreground" />
+          </div>
+          <h3 className="text-lg font-semibold mb-2">Create Your Garden</h3>
+          <p className="text-muted-foreground max-w-sm mb-6">
+            Give your garden a name to get started. You can add plots, plants, and more after.
+          </p>
+          <Button onClick={() => setManagerOpen(true)}>
+            <Plus className="w-4 h-4 mr-2" />
+            Create Garden
+          </Button>
+        </div>
+        <GardenManagerDialog open={managerOpen} onOpenChange={setManagerOpen} />
+      </>
+    );
+  }
 
   return (
     <div className="flex flex-col lg:flex-row gap-4 h-[calc(100vh-12rem)] lg:h-[calc(100vh-8rem)]">
-      <div className="flex-1 min-h-[400px]">
+      <div className="flex-1 min-h-[400px] relative">
         {plots.length === 0 ? (
           <EmptyState
-            icon={Map}
+            icon={MapIcon}
             title="No Plots Yet"
             description="Create your first plot to start designing your garden layout."
             actionLabel="Create Plot"
@@ -115,6 +305,28 @@ export function GardenLayout() {
             selectedPlotId={selectedPlotId}
             onSelectPlot={setSelectedPlotId}
             onPlotDragEnd={handlePlotDragEnd}
+            onContextMenu={handleContextMenu}
+            showSubPlots={showSubPlots}
+            subPlotsByPlot={subPlotsByPlot}
+          />
+        )}
+
+        {/* Context menu overlay */}
+        {contextMenu && (
+          <CanvasContextMenu
+            position={{ x: contextMenu.x, y: contextMenu.y }}
+            plotId={contextMenu.plotId}
+            hasClipboard={!!clipboard}
+            onCopy={handleCopy}
+            onDuplicate={handleDuplicate}
+            onPaste={handlePaste}
+            onViewDetails={() => {
+              if (contextMenu.plotId) navigate(`/garden/plots/${contextMenu.plotId}`);
+            }}
+            onDelete={() => {
+              if (contextMenu.plotId) handleDeletePlot(contextMenu.plotId);
+            }}
+            onClose={closeContextMenu}
           />
         )}
       </div>
@@ -134,7 +346,8 @@ export function GardenLayout() {
             <form onSubmit={handleSubmit(onCreatePlot)} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="plotName">Name</Label>
-                <Input id="plotName" {...register('name', { required: true })} placeholder="e.g., Main Raised Bed" />
+                <Input id="plotName" {...register('name', { required: 'Plot name is required' })} placeholder="e.g., Main Raised Bed" />
+                {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label>Type</Label>
@@ -182,6 +395,30 @@ export function GardenLayout() {
           </DialogContent>
         </Dialog>
 
+        {/* Canvas toggles */}
+        {plots.length > 0 && (
+          <div className="flex gap-2">
+            <Button
+              variant={showSubPlots ? 'default' : 'outline'}
+              size="sm"
+              className="flex-1"
+              onClick={() => setShowSubPlots(s => !s)}
+            >
+              <Grid3X3 className="w-4 h-4 mr-1.5" />
+              Sub-Plots {showSubPlots ? 'ON' : 'OFF'}
+            </Button>
+          </div>
+        )}
+
+        {/* Clipboard indicator */}
+        {clipboard && (
+          <div className="flex items-center gap-2 px-3 py-2 rounded-md border bg-muted/50 text-xs text-muted-foreground">
+            <Clipboard className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">{clipboard.name}</span>
+            <kbd className="ml-auto text-[10px] bg-background px-1 rounded border">{mod}V</kbd>
+          </div>
+        )}
+
         {selectedPlot && (
           <Card>
             <CardHeader className="pb-2">
@@ -202,11 +439,27 @@ export function GardenLayout() {
                 </Button>
                 <Button
                   size="sm"
+                  variant="outline"
+                  onClick={handleCopy}
+                  title="Copy plot"
+                >
+                  <Copy className="w-4 h-4" />
+                </Button>
+                <Button
+                  size="sm"
                   variant="destructive"
                   onClick={() => handleDeletePlot(selectedPlotId!)}
+                  title="Delete plot"
                 >
                   <Trash2 className="w-4 h-4" />
                 </Button>
+              </div>
+              {/* Shortcut hints */}
+              <div className="text-[10px] text-muted-foreground space-y-0.5 pt-1 border-t">
+                <div className="flex justify-between"><span>Copy</span><kbd className="bg-muted px-1 rounded">{mod}C</kbd></div>
+                <div className="flex justify-between"><span>Duplicate</span><kbd className="bg-muted px-1 rounded">{mod}D</kbd></div>
+                <div className="flex justify-between"><span>Delete</span><kbd className="bg-muted px-1 rounded">Del</kbd></div>
+                <div className="flex justify-between"><span>Deselect</span><kbd className="bg-muted px-1 rounded">Esc</kbd></div>
               </div>
             </CardContent>
           </Card>
