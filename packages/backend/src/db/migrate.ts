@@ -4,9 +4,11 @@ import { fileURLToPath } from 'url';
 import type Database from 'better-sqlite3';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const MIGRATIONS_DIR = path.join(__dirname, 'migrations');
+const DEFAULT_MIGRATIONS_DIR = path.join(__dirname, 'migrations');
 
-export function runMigrations(db: Database.Database): void {
+export function runMigrations(db: Database.Database, migrationsDir?: string): void {
+  const dir = migrationsDir ?? DEFAULT_MIGRATIONS_DIR;
+
   // Create migrations tracking table
   db.exec(`
     CREATE TABLE IF NOT EXISTS _migrations (
@@ -23,14 +25,14 @@ export function runMigrations(db: Database.Database): void {
   );
 
   // Read migration files
-  const files = fs.readdirSync(MIGRATIONS_DIR)
+  const files = fs.readdirSync(dir)
     .filter(f => f.endsWith('.sql'))
     .sort();
 
   for (const file of files) {
     if (applied.has(file)) continue;
 
-    const sql = fs.readFileSync(path.join(MIGRATIONS_DIR, file), 'utf-8');
+    const sql = fs.readFileSync(path.join(dir, file), 'utf-8');
 
     // Run each migration in a transaction
     const migrate = db.transaction(() => {

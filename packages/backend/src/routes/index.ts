@@ -48,6 +48,7 @@ import { CostEntryService } from '../services/cost-entry.service.js';
 import { AnalyticsService } from '../services/analytics.service.js';
 import { BackupService } from '../services/backup.service.js';
 import { TimelineService } from '../services/timeline.service.js';
+import { PushService } from '../services/push.service.js';
 
 import { setupRoutes } from './setup.routes.js';
 import { gardenRoutes } from './garden.routes.js';
@@ -79,8 +80,9 @@ import { analyticsRoutes } from './analytics.routes.js';
 import { backupRoutes } from './backup.routes.js';
 import { timelineRoutes } from './timeline.routes.js';
 import { weatherCompareRoutes } from './weather-compare.routes.js';
+import { pushRoutes } from './push.routes.js';
 
-import { startWeatherFetchJob, setAlertService } from '../jobs/weather-fetch.job.js';
+import { startWeatherFetchJob, setAlertService, setPushService } from '../jobs/weather-fetch.job.js';
 
 export function registerRoutes(fastify: FastifyInstance, db: Database.Database) {
   // Repositories
@@ -135,6 +137,7 @@ export function registerRoutes(fastify: FastifyInstance, db: Database.Database) 
   const analyticsService = new AnalyticsService(db);
   const backupService = new BackupService(db);
   const timelineService = new TimelineService(db);
+  const pushService = new PushService(db);
 
   // Wire up cross-service dependencies (post-construction to avoid circular issues)
   instanceService.setCalendarService(calendarService);
@@ -171,8 +174,10 @@ export function registerRoutes(fastify: FastifyInstance, db: Database.Database) 
   analyticsRoutes(fastify, analyticsService);
   backupRoutes(fastify, backupService);
   timelineRoutes(fastify, timelineService);
+  pushRoutes(fastify, pushService);
 
   // Start background jobs
   setAlertService(alertService);
+  setPushService(pushService);
   startWeatherFetchJob(weatherService, gardenRepo);
 }

@@ -1,11 +1,17 @@
 import type { WeatherService } from '../services/weather.service.js';
 import type { GardenRepository } from '../db/repositories/garden.repository.js';
 import type { AlertService } from '../services/alert.service.js';
+import type { PushService } from '../services/push.service.js';
 
 let alertServiceRef: AlertService | null = null;
+let pushServiceRef: PushService | null = null;
 
 export function setAlertService(alertService: AlertService) {
   alertServiceRef = alertService;
+}
+
+export function setPushService(pushService: PushService) {
+  pushServiceRef = pushService;
 }
 
 export function startWeatherFetchJob(
@@ -51,8 +57,17 @@ async function fetchForAllGardens(
           // Run alert checks after fresh weather data
           if (alertServiceRef) {
             try {
-              await alertServiceRef.checkFrostAlert(garden.id);
+              const frostAlert = await alertServiceRef.checkFrostAlert(garden.id);
               await alertServiceRef.checkHeatAlert(garden.id);
+
+              // Send push notification for frost alerts
+              if (frostAlert && frostAlert.length > 0 && pushServiceRef) {
+                pushServiceRef.broadcastByPreference('frost', {
+                  title: 'Frost Alert',
+                  body: `Frost warning for ${garden.name || 'your garden'}. Protect tender plants!`,
+                  url: '/weather',
+                }).catch(err => console.error(`[WeatherJob] Push notification failed: ${err.message}`));
+              }
             } catch (alertErr: any) {
               console.error(`[WeatherJob] Alert check failed for garden ${garden.id}: ${alertErr.message}`);
             }

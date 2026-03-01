@@ -34,7 +34,7 @@ export class SearchService {
 
     // Search plots
     const plots = this.db.prepare(
-      `SELECT id, name, description FROM plots WHERE name LIKE ? OR description LIKE ? LIMIT ?`
+      `SELECT id, name, notes FROM plots WHERE name LIKE ? OR notes LIKE ? LIMIT ?`
     ).all(pattern, pattern, limit) as any[];
 
     for (const p of plots) {
@@ -42,7 +42,7 @@ export class SearchService {
         entity_type: 'plot',
         entity_id: p.id,
         title: p.name,
-        subtitle: p.description,
+        subtitle: p.notes,
         match_field: 'name',
       });
     }

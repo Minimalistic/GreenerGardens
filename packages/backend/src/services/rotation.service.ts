@@ -41,13 +41,13 @@ export class RotationService {
 
     // Find the most recent year this family was planted in this plot
     const row = this.db.prepare(`
-      SELECT MAX(CAST(strftime('%Y', pi.planted_date) AS INTEGER)) as last_year
+      SELECT MAX(CAST(strftime('%Y', pi.date_planted) AS INTEGER)) as last_year
       FROM plant_instances pi
       JOIN sub_plots sp ON pi.sub_plot_id = sp.id
       JOIN plant_catalog pc ON pi.plant_catalog_id = pc.id
       WHERE sp.plot_id = ?
       AND pc.rotation_family = ?
-      AND pi.planted_date IS NOT NULL
+      AND pi.date_planted IS NOT NULL
     `).get(plotId, rotationFamily) as { last_year: number | null } | undefined;
 
     const lastYear = row?.last_year;
@@ -98,15 +98,15 @@ export class RotationService {
 
     const rows = this.db.prepare(`
       SELECT
-        CAST(strftime('%Y', pi.planted_date) AS INTEGER) as year,
+        CAST(strftime('%Y', pi.date_planted) AS INTEGER) as year,
         pc.common_name as name,
         pc.rotation_family as family
       FROM plant_instances pi
       JOIN sub_plots sp ON pi.sub_plot_id = sp.id
       JOIN plant_catalog pc ON pi.plant_catalog_id = pc.id
       WHERE sp.plot_id = ?
-      AND pi.planted_date IS NOT NULL
-      AND CAST(strftime('%Y', pi.planted_date) AS INTEGER) >= ?
+      AND pi.date_planted IS NOT NULL
+      AND CAST(strftime('%Y', pi.date_planted) AS INTEGER) >= ?
       ORDER BY year DESC
     `).all(plotId, startYear) as { year: number; name: string; family: string | null }[];
 

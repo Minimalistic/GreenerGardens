@@ -7,6 +7,9 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.ts',
       registerType: 'autoUpdate',
       includeAssets: ['icon.svg', 'icon-192.png', 'icon-512.png'],
       manifest: {
@@ -22,19 +25,11 @@ export default defineConfig({
           { src: '/icon.svg', sizes: 'any', type: 'image/svg+xml' },
         ],
       },
-      workbox: {
+      injectManifest: {
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
-        runtimeCaching: [
-          {
-            urlPattern: /^\/api\//,
-            handler: 'NetworkFirst',
-            options: {
-              cacheName: 'api-cache',
-              expiration: { maxEntries: 100, maxAgeSeconds: 60 * 60 },
-              networkTimeoutSeconds: 5,
-            },
-          },
-        ],
+      },
+      devOptions: {
+        enabled: false,
       },
     }),
   ],
