@@ -341,12 +341,12 @@ CREATE INDEX idx_cost_entries_entity ON cost_entries(entity_type, entity_id);
 
 ## Verification Checklist
 
-### Infrastructure (Step 0)
-- [ ] Code splitting: initial bundle under 500KB, pages load on demand
-- [ ] Error boundary catches component crashes, shows recovery UI
-- [ ] Mobile nav shows 4 primary items + "More" overflow on small screens
-- [ ] Integration tests pass: `npm test` in backend succeeds
-- [ ] Push notifications: permission flow, subscription stored, notifications received
+### Infrastructure (Step 0) — COMPLETE
+- [x] Code splitting: initial bundle under 500KB, pages load on demand
+- [x] Error boundary catches component crashes, shows recovery UI
+- [x] Mobile nav shows 4 primary items + "More" overflow on small screens
+- [x] Integration tests pass: `npm test` in backend succeeds (6 files, 25 tests)
+- [x] Push notifications: permission flow, subscription stored, notifications received
 
 ### Features (Steps 1-9)
 - [ ] Timeline scrubber allows viewing past garden state
