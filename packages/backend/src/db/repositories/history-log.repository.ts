@@ -57,4 +57,33 @@ export class HistoryLogRepository {
   count(): number {
     return (this.db.prepare('SELECT COUNT(*) as count FROM history_log').get() as any).count;
   }
+
+  findFiltered(
+    filters: { entity_type?: string; action?: string; start_date?: string; end_date?: string },
+    limit: number = 50,
+    offset: number = 0
+  ): HistoryLogRow[] {
+    const { sql, params } = this.buildFilterClause(filters);
+    return this.db.prepare(
+      `SELECT * FROM history_log${sql} ORDER BY timestamp DESC LIMIT ? OFFSET ?`
+    ).all(...params, limit, offset) as HistoryLogRow[];
+  }
+
+  countFiltered(filters: { entity_type?: string; action?: string; start_date?: string; end_date?: string }): number {
+    const { sql, params } = this.buildFilterClause(filters);
+    return (this.db.prepare(
+      `SELECT COUNT(*) as count FROM history_log${sql}`
+    ).get(...params) as any).count;
+  }
+
+  private buildFilterClause(filters: { entity_type?: string; action?: string; start_date?: string; end_date?: string }) {
+    const conditions: string[] = [];
+    const params: string[] = [];
+    if (filters.entity_type) { conditions.push('entity_type = ?'); params.push(filters.entity_type); }
+    if (filters.action) { conditions.push('action = ?'); params.push(filters.action); }
+    if (filters.start_date) { conditions.push('timestamp >= ?'); params.push(filters.start_date); }
+    if (filters.end_date) { conditions.push('timestamp <= ?'); params.push(filters.end_date + 'T23:59:59.999Z'); }
+    const sql = conditions.length > 0 ? ' WHERE ' + conditions.join(' AND ') : '';
+    return { sql, params };
+  }
 }

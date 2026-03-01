@@ -26,6 +26,24 @@ export class HistoryLogService {
       .map(row => this.deserialize(row));
   }
 
+  getFiltered(
+    filters: { entity_type?: string; action?: string; start_date?: string; end_date?: string },
+    limit: number = 50,
+    offset: number = 0
+  ) {
+    const data = this.historyRepo.findFiltered(filters, limit, offset);
+    const total = this.historyRepo.countFiltered(filters);
+    return {
+      data: data.map(row => this.deserialize(row)),
+      pagination: {
+        total,
+        page: Math.floor(offset / limit) + 1,
+        limit,
+        total_pages: Math.ceil(total / limit),
+      },
+    };
+  }
+
   private deserialize(row: HistoryLogRow) {
     return {
       ...row,
