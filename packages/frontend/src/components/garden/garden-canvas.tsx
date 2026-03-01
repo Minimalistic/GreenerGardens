@@ -27,7 +27,6 @@ interface Props {
   onSelectPlot: (id: string | null) => void;
   onPlotDragEnd: (id: string, geometry: any) => void;
   onContextMenu?: (e: ContextMenuEvent) => void;
-  showSubPlots?: boolean;
   subPlotsByPlot?: Map<string, SubPlot[]>;
 }
 
@@ -41,7 +40,6 @@ export function GardenCanvas({
   onSelectPlot,
   onPlotDragEnd,
   onContextMenu,
-  showSubPlots,
   subPlotsByPlot,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -272,8 +270,9 @@ export function GardenCanvas({
             const widthFt = (g.width / PX_PER_FT).toFixed(1).replace(/\.0$/, '');
             const heightFt = (g.height / PX_PER_FT).toFixed(1).replace(/\.0$/, '');
 
-            // Sub-plot data for overlay
+            // Sub-plot data
             const subPlots = subPlotsByPlot?.get(plot.id);
+            const hasSubPlots = subPlots && subPlots.length > 0;
 
             return (
               <Group
@@ -298,21 +297,21 @@ export function GardenCanvas({
                 onMouseEnter={handleMouseEnterPlot}
                 onMouseLeave={handleMouseLeavePlot}
               >
-                {/* Plot background — dimmed when showing sub-plots */}
+                {/* Plot background — outline only when sub-plots exist, solid fill otherwise */}
                 <Rect
                   width={g.width}
                   height={g.height}
-                  fill={showSubPlots && subPlots && subPlots.length > 0 ? undefined : color}
-                  opacity={0.75}
+                  fill={hasSubPlots ? undefined : color}
+                  opacity={hasSubPlots ? 1 : 0.75}
                   cornerRadius={4}
-                  stroke={isSelected ? '#F4D03F' : '#333'}
-                  strokeWidth={isSelected ? 3 : 1}
+                  stroke={isSelected ? '#F4D03F' : (hasSubPlots ? color : '#333')}
+                  strokeWidth={isSelected ? 3 : (hasSubPlots ? 2 : 1)}
                   shadowColor="rgba(0,0,0,0.15)"
                   shadowBlur={isSelected ? 8 : 2}
                 />
 
                 {/* Sub-plot shapes within the plot */}
-                {showSubPlots && subPlots && subPlots.map(sp => {
+                {subPlots?.map(sp => {
                   const spg = sp.geometry;
                   if (!spg) return null;
                   const hasPlant = !!sp.plant_instance_id;
@@ -324,7 +323,7 @@ export function GardenCanvas({
                       width={spg.width}
                       height={spg.height}
                       fill={hasPlant ? '#4ade80' : color}
-                      opacity={hasPlant ? 0.8 : 0.5}
+                      opacity={hasPlant ? 0.8 : 0.55}
                       stroke="rgba(255,255,255,0.8)"
                       strokeWidth={1.5}
                       cornerRadius={2}

@@ -16,7 +16,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Map as MapIcon, Sprout, Trash2, Copy, Clipboard, Grid3X3 } from 'lucide-react';
+import { Plus, Map as MapIcon, Sprout, Trash2, Copy, Clipboard } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import type { SubPlot } from '@gardenvault/shared';
 
@@ -65,7 +65,6 @@ export function GardenLayout() {
   const [selectedPlotId, setSelectedPlotId] = useState<string | null>(null);
   const [clipboard, setClipboard] = useState<ClipboardData | null>(null);
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
-  const [showSubPlots, setShowSubPlots] = useState(false);
   const [managerOpen, setManagerOpen] = useState(false);
 
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<PlotFormData>({
@@ -93,19 +92,18 @@ export function GardenLayout() {
   const plots = plotsData?.data ?? [];
   const selectedPlot = plots.find((p: any) => p.id === selectedPlotId);
 
-  // Sub-plots for canvas overlay
+  // Sub-plots for canvas overlay (always loaded)
   const plotIds = useMemo(() => plots.map((p: any) => p.id as string), [plots]);
-  const subPlotQueries = useSubPlotsForPlots(showSubPlots ? plotIds : []);
+  const subPlotQueries = useSubPlotsForPlots(plotIds);
   const subPlotsByPlot = useMemo(() => {
     const map = new Map<string, SubPlot[]>();
-    if (!showSubPlots) return map;
     subPlotQueries.forEach((q, i) => {
       if (q.data?.data) {
         map.set(plotIds[i], q.data.data);
       }
     });
     return map;
-  }, [subPlotQueries, plotIds, showSubPlots]);
+  }, [subPlotQueries, plotIds]);
 
   // --- Copy / Paste / Duplicate ---
 
@@ -320,7 +318,6 @@ export function GardenLayout() {
             onSelectPlot={setSelectedPlotId}
             onPlotDragEnd={handlePlotDragEnd}
             onContextMenu={handleContextMenu}
-            showSubPlots={showSubPlots}
             subPlotsByPlot={subPlotsByPlot}
           />
         )}
@@ -408,21 +405,6 @@ export function GardenLayout() {
             </form>
           </DialogContent>
         </Dialog>
-
-        {/* Canvas toggles */}
-        {plots.length > 0 && (
-          <div className="flex gap-2">
-            <Button
-              variant={showSubPlots ? 'default' : 'outline'}
-              size="sm"
-              className="flex-1"
-              onClick={() => setShowSubPlots(s => !s)}
-            >
-              <Grid3X3 className="w-4 h-4 mr-1.5" />
-              Sub-Plots {showSubPlots ? 'ON' : 'OFF'}
-            </Button>
-          </div>
-        )}
 
         {/* Clipboard indicator */}
         {clipboard && (
