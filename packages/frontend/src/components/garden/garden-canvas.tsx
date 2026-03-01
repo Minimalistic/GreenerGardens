@@ -322,9 +322,9 @@ export function GardenCanvas({
                       y={spg.y}
                       width={spg.width}
                       height={spg.height}
-                      fill={hasPlant ? '#4ade80' : undefined}
-                      opacity={hasPlant ? 0.5 : 0.3}
-                      stroke={hasPlant ? '#22c55e' : 'rgba(255,255,255,0.5)'}
+                      fill={hasPlant ? '#4ade80' : 'rgba(255,255,255,0.15)'}
+                      opacity={hasPlant ? 0.6 : 1}
+                      stroke="rgba(255,255,255,0.6)"
                       strokeWidth={1}
                       cornerRadius={2}
                       listening={false}
