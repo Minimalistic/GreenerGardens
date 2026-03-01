@@ -137,7 +137,7 @@ export function PlotDetail() {
     if (!sp) return;
     const offsetPx = 40; // 1ft
     try {
-      await createSubPlot.mutateAsync({
+      const newSubPlot = await createSubPlot.mutateAsync({
         plot_id: plotId,
         grid_position: { row: 0, col: 0 },
         geometry: {
@@ -149,6 +149,21 @@ export function PlotDetail() {
         },
         notes: sp.notes || undefined,
       });
+
+      // Also duplicate the plant if one is assigned
+      if (sp.plant_catalog_id && newSubPlot?.data?.id) {
+        await createInstance.mutateAsync({
+          plant_catalog_id: sp.plant_catalog_id,
+          plot_id: plotId,
+          sub_plot_id: newSubPlot.data.id,
+          variety_name: sp.variety_name || undefined,
+          status: 'planned',
+          health: 'good',
+          quantity: 1,
+          tags: [],
+        });
+      }
+
       toast({ title: 'Sub-plot duplicated' });
     } catch {
       toast({ title: 'Failed to duplicate sub-plot', variant: 'destructive' });

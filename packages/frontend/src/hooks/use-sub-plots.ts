@@ -4,6 +4,8 @@ import type { ApiResponse, SubPlot, SubPlotCreate, SubPlotUpdate } from '@garden
 
 export interface SubPlotWithPlant extends SubPlot {
   plant_name: string | null;
+  plant_catalog_id: string | null;
+  variety_name: string | null;
 }
 
 export function useSubPlotsByPlot(plotId: string | null) {
