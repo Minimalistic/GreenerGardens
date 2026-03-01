@@ -258,11 +258,25 @@ export function GardenLayout() {
 
   const handlePlotDragEnd = useCallback(async (plotId: string, geometry: any) => {
     try {
-      await updatePlot.mutateAsync({ id: plotId, data: { geometry } });
+      // Derive physical dimensions from geometry so they stay in sync after resize
+      const plot = plots.find((p: any) => p.id === plotId);
+      const oldGeom = plot?.geometry;
+      const sizeChanged = oldGeom && (oldGeom.width !== geometry.width || oldGeom.height !== geometry.height);
+
+      const data: any = { geometry };
+      if (sizeChanged) {
+        data.dimensions = {
+          width_ft: +(geometry.width / PX_PER_FT).toFixed(1),
+          length_ft: +(geometry.height / PX_PER_FT).toFixed(1),
+          ...(plot.dimensions?.height_ft != null ? { height_ft: plot.dimensions.height_ft } : {}),
+        };
+      }
+
+      await updatePlot.mutateAsync({ id: plotId, data });
     } catch {
       // silent fail on drag
     }
-  }, [updatePlot]);
+  }, [updatePlot, plots]);
 
   if (gardensLoading || plotsLoading) return null;
 
