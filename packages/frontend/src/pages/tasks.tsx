@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Plus, CheckCircle2, Clock, SkipForward, Calendar, AlertTriangle } from 'lucide-react';
+import { Plus, CheckCircle2, Clock, SkipForward, Calendar, AlertTriangle, LayoutGrid, TableIcon } from 'lucide-react';
 import { useOverdueTasks, useTodayTasks, useWeekTasks, useTasks, useCreateTask, useCompleteTask, useSkipTask, useUpdateTask } from '@/hooks/use-tasks';
 import type { Task, TaskCreate } from '@/hooks/use-tasks';
+import { DataTable, type Column } from '@/components/data-table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,6 +23,22 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
+
+const taskColumns: Column<Task>[] = [
+  { key: 'title', label: 'Title' },
+  { key: 'task_type', label: 'Type', render: (row) => (
+    <span className="capitalize">{row.task_type.replace(/_/g, ' ')}</span>
+  )},
+  { key: 'priority', label: 'Priority', render: (row) => <PriorityBadge priority={row.priority} /> },
+  { key: 'status', label: 'Status', render: (row) => (
+    <span className="capitalize">{row.status}</span>
+  )},
+  { key: 'due_date', label: 'Due Date', render: (row) => row.due_date
+    ? new Date(row.due_date + 'T12:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric', year: 'numeric' })
+    : '-'
+  },
+  { key: 'auto_generated', label: 'Source', render: (row) => row.auto_generated ? 'Auto' : '' },
+];
 
 const PRIORITY_COLORS: Record<string, string> = {
   urgent: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
@@ -226,6 +243,14 @@ function TaskSection({ title, icon: Icon, tasks, variant, onComplete, onSkip, on
 }
 
 export function TasksPage() {
+  const [view, setView] = useState<'card' | 'table'>(() =>
+    (localStorage.getItem('tasks-view') as 'card' | 'table') ?? 'card'
+  );
+  const toggleView = (v: 'card' | 'table') => {
+    setView(v);
+    localStorage.setItem('tasks-view', v);
+  };
+
   const { data: overdueData, isLoading: overdueLoading } = useOverdueTasks();
   const { data: todayData, isLoading: todayLoading } = useTodayTasks();
   const { data: weekData } = useWeekTasks();
@@ -294,7 +319,17 @@ export function TasksPage() {
     <div className="space-y-4 max-w-3xl mx-auto">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">Tasks</h2>
-        <CreateTaskDialog />
+        <div className="flex items-center gap-2">
+          <div className="flex gap-1">
+            <Button variant={view === 'card' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('card')}>
+              <LayoutGrid className="w-4 h-4" />
+            </Button>
+            <Button variant={view === 'table' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('table')}>
+              <TableIcon className="w-4 h-4" />
+            </Button>
+          </div>
+          <CreateTaskDialog />
+        </div>
       </div>
 
       {isEmpty ? (
@@ -304,6 +339,8 @@ export function TasksPage() {
             <p className="text-muted-foreground">No tasks yet. Create one to get started!</p>
           </CardContent>
         </Card>
+      ) : view === 'table' ? (
+        <DataTable data={allTasks} columns={taskColumns} exportFilename="tasks" />
       ) : (
         <>
           <TaskSection title="Overdue" icon={AlertTriangle} tasks={overdue} variant="destructive" onComplete={handleComplete} onSkip={handleSkip} onReschedule={handleReschedule} />

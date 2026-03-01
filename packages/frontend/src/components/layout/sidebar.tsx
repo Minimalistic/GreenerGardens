@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Map, BookOpen, Scissors, CheckSquare, CalendarDays, MessageSquare, Settings, Bug, FlaskConical, StickyNote, Search, BarChart3, Sprout } from 'lucide-react';
+import { LayoutDashboard, Map, BookOpen, Scissors, CheckSquare, CalendarDays, MessageSquare, Settings, Bug, FlaskConical, StickyNote, Search, BarChart3, Sprout, History } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const links = [
@@ -12,6 +12,7 @@ const links = [
   { to: '/pest-events', label: 'Pest Tracker', icon: Bug },
   { to: '/soil-tests', label: 'Soil Tests', icon: FlaskConical },
   { to: '/notes', label: 'Notes', icon: StickyNote },
+  { to: '/history', label: 'History', icon: History },
   { to: '/analytics', label: 'Analytics', icon: BarChart3 },
   { to: '/seeds', label: 'Seed Inventory', icon: Sprout },
   { to: '/search', label: 'Search', icon: Search },
