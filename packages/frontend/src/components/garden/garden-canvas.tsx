@@ -298,10 +298,11 @@ export function GardenCanvas({
                 onMouseEnter={handleMouseEnterPlot}
                 onMouseLeave={handleMouseLeavePlot}
               >
+                {/* Plot background — dimmed when showing sub-plots */}
                 <Rect
                   width={g.width}
                   height={g.height}
-                  fill={color}
+                  fill={showSubPlots && subPlots && subPlots.length > 0 ? undefined : color}
                   opacity={0.75}
                   cornerRadius={4}
                   stroke={isSelected ? '#F4D03F' : '#333'}
@@ -310,7 +311,7 @@ export function GardenCanvas({
                   shadowBlur={isSelected ? 8 : 2}
                 />
 
-                {/* Sub-plot overlay (geometry-based) */}
+                {/* Sub-plot shapes within the plot */}
                 {showSubPlots && subPlots && subPlots.map(sp => {
                   const spg = sp.geometry;
                   if (!spg) return null;
@@ -322,10 +323,10 @@ export function GardenCanvas({
                       y={spg.y}
                       width={spg.width}
                       height={spg.height}
-                      fill={hasPlant ? '#4ade80' : 'rgba(255,255,255,0.15)'}
-                      opacity={hasPlant ? 0.6 : 1}
-                      stroke="rgba(255,255,255,0.6)"
-                      strokeWidth={1}
+                      fill={hasPlant ? '#4ade80' : color}
+                      opacity={hasPlant ? 0.8 : 0.5}
+                      stroke="rgba(255,255,255,0.8)"
+                      strokeWidth={1.5}
                       cornerRadius={2}
                       listening={false}
                     />
