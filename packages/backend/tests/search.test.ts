@@ -45,4 +45,23 @@ describe('Search', () => {
     expect(body.data.length).toBeGreaterThanOrEqual(1);
     expect(body.data.some((r: any) => r.entity_type === 'note')).toBe(true);
   });
+
+  it('search with special characters does not crash', async () => {
+    const res = await app.server.inject({
+      method: 'GET',
+      url: '/api/v1/search?q=' + encodeURIComponent("it's 100% \"great\""),
+    });
+    expect(res.statusCode).toBe(200);
+    expect(res.json().success).toBe(true);
+  });
+
+  it('search with very long query returns results or empty', async () => {
+    const longQuery = 'a'.repeat(500);
+    const res = await app.server.inject({
+      method: 'GET',
+      url: `/api/v1/search?q=${longQuery}`,
+    });
+    expect(res.statusCode).toBe(200);
+    expect(res.json().success).toBe(true);
+  });
 });

@@ -80,4 +80,49 @@ describe('Garden CRUD', () => {
     const body = res.json();
     expect(body.success).toBe(false);
   });
+
+  it('GET nonexistent garden by ID returns 404', async () => {
+    const res = await app.server.inject({
+      method: 'GET',
+      url: '/api/v1/gardens/00000000-0000-0000-0000-000000000000',
+    });
+    expect(res.statusCode).toBe(404);
+  });
+
+  it('PATCH nonexistent garden returns 404', async () => {
+    const res = await app.server.inject({
+      method: 'PATCH',
+      url: '/api/v1/gardens/00000000-0000-0000-0000-000000000000',
+      payload: { name: 'Ghost Garden' },
+    });
+    expect(res.statusCode).toBe(404);
+  });
+
+  it('DELETE nonexistent garden returns 404', async () => {
+    const res = await app.server.inject({
+      method: 'DELETE',
+      url: '/api/v1/gardens/00000000-0000-0000-0000-000000000000',
+    });
+    expect(res.statusCode).toBe(404);
+  });
+
+  it('creating two gardens returns both in list', async () => {
+    const r1 = await app.server.inject({
+      method: 'POST',
+      url: '/api/v1/gardens',
+      payload: { name: 'Garden Alpha' },
+    });
+    const r2 = await app.server.inject({
+      method: 'POST',
+      url: '/api/v1/gardens',
+      payload: { name: 'Garden Beta' },
+    });
+    expect(r1.statusCode).toBe(201);
+    expect(r2.statusCode).toBe(201);
+
+    const listRes = await app.server.inject({ method: 'GET', url: '/api/v1/gardens' });
+    const names = listRes.json().data.map((g: any) => g.name);
+    expect(names).toContain('Garden Alpha');
+    expect(names).toContain('Garden Beta');
+  });
 });

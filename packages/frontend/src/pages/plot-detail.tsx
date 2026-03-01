@@ -67,6 +67,7 @@ export function PlotDetail() {
         status: 'planned',
         health: 'good',
         quantity: 1,
+        tags: [],
       });
       toast({ title: 'Plant added!' });
       setPlantDialog({ open: false, subPlotId: null });

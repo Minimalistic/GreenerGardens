@@ -67,6 +67,8 @@ export function GardenLayout() {
         soil_type: formData.soil_type || undefined,
         sun_exposure: formData.sun_exposure as any,
         irrigation: formData.irrigation as any,
+        is_covered: false,
+        tags: [],
       });
       toast({ title: 'Plot created!' });
       setDialogOpen(false);

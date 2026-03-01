@@ -79,7 +79,7 @@ export function AssistantPage() {
 
     // Create conversation if none active
     if (!convId) {
-      const result = await createConv.mutateAsync();
+      const result = await createConv.mutateAsync(undefined);
       convId = result.data.id;
       setActiveConvId(convId);
     }
@@ -96,7 +96,7 @@ export function AssistantPage() {
   };
 
   const handleNewConversation = async () => {
-    const result = await createConv.mutateAsync();
+    const result = await createConv.mutateAsync(undefined);
     setActiveConvId(result.data.id);
   };
 

@@ -26,8 +26,10 @@ interface PestEventCreate {
   pest_type?: string;
   severity?: string;
   detected_date: string;
+  resolved_date?: string | null;
   treatment_applied?: string;
   treatment_type?: string;
+  outcome?: string;
   notes?: string;
   photos?: string[];
 }

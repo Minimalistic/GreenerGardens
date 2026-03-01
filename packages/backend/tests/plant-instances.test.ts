@@ -99,4 +99,62 @@ describe('Plant Instance lifecycle', () => {
     expect(res.statusCode).toBe(200);
     expect(res.json().data.id).toBe(instanceId);
   });
+
+  it('create with nonexistent plant_catalog_id returns error', async () => {
+    const res = await app.server.inject({
+      method: 'POST',
+      url: '/api/v1/plant-instances',
+      payload: {
+        plant_catalog_id: '00000000-0000-0000-0000-000000000000',
+        plot_id: plotId,
+        status: 'planned',
+        quantity: 1,
+        planting_method: 'direct_seed',
+      },
+    });
+    expect(res.statusCode).toBeGreaterThanOrEqual(400);
+  });
+
+  it('create with nonexistent plot_id returns error', async () => {
+    const res = await app.server.inject({
+      method: 'POST',
+      url: '/api/v1/plant-instances',
+      payload: {
+        plant_catalog_id: catalogId,
+        plot_id: '00000000-0000-0000-0000-000000000000',
+        status: 'planned',
+        quantity: 1,
+        planting_method: 'direct_seed',
+      },
+    });
+    expect(res.statusCode).toBeGreaterThanOrEqual(400);
+  });
+
+  it('DELETE instance then GET returns 404', async () => {
+    // Create a disposable instance
+    const createRes = await app.server.inject({
+      method: 'POST',
+      url: '/api/v1/plant-instances',
+      payload: {
+        plant_catalog_id: catalogId,
+        plot_id: plotId,
+        status: 'planned',
+        quantity: 1,
+        planting_method: 'direct_seed',
+      },
+    });
+    const tempId = createRes.json().data.id;
+
+    const delRes = await app.server.inject({
+      method: 'DELETE',
+      url: `/api/v1/plant-instances/${tempId}`,
+    });
+    expect(delRes.statusCode).toBe(204);
+
+    const getRes = await app.server.inject({
+      method: 'GET',
+      url: `/api/v1/plant-instances/${tempId}`,
+    });
+    expect(getRes.statusCode).toBe(404);
+  });
 });
