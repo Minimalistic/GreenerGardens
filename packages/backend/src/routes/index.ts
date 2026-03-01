@@ -47,6 +47,7 @@ import { SeedInventoryService } from '../services/seed-inventory.service.js';
 import { CostEntryService } from '../services/cost-entry.service.js';
 import { AnalyticsService } from '../services/analytics.service.js';
 import { BackupService } from '../services/backup.service.js';
+import { TimelineService } from '../services/timeline.service.js';
 
 import { setupRoutes } from './setup.routes.js';
 import { gardenRoutes } from './garden.routes.js';
@@ -76,6 +77,8 @@ import { seedInventoryRoutes } from './seed-inventory.routes.js';
 import { costEntryRoutes } from './cost-entry.routes.js';
 import { analyticsRoutes } from './analytics.routes.js';
 import { backupRoutes } from './backup.routes.js';
+import { timelineRoutes } from './timeline.routes.js';
+import { weatherCompareRoutes } from './weather-compare.routes.js';
 
 import { startWeatherFetchJob, setAlertService } from '../jobs/weather-fetch.job.js';
 
@@ -131,6 +134,7 @@ export function registerRoutes(fastify: FastifyInstance, db: Database.Database) 
   const costEntryService = new CostEntryService(db, costEntryRepo, history);
   const analyticsService = new AnalyticsService(db);
   const backupService = new BackupService(db);
+  const timelineService = new TimelineService(db);
 
   // Wire up cross-service dependencies (post-construction to avoid circular issues)
   instanceService.setCalendarService(calendarService);
@@ -147,6 +151,7 @@ export function registerRoutes(fastify: FastifyInstance, db: Database.Database) 
   historyRoutes(fastify, historyService);
   settingsRoutes(fastify, gardenService);
   weatherRoutes(fastify, weatherService);
+  weatherCompareRoutes(fastify, db);
   taskRoutes(fastify, taskService);
   calendarRoutes(fastify, calendarService);
   exportRoutes(fastify, db);
@@ -165,6 +170,7 @@ export function registerRoutes(fastify: FastifyInstance, db: Database.Database) 
   costEntryRoutes(fastify, costEntryService);
   analyticsRoutes(fastify, analyticsService);
   backupRoutes(fastify, backupService);
+  timelineRoutes(fastify, timelineService);
 
   // Start background jobs
   setAlertService(alertService);
