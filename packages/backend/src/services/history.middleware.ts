@@ -1,15 +1,20 @@
 import { v4 as uuid } from 'uuid';
 import type { HistoryLogRepository } from '../db/repositories/history-log.repository.js';
 
+export interface HistoryLogOptions {
+  notes?: string;
+  changed_by?: string;
+}
+
 export interface HistoryLogger {
-  logCreate(entityType: string, entity: Record<string, any>): void;
-  logUpdate(entityType: string, entityId: string, oldEntity: Record<string, any>, newEntity: Record<string, any>): void;
-  logDelete(entityType: string, entity: Record<string, any>): void;
+  logCreate(entityType: string, entity: Record<string, any>, options?: HistoryLogOptions): void;
+  logUpdate(entityType: string, entityId: string, oldEntity: Record<string, any>, newEntity: Record<string, any>, options?: HistoryLogOptions): void;
+  logDelete(entityType: string, entity: Record<string, any>, options?: HistoryLogOptions): void;
 }
 
 export function createHistoryLogger(historyRepo: HistoryLogRepository): HistoryLogger {
   return {
-    logCreate(entityType: string, entity: Record<string, any>): void {
+    logCreate(entityType: string, entity: Record<string, any>, options?: HistoryLogOptions): void {
       historyRepo.insert({
         id: uuid(),
         entity_type: entityType,
@@ -18,11 +23,12 @@ export function createHistoryLogger(historyRepo: HistoryLogRepository): HistoryL
         timestamp: new Date().toISOString(),
         field_changes_json: null,
         snapshot_json: JSON.stringify(entity),
-        changed_by: 'system',
+        changed_by: options?.changed_by ?? 'system',
+        notes: options?.notes ?? null,
       });
     },
 
-    logUpdate(entityType: string, entityId: string, oldEntity: Record<string, any>, newEntity: Record<string, any>): void {
+    logUpdate(entityType: string, entityId: string, oldEntity: Record<string, any>, newEntity: Record<string, any>, options?: HistoryLogOptions): void {
       const changes: Record<string, { old: any; new: any }> = {};
 
       for (const key of Object.keys(newEntity)) {
@@ -44,12 +50,13 @@ export function createHistoryLogger(historyRepo: HistoryLogRepository): HistoryL
         action: 'update',
         timestamp: new Date().toISOString(),
         field_changes_json: JSON.stringify(changes),
-        snapshot_json: null,
-        changed_by: 'system',
+        snapshot_json: JSON.stringify(newEntity),
+        changed_by: options?.changed_by ?? 'system',
+        notes: options?.notes ?? null,
       });
     },
 
-    logDelete(entityType: string, entity: Record<string, any>): void {
+    logDelete(entityType: string, entity: Record<string, any>, options?: HistoryLogOptions): void {
       historyRepo.insert({
         id: uuid(),
         entity_type: entityType,
@@ -58,7 +65,8 @@ export function createHistoryLogger(historyRepo: HistoryLogRepository): HistoryL
         timestamp: new Date().toISOString(),
         field_changes_json: null,
         snapshot_json: JSON.stringify(entity),
-        changed_by: 'system',
+        changed_by: options?.changed_by ?? 'system',
+        notes: options?.notes ?? null,
       });
     },
   };

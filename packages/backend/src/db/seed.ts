@@ -31,10 +31,11 @@ export function seedPlantCatalog(db: Database.Database): void {
       days_to_germination_min, days_to_germination_max,
       days_to_maturity_min, days_to_maturity_max,
       planting_depth_inches, indoor_start_weeks_before_frost, outdoor_sow_weeks_after_frost,
+      transplant_weeks_after_last_frost, succession_planting_interval_days,
       harvest_instructions, storage_instructions,
       companions_json, antagonists_json, rotation_family, growing_tips_json
     ) VALUES (
-      ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+      ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
     )
   `);
 
@@ -66,6 +67,8 @@ export function seedPlantCatalog(db: Database.Database): void {
         p.planting_depth_inches ?? null,
         p.indoor_start_weeks_before_frost ?? null,
         p.outdoor_sow_weeks_after_frost ?? null,
+        p.transplant_weeks_after_last_frost ?? null,
+        p.succession_planting_interval_days ?? null,
         p.harvest_instructions ?? null,
         p.storage_instructions ?? null,
         JSON.stringify(p.companions ?? []),

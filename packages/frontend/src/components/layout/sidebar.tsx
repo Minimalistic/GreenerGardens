@@ -1,12 +1,16 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Map, BookOpen, Scissors } from 'lucide-react';
+import { LayoutDashboard, Map, BookOpen, Scissors, CheckSquare, CalendarDays, MessageSquare, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const links = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/garden', label: 'My Garden', icon: Map },
   { to: '/catalog', label: 'Plant Catalog', icon: BookOpen },
+  { to: '/calendar', label: 'Calendar', icon: CalendarDays },
   { to: '/harvests', label: 'Harvests', icon: Scissors },
+  { to: '/tasks', label: 'Tasks', icon: CheckSquare },
+  { to: '/assistant', label: 'Assistant', icon: MessageSquare },
+  { to: '/settings', label: 'Settings', icon: Settings },
 ];
 
 export function Sidebar() {

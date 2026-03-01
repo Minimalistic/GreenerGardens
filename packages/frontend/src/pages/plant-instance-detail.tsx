@@ -3,6 +3,7 @@ import { usePlantInstance, useUpdatePlantStatus, useUpdatePlantHealth } from '@/
 import { useEntityHistory } from '@/hooks/use-history';
 import { useHarvestsByPlant, useCreateHarvest } from '@/hooks/use-harvests';
 import { PlantStatusBadge } from '@/components/garden/plant-status-badge';
+import { SeedStartingTracker } from '@/components/garden/seed-starting-tracker';
 import { HarvestQuickLog } from '@/components/garden/harvest-quick-log';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,8 +15,9 @@ import { formatDistanceToNow } from 'date-fns';
 import { useState } from 'react';
 
 const STATUS_ORDER = [
-  'planned', 'seed_started', 'seedling', 'transplanted', 'vegetative',
-  'flowering', 'fruiting', 'harvesting', 'finished', 'failed', 'removed',
+  'planned', 'seed_started', 'germinated', 'seedling', 'hardening_off',
+  'transplanted', 'vegetative', 'flowering', 'fruiting', 'harvesting',
+  'finished', 'failed', 'removed',
 ];
 
 const HEALTH_OPTIONS = ['excellent', 'good', 'fair', 'poor', 'critical', 'dead'];
@@ -112,6 +114,22 @@ export function PlantInstanceDetail() {
           </CardContent>
         </Card>
       </div>
+
+      {['seed_started', 'germinated', 'seedling', 'hardening_off', 'transplanted'].includes(plant.status) && (
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm">Seed Starting Progress</CardTitle>
+          </CardHeader>
+          <CardContent className="flex justify-center overflow-x-auto">
+            <SeedStartingTracker
+              status={plant.status}
+              datePlanted={plant.date_planted}
+              dateGerminated={plant.date_germinated}
+              dateTransplanted={plant.date_transplanted}
+            />
+          </CardContent>
+        </Card>
+      )}
 
       <Card>
         <CardHeader className="pb-2">

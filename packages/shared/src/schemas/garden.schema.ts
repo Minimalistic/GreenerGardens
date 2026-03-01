@@ -1,6 +1,12 @@
 import { z } from 'zod';
 import { BaseEntitySchema } from './common.js';
 
+export const GardenSettingsSchema = z.object({
+  temperature_unit: z.enum(['fahrenheit', 'celsius']).default('fahrenheit'),
+  measurement_unit: z.enum(['imperial', 'metric']).default('imperial'),
+  date_format: z.enum(['MM/DD/YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD']).default('MM/DD/YYYY'),
+}).passthrough();
+
 export const GardenCreateSchema = z.object({
   name: z.string().min(1).max(100),
   description: z.string().max(500).optional(),
@@ -11,6 +17,8 @@ export const GardenCreateSchema = z.object({
   timezone: z.string().max(50).optional(),
   last_frost_date: z.string().optional(),
   first_frost_date: z.string().optional(),
+  total_area_sqft: z.number().positive().optional(),
+  settings: GardenSettingsSchema.optional(),
 });
 
 export const GardenUpdateSchema = GardenCreateSchema.partial();

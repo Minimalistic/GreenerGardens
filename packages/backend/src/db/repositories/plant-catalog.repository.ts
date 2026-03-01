@@ -27,6 +27,8 @@ export interface PlantCatalogRow {
   planting_depth_inches: number | null;
   indoor_start_weeks_before_frost: number | null;
   outdoor_sow_weeks_after_frost: number | null;
+  transplant_weeks_after_last_frost: number | null;
+  succession_planting_interval_days: number | null;
   harvest_instructions: string | null;
   storage_instructions: string | null;
   companions_json: string;

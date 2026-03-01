@@ -16,6 +16,11 @@ export const PlantInstanceCreateSchema = z.object({
   date_first_harvest: z.string().optional(),
   date_finished: z.string().optional(),
   quantity: z.number().int().positive().default(1),
+  expected_harvest_date: z.string().optional(),
+  actual_harvest_date: z.string().optional(),
+  seed_depth_inches: z.number().positive().optional(),
+  spacing_inches: z.number().positive().optional(),
+  tags: z.array(z.string()).default([]),
   source: z.string().max(100).optional(),
   notes: z.string().max(1000).optional(),
 });

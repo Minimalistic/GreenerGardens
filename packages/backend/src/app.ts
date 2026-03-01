@@ -1,11 +1,17 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
+import fastifyStatic from '@fastify/static';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 import { getDb } from './db/connection.js';
 import { runMigrations } from './db/migrate.js';
 import { seedPlantCatalog } from './db/seed.js';
 import { registerRoutes } from './routes/index.js';
 import { NotFoundError, ValidationError } from './utils/errors.js';
 import { ZodError } from 'zod';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export async function buildApp() {
   const server = Fastify({ logger: true });
@@ -15,6 +21,16 @@ export async function buildApp() {
     origin: true,
     credentials: true,
   });
+
+  // Serve frontend static files in production
+  const frontendDist = path.resolve(__dirname, '../../../frontend/dist');
+  if (fs.existsSync(frontendDist)) {
+    await server.register(fastifyStatic, {
+      root: frontendDist,
+      prefix: '/',
+      wildcard: false,
+    });
+  }
 
   // Initialize database
   const db = getDb();
@@ -30,6 +46,20 @@ export async function buildApp() {
 
   // Register all routes
   registerRoutes(server, db);
+
+  // SPA fallback: serve index.html for non-API routes in production
+  if (fs.existsSync(frontendDist)) {
+    server.setNotFoundHandler((request, reply) => {
+      if (request.url.startsWith('/api/')) {
+        reply.status(404).send({
+          success: false,
+          error: { code: 'NOT_FOUND', message: `Route ${request.method} ${request.url} not found` },
+        });
+      } else {
+        reply.sendFile('index.html');
+      }
+    });
+  }
 
   // Global error handler
   server.setErrorHandler((error, _request, reply) => {

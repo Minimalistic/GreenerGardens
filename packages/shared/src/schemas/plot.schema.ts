@@ -25,6 +25,8 @@ export const PlotCreateSchema = z.object({
   soil_type: z.string().max(100).optional(),
   sun_exposure: SunExposureEnum.optional(),
   irrigation: IrrigationTypeEnum.optional(),
+  is_covered: z.boolean().default(false),
+  tags: z.array(z.string()).default([]),
   notes: z.string().max(1000).optional(),
 });
 

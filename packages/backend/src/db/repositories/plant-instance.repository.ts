@@ -16,6 +16,11 @@ export interface PlantInstanceRow {
   date_first_harvest: string | null;
   date_finished: string | null;
   quantity: number;
+  expected_harvest_date: string | null;
+  actual_harvest_date: string | null;
+  seed_depth_inches: number | null;
+  spacing_inches: number | null;
+  tags: string;
   source: string | null;
   notes: string | null;
   created_at: string;

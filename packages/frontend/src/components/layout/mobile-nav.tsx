@@ -1,12 +1,13 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Map, BookOpen, Scissors } from 'lucide-react';
+import { LayoutDashboard, Map, BookOpen, CheckSquare, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const links = [
   { to: '/dashboard', label: 'Home', icon: LayoutDashboard },
   { to: '/garden', label: 'Garden', icon: Map },
   { to: '/catalog', label: 'Catalog', icon: BookOpen },
-  { to: '/harvests', label: 'Harvests', icon: Scissors },
+  { to: '/tasks', label: 'Tasks', icon: CheckSquare },
+  { to: '/settings', label: 'Settings', icon: Settings },
 ];
 
 export function MobileNav() {

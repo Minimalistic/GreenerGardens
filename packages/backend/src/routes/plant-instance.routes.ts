@@ -41,4 +41,31 @@ export function plantInstanceRoutes(fastify: FastifyInstance, instanceService: P
     const instance = instanceService.updateHealth(request.params.id, request.body);
     return { success: true, data: instance };
   });
+
+  // Succession planting: create a series of staggered plant instances
+  fastify.post('/api/v1/plant-instances/succession', async (request, reply) => {
+    const body = request.body as {
+      plant_catalog_id: string;
+      plot_id: string;
+      start_date: string;
+      interval_days: number;
+      count: number;
+      planting_method?: string;
+      sub_plot_id?: string;
+    };
+
+    if (!body.plant_catalog_id || !body.plot_id || !body.start_date || !body.interval_days || !body.count) {
+      reply.status(400);
+      return { success: false, error: 'plant_catalog_id, plot_id, start_date, interval_days, and count are required' };
+    }
+
+    if (body.count < 1 || body.count > 20) {
+      reply.status(400);
+      return { success: false, error: 'count must be between 1 and 20' };
+    }
+
+    const instances = instanceService.createSuccession(body);
+    reply.status(201);
+    return { success: true, data: instances };
+  });
 }

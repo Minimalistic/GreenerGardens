@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '@/lib/query-client';
 import { GardenProvider } from '@/contexts/garden-context';
+import { ThemeProvider } from '@/components/theme-provider';
 import { SetupGuard } from '@/components/layout/setup-guard';
 import { AppShell } from '@/components/layout/app-shell';
 import { SetupWizard } from '@/pages/setup-wizard';
@@ -12,12 +13,17 @@ import { PlantCatalogPage } from '@/pages/plant-catalog';
 import { PlantDetail } from '@/pages/plant-detail';
 import { PlantInstanceDetail } from '@/pages/plant-instance-detail';
 import { HarvestLog } from '@/pages/harvest-log';
+import { TasksPage } from '@/pages/tasks';
+import { CalendarPage } from '@/pages/calendar';
+import { SettingsPage } from '@/pages/settings';
+import { AssistantPage } from '@/pages/assistant';
 
 export default function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <GardenProvider>
-        <BrowserRouter>
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <GardenProvider>
+          <BrowserRouter>
           <Routes>
             <Route path="/setup" element={<SetupWizard />} />
             <Route element={<SetupGuard />}>
@@ -29,12 +35,17 @@ export default function App() {
                 <Route path="/catalog/:plantId" element={<PlantDetail />} />
                 <Route path="/plants/:instanceId" element={<PlantInstanceDetail />} />
                 <Route path="/harvests" element={<HarvestLog />} />
+                <Route path="/tasks" element={<TasksPage />} />
+                <Route path="/calendar" element={<CalendarPage />} />
+                <Route path="/assistant" element={<AssistantPage />} />
+                <Route path="/settings" element={<SettingsPage />} />
               </Route>
             </Route>
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
-        </BrowserRouter>
-      </GardenProvider>
-    </QueryClientProvider>
+          </BrowserRouter>
+        </GardenProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }

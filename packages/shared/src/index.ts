@@ -8,6 +8,9 @@ export * from './schemas/plant-catalog.schema.js';
 export * from './schemas/plant-instance.schema.js';
 export * from './schemas/harvest.schema.js';
 export * from './schemas/history-log.schema.js';
+export * from './schemas/weather.schema.js';
+export * from './schemas/task.schema.js';
+export * from './schemas/llm.schema.js';
 
 // API types
 export * from './api/responses.js';

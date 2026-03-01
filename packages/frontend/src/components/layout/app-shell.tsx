@@ -10,7 +10,11 @@ const PAGE_TITLES: Record<string, string> = {
   '/dashboard': 'Dashboard',
   '/garden': 'My Garden',
   '/catalog': 'Plant Catalog',
+  '/calendar': 'Calendar',
   '/harvests': 'Harvest Log',
+  '/tasks': 'Tasks',
+  '/assistant': 'Garden Assistant',
+  '/settings': 'Settings',
 };
 
 export function AppShell() {

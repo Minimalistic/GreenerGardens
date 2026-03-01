@@ -51,6 +51,8 @@ export class PlotService {
       soil_type: parsed.soil_type ?? null,
       sun_exposure: parsed.sun_exposure ?? null,
       irrigation: parsed.irrigation ?? null,
+      is_covered: parsed.is_covered ? 1 : 0,
+      tags: JSON.stringify(parsed.tags ?? []),
       notes: parsed.notes ?? null,
     };
 
@@ -96,6 +98,8 @@ export class PlotService {
       if (parsed.soil_type !== undefined) updateData.soil_type = parsed.soil_type;
       if (parsed.sun_exposure !== undefined) updateData.sun_exposure = parsed.sun_exposure;
       if (parsed.irrigation !== undefined) updateData.irrigation = parsed.irrigation;
+      if (parsed.is_covered !== undefined) updateData.is_covered = parsed.is_covered ? 1 : 0;
+      if (parsed.tags !== undefined) updateData.tags = JSON.stringify(parsed.tags);
       if (parsed.notes !== undefined) updateData.notes = parsed.notes;
 
       const updated = this.plotRepo.update(id, updateData);
@@ -123,6 +127,8 @@ export class PlotService {
       ...row,
       dimensions: JSON.parse(row.dimensions_json),
       geometry: JSON.parse(row.geometry_json),
+      is_covered: Boolean(row.is_covered),
+      tags: JSON.parse(row.tags || '[]'),
     };
   }
 }

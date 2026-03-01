@@ -53,6 +53,26 @@ export function useUpdatePlantHealth() {
   });
 }
 
+export function useCreateSuccessionPlanting() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: {
+      plant_catalog_id: string;
+      plot_id: string;
+      start_date: string;
+      interval_days: number;
+      count: number;
+      planting_method?: string;
+      sub_plot_id?: string;
+    }) => api.post<ApiResponse<PlantInstance[]>>('/plant-instances/succession', data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['plant-instances'] });
+      queryClient.invalidateQueries({ queryKey: ['sub-plots'] });
+      queryClient.invalidateQueries({ queryKey: ['calendar'] });
+    },
+  });
+}
+
 export function useDeletePlantInstance() {
   const queryClient = useQueryClient();
   return useMutation({

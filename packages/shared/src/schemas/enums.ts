@@ -31,7 +31,9 @@ export type IrrigationType = z.infer<typeof IrrigationTypeEnum>;
 export const PlantStatusEnum = z.enum([
   'planned',
   'seed_started',
+  'germinated',
   'seedling',
+  'hardening_off',
   'transplanted',
   'vegetative',
   'flowering',
@@ -110,8 +112,60 @@ export const EntityTypeEnum = z.enum([
   'sub_plot',
   'plant_instance',
   'harvest',
+  'task',
+  'weather_reading',
 ]);
 export type EntityType = z.infer<typeof EntityTypeEnum>;
+
+export const TaskTypeEnum = z.enum([
+  'watering',
+  'fertilizing',
+  'pruning',
+  'harvesting',
+  'planting',
+  'transplanting',
+  'pest_control',
+  'weeding',
+  'soil_prep',
+  'seed_starting',
+  'hardening_off',
+  'other',
+]);
+export type TaskType = z.infer<typeof TaskTypeEnum>;
+
+export const TaskPriorityEnum = z.enum([
+  'low',
+  'medium',
+  'high',
+  'urgent',
+]);
+export type TaskPriority = z.infer<typeof TaskPriorityEnum>;
+
+export const TaskStatusEnum = z.enum([
+  'pending',
+  'in_progress',
+  'completed',
+  'skipped',
+  'cancelled',
+]);
+export type TaskStatus = z.infer<typeof TaskStatusEnum>;
+
+export const WeatherSourceEnum = z.enum([
+  'api_current',
+  'api_forecast',
+  'manual',
+]);
+export type WeatherSource = z.infer<typeof WeatherSourceEnum>;
+
+export const PrecipitationTypeEnum = z.enum([
+  'none',
+  'rain',
+  'snow',
+  'sleet',
+  'hail',
+  'drizzle',
+]);
+export type PrecipitationType = z.infer<typeof PrecipitationTypeEnum>;
 
 export const PlantTypeEnum = z.enum([
   'vegetable',

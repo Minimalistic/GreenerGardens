@@ -32,6 +32,8 @@ export const PlantCatalogCreateSchema = z.object({
   planting_depth_inches: z.number().positive().optional(),
   indoor_start_weeks_before_frost: z.number().int().optional(),
   outdoor_sow_weeks_after_frost: z.number().int().optional(),
+  transplant_weeks_after_last_frost: z.number().int().optional(),
+  succession_planting_interval_days: z.number().int().positive().optional(),
 
   // Harvest info
   harvest_instructions: z.string().max(500).optional(),

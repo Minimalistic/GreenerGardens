@@ -15,6 +15,7 @@ export const HistoryLogSchema = z.object({
   field_changes: FieldChangeSchema.nullable().optional(),
   snapshot: z.record(z.string(), z.unknown()).nullable().optional(),
   changed_by: z.string().default('system'),
+  notes: z.string().nullable().optional(),
 });
 
 export type FieldChange = z.infer<typeof FieldChangeSchema>;

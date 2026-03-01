@@ -1,0 +1,19 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - db-data:/data
+      - uploads:/uploads
+    environment:
+      - PORT=3000
+      - DATABASE_PATH=/data/gardenvault.db
+      # Uncomment and set when ready:
+      # - OPENWEATHER_API_KEY=
+      # - ANTHROPIC_API_KEY=
+    restart: unless-stopped
+
+volumes:
+  db-data:
+  uploads:

@@ -14,7 +14,8 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft, Sprout } from 'lucide-react';
+import { SuccessionPlantingDialog } from '@/components/garden/succession-planting-dialog';
+import { ArrowLeft, Layers, Sprout } from 'lucide-react';
 
 export function PlotDetail() {
   const { plotId } = useParams<{ plotId: string }>();
@@ -27,6 +28,7 @@ export function PlotDetail() {
     open: false,
     subPlotId: null,
   });
+  const [successionOpen, setSuccessionOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [selectedCatalogId, setSelectedCatalogId] = useState<string | null>(null);
   const [varietyName, setVarietyName] = useState('');
@@ -81,7 +83,7 @@ export function PlotDetail() {
         <Button variant="ghost" size="icon" onClick={() => navigate('/garden')}>
           <ArrowLeft className="w-5 h-5" />
         </Button>
-        <div>
+        <div className="flex-1">
           <h2 className="text-xl font-semibold">{(plot as any).name}</h2>
           <p className="text-sm text-muted-foreground capitalize">
             {(plot as any).plot_type?.replace('_', ' ')}
@@ -89,6 +91,10 @@ export function PlotDetail() {
               ` - ${(plot as any).dimensions.length_ft}' x ${(plot as any).dimensions.width_ft}'`}
           </p>
         </div>
+        <Button variant="outline" size="sm" onClick={() => setSuccessionOpen(true)}>
+          <Layers className="w-4 h-4 mr-1" />
+          Succession
+        </Button>
       </div>
 
       <Card>
@@ -158,6 +164,12 @@ export function PlotDetail() {
           </div>
         </DialogContent>
       </Dialog>
+
+      <SuccessionPlantingDialog
+        open={successionOpen}
+        onOpenChange={setSuccessionOpen}
+        plotId={plotId!}
+      />
     </div>
   );
 }

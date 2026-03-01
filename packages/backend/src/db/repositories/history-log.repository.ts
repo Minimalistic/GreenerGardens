@@ -9,6 +9,7 @@ export interface HistoryLogRow {
   field_changes_json: string | null;
   snapshot_json: string | null;
   changed_by: string;
+  notes: string | null;
 }
 
 export class HistoryLogRepository {
@@ -23,14 +24,15 @@ export class HistoryLogRepository {
     field_changes_json: string | null;
     snapshot_json: string | null;
     changed_by: string;
+    notes: string | null;
   }): HistoryLogRow {
     return this.db.prepare(`
-      INSERT INTO history_log (id, entity_type, entity_id, action, timestamp, field_changes_json, snapshot_json, changed_by)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO history_log (id, entity_type, entity_id, action, timestamp, field_changes_json, snapshot_json, changed_by, notes)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
       RETURNING *
     `).get(
       data.id, data.entity_type, data.entity_id, data.action,
-      data.timestamp, data.field_changes_json, data.snapshot_json, data.changed_by
+      data.timestamp, data.field_changes_json, data.snapshot_json, data.changed_by, data.notes
     ) as HistoryLogRow;
   }
 

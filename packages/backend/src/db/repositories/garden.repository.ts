@@ -12,6 +12,8 @@ export interface GardenRow {
   timezone: string | null;
   last_frost_date: string | null;
   first_frost_date: string | null;
+  total_area_sqft: number | null;
+  settings: string;
   created_at: string;
   updated_at: string;
 }

@@ -11,6 +11,9 @@ export interface PlotRow {
   soil_type: string | null;
   sun_exposure: string | null;
   irrigation: string | null;
+  is_covered: number;
+  retired_at: string | null;
+  tags: string;
   notes: string | null;
   created_at: string;
   updated_at: string;

@@ -18,42 +18,51 @@ export class GardenService {
   }
 
   findAll() {
-    return this.gardenRepo.findAll({ orderBy: 'name', orderDir: 'ASC' });
+    return this.gardenRepo.findAll({ orderBy: 'name', orderDir: 'ASC' }).map(g => this.deserialize(g));
   }
 
   findById(id: string) {
     const garden = this.gardenRepo.findById(id);
     if (!garden) throw new NotFoundError('Garden', id);
-    return garden;
+    return this.deserialize(garden);
   }
 
-  create(data: unknown): GardenRow {
+  create(data: unknown) {
     const parsed = GardenCreateSchema.parse(data);
     const id = uuid();
 
-    const row: Record<string, any> = { id, ...parsed };
+    const row: Record<string, any> = {
+      id,
+      ...parsed,
+      settings: parsed.settings ? JSON.stringify(parsed.settings) : '{}',
+    };
 
     const result = this.db.transaction(() => {
       const created = this.gardenRepo.insert(row);
       this.history.logCreate('garden', created);
-      return created;
+      return this.deserialize(created);
     })();
 
     return result;
   }
 
-  update(id: string, data: unknown): GardenRow {
+  update(id: string, data: unknown) {
     const parsed = GardenUpdateSchema.parse(data);
+
+    const updateData: Record<string, any> = { ...parsed };
+    if (parsed.settings !== undefined) {
+      updateData.settings = JSON.stringify(parsed.settings);
+    }
 
     const result = this.db.transaction(() => {
       const old = this.gardenRepo.findById(id);
       if (!old) throw new NotFoundError('Garden', id);
 
-      const updated = this.gardenRepo.update(id, parsed);
+      const updated = this.gardenRepo.update(id, updateData);
       if (!updated) throw new NotFoundError('Garden', id);
 
       this.history.logUpdate('garden', id, old, updated);
-      return updated;
+      return this.deserialize(updated);
     })();
 
     return result;
@@ -67,5 +76,12 @@ export class GardenService {
       this.gardenRepo.delete(id);
       this.history.logDelete('garden', old);
     })();
+  }
+
+  private deserialize(row: GardenRow): any {
+    return {
+      ...row,
+      settings: JSON.parse(row.settings || '{}'),
+    };
   }
 }
