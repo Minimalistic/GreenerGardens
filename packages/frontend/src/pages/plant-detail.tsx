@@ -1,17 +1,20 @@
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { usePlantCatalogEntry } from '@/hooks/use-plant-catalog';
+import { PlantFormDialog } from '@/components/plant-form-dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft, Sun, Droplets, Ruler, Clock } from 'lucide-react';
+import { ArrowLeft, Sun, Droplets, Ruler, Clock, Pencil } from 'lucide-react';
+import { EntityNotes } from '@/components/notes/entity-notes';
 
 export function PlantDetail() {
   const { plantId } = useParams<{ plantId: string }>();
   const navigate = useNavigate();
   const { data, isLoading } = usePlantCatalogEntry(plantId ?? null);
+  const [formOpen, setFormOpen] = useState(false);
 
   if (isLoading) {
     return (
@@ -26,6 +29,7 @@ export function PlantDetail() {
   if (!plant) return <p>Plant not found</p>;
 
   const p = plant as any;
+  const isCustom = p.is_custom === 1;
 
   return (
     <div className="space-y-4 max-w-3xl mx-auto">
@@ -34,13 +38,34 @@ export function PlantDetail() {
           <ArrowLeft className="w-5 h-5" />
         </Button>
         <div>
-          <h2 className="text-xl font-semibold">{p.common_name}</h2>
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl font-semibold">{p.common_name}</h2>
+            {isCustom && <Badge variant="secondary">Custom</Badge>}
+          </div>
           {p.scientific_name && (
             <p className="text-sm text-muted-foreground italic">{p.scientific_name}</p>
           )}
         </div>
-        <Badge variant="outline" className="ml-auto capitalize">{p.plant_type}</Badge>
+        <div className="ml-auto flex items-center gap-2">
+          <Badge variant="outline" className="capitalize">{p.plant_type}</Badge>
+          {isCustom && (
+            <Button variant="outline" size="sm" onClick={() => setFormOpen(true)}>
+              <Pencil className="w-4 h-4 mr-1" />
+              Edit
+            </Button>
+          )}
+        </div>
       </div>
+
+      {p.image_url && (
+        <div className="rounded-lg overflow-hidden bg-muted">
+          <img
+            src={p.image_url}
+            alt={p.common_name}
+            className="w-full max-h-64 object-cover"
+          />
+        </div>
+      )}
 
       <Tabs defaultValue="overview">
         <TabsList>
@@ -48,6 +73,7 @@ export function PlantDetail() {
           <TabsTrigger value="growing">Growing</TabsTrigger>
           <TabsTrigger value="planting">Planting</TabsTrigger>
           <TabsTrigger value="companions">Companions</TabsTrigger>
+          <TabsTrigger value="notes">Notes</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
@@ -106,7 +132,7 @@ export function PlantDetail() {
         <TabsContent value="planting" className="space-y-4">
           <Card>
             <CardContent className="pt-4 space-y-2">
-              {p.planting_depth_inches && (
+              {p.planting_depth_inches != null && (
                 <InfoRow label="Planting Depth" value={`${p.planting_depth_inches}"`} />
               )}
               {(p.days_to_germination_min || p.days_to_germination_max) && (
@@ -167,7 +193,18 @@ export function PlantDetail() {
             </Card>
           )}
         </TabsContent>
+
+        <TabsContent value="notes">
+          <EntityNotes entityType="plant_catalog" entityId={plantId!} />
+        </TabsContent>
       </Tabs>
+
+      <PlantFormDialog
+        open={formOpen}
+        onOpenChange={setFormOpen}
+        plant={isCustom ? p : undefined}
+        onDeleted={() => navigate('/catalog')}
+      />
     </div>
   );
 }
