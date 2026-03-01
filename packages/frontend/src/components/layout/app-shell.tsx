@@ -17,6 +17,8 @@ const PAGE_TITLES: Record<string, string> = {
   '/soil-tests': 'Soil Tests',
   '/notes': 'Garden Notes',
   '/search': 'Search',
+  '/analytics': 'Analytics',
+  '/seeds': 'Seed Inventory',
   '/assistant': 'Garden Assistant',
   '/settings': 'Settings',
 };

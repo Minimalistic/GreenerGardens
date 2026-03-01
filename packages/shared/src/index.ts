@@ -16,6 +16,8 @@ export * from './schemas/pest-event.schema.js';
 export * from './schemas/soil-test.schema.js';
 export * from './schemas/note.schema.js';
 export * from './schemas/tag.schema.js';
+export * from './schemas/seed-inventory.schema.js';
+export * from './schemas/cost-entry.schema.js';
 
 // API types
 export * from './api/responses.js';

@@ -16,6 +16,8 @@ import { PestEventRepository } from '../db/repositories/pest-event.repository.js
 import { SoilTestRepository } from '../db/repositories/soil-test.repository.js';
 import { NoteRepository } from '../db/repositories/note.repository.js';
 import { TagRepository } from '../db/repositories/tag.repository.js';
+import { SeedInventoryRepository } from '../db/repositories/seed-inventory.repository.js';
+import { CostEntryRepository } from '../db/repositories/cost-entry.repository.js';
 
 import { createHistoryLogger } from '../services/history.middleware.js';
 
@@ -41,6 +43,10 @@ import { RotationService } from '../services/rotation.service.js';
 import { SearchService } from '../services/search.service.js';
 import { AlertService } from '../services/alert.service.js';
 import { PlantingGuideService } from '../services/planting-guide.service.js';
+import { SeedInventoryService } from '../services/seed-inventory.service.js';
+import { CostEntryService } from '../services/cost-entry.service.js';
+import { AnalyticsService } from '../services/analytics.service.js';
+import { BackupService } from '../services/backup.service.js';
 
 import { setupRoutes } from './setup.routes.js';
 import { gardenRoutes } from './garden.routes.js';
@@ -66,6 +72,10 @@ import { rotationRoutes } from './rotation.routes.js';
 import { searchRoutes } from './search.routes.js';
 import { alertRoutes } from './alert.routes.js';
 import { plantingGuideRoutes } from './planting-guide.routes.js';
+import { seedInventoryRoutes } from './seed-inventory.routes.js';
+import { costEntryRoutes } from './cost-entry.routes.js';
+import { analyticsRoutes } from './analytics.routes.js';
+import { backupRoutes } from './backup.routes.js';
 
 import { startWeatherFetchJob, setAlertService } from '../jobs/weather-fetch.job.js';
 
@@ -88,6 +98,8 @@ export function registerRoutes(fastify: FastifyInstance, db: Database.Database) 
   const soilTestRepo = new SoilTestRepository(db);
   const noteRepo = new NoteRepository(db);
   const tagRepo = new TagRepository(db);
+  const seedInventoryRepo = new SeedInventoryRepository(db);
+  const costEntryRepo = new CostEntryRepository(db);
 
   // History logger
   const history = createHistoryLogger(historyRepo);
@@ -115,6 +127,10 @@ export function registerRoutes(fastify: FastifyInstance, db: Database.Database) 
   const searchService = new SearchService(db);
   const alertService = new AlertService(db, weatherService, taskRepo, gardenRepo);
   const plantingGuideService = new PlantingGuideService(db, gardenRepo, catalogRepo);
+  const seedInventoryService = new SeedInventoryService(db, seedInventoryRepo, history);
+  const costEntryService = new CostEntryService(db, costEntryRepo, history);
+  const analyticsService = new AnalyticsService(db);
+  const backupService = new BackupService(db);
 
   // Wire up cross-service dependencies (post-construction to avoid circular issues)
   instanceService.setCalendarService(calendarService);
@@ -145,6 +161,10 @@ export function registerRoutes(fastify: FastifyInstance, db: Database.Database) 
   searchRoutes(fastify, searchService);
   alertRoutes(fastify, alertService);
   plantingGuideRoutes(fastify, plantingGuideService);
+  seedInventoryRoutes(fastify, seedInventoryService);
+  costEntryRoutes(fastify, costEntryService);
+  analyticsRoutes(fastify, analyticsService);
+  backupRoutes(fastify, backupService);
 
   // Start background jobs
   setAlertService(alertService);
