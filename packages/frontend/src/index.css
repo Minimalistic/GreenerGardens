@@ -65,6 +65,10 @@
     --ring: 140 30% 45%;
   }
 
+  html {
+    font-size: 17px;
+  }
+
   * {
     @apply border-border;
   }

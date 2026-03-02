@@ -6,7 +6,7 @@ import { DataTable, type Column } from '@/components/data-table';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { PlantTypeBadge } from '@/components/garden/plant-type-badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Search, LayoutGrid, TableIcon, Plus } from 'lucide-react';
@@ -88,13 +88,10 @@ export function PlantCatalogPage() {
       <span className="italic text-muted-foreground">{row.scientific_name ?? '-'}</span>
     )},
     { key: 'plant_type', label: 'Type', render: (row) => (
-      <Badge
-        variant="outline"
-        className="capitalize cursor-pointer hover:ring-1 hover:ring-ring"
+      <PlantTypeBadge
+        plantType={row.plant_type}
         onClick={() => { setPlantType(row.plant_type); setPage(1); }}
-      >
-        {row.plant_type}
-      </Badge>
+      />
     )},
     { key: 'sun_exposure', label: 'Sun', render: (row) => (
       <span className="capitalize">{row.sun_exposure?.replace(/_/g, ' ') ?? '-'}</span>
@@ -191,13 +188,11 @@ export function PlantCatalogPage() {
                 <CardContent className="p-4 space-y-2 relative">
                   <div className="flex items-start justify-between">
                     <h3 className="font-semibold text-sm">{plant.common_name}</h3>
-                    <Badge
-                      variant="outline"
-                      className="text-xs capitalize shrink-0 ml-2 cursor-pointer hover:ring-1 hover:ring-ring bg-background/80"
+                    <PlantTypeBadge
+                      plantType={plant.plant_type}
+                      className="text-xs shrink-0 ml-2"
                       onClick={(e) => { e.stopPropagation(); setPlantType(plant.plant_type); setPage(1); }}
-                    >
-                      {plant.plant_type}
-                    </Badge>
+                    />
                   </div>
                   {plant.scientific_name && (
                     <p className="text-xs text-muted-foreground italic">{plant.scientific_name}</p>

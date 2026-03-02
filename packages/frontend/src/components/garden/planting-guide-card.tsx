@@ -1,13 +1,29 @@
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sprout, Clock, ArrowRight } from 'lucide-react';
+import { Sprout, Clock, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
 import { usePlantingGuide } from '@/hooks/use-planting-guide';
 import { useGardenContext } from '@/contexts/garden-context';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
+import { PLANT_TYPE_COLORS } from '@/lib/plant-type-colors';
 
 function GuideSection({ title, icon: Icon, entries }: { title: string; icon: typeof Sprout; entries: any[] }) {
   const navigate = useNavigate();
+  const [expanded, setExpanded] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.style.maxHeight = expanded
+        ? `${contentRef.current.scrollHeight}px`
+        : '0px';
+    }
+  }, [expanded]);
+
   if (entries.length === 0) return null;
+
+  const hasMore = entries.length > 5;
 
   return (
     <div>
@@ -19,18 +35,55 @@ function GuideSection({ title, icon: Icon, entries }: { title: string; icon: typ
         {entries.slice(0, 5).map((entry: any) => (
           <Badge
             key={entry.plant_id}
-            variant="secondary"
-            className="cursor-pointer hover:bg-secondary/80"
+            variant="outline"
+            className={cn(
+              'cursor-pointer hover:ring-1 hover:ring-ring',
+              PLANT_TYPE_COLORS[entry.plant_type] ?? PLANT_TYPE_COLORS.other,
+            )}
             onClick={() => navigate(`/catalog/${entry.plant_id}`)}
           >
             {entry.common_name}
-            <span className="ml-1 text-xs text-muted-foreground">({entry.days_remaining}d left)</span>
+            <span className="ml-1 text-xs opacity-70">({entry.days_remaining}d left)</span>
           </Badge>
         ))}
-        {entries.length > 5 && (
-          <Badge variant="outline">+{entries.length - 5} more</Badge>
+        {hasMore && (
+          <Badge
+            variant="outline"
+            className="cursor-pointer hover:ring-1 hover:ring-ring"
+            onClick={() => setExpanded(!expanded)}
+          >
+            {expanded ? 'Show less' : `+${entries.length - 5} more`}
+            {expanded ? <ChevronUp className="w-3 h-3 ml-1" /> : <ChevronDown className="w-3 h-3 ml-1" />}
+          </Badge>
         )}
       </div>
+      {hasMore && (
+        <div
+          ref={contentRef}
+          className="overflow-hidden transition-all duration-300 ease-in-out"
+          style={{
+            maxHeight: expanded ? contentRef.current?.scrollHeight ?? 0 : 0,
+            opacity: expanded ? 1 : 0,
+          }}
+        >
+          <div className="flex flex-wrap gap-2 pt-2">
+            {entries.slice(5).map((entry: any) => (
+              <Badge
+                key={entry.plant_id}
+                variant="outline"
+                className={cn(
+                  'cursor-pointer hover:ring-1 hover:ring-ring',
+                  PLANT_TYPE_COLORS[entry.plant_type] ?? PLANT_TYPE_COLORS.other,
+                )}
+                onClick={() => navigate(`/catalog/${entry.plant_id}`)}
+              >
+                {entry.common_name}
+                <span className="ml-1 text-xs opacity-70">({entry.days_remaining}d left)</span>
+              </Badge>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

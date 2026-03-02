@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { Layers } from 'lucide-react';
+import { PlantTypeBadge } from '@/components/garden/plant-type-badge';
 
 const PLANTING_METHODS = [
   { value: 'direct_seed', label: 'Direct Seed' },
@@ -114,7 +115,7 @@ export function SuccessionPlantingDialog({ open, onOpenChange, plotId, subPlotId
                         onClick={() => { setSelectedCatalogId(plant.id); setSelectedName(plant.common_name); }}
                       >
                         {plant.common_name}
-                        <span className="text-muted-foreground ml-2 text-xs capitalize">{plant.plant_type}</span>
+                        <PlantTypeBadge plantType={plant.plant_type} className="ml-2 text-[10px] px-1.5 py-0" />
                       </button>
                     ))}
                   </div>

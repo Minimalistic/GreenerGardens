@@ -5,6 +5,7 @@ import { PlantFormDialog } from '@/components/plant-form-dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { PlantTypeBadge } from '@/components/garden/plant-type-badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ArrowLeft, Sun, Droplets, Ruler, Clock, Pencil } from 'lucide-react';
@@ -47,7 +48,7 @@ export function PlantDetail() {
           )}
         </div>
         <div className="ml-auto flex items-center gap-2">
-          <Badge variant="outline" className="capitalize">{p.plant_type}</Badge>
+          <PlantTypeBadge plantType={p.plant_type} />
           {isCustom && (
             <Button variant="outline" size="sm" onClick={() => setFormOpen(true)}>
               <Pencil className="w-4 h-4 mr-1" />

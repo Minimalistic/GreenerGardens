@@ -4,6 +4,7 @@ import { api } from '@/lib/api';
 interface PlantingGuideEntry {
   plant_id: string;
   common_name: string;
+  plant_type: string;
   action: string;
   days_remaining: number;
   window_start: string;

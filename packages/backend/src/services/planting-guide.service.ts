@@ -6,6 +6,7 @@ import { NotFoundError } from '../utils/errors.js';
 interface PlantingGuideEntry {
   plant_id: string;
   common_name: string;
+  plant_type: string;
   action: string;
   days_remaining: number;
   window_start: string;
@@ -159,6 +160,7 @@ export class PlantingGuideService {
     return {
       plant_id: plant.id,
       common_name: plant.common_name,
+      plant_type: plant.plant_type ?? 'other',
       action,
       days_remaining: daysRemaining,
       window_start: windowStart.toISOString().split('T')[0],

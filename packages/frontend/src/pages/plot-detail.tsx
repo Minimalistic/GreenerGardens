@@ -21,6 +21,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import { SuccessionPlantingDialog } from '@/components/garden/succession-planting-dialog';
 import { ArrowLeft, Layers, Sprout, Plus, Trash2, X, Copy } from 'lucide-react';
+import { PlantTypeBadge } from '@/components/garden/plant-type-badge';
 
 export function PlotDetail() {
   const { plotId } = useParams<{ plotId: string }>();
@@ -366,9 +367,7 @@ export function PlotDetail() {
                       onClick={() => setSelectedCatalogId(plant.id)}
                     >
                       {plant.common_name}
-                      <span className="text-muted-foreground ml-2 text-xs capitalize">
-                        {plant.plant_type}
-                      </span>
+                      <PlantTypeBadge plantType={plant.plant_type} className="ml-2 text-[10px] px-1.5 py-0" />
                     </button>
                   ))}
                 </div>
