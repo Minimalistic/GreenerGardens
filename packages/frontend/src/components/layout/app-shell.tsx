@@ -5,6 +5,9 @@ import { Header } from './header';
 import { MobileNav } from './mobile-nav';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { Toaster } from '@/components/ui/toaster';
+import { useAssistantContext } from '@/contexts/assistant-context';
+import { FloatingChatButton } from '@/components/chat/floating-chat-button';
+import { FloatingChatPanel } from '@/components/chat/floating-chat-panel';
 
 const PAGE_TITLES: Record<string, string> = {
   '/dashboard': 'Dashboard',
@@ -26,11 +29,12 @@ const PAGE_TITLES: Record<string, string> = {
 export function AppShell() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { isOpen, sidebarWidth } = useAssistantContext();
 
   const title = PAGE_TITLES[location.pathname] ?? 'GardenVault';
 
   return (
-    <div className="flex min-h-screen overflow-x-hidden">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar />
 
       <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
@@ -39,13 +43,23 @@ export function AppShell() {
         </SheetContent>
       </Sheet>
 
-      <div className="flex-1 min-w-0 flex flex-col">
+      <div className="flex-1 min-w-0 flex flex-col min-h-0">
         <Header title={title} onMenuToggle={() => setMobileMenuOpen(true)} />
-        <main className="flex-1 p-4 pb-20 lg:pb-4 overflow-x-hidden">
-          <Outlet />
-        </main>
+        <div className="flex flex-1 min-h-0">
+          <main className="flex-1 min-w-0 overflow-y-auto p-4 pb-20 lg:pb-4">
+            <Outlet />
+          </main>
+          {/* AI Chat Sidebar — animated width container */}
+          <div
+            className="shrink-0 overflow-hidden transition-[width] duration-300 ease-in-out hidden md:block"
+            style={{ width: isOpen ? `${sidebarWidth}px` : '0px' }}
+          >
+            <FloatingChatPanel />
+          </div>
+        </div>
       </div>
 
+      <FloatingChatButton />
       <MobileNav />
       <Toaster />
     </div>

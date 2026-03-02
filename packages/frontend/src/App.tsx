@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '@/lib/query-client';
 import { GardenProvider } from '@/contexts/garden-context';
+import { AssistantProvider } from '@/contexts/assistant-context';
 import { ThemeProvider } from '@/components/theme-provider';
 import { SetupGuard } from '@/components/layout/setup-guard';
 import { AppShell } from '@/components/layout/app-shell';
@@ -35,6 +36,7 @@ export default function App() {
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
         <GardenProvider>
+          <AssistantProvider>
           <BrowserRouter>
           <ErrorBoundary>
           <Suspense fallback={<LoadingSpinner />}>
@@ -67,6 +69,7 @@ export default function App() {
           </Suspense>
           </ErrorBoundary>
           </BrowserRouter>
+          </AssistantProvider>
         </GardenProvider>
       </QueryClientProvider>
     </ThemeProvider>

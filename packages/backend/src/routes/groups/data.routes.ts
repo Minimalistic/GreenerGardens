@@ -19,6 +19,7 @@ import { analyticsRoutes } from '../analytics.routes.js';
 import { backupRoutes } from '../backup.routes.js';
 import { timelineRoutes } from '../timeline.routes.js';
 import { pushRoutes } from '../push.routes.js';
+import { adminRoutes } from '../admin.routes.js';
 
 export function registerDataRoutes(fastify: FastifyInstance, db: Database.Database, history: HistoryLogger) {
   const seedInventoryRepo = new SeedInventoryRepository(db);
@@ -38,6 +39,7 @@ export function registerDataRoutes(fastify: FastifyInstance, db: Database.Databa
   backupRoutes(fastify, backupService);
   timelineRoutes(fastify, timelineService);
   pushRoutes(fastify, pushService);
+  adminRoutes(fastify, db);
 
   return { pushService };
 }

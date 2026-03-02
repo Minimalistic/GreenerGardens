@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, Sun, Moon, Monitor, ChevronDown, Check, Settings } from 'lucide-react';
+import { Menu, Sun, Moon, Monitor, ChevronDown, Check, Settings, Wrench } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -12,6 +12,7 @@ import { useGardenContext } from '@/contexts/garden-context';
 import { useGardens } from '@/hooks/use-gardens';
 import { useTheme } from '@/components/theme-provider';
 import { GardenManagerDialog } from '@/components/garden/garden-manager-dialog';
+import { SettingsDialog } from '@/components/settings-dialog';
 
 interface HeaderProps {
   title: string;
@@ -23,6 +24,7 @@ export function Header({ title, onMenuToggle }: HeaderProps) {
   const { data: gardensData } = useGardens();
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [managerOpen, setManagerOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const gardens = gardensData?.data ?? [];
 
@@ -68,6 +70,10 @@ export function Header({ title, onMenuToggle }: HeaderProps) {
                   <Settings className="w-4 h-4 mr-2" />
                   Manage Gardens...
                 </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSettingsOpen(true)}>
+                  <Wrench className="w-4 h-4 mr-2" />
+                  Settings...
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           )}
@@ -103,6 +109,7 @@ export function Header({ title, onMenuToggle }: HeaderProps) {
         </div>
       </header>
       <GardenManagerDialog open={managerOpen} onOpenChange={setManagerOpen} />
+      <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
     </>
   );
 }

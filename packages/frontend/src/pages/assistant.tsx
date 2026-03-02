@@ -1,5 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useGardenContext } from '@/contexts/garden-context';
+import { useAssistantContext } from '@/contexts/assistant-context';
 import {
   useAssistantStatus,
   useConversations,
@@ -26,6 +28,8 @@ import {
   Bug,
   CalendarDays,
   Droplets,
+  PanelRightOpen,
+  ChevronDown,
 } from 'lucide-react';
 
 const QUICK_PROMPTS = [
@@ -38,6 +42,8 @@ const QUICK_PROMPTS = [
 export function AssistantPage() {
   const { garden } = useGardenContext();
   const gardenId = garden?.id ?? '';
+  const navigate = useNavigate();
+  const { open: openWidget, setActiveConvId: setWidgetConvId } = useAssistantContext();
 
   const { data: statusData } = useAssistantStatus();
   const configured = statusData?.data?.configured ?? false;
@@ -56,13 +62,64 @@ export function AssistantPage() {
   const deleteConv = useDeleteConversation();
   const { send, isStreaming, streamedContent } = useSendMessage();
 
+  const [showScrollDown, setShowScrollDown] = useState(false);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const scrollRafRef = useRef(0);
 
-  // Auto-scroll to bottom when messages change or during streaming
+  // Track scroll position to show/hide scroll-to-bottom button
+  useEffect(() => {
+    const root = scrollAreaRef.current;
+    const viewport = root?.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement | null;
+    if (!viewport) return;
+
+    const onScroll = () => {
+      const distFromBottom = viewport.scrollHeight - viewport.clientHeight - viewport.scrollTop;
+      setShowScrollDown(distFromBottom > 100);
+    };
+
+    viewport.addEventListener('scroll', onScroll, { passive: true });
+    return () => viewport.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const scrollToBottom = useCallback(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, []);
+
+  // Smooth lerp-based scroll chase during streaming
+  useEffect(() => {
+    const root = scrollAreaRef.current;
+    const viewport = root?.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement | null;
+    if (!viewport || !isStreaming) return;
+
+    const LERP = 0.12;
+
+    const chase = () => {
+      const maxScroll = viewport.scrollHeight - viewport.clientHeight;
+      const dist = maxScroll - viewport.scrollTop;
+      if (dist > 1) {
+        viewport.scrollTop += dist * LERP;
+      } else {
+        viewport.scrollTop = maxScroll;
+      }
+      scrollRafRef.current = requestAnimationFrame(chase);
+    };
+
+    scrollRafRef.current = requestAnimationFrame(chase);
+    return () => {
+      cancelAnimationFrame(scrollRafRef.current);
+      scrollRafRef.current = 0;
+      // Snap to exact bottom so there's no gap when chase stops
+      viewport.scrollTop = viewport.scrollHeight - viewport.clientHeight;
+    };
+  }, [isStreaming]);
+
+  // Scroll to bottom when stored messages change (conversation switch, refetch after streaming)
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, streamedContent]);
+  }, [messages]);
 
   // Auto-select first conversation
   useEffect(() => {
@@ -122,10 +179,13 @@ export function AssistantPage() {
     );
   }
 
-  // Build display messages: stored messages + live streaming
+  // Build display messages: stored messages + live streaming / pending refetch
   const displayMessages: Array<{ role: string; content: string; id?: string }> = [...messages];
-  if (isStreaming && streamedContent) {
-    displayMessages.push({ role: 'assistant', content: streamedContent });
+  if (streamedContent) {
+    const last = messages[messages.length - 1];
+    if (!last || last.role !== 'assistant' || last.content !== streamedContent) {
+      displayMessages.push({ role: 'assistant', content: streamedContent });
+    }
   }
 
   return (
@@ -135,9 +195,24 @@ export function AssistantPage() {
         <div className="hidden md:flex flex-col w-64 border rounded-lg bg-card">
           <div className="p-3 border-b flex items-center justify-between">
             <span className="text-sm font-medium">Conversations</span>
-            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={handleNewConversation}>
-              <Plus className="w-4 h-4" />
-            </Button>
+            <div className="flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7"
+                title="Open in widget"
+                onClick={() => {
+                  if (activeConvId) setWidgetConvId(activeConvId);
+                  openWidget();
+                  navigate('/dashboard');
+                }}
+              >
+                <PanelRightOpen className="w-4 h-4" />
+              </Button>
+              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={handleNewConversation}>
+                <Plus className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
           <ScrollArea className="flex-1">
             <div className="p-2 space-y-1">
@@ -185,10 +260,24 @@ export function AssistantPage() {
             <Plus className="w-4 h-4 mr-1" />
             New
           </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="ml-auto"
+            onClick={() => {
+              if (activeConvId) setWidgetConvId(activeConvId);
+              openWidget();
+              navigate('/dashboard');
+            }}
+          >
+            <PanelRightOpen className="w-4 h-4 mr-1" />
+            Pop out
+          </Button>
         </div>
 
         {/* Messages */}
-        <ScrollArea className="flex-1 p-4">
+        <div className="flex-1 relative min-h-0">
+        <ScrollArea ref={scrollAreaRef} className="h-full p-4">
           {displayMessages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full gap-6 py-12">
               <div className="text-center space-y-2">
@@ -248,6 +337,18 @@ export function AssistantPage() {
             </div>
           )}
         </ScrollArea>
+
+        {/* Scroll to bottom button */}
+        {showScrollDown && !isStreaming && (
+          <button
+            onClick={scrollToBottom}
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-primary text-primary-foreground rounded-full p-2 shadow-md hover:bg-primary/90 transition-opacity animate-in fade-in"
+            aria-label="Scroll to latest message"
+          >
+            <ChevronDown className="w-5 h-5" />
+          </button>
+        )}
+        </div>
 
         {/* Input area */}
         <div className="p-4 border-t">
