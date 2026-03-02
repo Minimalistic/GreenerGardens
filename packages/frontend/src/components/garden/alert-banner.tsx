@@ -63,20 +63,20 @@ function AlertGroup({ type, alerts }: { type: string; alerts: any[] }) {
 
   return (
     <div>
-      <Card className={`border-l-4 ${style.border}`}>
+      <Card
+        className={`border-l-4 cursor-pointer select-none ${style.border}`}
+        onClick={() => setExpanded(!expanded)}
+      >
         <CardContent className="py-3 flex items-center gap-3">
           {style.icon}
           <div className="flex-1 min-w-0">
             <p className="font-medium text-sm">{firstAlert.title}</p>
             {firstAlert.description && <p className="text-xs text-muted-foreground">{firstAlert.description}</p>}
           </div>
-          <button
-            onClick={() => setExpanded(!expanded)}
-            className={`flex items-center gap-1 text-xs font-medium ${style.textColor} hover:underline shrink-0`}
-          >
+          <span className={`flex items-center gap-1 text-xs font-medium ${style.textColor} shrink-0`}>
             {expanded ? 'Hide' : `+${remainingCount} more`}
             {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-          </button>
+          </span>
         </CardContent>
       </Card>
       <div
