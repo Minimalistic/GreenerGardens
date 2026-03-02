@@ -72,7 +72,11 @@ export function SearchPage() {
                   }}
                 >
                   <CardContent className="py-3 flex items-center gap-3">
-                    <Icon className="w-4 h-4 text-muted-foreground" />
+                    {item.emoji ? (
+                      <span className="text-lg grayscale">{item.emoji}</span>
+                    ) : (
+                      <Icon className="w-4 h-4 text-muted-foreground" />
+                    )}
                     <div>
                       <p className="font-medium text-sm">{item.title}</p>
                       {item.subtitle && <p className="text-xs text-muted-foreground">{item.subtitle}</p>}

@@ -25,7 +25,7 @@ export function seedPlantCatalog(db: Database.Database): void {
   const stmt = db.prepare(`
     INSERT INTO plant_catalog (
       id, common_name, scientific_name, family, plant_type, lifecycle, description,
-      image_url, sun_exposure, water_needs, min_zone, max_zone,
+      image_url, emoji, sun_exposure, water_needs, min_zone, max_zone,
       soil_ph_min, soil_ph_max, spacing_inches, row_spacing_inches,
       height_inches_min, height_inches_max,
       days_to_germination_min, days_to_germination_max,
@@ -35,7 +35,7 @@ export function seedPlantCatalog(db: Database.Database): void {
       harvest_instructions, storage_instructions,
       companions_json, antagonists_json, rotation_family, growing_tips_json
     ) VALUES (
-      ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+      ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
     )
   `);
 
@@ -50,6 +50,7 @@ export function seedPlantCatalog(db: Database.Database): void {
         p.lifecycle ?? null,
         p.description ?? null,
         p.image_url ?? null,
+        p.emoji ?? null,
         p.sun_exposure ?? null,
         p.water_needs ?? null,
         p.min_zone ?? null,
@@ -105,5 +106,58 @@ export function updatePlantImages(db: Database.Database): void {
   updateAll(plantsWithImages);
   if (updated > 0) {
     console.log(`Updated ${updated} plant images from seed data`);
+  }
+}
+
+export function updatePlantEmojis(db: Database.Database): void {
+  if (!fs.existsSync(SEED_FILE)) return;
+
+  const plants = JSON.parse(fs.readFileSync(SEED_FILE, 'utf-8'));
+  const plantsWithEmojis = plants.filter((p: any) => p.emoji);
+  if (plantsWithEmojis.length === 0) return;
+
+  const stmt = db.prepare(
+    `UPDATE plant_catalog SET emoji = ? WHERE common_name = ? AND emoji IS NULL`
+  );
+
+  let updated = 0;
+  const updateAll = db.transaction((items: any[]) => {
+    for (const p of items) {
+      const result = stmt.run(p.emoji, p.common_name);
+      if (result.changes > 0) updated++;
+    }
+  });
+
+  updateAll(plantsWithEmojis);
+  if (updated > 0) {
+    console.log(`Updated ${updated} plant emojis from seed data`);
+  }
+}
+
+export function updatePlantCompanions(db: Database.Database): void {
+  if (!fs.existsSync(SEED_FILE)) return;
+
+  const plants = JSON.parse(fs.readFileSync(SEED_FILE, 'utf-8'));
+
+  const stmt = db.prepare(
+    `UPDATE plant_catalog SET companions_json = ?, antagonists_json = ? WHERE common_name = ?`
+  );
+
+  let updated = 0;
+  const updateAll = db.transaction((items: any[]) => {
+    for (const p of items) {
+      if (!p.companions && !p.antagonists) continue;
+      const result = stmt.run(
+        JSON.stringify(p.companions ?? []),
+        JSON.stringify(p.antagonists ?? []),
+        p.common_name,
+      );
+      if (result.changes > 0) updated++;
+    }
+  });
+
+  updateAll(plants);
+  if (updated > 0) {
+    console.log(`Updated ${updated} plant companion data from seed data`);
   }
 }

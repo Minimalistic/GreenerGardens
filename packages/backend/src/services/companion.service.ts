@@ -2,10 +2,18 @@ import type Database from 'better-sqlite3';
 import type { PlantCatalogRepository } from '../db/repositories/plant-catalog.repository.js';
 import { NotFoundError } from '../utils/errors.js';
 
+interface CompanionEntry {
+  name: string;
+  relationship?: string;
+  notes?: string;
+}
+
 interface CompanionCheck {
   plant: string;
   companion: string;
   relationship: 'good' | 'bad';
+  detail_relationship?: string;
+  notes?: string;
 }
 
 interface CompatibilityReport {
@@ -14,6 +22,18 @@ interface CompatibilityReport {
   companions: CompanionCheck[];
   warnings: CompanionCheck[];
   score: number; // 0-100
+}
+
+/** Normalize companion data: supports both string[] and structured object[] formats */
+function parseCompanionList(json: string): CompanionEntry[] {
+  const raw = json ? JSON.parse(json) : [];
+  return raw.map((entry: string | CompanionEntry) =>
+    typeof entry === 'string' ? { name: entry } : entry
+  );
+}
+
+function getCompanionName(entry: CompanionEntry): string {
+  return entry.name;
 }
 
 export class CompanionService {
@@ -26,8 +46,8 @@ export class CompanionService {
     const plant = this.catalogRepo.findById(plantCatalogId);
     if (!plant) throw new NotFoundError('PlantCatalog', plantCatalogId);
 
-    const companions: string[] = plant.companions_json ? JSON.parse(plant.companions_json) : [];
-    const antagonists: string[] = plant.antagonists_json ? JSON.parse(plant.antagonists_json) : [];
+    const companions = parseCompanionList(plant.companions_json);
+    const antagonists = parseCompanionList(plant.antagonists_json);
 
     return {
       plant_id: plant.id,
@@ -41,8 +61,8 @@ export class CompanionService {
     const plant = this.catalogRepo.findById(plantCatalogId);
     if (!plant) throw new NotFoundError('PlantCatalog', plantCatalogId);
 
-    const companions: string[] = plant.companions_json ? JSON.parse(plant.companions_json) : [];
-    const antagonists: string[] = plant.antagonists_json ? JSON.parse(plant.antagonists_json) : [];
+    const companions = parseCompanionList(plant.companions_json);
+    const antagonists = parseCompanionList(plant.antagonists_json);
 
     const checks: CompanionCheck[] = [];
     const warnings: CompanionCheck[] = [];
@@ -51,14 +71,26 @@ export class CompanionService {
       const neighbor = this.catalogRepo.findById(neighborId);
       if (!neighbor) continue;
 
-      const isGood = companions.some(c => c.toLowerCase() === neighbor.common_name.toLowerCase());
-      const isBad = antagonists.some(a => a.toLowerCase() === neighbor.common_name.toLowerCase());
+      const goodMatch = companions.find(c => getCompanionName(c).toLowerCase() === neighbor.common_name.toLowerCase());
+      const badMatch = antagonists.find(a => getCompanionName(a).toLowerCase() === neighbor.common_name.toLowerCase());
 
-      if (isGood) {
-        checks.push({ plant: plant.common_name, companion: neighbor.common_name, relationship: 'good' });
+      if (goodMatch) {
+        checks.push({
+          plant: plant.common_name,
+          companion: neighbor.common_name,
+          relationship: 'good',
+          detail_relationship: goodMatch.relationship,
+          notes: goodMatch.notes,
+        });
       }
-      if (isBad) {
-        const warning = { plant: plant.common_name, companion: neighbor.common_name, relationship: 'bad' as const };
+      if (badMatch) {
+        const warning: CompanionCheck = {
+          plant: plant.common_name,
+          companion: neighbor.common_name,
+          relationship: 'bad',
+          detail_relationship: badMatch.relationship,
+          notes: badMatch.notes,
+        };
         checks.push(warning);
         warnings.push(warning);
       }
@@ -82,8 +114,8 @@ export class CompanionService {
     const plant = this.catalogRepo.findById(plantCatalogId);
     if (!plant) throw new NotFoundError('PlantCatalog', plantCatalogId);
 
-    const companions: string[] = plant.companions_json ? JSON.parse(plant.companions_json) : [];
-    const antagonists: string[] = plant.antagonists_json ? JSON.parse(plant.antagonists_json) : [];
+    const companions = parseCompanionList(plant.companions_json);
+    const antagonists = parseCompanionList(plant.antagonists_json);
 
     // Find what's already planted in this plot
     const existingPlants = this.db.prepare(`
@@ -98,15 +130,15 @@ export class CompanionService {
     const existingNames = existingPlants.map(p => p.common_name.toLowerCase());
 
     // Filter companion suggestions to only those not already planted
-    const suggestions = companions.filter(c => !existingNames.includes(c.toLowerCase()));
-    const conflicts = antagonists.filter(a => existingNames.includes(a.toLowerCase()));
+    const suggestions = companions.filter(c => !existingNames.includes(getCompanionName(c).toLowerCase()));
+    const conflicts = antagonists.filter(a => existingNames.includes(getCompanionName(a).toLowerCase()));
 
     return {
       plant_id: plant.id,
       plant_name: plant.common_name,
       suggested_companions: suggestions,
       existing_conflicts: conflicts,
-      existing_good: companions.filter(c => existingNames.includes(c.toLowerCase())),
+      existing_good: companions.filter(c => existingNames.includes(getCompanionName(c).toLowerCase())),
     };
   }
 }

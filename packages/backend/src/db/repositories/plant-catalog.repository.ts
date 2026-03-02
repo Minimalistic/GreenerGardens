@@ -10,6 +10,7 @@ export interface PlantCatalogRow {
   lifecycle: string | null;
   description: string | null;
   image_url: string | null;
+  emoji: string | null;
   sun_exposure: string | null;
   water_needs: string | null;
   min_zone: number | null;

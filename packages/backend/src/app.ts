@@ -7,7 +7,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { getDb } from './db/connection.js';
 import { runMigrations } from './db/migrate.js';
-import { seedPlantCatalog, updatePlantImages } from './db/seed.js';
+import { seedPlantCatalog, updatePlantImages, updatePlantEmojis, updatePlantCompanions } from './db/seed.js';
 import { registerRoutes } from './routes/index.js';
 import { NotFoundError, ValidationError } from './utils/errors.js';
 import { ZodError } from 'zod';
@@ -57,6 +57,8 @@ export async function buildApp() {
   // Seed plant catalog
   seedPlantCatalog(db);
   updatePlantImages(db);
+  updatePlantEmojis(db);
+  updatePlantCompanions(db);
 
   // Health check
   server.get('/api/v1/health', async () => {

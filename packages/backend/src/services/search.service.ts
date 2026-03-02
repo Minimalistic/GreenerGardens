@@ -6,6 +6,7 @@ interface SearchResult {
   title: string;
   subtitle: string | null;
   match_field: string;
+  emoji?: string | null;
 }
 
 export class SearchService {
@@ -17,7 +18,7 @@ export class SearchService {
 
     // Search plant catalog
     const plants = this.db.prepare(
-      `SELECT id, common_name, scientific_name, family FROM plant_catalog
+      `SELECT id, common_name, scientific_name, family, emoji FROM plant_catalog
        WHERE common_name LIKE ? OR scientific_name LIKE ? OR family LIKE ?
        LIMIT ?`
     ).all(pattern, pattern, pattern, limit) as any[];
@@ -29,6 +30,7 @@ export class SearchService {
         title: p.common_name,
         subtitle: p.scientific_name || p.family,
         match_field: 'name',
+        emoji: p.emoji,
       });
     }
 

@@ -40,6 +40,7 @@ export function PlantDetail() {
         </Button>
         <div>
           <div className="flex items-center gap-2">
+            {p.emoji && <span className="text-2xl grayscale">{p.emoji}</span>}
             <h2 className="text-xl font-semibold">{p.common_name}</h2>
             {isCustom && <Badge variant="secondary">Custom</Badge>}
           </div>
@@ -164,25 +165,45 @@ export function PlantDetail() {
         <TabsContent value="companions" className="space-y-4">
           {p.companions?.length > 0 && (
             <Card>
-              <CardHeader><CardTitle className="text-sm text-green-700">Good Companions</CardTitle></CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {p.companions.map((c: string) => (
-                    <Badge key={c} variant="outline" className="bg-green-50">{c}</Badge>
-                  ))}
-                </div>
+              <CardHeader><CardTitle className="text-sm text-green-700 dark:text-green-400">Good Companions</CardTitle></CardHeader>
+              <CardContent className="space-y-2">
+                {p.companions.map((c: any, i: number) => {
+                  const name = typeof c === 'string' ? c : c.name;
+                  const notes = typeof c === 'string' ? null : c.notes;
+                  const rel = typeof c === 'string' ? null : c.relationship;
+                  return (
+                    <div key={i} className="flex items-start gap-2">
+                      <Badge variant="outline" className="bg-green-50 dark:bg-green-950 shrink-0">{name}</Badge>
+                      <div className="text-xs text-muted-foreground">
+                        {rel && <span className="capitalize">{rel.replace(/_/g, ' ')}</span>}
+                        {rel && notes && <span> &mdash; </span>}
+                        {notes && <span>{notes}</span>}
+                      </div>
+                    </div>
+                  );
+                })}
               </CardContent>
             </Card>
           )}
           {p.antagonists?.length > 0 && (
             <Card>
-              <CardHeader><CardTitle className="text-sm text-red-700">Avoid Planting Near</CardTitle></CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {p.antagonists.map((a: string) => (
-                    <Badge key={a} variant="outline" className="bg-red-50">{a}</Badge>
-                  ))}
-                </div>
+              <CardHeader><CardTitle className="text-sm text-red-700 dark:text-red-400">Avoid Planting Near</CardTitle></CardHeader>
+              <CardContent className="space-y-2">
+                {p.antagonists.map((a: any, i: number) => {
+                  const name = typeof a === 'string' ? a : a.name;
+                  const notes = typeof a === 'string' ? null : a.notes;
+                  const rel = typeof a === 'string' ? null : a.relationship;
+                  return (
+                    <div key={i} className="flex items-start gap-2">
+                      <Badge variant="outline" className="bg-red-50 dark:bg-red-950 shrink-0">{name}</Badge>
+                      <div className="text-xs text-muted-foreground">
+                        {rel && <span className="capitalize">{rel.replace(/_/g, ' ')}</span>}
+                        {rel && notes && <span> &mdash; </span>}
+                        {notes && <span>{notes}</span>}
+                      </div>
+                    </div>
+                  );
+                })}
               </CardContent>
             </Card>
           )}

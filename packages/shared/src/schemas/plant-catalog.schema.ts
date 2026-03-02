@@ -11,6 +11,7 @@ export const PlantCatalogCreateSchema = z.object({
   lifecycle: PlantLifecycleEnum.optional(),
   description: z.string().max(1000).optional(),
   image_url: z.string().url().optional(),
+  emoji: z.string().max(4).optional(),
 
   // Growing info
   sun_exposure: SunExposureEnum.optional(),
@@ -40,8 +41,22 @@ export const PlantCatalogCreateSchema = z.object({
   storage_instructions: z.string().max(500).optional(),
 
   // Relationships
-  companions: z.array(z.string()).optional(),
-  antagonists: z.array(z.string()).optional(),
+  companions: z.array(z.union([
+    z.string(),
+    z.object({
+      name: z.string(),
+      relationship: z.enum(['beneficial', 'pest_deterrent', 'trap_crop', 'growth_enhancer', 'nutrient_fixer', 'pollinator_attractor']).optional(),
+      notes: z.string().optional(),
+    }),
+  ])).optional(),
+  antagonists: z.array(z.union([
+    z.string(),
+    z.object({
+      name: z.string(),
+      relationship: z.enum(['antagonistic', 'allelopathic', 'competitive', 'disease_vector']).optional(),
+      notes: z.string().optional(),
+    }),
+  ])).optional(),
   rotation_family: z.string().max(50).optional(),
 
   // Tips

@@ -42,6 +42,7 @@ function GuideSection({ title, icon: Icon, entries }: { title: string; icon: typ
             )}
             onClick={() => navigate(`/catalog/${entry.plant_id}`)}
           >
+            {entry.emoji && <span className="mr-0.5 grayscale">{entry.emoji}</span>}
             {entry.common_name}
             <span className="ml-1 text-xs opacity-70">({entry.days_remaining}d left)</span>
           </Badge>
@@ -77,6 +78,7 @@ function GuideSection({ title, icon: Icon, entries }: { title: string; icon: typ
                 )}
                 onClick={() => navigate(`/catalog/${entry.plant_id}`)}
               >
+                {entry.emoji && <span className="mr-0.5 grayscale">{entry.emoji}</span>}
                 {entry.common_name}
                 <span className="ml-1 text-xs opacity-70">({entry.days_remaining}d left)</span>
               </Badge>
