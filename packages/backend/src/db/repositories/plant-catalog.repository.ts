@@ -35,6 +35,7 @@ export interface PlantCatalogRow {
   antagonists_json: string;
   rotation_family: string | null;
   growing_tips_json: string;
+  is_custom: number;
   created_at: string;
   updated_at: string;
 }

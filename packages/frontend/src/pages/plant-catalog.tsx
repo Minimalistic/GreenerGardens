@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePlantCatalogSearch } from '@/hooks/use-plant-catalog';
+import { PlantFormDialog } from '@/components/plant-form-dialog';
 import { DataTable, type Column } from '@/components/data-table';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -8,7 +9,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Search, LayoutGrid, TableIcon } from 'lucide-react';
+import { Search, LayoutGrid, TableIcon, Plus } from 'lucide-react';
 const TYPE_FILTERS = [
   { value: '', label: 'All Types' },
   { value: 'vegetable', label: 'Vegetables' },
@@ -32,6 +33,7 @@ export function PlantCatalogPage() {
   const [view, setView] = useState<'card' | 'table'>(() =>
     (localStorage.getItem('catalog-view') as 'card' | 'table') ?? 'card'
   );
+  const [addOpen, setAddOpen] = useState(false);
 
   const limit = view === 'table' ? 200 : 24;
 
@@ -52,6 +54,24 @@ export function PlantCatalogPage() {
   };
 
   const catalogColumns: Column<any>[] = [
+    {
+      key: 'image_url',
+      label: '',
+      sortable: false,
+      render: (row) => (
+        <div className="w-8 h-8 shrink-0 overflow-hidden rounded">
+          {row.image_url ? (
+            <img
+              src={row.image_url}
+              alt={row.common_name}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full bg-muted" />
+          )}
+        </div>
+      ),
+    },
     {
       key: 'common_name',
       label: 'Name',
@@ -121,6 +141,10 @@ export function PlantCatalogPage() {
             <TableIcon className="w-4 h-4" />
           </Button>
         </div>
+        <Button size="sm" onClick={() => setAddOpen(true)}>
+          <Plus className="w-4 h-4 mr-1" />
+          Add Plant
+        </Button>
       </div>
 
       {isLoading && (
@@ -133,7 +157,7 @@ export function PlantCatalogPage() {
 
       {!isLoading && plants.length === 0 && (
         <p className="text-center text-muted-foreground py-12">
-          No plants found. Try adjusting your search.
+          No plants found. Try adjusting your search or add a custom plant.
         </p>
       )}
 
@@ -152,15 +176,24 @@ export function PlantCatalogPage() {
             {plants.map((plant: any) => (
               <Card
                 key={plant.id}
-                className="cursor-pointer hover:shadow-md transition-shadow"
+                className="cursor-pointer hover:shadow-md transition-shadow overflow-hidden relative"
                 onClick={() => navigate(`/catalog/${plant.id}`)}
               >
-                <CardContent className="p-4 space-y-2">
+                {plant.image_url && (
+                  <div className="h-32 overflow-hidden">
+                    <img
+                      src={plant.image_url}
+                      alt={plant.common_name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+                <CardContent className="p-4 space-y-2 relative">
                   <div className="flex items-start justify-between">
                     <h3 className="font-semibold text-sm">{plant.common_name}</h3>
                     <Badge
                       variant="outline"
-                      className="text-xs capitalize shrink-0 ml-2 cursor-pointer hover:ring-1 hover:ring-ring"
+                      className="text-xs capitalize shrink-0 ml-2 cursor-pointer hover:ring-1 hover:ring-ring bg-background/80"
                       onClick={(e) => { e.stopPropagation(); setPlantType(plant.plant_type); setPage(1); }}
                     >
                       {plant.plant_type}
@@ -215,6 +248,8 @@ export function PlantCatalogPage() {
           )}
         </>
       )}
+
+      <PlantFormDialog open={addOpen} onOpenChange={setAddOpen} />
     </div>
   );
 }

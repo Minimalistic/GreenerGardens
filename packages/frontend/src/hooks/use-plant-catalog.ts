@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api';
-import type { PlantCatalog, PaginatedResponse, ApiResponse } from '@gardenvault/shared';
+import type { PlantCatalog, PlantCatalogCreate, PaginatedResponse, ApiResponse } from '@gardenvault/shared';
 
 interface CatalogSearchParams {
   search?: string;
@@ -35,5 +35,37 @@ export function usePlantCatalogEntry(id: string | null) {
     queryKey: ['plant-catalog', id],
     queryFn: () => api.get<ApiResponse<PlantCatalog>>(`/plant-catalog/${id}`),
     enabled: !!id,
+  });
+}
+
+export function useCreatePlantCatalogEntry() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: PlantCatalogCreate) =>
+      api.post<ApiResponse<PlantCatalog>>('/plant-catalog', data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['plant-catalog'] });
+    },
+  });
+}
+
+export function useUpdatePlantCatalogEntry() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: Partial<PlantCatalogCreate> }) =>
+      api.patch<ApiResponse<PlantCatalog>>(`/plant-catalog/${id}`, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['plant-catalog'] });
+    },
+  });
+}
+
+export function useDeletePlantCatalogEntry() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => api.delete(`/plant-catalog/${id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['plant-catalog'] });
+    },
   });
 }

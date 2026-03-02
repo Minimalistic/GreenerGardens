@@ -40,7 +40,8 @@
       "Remove suckers for indeterminate varieties",
       "Mulch heavily to retain moisture"
     ],
-    "transplant_weeks_after_last_frost": 2
+    "transplant_weeks_after_last_frost": 2,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Tomato_je.jpg/330px-Tomato_je.jpg"
   },
   {
     "common_name": "Bell Pepper",
@@ -80,7 +81,8 @@
       "Start seeds early indoors as peppers need a long season",
       "Stake plants when fruit develops"
     ],
-    "transplant_weeks_after_last_frost": 2
+    "transplant_weeks_after_last_frost": 2,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Capsicum_annuum_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-027.jpg/330px-Capsicum_annuum_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-027.jpg"
   },
   {
     "common_name": "Hot Pepper",
@@ -115,7 +117,8 @@
     ],
     "transplant_weeks_after_last_frost": 2,
     "days_to_germination_min": 7,
-    "days_to_germination_max": 14
+    "days_to_germination_max": 14,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Red_capsicum_and_cross_section.jpg/330px-Red_capsicum_and_cross_section.jpg"
   },
   {
     "common_name": "Cucumber",
@@ -156,7 +159,8 @@
       "Keep soil consistently moist",
       "Harvest frequently to encourage production"
     ],
-    "transplant_weeks_after_last_frost": 2
+    "transplant_weeks_after_last_frost": 2,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/ARS_cucumber.jpg/330px-ARS_cucumber.jpg"
   },
   {
     "common_name": "Zucchini",
@@ -193,7 +197,8 @@
       "Harvest regularly to keep plants producing",
       "Watch for squash vine borers"
     ],
-    "transplant_weeks_after_last_frost": 2
+    "transplant_weeks_after_last_frost": 2,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Cucurbita_pepo_collage_1.png/330px-Cucurbita_pepo_collage_1.png"
   },
   {
     "common_name": "Summer Squash",
@@ -226,7 +231,8 @@
     "transplant_weeks_after_last_frost": 2,
     "indoor_start_weeks_before_frost": 4,
     "days_to_germination_min": 4,
-    "days_to_germination_max": 8
+    "days_to_germination_max": 8,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Cucurbita_pepo_collage_1.png/330px-Cucurbita_pepo_collage_1.png"
   },
   {
     "common_name": "Winter Squash",
@@ -262,7 +268,8 @@
     "transplant_weeks_after_last_frost": 2,
     "indoor_start_weeks_before_frost": 4,
     "days_to_germination_min": 5,
-    "days_to_germination_max": 10
+    "days_to_germination_max": 10,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cucurbita_maxima_Blanco2.320.png/330px-Cucurbita_maxima_Blanco2.320.png"
   },
   {
     "common_name": "Pumpkin",
@@ -296,7 +303,8 @@
     "transplant_weeks_after_last_frost": 2,
     "indoor_start_weeks_before_frost": 4,
     "days_to_germination_min": 5,
-    "days_to_germination_max": 10
+    "days_to_germination_max": 10,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Cucurbita_pepo_collage_1.png/330px-Cucurbita_pepo_collage_1.png"
   },
   {
     "common_name": "Lettuce",
@@ -337,7 +345,8 @@
       "Bolt-resistant varieties extend harvest"
     ],
     "transplant_weeks_after_last_frost": -2,
-    "succession_planting_interval_days": 14
+    "succession_planting_interval_days": 14,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Iceberg_lettuce_in_SB.jpg/330px-Iceberg_lettuce_in_SB.jpg"
   },
   {
     "common_name": "Spinach",
@@ -375,7 +384,8 @@
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
-    "succession_planting_interval_days": 14
+    "succession_planting_interval_days": 14,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Spinacia_oleracea_Spinazie_bloeiend.jpg/330px-Spinacia_oleracea_Spinazie_bloeiend.jpg"
   },
   {
     "common_name": "Kale",
@@ -411,7 +421,8 @@
       "Harvest lower leaves first",
       "Flavor improves after frost"
     ],
-    "transplant_weeks_after_last_frost": -2
+    "transplant_weeks_after_last_frost": -2,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Boerenkool.jpg/330px-Boerenkool.jpg"
   },
   {
     "common_name": "Swiss Chard",
@@ -446,7 +457,8 @@
       "Cut-and-come-again harvesting extends production"
     ],
     "transplant_weeks_after_last_frost": 0,
-    "indoor_start_weeks_before_frost": 4
+    "indoor_start_weeks_before_frost": 4,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Chard_%28Beta_vulgaris_var_cicla%29.jpg/330px-Chard_%28Beta_vulgaris_var_cicla%29.jpg"
   },
   {
     "common_name": "Carrot",
@@ -488,7 +500,8 @@
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
-    "succession_planting_interval_days": 21
+    "succession_planting_interval_days": 21,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Daucus_carota_May_2008-1_edit.jpg/330px-Daucus_carota_May_2008-1_edit.jpg"
   },
   {
     "common_name": "Beet",
@@ -526,7 +539,8 @@
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
-    "succession_planting_interval_days": 21
+    "succession_planting_interval_days": 21,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Beta_vulgaris_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-167.jpg/330px-Beta_vulgaris_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-167.jpg"
   },
   {
     "common_name": "Radish",
@@ -564,7 +578,8 @@
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
-    "succession_planting_interval_days": 10
+    "succession_planting_interval_days": 10,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Radish_3371103037_4ab07db0bf_o.jpg/330px-Radish_3371103037_4ab07db0bf_o.jpg"
   },
   {
     "common_name": "Onion",
@@ -605,7 +620,8 @@
       "Sets are easier than seed for beginners"
     ],
     "transplant_weeks_after_last_frost": -2,
-    "outdoor_sow_weeks_after_frost": -4
+    "outdoor_sow_weeks_after_frost": -4,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Mixed_onions.jpg/330px-Mixed_onions.jpg"
   },
   {
     "common_name": "Garlic",
@@ -646,7 +662,8 @@
     "indoor_start_weeks_before_frost": null,
     "outdoor_sow_weeks_after_frost": null,
     "days_to_germination_min": 7,
-    "days_to_germination_max": 14
+    "days_to_germination_max": 14,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/39/Allium_sativum_Woodwill_1793.jpg"
   },
   {
     "common_name": "Potato",
@@ -688,7 +705,8 @@
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
     "days_to_germination_min": 14,
-    "days_to_germination_max": 21
+    "days_to_germination_max": 21,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Patates.jpg/330px-Patates.jpg"
   },
   {
     "common_name": "Sweet Potato",
@@ -721,7 +739,8 @@
     "indoor_start_weeks_before_frost": null,
     "outdoor_sow_weeks_after_frost": null,
     "days_to_germination_min": null,
-    "days_to_germination_max": null
+    "days_to_germination_max": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Ipomoea_batatas_006.JPG/330px-Ipomoea_batatas_006.JPG"
   },
   {
     "common_name": "Green Bean",
@@ -764,7 +783,8 @@
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
-    "succession_planting_interval_days": 14
+    "succession_planting_interval_days": 14,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Snijboon_peulen_Phaseolus_vulgaris.jpg/330px-Snijboon_peulen_Phaseolus_vulgaris.jpg"
   },
   {
     "common_name": "Snap Pea",
@@ -804,7 +824,8 @@
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
-    "succession_planting_interval_days": 14
+    "succession_planting_interval_days": 14,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Sugar_Snap_Pea.JPG/330px-Sugar_Snap_Pea.JPG"
   },
   {
     "common_name": "Sweet Corn",
@@ -844,7 +865,8 @@
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
-    "succession_planting_interval_days": 14
+    "succession_planting_interval_days": 14,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Zea_mays_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-283.jpg/330px-Zea_mays_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-283.jpg"
   },
   {
     "common_name": "Broccoli",
@@ -883,7 +905,8 @@
       "Harvest before flowers open",
       "Side shoots produce for weeks after main head cut"
     ],
-    "transplant_weeks_after_last_frost": -2
+    "transplant_weeks_after_last_frost": -2,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Broccoli_and_cross_section_edit.jpg/330px-Broccoli_and_cross_section_edit.jpg"
   },
   {
     "common_name": "Cauliflower",
@@ -919,7 +942,8 @@
     "transplant_weeks_after_last_frost": -2,
     "outdoor_sow_weeks_after_frost": -2,
     "days_to_germination_min": 4,
-    "days_to_germination_max": 10
+    "days_to_germination_max": 10,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Chou-fleur_02.jpg/330px-Chou-fleur_02.jpg"
   },
   {
     "common_name": "Cabbage",
@@ -958,7 +982,8 @@
       "Use row covers against cabbage worms"
     ],
     "transplant_weeks_after_last_frost": -2,
-    "outdoor_sow_weeks_after_frost": -4
+    "outdoor_sow_weeks_after_frost": -4,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Cabbage_and_cross_section_on_white.jpg/330px-Cabbage_and_cross_section_on_white.jpg"
   },
   {
     "common_name": "Brussels Sprouts",
@@ -994,7 +1019,8 @@
     "transplant_weeks_after_last_frost": -2,
     "outdoor_sow_weeks_after_frost": -2,
     "days_to_germination_min": 5,
-    "days_to_germination_max": 10
+    "days_to_germination_max": 10,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Brussels_sprout_closeup.jpg/330px-Brussels_sprout_closeup.jpg"
   },
   {
     "common_name": "Eggplant",
@@ -1030,7 +1056,8 @@
       "Harvest when skin is glossy—dull skin means overripe"
     ],
     "transplant_weeks_after_last_frost": 2,
-    "outdoor_sow_weeks_after_frost": 2
+    "outdoor_sow_weeks_after_frost": 2,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Solanum_melongena_24_08_2012_%281%29.JPG/330px-Solanum_melongena_24_08_2012_%281%29.JPG"
   },
   {
     "common_name": "Celery",
@@ -1066,7 +1093,8 @@
     "transplant_weeks_after_last_frost": 0,
     "outdoor_sow_weeks_after_frost": null,
     "days_to_germination_min": 14,
-    "days_to_germination_max": 21
+    "days_to_germination_max": 21,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/2023-06-22_Apium_graveolens_%28Wild_Celery%29%2C_Elswick%2C_Northumberland_4.jpg/330px-2023-06-22_Apium_graveolens_%28Wild_Celery%29%2C_Elswick%2C_Northumberland_4.jpg"
   },
   {
     "common_name": "Asparagus",
@@ -1075,6 +1103,7 @@
     "plant_type": "vegetable",
     "lifecycle": "perennial",
     "description": "Long-lived perennial that produces spears in spring for 15-20 years.",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Asparagus-Bundle.jpg/330px-Asparagus-Bundle.jpg",
     "sun_exposure": "full_sun",
     "water_needs": "moderate",
     "min_zone": 3,
@@ -1138,7 +1167,8 @@
       "Soak seeds overnight before planting",
       "Harvest pods when 3-4 inches long"
     ],
-    "transplant_weeks_after_last_frost": 3
+    "transplant_weeks_after_last_frost": 3,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Hong_Kong_Okra_Aug_25_2012.JPG/330px-Hong_Kong_Okra_Aug_25_2012.JPG"
   },
   {
     "common_name": "Turnip",
@@ -1172,7 +1202,8 @@
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
-    "succession_planting_interval_days": 21
+    "succession_planting_interval_days": 21,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Turnip_2622027.jpg/330px-Turnip_2622027.jpg"
   },
   {
     "common_name": "Parsnip",
@@ -1207,7 +1238,8 @@
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
-    "outdoor_sow_weeks_after_frost": -2
+    "outdoor_sow_weeks_after_frost": -2,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Pastinaca_sativa_MHNT.BOT.2004.0.jpg/330px-Pastinaca_sativa_MHNT.BOT.2004.0.jpg"
   },
   {
     "common_name": "Leek",
@@ -1242,7 +1274,8 @@
     "transplant_weeks_after_last_frost": 0,
     "outdoor_sow_weeks_after_frost": null,
     "days_to_germination_min": 7,
-    "days_to_germination_max": 14
+    "days_to_germination_max": 14,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/A.ampeloprasum_1.jpg/330px-A.ampeloprasum_1.jpg"
   },
   {
     "common_name": "Kohlrabi",
@@ -1277,7 +1310,8 @@
     "indoor_start_weeks_before_frost": 4,
     "outdoor_sow_weeks_after_frost": -4,
     "days_to_germination_min": 4,
-    "days_to_germination_max": 10
+    "days_to_germination_max": 10,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Brassica_oleracea_var._gongylodes_%28kohlrabi%29.jpg/330px-Brassica_oleracea_var._gongylodes_%28kohlrabi%29.jpg"
   },
   {
     "common_name": "Arugula",
@@ -1312,7 +1346,8 @@
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
-    "succession_planting_interval_days": 14
+    "succession_planting_interval_days": 14,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Eruca_vesicaria_BM010755249.jpg/330px-Eruca_vesicaria_BM010755249.jpg"
   },
   {
     "common_name": "Collard Greens",
@@ -1348,7 +1383,8 @@
     "indoor_start_weeks_before_frost": 6,
     "outdoor_sow_weeks_after_frost": -4,
     "days_to_germination_min": 5,
-    "days_to_germination_max": 10
+    "days_to_germination_max": 10,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Collard-Greens-Bundle.jpg/330px-Collard-Greens-Bundle.jpg"
   },
   {
     "common_name": "Rhubarb",
@@ -1384,7 +1420,8 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_maturity_max": 730,
     "days_to_germination_min": null,
-    "days_to_germination_max": null
+    "days_to_germination_max": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Rheum_undulatum_in_Jardin_botanique_de_la_Charme.jpg/330px-Rheum_undulatum_in_Jardin_botanique_de_la_Charme.jpg"
   },
   {
     "common_name": "Artichoke",
@@ -1418,7 +1455,8 @@
     "indoor_start_weeks_before_frost": 8,
     "outdoor_sow_weeks_after_frost": null,
     "days_to_germination_min": 10,
-    "days_to_germination_max": 21
+    "days_to_germination_max": 21,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Artichoke_J1.jpg/330px-Artichoke_J1.jpg"
   },
   {
     "common_name": "Fennel",
@@ -1452,7 +1490,8 @@
     "indoor_start_weeks_before_frost": 4,
     "outdoor_sow_weeks_after_frost": 0,
     "days_to_germination_min": 7,
-    "days_to_germination_max": 14
+    "days_to_germination_max": 14,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Foeniculum_July_2011-1a.jpg/330px-Foeniculum_July_2011-1a.jpg"
   },
   {
     "common_name": "Basil",
@@ -1490,7 +1529,8 @@
       "Very frost sensitive"
     ],
     "transplant_weeks_after_last_frost": 2,
-    "outdoor_sow_weeks_after_frost": 2
+    "outdoor_sow_weeks_after_frost": 2,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Ocimum_basilicum_8zz.jpg/330px-Ocimum_basilicum_8zz.jpg"
   },
   {
     "common_name": "Cilantro",
@@ -1529,7 +1569,8 @@
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
-    "succession_planting_interval_days": 14
+    "succession_planting_interval_days": 14,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Coriandrum_sativum_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-193.jpg/330px-Coriandrum_sativum_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-193.jpg"
   },
   {
     "common_name": "Parsley",
@@ -1566,7 +1607,8 @@
       "Host plant for swallowtail butterflies"
     ],
     "transplant_weeks_after_last_frost": -2,
-    "outdoor_sow_weeks_after_frost": -2
+    "outdoor_sow_weeks_after_frost": -2,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Petroselinum.jpg/330px-Petroselinum.jpg"
   },
   {
     "common_name": "Rosemary",
@@ -1603,7 +1645,8 @@
     ],
     "transplant_weeks_after_last_frost": 2,
     "indoor_start_weeks_before_frost": null,
-    "outdoor_sow_weeks_after_frost": null
+    "outdoor_sow_weeks_after_frost": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Rosemary_in_bloom.JPG/330px-Rosemary_in_bloom.JPG"
   },
   {
     "common_name": "Thyme",
@@ -1640,7 +1683,8 @@
     ],
     "transplant_weeks_after_last_frost": 0,
     "indoor_start_weeks_before_frost": null,
-    "outdoor_sow_weeks_after_frost": null
+    "outdoor_sow_weeks_after_frost": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Thymus_vulgaris1.JPG/330px-Thymus_vulgaris1.JPG"
   },
   {
     "common_name": "Sage",
@@ -1676,7 +1720,8 @@
     ],
     "transplant_weeks_after_last_frost": 0,
     "indoor_start_weeks_before_frost": null,
-    "outdoor_sow_weeks_after_frost": null
+    "outdoor_sow_weeks_after_frost": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Salvia_officinalis0.jpg/330px-Salvia_officinalis0.jpg"
   },
   {
     "common_name": "Mint",
@@ -1712,7 +1757,8 @@
     "indoor_start_weeks_before_frost": null,
     "outdoor_sow_weeks_after_frost": null,
     "days_to_germination_min": 10,
-    "days_to_germination_max": 15
+    "days_to_germination_max": 15,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Mentha_spicata-IMG_6186.jpg/330px-Mentha_spicata-IMG_6186.jpg"
   },
   {
     "common_name": "Oregano",
@@ -1746,7 +1792,8 @@
     ],
     "transplant_weeks_after_last_frost": 0,
     "indoor_start_weeks_before_frost": null,
-    "outdoor_sow_weeks_after_frost": null
+    "outdoor_sow_weeks_after_frost": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Origanum_vulgare_-_harilik_pune.jpg/330px-Origanum_vulgare_-_harilik_pune.jpg"
   },
   {
     "common_name": "Dill",
@@ -1786,7 +1833,8 @@
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
-    "succession_planting_interval_days": 21
+    "succession_planting_interval_days": 21,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Illustration_Anethum_graveolens_clean.jpg/330px-Illustration_Anethum_graveolens_clean.jpg"
   },
   {
     "common_name": "Chives",
@@ -1823,7 +1871,8 @@
     ],
     "transplant_weeks_after_last_frost": -2,
     "indoor_start_weeks_before_frost": null,
-    "outdoor_sow_weeks_after_frost": null
+    "outdoor_sow_weeks_after_frost": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Allium_schoenoprasum_-_Bombus_lapidarius_-_Tootsi.jpg/330px-Allium_schoenoprasum_-_Bombus_lapidarius_-_Tootsi.jpg"
   },
   {
     "common_name": "Lavender",
@@ -1857,7 +1906,8 @@
     ],
     "transplant_weeks_after_last_frost": 2,
     "indoor_start_weeks_before_frost": null,
-    "outdoor_sow_weeks_after_frost": null
+    "outdoor_sow_weeks_after_frost": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Lavandula_angustifolia_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-087.jpg/330px-Lavandula_angustifolia_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-087.jpg"
   },
   {
     "common_name": "Lemon Balm",
@@ -1888,7 +1938,8 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_maturity_max": 90,
     "days_to_germination_min": 10,
-    "days_to_germination_max": 14
+    "days_to_germination_max": 14,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Lemon_balm_plant.jpg/330px-Lemon_balm_plant.jpg"
   },
   {
     "common_name": "Tarragon",
@@ -1919,7 +1970,8 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_maturity_max": 90,
     "days_to_germination_min": null,
-    "days_to_germination_max": null
+    "days_to_germination_max": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Estragon_1511.jpg/330px-Estragon_1511.jpg"
   },
   {
     "common_name": "Chamomile",
@@ -1953,7 +2005,8 @@
     ],
     "transplant_weeks_after_last_frost": 0,
     "indoor_start_weeks_before_frost": 6,
-    "outdoor_sow_weeks_after_frost": -2
+    "outdoor_sow_weeks_after_frost": -2,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Matricaria_February_2008-1.jpg/330px-Matricaria_February_2008-1.jpg"
   },
   {
     "common_name": "Stevia",
@@ -1983,7 +2036,8 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_maturity_max": 90,
     "days_to_germination_min": 7,
-    "days_to_germination_max": 21
+    "days_to_germination_max": 21,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Stevia_rebaudiana_flowers.jpg/330px-Stevia_rebaudiana_flowers.jpg"
   },
   {
     "common_name": "Marjoram",
@@ -2014,7 +2068,8 @@
     "outdoor_sow_weeks_after_frost": 2,
     "days_to_maturity_max": 90,
     "days_to_germination_min": 7,
-    "days_to_germination_max": 14
+    "days_to_germination_max": 14,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Origanum_majorana_002.JPG/330px-Origanum_majorana_002.JPG"
   },
   {
     "common_name": "Borage",
@@ -2048,7 +2103,8 @@
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
-    "outdoor_sow_weeks_after_frost": 0
+    "outdoor_sow_weeks_after_frost": 0,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Borago_officinalis_%282025%29.jpg/330px-Borago_officinalis_%282025%29.jpg"
   },
   {
     "common_name": "Lemongrass",
@@ -2078,7 +2134,8 @@
     "days_to_maturity_min": 75,
     "days_to_maturity_max": 120,
     "days_to_germination_min": null,
-    "days_to_germination_max": null
+    "days_to_germination_max": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Gardenology.org-IMG_2892_rbgs11jan.jpg/330px-Gardenology.org-IMG_2892_rbgs11jan.jpg"
   },
   {
     "common_name": "Bay Laurel",
@@ -2107,7 +2164,8 @@
     "days_to_maturity_min": 365,
     "days_to_maturity_max": 730,
     "days_to_germination_min": null,
-    "days_to_germination_max": null
+    "days_to_germination_max": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Starr-071024-0195-Laurus_nobilis-leaves-Enchanting_Floral_Gardens_of_Kula-Maui_%2824867859296%29.jpg/330px-Starr-071024-0195-Laurus_nobilis-leaves-Enchanting_Floral_Gardens_of_Kula-Maui_%2824867859296%29.jpg"
   },
   {
     "common_name": "Sorrel",
@@ -2138,7 +2196,8 @@
     "outdoor_sow_weeks_after_frost": -2,
     "days_to_maturity_max": 90,
     "days_to_germination_min": 7,
-    "days_to_germination_max": 14
+    "days_to_germination_max": 14,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/%28MHNT%29_Rumex_acetosa_-_Habit.jpg/330px-%28MHNT%29_Rumex_acetosa_-_Habit.jpg"
   },
   {
     "common_name": "Strawberry",
@@ -2178,7 +2237,8 @@
     "indoor_start_weeks_before_frost": null,
     "outdoor_sow_weeks_after_frost": null,
     "days_to_germination_min": null,
-    "days_to_germination_max": null
+    "days_to_germination_max": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Garden_strawberry_%28Fragaria_%C3%97_ananassa%29_single2.jpg/330px-Garden_strawberry_%28Fragaria_%C3%97_ananassa%29_single2.jpg"
   },
   {
     "common_name": "Blueberry",
@@ -2216,7 +2276,8 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_maturity_max": 1095,
     "days_to_germination_min": null,
-    "days_to_germination_max": null
+    "days_to_germination_max": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Vaccinium_corymbosum%2801%29.jpg/330px-Vaccinium_corymbosum%2801%29.jpg"
   },
   {
     "common_name": "Raspberry",
@@ -2254,7 +2315,8 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_maturity_max": 730,
     "days_to_germination_min": null,
-    "days_to_germination_max": null
+    "days_to_germination_max": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Fert%C5%91di_k%C3%A1rmin_m%C3%A1lna.JPG/330px-Fert%C5%91di_k%C3%A1rmin_m%C3%A1lna.JPG"
   },
   {
     "common_name": "Blackberry",
@@ -2289,7 +2351,8 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_maturity_max": 730,
     "days_to_germination_min": null,
-    "days_to_germination_max": null
+    "days_to_germination_max": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Blackberry_%28Rubus_fruticosus%29.jpg/330px-Blackberry_%28Rubus_fruticosus%29.jpg"
   },
   {
     "common_name": "Grape",
@@ -2326,7 +2389,8 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_maturity_max": 1460,
     "days_to_germination_min": null,
-    "days_to_germination_max": null
+    "days_to_germination_max": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Cabernet_Sauvignon_Gaillac.jpg/330px-Cabernet_Sauvignon_Gaillac.jpg"
   },
   {
     "common_name": "Watermelon",
@@ -2364,7 +2428,8 @@
       "Reduce watering as fruit ripens for sweeter flavor"
     ],
     "transplant_weeks_after_last_frost": 2,
-    "indoor_start_weeks_before_frost": 4
+    "indoor_start_weeks_before_frost": 4,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Taiwan_2009_Tainan_City_Organic_Farm_Watermelon_FRD_7962.jpg/330px-Taiwan_2009_Tainan_City_Organic_Farm_Watermelon_FRD_7962.jpg"
   },
   {
     "common_name": "Cantaloupe",
@@ -2398,7 +2463,8 @@
       "Fruit is ripe when it 'slips' from the vine with gentle pressure"
     ],
     "transplant_weeks_after_last_frost": 2,
-    "indoor_start_weeks_before_frost": 4
+    "indoor_start_weeks_before_frost": 4,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Muskmelon.jpg/330px-Muskmelon.jpg"
   },
   {
     "common_name": "Fig",
@@ -2427,7 +2493,8 @@
     "days_to_maturity_min": 730,
     "days_to_maturity_max": 1095,
     "days_to_germination_min": null,
-    "days_to_germination_max": null
+    "days_to_germination_max": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Ficus_carica_L%2C_1771.jpg/330px-Ficus_carica_L%2C_1771.jpg"
   },
   {
     "common_name": "Kiwi",
@@ -2454,7 +2521,8 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_maturity_max": 1460,
     "days_to_germination_min": null,
-    "days_to_germination_max": null
+    "days_to_germination_max": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Kiwis_006eue.jpg/330px-Kiwis_006eue.jpg"
   },
   {
     "common_name": "Passion Fruit",
@@ -2480,7 +2548,8 @@
     "days_to_maturity_min": 365,
     "days_to_maturity_max": 540,
     "days_to_germination_min": null,
-    "days_to_germination_max": null
+    "days_to_germination_max": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Passiflora_edulis_forma_flavicarpa.jpg/330px-Passiflora_edulis_forma_flavicarpa.jpg"
   },
   {
     "common_name": "Gooseberry",
@@ -2508,7 +2577,8 @@
     "days_to_maturity_min": 365,
     "days_to_maturity_max": 730,
     "days_to_germination_min": null,
-    "days_to_germination_max": null
+    "days_to_germination_max": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Ribes_uva-crispa_kz04.jpg/330px-Ribes_uva-crispa_kz04.jpg"
   },
   {
     "common_name": "Currant",
@@ -2536,7 +2606,8 @@
     "days_to_maturity_min": 365,
     "days_to_maturity_max": 730,
     "days_to_germination_min": null,
-    "days_to_germination_max": null
+    "days_to_germination_max": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Ribes_rubrum_1.jpg/330px-Ribes_rubrum_1.jpg"
   },
   {
     "common_name": "Honeyberry",
@@ -2565,7 +2636,8 @@
     "days_to_maturity_min": 365,
     "days_to_maturity_max": 730,
     "days_to_germination_min": null,
-    "days_to_germination_max": null
+    "days_to_germination_max": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Lonicera_coerulea_a3.jpg/330px-Lonicera_coerulea_a3.jpg"
   },
   {
     "common_name": "Sunflower",
@@ -2601,7 +2673,8 @@
       "Stake tall varieties",
       "Attracts pollinators and birds"
     ],
-    "transplant_weeks_after_last_frost": 1
+    "transplant_weeks_after_last_frost": 1,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Sunflower_sky_backdrop.jpg/330px-Sunflower_sky_backdrop.jpg"
   },
   {
     "common_name": "Marigold",
@@ -2637,7 +2710,8 @@
       "French marigolds repel nematodes"
     ],
     "transplant_weeks_after_last_frost": 1,
-    "outdoor_sow_weeks_after_frost": 1
+    "outdoor_sow_weeks_after_frost": 1,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Tagetes_erecta_chendumalli_chedi.jpg/330px-Tagetes_erecta_chendumalli_chedi.jpg"
   },
   {
     "common_name": "Zinnia",
@@ -2670,7 +2744,8 @@
       "Good air circulation prevents powdery mildew"
     ],
     "transplant_weeks_after_last_frost": 1,
-    "indoor_start_weeks_before_frost": 4
+    "indoor_start_weeks_before_frost": 4,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Zinnienbl%C3%BCte_Zinnia_elegans_stack15_20190722-RM-7222254.jpg/330px-Zinnienbl%C3%BCte_Zinnia_elegans_stack15_20190722-RM-7222254.jpg"
   },
   {
     "common_name": "Cosmos",
@@ -2702,7 +2777,8 @@
       "Thrives in poor soil—rich soil produces more foliage than flowers"
     ],
     "transplant_weeks_after_last_frost": 1,
-    "indoor_start_weeks_before_frost": 4
+    "indoor_start_weeks_before_frost": 4,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Cosmos_bipinnatus_pink%2C_Burdwan%2C_West_Bengal%2C_India_10_01_2013.jpg/330px-Cosmos_bipinnatus_pink%2C_Burdwan%2C_West_Bengal%2C_India_10_01_2013.jpg"
   },
   {
     "common_name": "Nasturtium",
@@ -2738,7 +2814,8 @@
       "Flowers, leaves, and seeds are all edible"
     ],
     "transplant_weeks_after_last_frost": null,
-    "indoor_start_weeks_before_frost": null
+    "indoor_start_weeks_before_frost": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Tropaeolum_majus_2005_G1.jpg/330px-Tropaeolum_majus_2005_G1.jpg"
   },
   {
     "common_name": "Echinacea",
@@ -2771,7 +2848,8 @@
     ],
     "transplant_weeks_after_last_frost": 0,
     "indoor_start_weeks_before_frost": 8,
-    "outdoor_sow_weeks_after_frost": 0
+    "outdoor_sow_weeks_after_frost": 0,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Echinacea_purpurea_Grandview_Prairie.jpg/330px-Echinacea_purpurea_Grandview_Prairie.jpg"
   },
   {
     "common_name": "Petunia",
@@ -2803,7 +2881,8 @@
       "Deadhead spent flowers for continuous blooming",
       "Trail from hanging baskets"
     ],
-    "transplant_weeks_after_last_frost": 1
+    "transplant_weeks_after_last_frost": 1,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/PetuniaFlower.JPG/330px-PetuniaFlower.JPG"
   },
   {
     "common_name": "Dahlia",
@@ -2834,7 +2913,8 @@
     "indoor_start_weeks_before_frost": null,
     "outdoor_sow_weeks_after_frost": null,
     "days_to_germination_min": null,
-    "days_to_germination_max": null
+    "days_to_germination_max": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Dahlia_x_hybrida.jpg/330px-Dahlia_x_hybrida.jpg"
   },
   {
     "common_name": "Sweet Pea",
@@ -2867,7 +2947,8 @@
       "Provide trellis for climbing"
     ],
     "transplant_weeks_after_last_frost": null,
-    "indoor_start_weeks_before_frost": 6
+    "indoor_start_weeks_before_frost": 6,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Sweet_Pea-7.jpg/330px-Sweet_Pea-7.jpg"
   },
   {
     "common_name": "Black-Eyed Susan",
@@ -2900,7 +2981,8 @@
     "indoor_start_weeks_before_frost": 8,
     "outdoor_sow_weeks_after_frost": 0,
     "days_to_germination_min": 7,
-    "days_to_germination_max": 21
+    "days_to_germination_max": 21,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Rudbeckia_hirta_kz03.jpg/330px-Rudbeckia_hirta_kz03.jpg"
   },
   {
     "common_name": "Morning Glory",
@@ -2930,7 +3012,8 @@
       "Can become invasive—deadhead to prevent self-seeding"
     ],
     "transplant_weeks_after_last_frost": null,
-    "indoor_start_weeks_before_frost": null
+    "indoor_start_weeks_before_frost": null,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Ipomoea_purpurea%2C_2021-08-31%2C_Beechview%2C_05.jpg/330px-Ipomoea_purpurea%2C_2021-08-31%2C_Beechview%2C_05.jpg"
   },
   {
     "common_name": "Bee Balm",
@@ -2963,7 +3046,8 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_maturity_max": 150,
     "days_to_germination_min": 10,
-    "days_to_germination_max": 21
+    "days_to_germination_max": 21,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Monarda_didyma_inflorescence_and_upper_cauline_leaves.jpg/330px-Monarda_didyma_inflorescence_and_upper_cauline_leaves.jpg"
   },
   {
     "common_name": "Calendula",
@@ -2998,7 +3082,8 @@
       "Petals are edible and add color to salads"
     ],
     "transplant_weeks_after_last_frost": null,
-    "indoor_start_weeks_before_frost": 6
+    "indoor_start_weeks_before_frost": 6,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Calendula_officinalis%2C_pot_marigold.JPG/330px-Calendula_officinalis%2C_pot_marigold.JPG"
   },
   {
     "common_name": "Snapdragon",
@@ -3028,7 +3113,8 @@
       "Tolerates light frost"
     ],
     "transplant_weeks_after_last_frost": -2,
-    "outdoor_sow_weeks_after_frost": -4
+    "outdoor_sow_weeks_after_frost": -4,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Antirrhinum_majus_BCBG_%2802%29.jpg/330px-Antirrhinum_majus_BCBG_%2802%29.jpg"
   },
   {
     "common_name": "Pansy",
@@ -3057,7 +3143,8 @@
     "indoor_start_weeks_before_frost": 8,
     "outdoor_sow_weeks_after_frost": -6,
     "days_to_germination_min": 7,
-    "days_to_germination_max": 14
+    "days_to_germination_max": 14,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/PansyScan_%28cropped%29.jpg/330px-PansyScan_%28cropped%29.jpg"
   },
   {
     "common_name": "Impatiens",
@@ -3086,7 +3173,8 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_maturity_max": 90,
     "days_to_germination_min": 10,
-    "days_to_germination_max": 21
+    "days_to_germination_max": 21,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Impatienswalleriana.jpg/330px-Impatienswalleriana.jpg"
   },
   {
     "common_name": "Geranium",
@@ -3118,7 +3206,8 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_maturity_max": 90,
     "days_to_germination_min": 7,
-    "days_to_germination_max": 14
+    "days_to_germination_max": 14,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Pelargonium_flower.jpg/330px-Pelargonium_flower.jpg"
   },
   {
     "common_name": "Alyssum",
@@ -3149,7 +3238,8 @@
     ],
     "transplant_weeks_after_last_frost": -2,
     "indoor_start_weeks_before_frost": 6,
-    "outdoor_sow_weeks_after_frost": -2
+    "outdoor_sow_weeks_after_frost": -2,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Smagliczka_nadmorska_1.jpg/330px-Smagliczka_nadmorska_1.jpg"
   },
   {
     "common_name": "Salvia",
@@ -3177,7 +3267,8 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_maturity_max": 90,
     "days_to_germination_min": 7,
-    "days_to_germination_max": 14
+    "days_to_germination_max": 14,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Mudas_de_alegrias-de-jardim%2C_ou_s%C3%A1lvia_01.jpg/330px-Mudas_de_alegrias-de-jardim%2C_ou_s%C3%A1lvia_01.jpg"
   },
   {
     "common_name": "Yarrow",
@@ -3209,7 +3300,8 @@
     "days_to_maturity_min": 365,
     "days_to_maturity_max": 540,
     "days_to_germination_min": 10,
-    "days_to_germination_max": 21
+    "days_to_germination_max": 21,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Achillea_millefolium_%28bright%29.jpg/330px-Achillea_millefolium_%28bright%29.jpg"
   },
   {
     "common_name": "Columbine",
@@ -3238,7 +3330,8 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_maturity_max": 730,
     "days_to_germination_min": 21,
-    "days_to_germination_max": 42
+    "days_to_germination_max": 42,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Wald-Akelei.JPG/330px-Wald-Akelei.JPG"
   },
   {
     "common_name": "Dianthus",
@@ -3267,7 +3360,8 @@
     "outdoor_sow_weeks_after_frost": -2,
     "days_to_maturity_max": 120,
     "days_to_germination_min": 7,
-    "days_to_germination_max": 14
+    "days_to_germination_max": 14,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Dianthus_caryophyllus_L_%28Clove_pink%29.JPG/330px-Dianthus_caryophyllus_L_%28Clove_pink%29.JPG"
   },
   {
     "common_name": "Hollyhock",
@@ -3296,7 +3390,8 @@
     "outdoor_sow_weeks_after_frost": 0,
     "days_to_maturity_max": 730,
     "days_to_germination_min": 10,
-    "days_to_germination_max": 14
+    "days_to_germination_max": 14,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Alcea_rosea_purple.jpg/330px-Alcea_rosea_purple.jpg"
   },
   {
     "common_name": "Delphinium",
@@ -3325,7 +3420,8 @@
     "days_to_maturity_min": 365,
     "days_to_maturity_max": 730,
     "days_to_germination_min": 14,
-    "days_to_germination_max": 28
+    "days_to_germination_max": 28,
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Delphinium_elatum_var._palmatifidum_as_Delphinium_intermedium_var._palmatifidum_by_S._A._Drake._Edwards%27s_Botanical_Register_vol._24%2C_t._38_%281838%29.tif/lossless-page1-330px-Delphinium_elatum_var._palmatifidum_as_Delphinium_intermedium_var._palmatifidum_by_S._A._Drake._Edwards%27s_Botanical_Register_vol._24%2C_t._38_%281838%29.tif.png"
   },
   {
     "common_name": "Tomatillo",
@@ -3368,7 +3464,8 @@
       "Plant at least two plants for cross-pollination, as tomatillos are not reliably self-fertile",
       "Stake or cage plants to keep fruit off the ground",
       "Tomatillos are prolific self-seeders; harvest before fruits drop to control volunteers"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Tomatillo.jpg/330px-Tomatillo.jpg"
   },
   {
     "common_name": "Ground Cherry",
@@ -3409,7 +3506,8 @@
       "Start seeds early indoors as ground cherries need a long growing season",
       "They self-sow readily; mulch around plants to make fallen fruit easier to find",
       "Support sprawling plants with small cages or let them spread as a ground cover"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Physalis_pruinosa_habit.jpg/330px-Physalis_pruinosa_habit.jpg"
   },
   {
     "common_name": "Bok Choy",
@@ -3452,7 +3550,8 @@
       "Best grown as a spring or fall crop to avoid bolting in summer heat",
       "Use shade cloth if temperatures exceed 75°F",
       "Baby bok choy varieties mature faster and are ideal for small gardens"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Bok_Choy_%2849553125456%29.jpg/330px-Bok_Choy_%2849553125456%29.jpg"
   },
   {
     "common_name": "Endive",
@@ -3491,7 +3590,8 @@
       "Blanching the heads by covering reduces bitterness and produces pale, tender hearts",
       "Grows best in cool weather; plant in early spring or late summer for fall harvest",
       "Consistent moisture prevents bolting and excessive bitterness"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Cichorium_endivia_field.jpg/330px-Cichorium_endivia_field.jpg"
   },
   {
     "common_name": "Radicchio",
@@ -3530,7 +3630,8 @@
       "Fall-planted radicchio produces the best heads with the deepest color",
       "Light frosts sweeten the flavor and intensify the red color",
       "Some varieties can be cut and will regrow a smaller second head"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Radicchio%2C_halbiert.jpg/330px-Radicchio%2C_halbiert.jpg"
   },
   {
     "common_name": "Mustard Greens",
@@ -3572,7 +3673,8 @@
       "One of the fastest brassicas to mature, ideal for succession planting",
       "Bolts quickly in warm weather; grow in spring and fall",
       "Extremely cold-hardy and can be grown under row cover well into winter"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Brassica_juncea_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-168.jpg/330px-Brassica_juncea_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-168.jpg"
   },
   {
     "common_name": "Tatsoi",
@@ -3613,7 +3715,8 @@
       "Very cold-hardy; can survive temperatures down to 15°F with protection",
       "Ideal for spring, fall, and even winter production under cover",
       "Compact rosette habit makes it excellent for containers and small spaces"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Tatsoi_a_few_days_after_a_big_harvest.jpg/330px-Tatsoi_a_few_days_after_a_big_harvest.jpg"
   },
   {
     "common_name": "Mizuna",
@@ -3654,7 +3757,8 @@
       "More bolt-resistant than many other Asian greens, tolerating some heat",
       "Excellent for cut-and-come-again harvesting over several weeks",
       "Grows well in containers and as an interplanting between slower crops"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Mizuna_001.jpg/330px-Mizuna_001.jpg"
   },
   {
     "common_name": "Watercress",
@@ -3691,7 +3795,8 @@
       "Can be grown in a container kept in a shallow tray of water that is changed daily",
       "Prefers cool, running water but adapts to consistently moist garden soil",
       "Thrives in partial shade and cool temperatures; bolts in heat"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Watercress_%282%29.JPG/330px-Watercress_%282%29.JPG"
   },
   {
     "common_name": "Mache",
@@ -3730,7 +3835,8 @@
       "Thrives in cold weather and can overwinter with minimal protection in zones 6+",
       "Sow in late summer or early fall for winter and early spring harvests",
       "Slow to germinate in warm soil; refrigerate seeds before summer sowing"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Ackersalat02.jpg/330px-Ackersalat02.jpg"
   },
   {
     "common_name": "Rutabaga",
@@ -3772,7 +3878,8 @@
       "Best sown in midsummer for fall harvest, as flavor sweetens with cool weather and frost",
       "Requires a longer season than turnips; plan accordingly",
       "Thin seedlings early to prevent crowding and encourage large root development"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Rutabaga%2C_variety_nadmorska.JPG/330px-Rutabaga%2C_variety_nadmorska.JPG"
   },
   {
     "common_name": "Daikon Radish",
@@ -3813,7 +3920,8 @@
       "Best planted in late summer for fall harvest to avoid bolting",
       "Deep, loose soil is essential for long, straight roots",
       "Also used as a 'tillage radish' cover crop to break up compacted subsoil"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Different_kinds_of_White_Radish.png/330px-Different_kinds_of_White_Radish.png"
   },
   {
     "common_name": "Celeriac",
@@ -3856,7 +3964,8 @@
       "Requires a very long season; start seeds indoors 10-12 weeks before last frost",
       "Seeds need light to germinate; press onto soil surface and keep moist",
       "Remove lower side shoots throughout the season to encourage a single, large root"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/C%C3%A9leri-rave-fendu.jpg/330px-C%C3%A9leri-rave-fendu.jpg"
   },
   {
     "common_name": "Horseradish",
@@ -3894,7 +4003,8 @@
       "Grown from root cuttings, not seed; plant pieces of root at a 45-degree angle",
       "Extremely vigorous and can become invasive; consider planting in a buried container",
       "Harvest all roots annually to control spread, or dedicate a permanent bed"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Armoracia_rusticana.jpg/330px-Armoracia_rusticana.jpg"
   },
   {
     "common_name": "Salsify",
@@ -3933,7 +4043,8 @@
       "Requires deep, loose, stone-free soil for straight, uniform roots",
       "Use fresh seed each year as viability drops quickly",
       "Flavor improves after frost; many gardeners overwinter roots in the ground for spring harvest"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Purple_Salsify_-_Stierch.jpg/330px-Purple_Salsify_-_Stierch.jpg"
   },
   {
     "common_name": "Jicama",
@@ -3971,7 +4082,8 @@
       "Needs at least 5 months of warm weather; best suited for zones 8+ or started early indoors",
       "Pinch off flowers to redirect energy into tuber growth",
       "All parts except the tuber are toxic; handle with care and do not eat seeds or leaves"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Pachyrhizus_erosus_Blanco2.249.png/330px-Pachyrhizus_erosus_Blanco2.249.png"
   },
   {
     "common_name": "Ginger",
@@ -4009,7 +4121,8 @@
       "Start with organic grocery store ginger or seed ginger from a garden supplier",
       "Thrives in rich, well-drained soil with consistent moisture and humidity",
       "Excellent container plant in cold climates; bring indoors before frost"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Koeh-146-no_text.jpg/330px-Koeh-146-no_text.jpg"
   },
   {
     "common_name": "Turmeric",
@@ -4047,7 +4160,8 @@
       "Start rhizome pieces indoors in early spring in zones below 9",
       "Needs warm temperatures consistently above 65°F to grow well",
       "Excellent container plant for northern gardeners; bring indoors in fall"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Turmeric_inflorescence.jpg/330px-Turmeric_inflorescence.jpg"
   },
   {
     "common_name": "Fava Bean",
@@ -4090,7 +4204,8 @@
       "One of the few legumes that prefers cool weather; plant very early spring or fall",
       "Pinch off growing tips when plants begin to flower to reduce aphid problems and direct energy to pods",
       "Inoculate seeds with rhizobia bacteria for best nitrogen fixation"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Illustration_Vicia_faba1.jpg/330px-Illustration_Vicia_faba1.jpg"
   },
   {
     "common_name": "Lima Bean",
@@ -4134,7 +4249,8 @@
       "Requires warm soil above 65°F for good germination; do not plant too early",
       "Pole varieties need sturdy support and produce over a longer season",
       "Avoid overhead watering during flowering to improve pod set"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Phaseoulus_lunatus.jpg/330px-Phaseoulus_lunatus.jpg"
   },
   {
     "common_name": "Edamame",
@@ -4176,7 +4292,8 @@
       "Choose short-season varieties for zones 5 and below",
       "Inoculate with soybean-specific rhizobia for best nitrogen fixation",
       "Does not transplant well; direct sow for best results"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Soybean.USDA.jpg/330px-Soybean.USDA.jpg"
   },
   {
     "common_name": "Lentil",
@@ -4218,7 +4335,8 @@
       "Plant early in spring as lentils prefer cool growing conditions",
       "Plants are short and wispy; interplant with a grain like oats for support",
       "Drought-tolerant once established; reduce watering after flowering"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/3_types_of_lentil.png/330px-3_types_of_lentil.png"
   },
   {
     "common_name": "Chickpea",
@@ -4260,7 +4378,8 @@
       "Prefers drier conditions than most garden crops; avoid overhead watering",
       "Sensitive to high humidity which can promote blight; provide good air circulation",
       "Each pod contains only 1-2 beans, so plant generously for a worthwhile harvest"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Chickpea_BNC.jpg/330px-Chickpea_BNC.jpg"
   },
   {
     "common_name": "Cowpea",
@@ -4302,7 +4421,8 @@
       "Thrives in heat and poor soil where many other crops fail",
       "Wait until soil is thoroughly warm (70°F+) before planting",
       "Excellent cover crop for building soil fertility through nitrogen fixation"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Lobia.jpg/330px-Lobia.jpg"
   },
   {
     "common_name": "Peanut",
@@ -4340,7 +4460,8 @@
       "Choose short-season Valencia types for northern gardens",
       "Loose, sandy soil is ideal; peanut pegs must be able to penetrate the ground",
       "Hill soil around plants as they grow, similar to potatoes, to cover developing pegs"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Arachis_hypogaea_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-163.jpg/330px-Arachis_hypogaea_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-163.jpg"
   },
   {
     "common_name": "Rapini (Broccoli Rabe)",
@@ -4383,7 +4504,8 @@
       "Grows best in cool weather; bolts rapidly in heat",
       "Succession plant every two weeks in spring and again in late summer for fall",
       "Harvest promptly as the window between budding and flowering is short"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Rapini.jpg/330px-Rapini.jpg"
   },
   {
     "common_name": "Chinese Cabbage (Napa)",
@@ -4426,7 +4548,8 @@
       "Fall planting is more reliable than spring, as long days and heat cause bolting",
       "Direct sow in midsummer for fall harvest rather than transplanting",
       "Use row cover to protect from flea beetles, which heavily target napa cabbage"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Brassica_rapa_plant.jpg/330px-Brassica_rapa_plant.jpg"
   },
   {
     "common_name": "Savoy Cabbage",
@@ -4470,7 +4593,8 @@
       "More cold-tolerant than standard cabbage; flavor sweetens after frost",
       "Crinkled leaves are less attractive to cabbage worms than smooth-leaved varieties",
       "Excellent for stuffed cabbage rolls due to pliable, tender leaves"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Savoy_Cabbage.jpg/330px-Savoy_Cabbage.jpg"
   },
   {
     "common_name": "Romanesco",
@@ -4514,7 +4638,8 @@
       "More temperamental than broccoli or cauliflower; needs consistent temperatures to form proper heads",
       "Fall planting often produces better results than spring",
       "Ensure steady, even watering and avoid any stress to prevent buttoning or misshapen heads"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Romanesco_broccoli_%28Brassica_oleracea%29.jpg/330px-Romanesco_broccoli_%28Brassica_oleracea%29.jpg"
   },
   {
     "common_name": "Shallot",
@@ -4558,7 +4683,8 @@
       "Plant sets in fall for the largest bulbs, or early spring for a smaller but quicker harvest",
       "Mulch fall-planted shallots well in zones 5 and below",
       "Stop watering when tops begin to yellow to promote curing"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Shallots_-_sliced_and_whole.jpg/330px-Shallots_-_sliced_and_whole.jpg"
   },
   {
     "common_name": "Green Onion (Scallion)",
@@ -4602,7 +4728,8 @@
       "Among the easiest and fastest alliums to grow from seed",
       "Succession plant every 2 weeks for a continuous supply",
       "Perennial bunching types like Evergreen Hardy White return year after year"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Welsh_onion.jpg/330px-Welsh_onion.jpg"
   },
   {
     "common_name": "Garlic Chives",
@@ -4644,7 +4771,8 @@
       "Deadhead spent flowers aggressively as garlic chives self-seed prolifically and can become invasive",
       "Divide clumps every 3-4 years to maintain vigor",
       "Both leaves and flowers are edible with a mild garlic flavor"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Allium_tuberosum_kz01.jpg/330px-Allium_tuberosum_kz01.jpg"
   },
   {
     "common_name": "Egyptian Walking Onion",
@@ -4686,7 +4814,8 @@
       "Propagated by planting the top-set bulbils or dividing underground bulbs, not from seed",
       "Extremely cold-hardy and virtually indestructible once established",
       "Manage spread by harvesting bulbils before stalks fall over and self-plant"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Allium_fistulosum_bulbifera0.jpg/330px-Allium_fistulosum_bulbifera0.jpg"
   },
   {
     "common_name": "Luffa",
@@ -4727,7 +4856,8 @@
       "Needs a long, hot season of at least 150 days; start indoors in cooler zones",
       "Provide a very strong trellis or arbor for the heavy vines",
       "Soak seeds overnight before planting to improve germination"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Luffa_aegyptiaca_compose.jpg/330px-Luffa_aegyptiaca_compose.jpg"
   },
   {
     "common_name": "Bitter Melon",
@@ -4767,7 +4897,8 @@
       "Needs warm soil and air temperatures to thrive; do not rush transplanting",
       "Provide a sturdy trellis for climbing; fruits hang straight when trellised",
       "Soak or scarify seeds before planting to speed germination"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Momordica_charantia_Blanco2.357.png/330px-Momordica_charantia_Blanco2.357.png"
   },
   {
     "common_name": "Chayote",
@@ -4807,7 +4938,8 @@
       "Plant the whole sprouted fruit on its side with the stem end slightly exposed",
       "Needs a very sturdy support structure; a single vine can cover a large arbor",
       "In zones 7-8, mulch the crown heavily in winter; perennial root may survive mild winters"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Chayote_BNC.jpg/330px-Chayote_BNC.jpg"
   },
   {
     "common_name": "Armenian Cucumber",
@@ -4850,7 +4982,8 @@
       "Trellising produces the straightest fruits and saves garden space",
       "More heat-tolerant than regular cucumbers and never turns bitter",
       "Technically a melon, so avoid planting near other melons to prevent cross-pollination if saving seeds"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Cucumis_melo_flexuosus.jpg/330px-Cucumis_melo_flexuosus.jpg"
   },
   {
     "common_name": "Yard Long Bean",
@@ -4893,7 +5026,8 @@
       "Needs warm soil (70°F+) to germinate well; do not plant too early",
       "Provide a tall trellis or pole at least 8 feet high",
       "Produces best in high heat when standard green beans often struggle"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Vigna_unguiculata_Blanco2.286-cropped.jpg/330px-Vigna_unguiculata_Blanco2.286-cropped.jpg"
   },
   {
     "common_name": "Winged Bean",
@@ -4934,7 +5068,8 @@
       "Requires consistently warm temperatures above 75°F; best in tropical or subtropical zones",
       "Short day length triggers flowering; supplemental lighting may be needed in northern areas",
       "Soak seeds for 24 hours before planting to improve germination"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Psophocarpus_tetragonolobus_Blanco2.293.png/330px-Psophocarpus_tetragonolobus_Blanco2.293.png"
   },
   {
     "common_name": "Malabar Spinach",
@@ -4973,7 +5108,8 @@
       "Thrives in heat and humidity where true spinach bolts",
       "Provide a trellis for the twining vine, or let it sprawl as a ground cover",
       "Soak or scarify seeds before planting as the hard seed coat slows germination"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Basella_alba-2.JPG/330px-Basella_alba-2.JPG"
   },
   {
     "common_name": "New Zealand Spinach",
@@ -5012,7 +5148,8 @@
       "Soak seeds overnight before planting to improve slow, erratic germination",
       "Excellent ground cover that suppresses weeds once established",
       "Not related to true spinach but makes a good warm-weather substitute"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Tetragonia_tetragonioides.jpg/330px-Tetragonia_tetragonioides.jpg"
   },
   {
     "common_name": "Purslane",
@@ -5050,7 +5187,8 @@
       "Seeds need light to germinate; scatter on the surface and press gently",
       "Cultivated varieties are bushier and more upright than wild purslane",
       "Extremely drought-tolerant due to succulent leaves; avoid overwatering"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Portulaca_oleracea.jpg/330px-Portulaca_oleracea.jpg"
   },
   {
     "common_name": "Epazote",
@@ -5089,7 +5227,8 @@
       "Self-seeds aggressively; deadhead to prevent unwanted spread",
       "Thrives in poor soil and requires very little care once established",
       "Use sparingly in cooking; large quantities can be toxic"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Dysphania_ambrosioides_NRCS-1_%28cropped%29.jpg/330px-Dysphania_ambrosioides_NRCS-1_%28cropped%29.jpg"
   },
   {
     "common_name": "Shiso (Perilla)",
@@ -5128,7 +5267,8 @@
       "Seeds need light and cold stratification for best germination; refrigerate for a week before sowing",
       "Self-seeds readily; can become weedy if flowers are not removed",
       "Purple varieties make a beautiful ornamental addition to borders and containers"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Perilla_frutescens_in_Gimpo.jpg/330px-Perilla_frutescens_in_Gimpo.jpg"
   },
   {
     "common_name": "Thai Basil",
@@ -5170,7 +5310,8 @@
       "More heat-tolerant and slower to bolt than sweet basil varieties",
       "Pinch off flower buds regularly, though the purple blooms are attractive and edible",
       "Pairs beautifully with other Southeast Asian garden crops like lemongrass and hot peppers"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Thai_basil.jpg/330px-Thai_basil.jpg"
   },
   {
     "common_name": "Lemon Verbena",
@@ -5208,7 +5349,8 @@
       "Grow in containers in zones below 8 and overwinter indoors; it will drop its leaves but recovers",
       "Prune regularly to prevent legginess and encourage bushy growth",
       "Dried leaves retain more fragrance than almost any other herb"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Aloysia_citriodora_002.jpg/330px-Aloysia_citriodora_002.jpg"
   },
   {
     "common_name": "Hyssop",
@@ -5249,7 +5391,8 @@
       "Excellent companion for grapes and brassicas, said to deter cabbage moths",
       "Prefers well-drained, alkaline soil and tolerates drought once established",
       "Cut back by one-third in late winter to maintain a compact, productive form"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Illustration_Hyssopus_officinalis0.jpg/330px-Illustration_Hyssopus_officinalis0.jpg"
   },
   {
     "common_name": "Lovage",
@@ -5288,7 +5431,8 @@
       "One plant is usually sufficient as lovage grows very large and has an intense flavor",
       "Cut back flower stalks if you want to promote continued leaf production",
       "Mature plants can be divided in spring or fall to propagate"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Liebst%C3%B6ckel.JPG/330px-Liebst%C3%B6ckel.JPG"
   },
   {
     "common_name": "Chervil",
@@ -5328,7 +5472,8 @@
       "Prefers cool weather and partial shade; bolts rapidly in heat and sun",
       "Does not transplant well; direct sow and thin",
       "Sow in fall for an early spring harvest; seeds need cold to germinate well"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Illustration_Anthriscus_cerefolium0.jpg/330px-Illustration_Anthriscus_cerefolium0.jpg"
   },
   {
     "common_name": "Summer Savory",
@@ -5367,7 +5512,8 @@
       "Known as the 'bean herb' for its classic pairing with all types of beans",
       "Plants can become leggy; pinch growing tips to encourage bushiness",
       "Prefers lean, well-drained soil; rich soil produces less flavorful leaves"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Satureja_hortensis_bgiu.jpg/330px-Satureja_hortensis_bgiu.jpg"
   },
   {
     "common_name": "Winter Savory",
@@ -5407,7 +5553,8 @@
       "Grows slowly from seed; cuttings or divisions are faster for propagation",
       "Excellent as a low, evergreen border or edging plant",
       "Well-drained soil is essential; crown rot occurs in wet winter soil"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Satureja_montana2.jpg/330px-Satureja_montana2.jpg"
   },
   {
     "common_name": "Catnip",
@@ -5446,7 +5593,8 @@
       "If growing for cats, protect young plants until established or cats will destroy them",
       "Spreads readily by self-seeding; deadhead to control spread",
       "Contains nepetalactone, a natural insect repellent effective against mosquitoes and aphids"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Catnip_flowers.jpg/330px-Catnip_flowers.jpg"
   },
   {
     "common_name": "Bergamot",
@@ -5485,7 +5633,8 @@
       "Prone to powdery mildew; ensure good air circulation and choose resistant varieties",
       "Divide clumps every 3 years as the centers die out",
       "Seeds need light to germinate; surface sow and do not cover"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Monarda_didyma_inflorescence_and_upper_cauline_leaves.jpg/330px-Monarda_didyma_inflorescence_and_upper_cauline_leaves.jpg"
   },
   {
     "common_name": "Angelica",
@@ -5523,7 +5672,8 @@
       "Seeds must be fresh and require cold stratification; sow in fall for spring germination",
       "Prefers cool, moist, partly shaded conditions; mimick its native woodland edge habitat",
       "Dies after flowering in the second year but self-seeds if allowed to go to seed"
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Koehler1887-GardenAngelica.jpg/330px-Koehler1887-GardenAngelica.jpg"
   },
   {
     "common_name": "Coneflower (Purple)",
@@ -5564,7 +5714,8 @@
       "Do not deadhead all spent blooms; leave some for self-seeding and wildlife habitat.",
       "Divide mature clumps every 3-4 years in spring to maintain vigor.",
       "Avoid overwatering; coneflowers are native prairie plants that thrive in lean, well-drained soils."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Echinacea_purpurea_Grandview_Prairie.jpg/330px-Echinacea_purpurea_Grandview_Prairie.jpg"
   },
   {
     "common_name": "Rudbeckia (Goldsturm)",
@@ -5605,7 +5756,8 @@
       "Tolerates clay soil better than most perennials but still prefers good drainage.",
       "Leave spent flower heads through winter for bird food and architectural interest.",
       "Seeds need light to germinate; do not cover with soil when sowing."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Rudbeckia_fulgida.JPG/330px-Rudbeckia_fulgida.JPG"
   },
   {
     "common_name": "Foxglove",
@@ -5645,7 +5797,8 @@
       "As a biennial, it forms a rosette of leaves the first year and flowers the second; allow self-seeding for continuous yearly blooms.",
       "Prefers humus-rich, moist, well-drained soil in partial shade, mimicking woodland edge conditions.",
       "All plant parts are highly toxic if ingested. Keep away from children and pets."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Digitalis_purpurea_LC0101.jpg/330px-Digitalis_purpurea_LC0101.jpg"
   },
   {
     "common_name": "Lupine",
@@ -5685,7 +5838,8 @@
       "Prefers cool summers; struggles in hot, humid climates above zone 7.",
       "Lupines fix nitrogen through root nodules, making them excellent companions for nutrient-hungry plants.",
       "Provide well-drained, slightly acidic soil; avoid lime and alkaline conditions."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Lupinus_polyphyllus.JPG/330px-Lupinus_polyphyllus.JPG"
   },
   {
     "common_name": "Aster",
@@ -5726,7 +5880,8 @@
       "Divide clumps every 2-3 years in spring to maintain vigor and prevent center die-out.",
       "Seeds need cold stratification for 4-6 weeks to germinate; fall sowing outdoors works well.",
       "Provide good air circulation to reduce susceptibility to powdery mildew."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Symphyotrichum_novae-angliae3.jpg/330px-Symphyotrichum_novae-angliae3.jpg"
   },
   {
     "common_name": "Chrysanthemum",
@@ -5766,7 +5921,8 @@
       "Plant in spring (not fall) to allow roots to establish before winter for reliable perennial performance.",
       "Apply winter mulch after the ground freezes to prevent heaving in cold climates.",
       "Avoid overhead watering to reduce foliar disease; water at the base of the plant."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Chrysanthemum.JPG/330px-Chrysanthemum.JPG"
   },
   {
     "common_name": "Carnation",
@@ -5806,7 +5962,8 @@
       "Prefers slightly alkaline soil; amend acidic soils with garden lime.",
       "Disbud side shoots to produce larger individual blooms for cutting.",
       "Stake tall varieties to prevent stems from snapping in wind or rain."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/W_carnation4051.jpg/330px-W_carnation4051.jpg"
   },
   {
     "common_name": "Lily",
@@ -5846,7 +6003,8 @@
       "Provide well-drained soil; bulbs will rot in waterlogged conditions.",
       "Mulch over bulbs to keep roots cool and retain moisture during summer heat.",
       "The red lily beetle is a serious pest; inspect plants regularly and remove beetles and larvae by hand."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Lilium_candidum_1.jpg/330px-Lilium_candidum_1.jpg"
   },
   {
     "common_name": "Tulip",
@@ -5887,7 +6045,8 @@
       "Species tulips (T. tarda, T. clusiana) perennialize more reliably than hybrid types.",
       "Allow foliage to die back naturally after blooming; the leaves recharge the bulb for the following year.",
       "In zones 8+, pre-chill bulbs in the refrigerator for 12-14 weeks before planting to simulate winter."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/%D7%A6%D7%91%D7%A2%D7%95%D7%A0%D7%99%D7%9D.JPG/330px-%D7%A6%D7%91%D7%A2%D7%95%D7%A0%D7%99%D7%9D.JPG"
   },
   {
     "common_name": "Daffodil",
@@ -5928,7 +6087,8 @@
       "Naturalizes readily; leave undisturbed clumps to multiply for years of increasing spring displays.",
       "Do not braid, tie, or mow foliage after blooming; allow leaves to yellow naturally over 6 weeks.",
       "All parts are toxic if ingested; the alkaloids also make them completely deer- and vole-proof."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Narcissus_poeticus_subsp._radiiflorus.1658.jpg/330px-Narcissus_poeticus_subsp._radiiflorus.1658.jpg"
   },
   {
     "common_name": "Crocus",
@@ -5968,7 +6128,8 @@
       "Excellent for naturalizing in lawns; delay mowing in spring until crocus foliage has yellowed.",
       "Plant in clusters of 10-25 for the best visual impact rather than single rows.",
       "Squirrels may dig corms; cover newly planted areas with wire mesh until settled."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Crocus_vernus_with_bee.jpg/330px-Crocus_vernus_with_bee.jpg"
   },
   {
     "common_name": "Hyacinth",
@@ -6008,7 +6169,8 @@
       "Flower spikes become looser and more graceful after the first year; many gardeners prefer the naturalized look.",
       "Wear gloves when handling bulbs as they contain compounds that cause contact dermatitis.",
       "In zones 8+, pre-chill bulbs in the refrigerator for 10-12 weeks before planting."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Hyacinth_flower.jpg/330px-Hyacinth_flower.jpg"
   },
   {
     "common_name": "Iris",
@@ -6048,7 +6210,8 @@
       "Divide overcrowded clumps every 3-4 years in late summer, discarding the old center section and replanting the outer fans.",
       "Good air circulation and avoiding mulch directly over rhizomes helps prevent iris borer and bacterial soft rot.",
       "Remove and destroy any leaves showing iris borer tunneling damage to break the pest cycle."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Iris_sanguinea_cultivar%2C_Wakehurst_Place%2C_UK_-_Diliff.jpg/330px-Iris_sanguinea_cultivar%2C_Wakehurst_Place%2C_UK_-_Diliff.jpg"
   },
   {
     "common_name": "Allium (Ornamental)",
@@ -6088,7 +6251,8 @@
       "Foliage often yellows and dies back as the flower opens; interplant with perennials that will hide the declining leaves.",
       "Deer, rabbits, and rodents avoid alliums due to their onion scent and taste.",
       "Leave dried seed heads standing for architectural winter interest and self-seeding."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/PurpleBallFlower.JPG/330px-PurpleBallFlower.JPG"
   },
   {
     "common_name": "Poppy",
@@ -6128,7 +6292,8 @@
       "Mix tiny seeds with sand for more even distribution when broadcasting over the soil surface.",
       "Seeds need light to germinate; press onto soil surface but do not cover.",
       "Allow seed pods to dry on the plant and shake seeds for next year's self-sown display."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Papaver_April_2010-3.jpg/330px-Papaver_April_2010-3.jpg"
   },
   {
     "common_name": "Larkspur",
@@ -6168,7 +6333,8 @@
       "Refrigerate seeds for 2 weeks before spring sowing to simulate winter chill and improve germination.",
       "Does not transplant well due to a taproot; direct sowing is strongly preferred.",
       "All parts are toxic if ingested; wear gloves when handling."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Consolida_ajacis_habito.jpg/330px-Consolida_ajacis_habito.jpg"
   },
   {
     "common_name": "Verbena",
@@ -6208,7 +6374,8 @@
       "Shear plants back by one-third in midsummer if they become leggy to promote fresh growth and renewed blooming.",
       "Excellent powdery mildew resistance compared to older varieties; ensure good air circulation nonetheless.",
       "Thrives in heat and tolerates drought once established, making it a good choice for hot, dry locations."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Eisenkraut%2C_Passau.JPG/330px-Eisenkraut%2C_Passau.JPG"
   },
   {
     "common_name": "Celosia",
@@ -6248,7 +6415,8 @@
       "Avoid disturbing roots when transplanting; becoming root-bound or stressed causes premature blooming at a small size.",
       "Thrives in hot weather when many other annuals falter; an excellent choice for southern and tropical gardens.",
       "Seeds need light to germinate; sow on the surface of moist potting mix."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Celosia_argentea_flowering_q1.jpg/330px-Celosia_argentea_flowering_q1.jpg"
   },
   {
     "common_name": "Amaranth",
@@ -6288,7 +6456,8 @@
       "Extremely heat- and drought-tolerant once established; an excellent crop for hot, dry climates.",
       "Young leaves are edible and nutritious, similar to spinach; harvest before plants flower for the best flavor.",
       "Can become weedy through self-seeding; remove spent flower heads if self-sowing is not desired."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Amaranthus_tricolor0.jpg/330px-Amaranthus_tricolor0.jpg"
   },
   {
     "common_name": "Bachelor's Button (Cornflower)",
@@ -6328,7 +6497,8 @@
       "Does not transplant well; direct sowing is strongly preferred.",
       "Deadhead spent blooms regularly to extend the flowering period well into summer.",
       "Self-sows readily; allow some flowers to go to seed for a naturalized meadow effect."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Centaurea_cyanus_flower_001.jpg/330px-Centaurea_cyanus_flower_001.jpg"
   },
   {
     "common_name": "Cleome",
@@ -6368,7 +6538,8 @@
       "Self-sows aggressively; deadhead to control spread or allow for a naturalized display.",
       "Tolerates heat, drought, and poor soil once established.",
       "Stems have small thorns; wear gloves when working around plants."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Cleome_hassleriana.jpg/330px-Cleome_hassleriana.jpg"
   },
   {
     "common_name": "Four O'Clock",
@@ -6408,7 +6579,8 @@
       "Perennial in zones 9-11 via a tuberous root; grown as an annual in colder regions or dig and store tubers.",
       "Attracts sphinx moths and other nocturnal pollinators with its evening fragrance.",
       "All parts of the plant are toxic if ingested; keep away from children and pets."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Gul-Abas-4-O%27clock_plant.JPG/330px-Gul-Abas-4-O%27clock_plant.JPG"
   },
   {
     "common_name": "Nicotiana",
@@ -6452,7 +6624,8 @@
       "The taller species (N. sylvestris) are more fragrant than compact bedding varieties.",
       "As a member of the Solanaceae family, avoid planting where tomatoes, peppers, or eggplant grew previously.",
       "All parts are toxic if ingested; handle with care."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Nicotiana_alata1By_Carl_E_Lewis.jpg/330px-Nicotiana_alata1By_Carl_E_Lewis.jpg"
   },
   {
     "common_name": "Heliotrope",
@@ -6492,7 +6665,8 @@
       "Seeds need light and consistent warmth (70-75F) to germinate; do not cover.",
       "Pinch young plants to promote bushy growth and more flower clusters.",
       "All parts are toxic if ingested; keep away from children and pets."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Heliotropium_arborescens_%27Mini_Marine%27_Heliotrope_Flower_2500px.jpg/330px-Heliotropium_arborescens_%27Mini_Marine%27_Heliotrope_Flower_2500px.jpg"
   },
   {
     "common_name": "Stock",
@@ -6532,7 +6706,8 @@
       "In mild winter climates (zones 8-10), grow as a winter/early spring flower for best results.",
       "As a Brassicaceae family member, susceptible to clubroot; rotate planting locations annually.",
       "Chill seeds at 40F for one week before sowing to improve double-flower percentage."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Vereinigte_Ostindische_Compagnie_bond_-_Middelburg_-_Amsterdam_-_1622.jpg/330px-Vereinigte_Ostindische_Compagnie_bond_-_Middelburg_-_Amsterdam_-_1622.jpg"
   },
   {
     "common_name": "Crimson Clover",
@@ -6572,7 +6747,8 @@
       "Fixes 70-150 lbs of nitrogen per acre when inoculated with the proper Rhizobium bacteria.",
       "Mow or till in at peak bloom before seed set to prevent it from becoming a weed in subsequent crops.",
       "Excellent bee forage; one of the most pollinator-friendly cover crops available."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Kals_am_Grossglockner_flowers_256.jpg/330px-Kals_am_Grossglockner_flowers_256.jpg"
   },
   {
     "common_name": "White Clover",
@@ -6612,7 +6788,8 @@
       "Fixes 75-200 lbs of nitrogen per acre annually through symbiotic root bacteria.",
       "Excellent living mulch for orchards and perennial beds; spreads by stolons to form a dense, weed-suppressing mat.",
       "Tolerates foot traffic and mowing; ideal for garden pathways between beds."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Trifolium_repens_-_white_clover_on_way_from_Govindghat_to_Gangria_at_Valley_of_Flowers_National_Park_-_during_LGFC_-_VOF_2019_%281%29.jpg/330px-Trifolium_repens_-_white_clover_on_way_from_Govindghat_to_Gangria_at_Valley_of_Flowers_National_Park_-_during_LGFC_-_VOF_2019_%281%29.jpg"
   },
   {
     "common_name": "Winter Rye",
@@ -6652,7 +6829,8 @@
       "The allelopathic root exudates suppress weed seed germination, making it an excellent natural weed control.",
       "Terminate at least 2-3 weeks before planting spring crops; decomposing rye residue can temporarily inhibit germination of small-seeded crops.",
       "Combines well with hairy vetch or crimson clover for a nitrogen-fixing grass-legume cover crop mix."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Ear_of_rye.jpg/330px-Ear_of_rye.jpg"
   },
   {
     "common_name": "Buckwheat",
@@ -6691,7 +6869,8 @@
       "Killed by the first hard frost, leaving a weed-free mulch that breaks down easily over winter.",
       "Attracts hoverflies, parasitic wasps, and other beneficial insects that prey on garden pests.",
       "Excellent phosphorus scavenger; roots solubilize bound phosphorus and make it available for subsequent crops."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Japanese_Buckwheat_Flower.JPG/330px-Japanese_Buckwheat_Flower.JPG"
   },
   {
     "common_name": "Hairy Vetch",
@@ -6731,7 +6910,8 @@
       "Inoculate seed with the appropriate Vicia-group Rhizobium inoculant for maximum nitrogen fixation.",
       "Combine with winter rye for a balanced cover crop mix: rye provides structure for vetch to climb.",
       "Can self-seed aggressively if allowed to set seed; terminate before seed maturity to prevent volunteer issues."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Vicia_villosa.jpeg/330px-Vicia_villosa.jpeg"
   },
   {
     "common_name": "Austrian Winter Pea",
@@ -6771,7 +6951,8 @@
       "Less winter-hardy than hairy vetch; may winter-kill in zones 5 and below without snow cover.",
       "Fixes 50-150 lbs of nitrogen per acre; inoculate with pea/vetch-group Rhizobium for best results.",
       "Excellent companion with oats or rye; the grain provides physical support for the vining peas."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Peas_in_pods_-_Studio.jpg/330px-Peas_in_pods_-_Studio.jpg"
   },
   {
     "common_name": "Annual Ryegrass",
@@ -6811,7 +6992,8 @@
       "Germinates quickly (5-7 days) and establishes faster than any other cover crop grass.",
       "Be cautious: can become difficult to terminate in spring if allowed to mature; mow or till before seed set.",
       "Excellent for improving soil structure through its dense, fibrous root system."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Lolium_multiflorum_detail.jpeg/330px-Lolium_multiflorum_detail.jpeg"
   },
   {
     "common_name": "Oats (Cover Crop)",
@@ -6851,7 +7033,8 @@
       "An excellent nurse crop: sow alongside slower-establishing legume cover crops to provide quick ground cover.",
       "Scavenges excess nitrogen from the soil, preventing it from leaching into groundwater over winter.",
       "The winter-killed residue creates a natural mulch that protects soil and suppresses early spring weeds."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/AvenaSativa3.jpg/330px-AvenaSativa3.jpg"
   },
   {
     "common_name": "Sorghum-Sudan Grass",
@@ -6890,7 +7073,8 @@
       "Mow at 3-4 feet tall rather than letting it grow to full height; regrowth produces more biomass and is easier to manage.",
       "Deep roots penetrate hardpan and compacted subsoil, improving drainage and soil structure for future crops.",
       "Young shoots can contain toxic levels of prussic acid (hydrogen cyanide); do not graze or harvest for livestock feed when plants are under 18 inches tall."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Sorghum_bicolor03.jpg/330px-Sorghum_bicolor03.jpg"
   },
   {
     "common_name": "Phacelia",
@@ -6929,7 +7113,8 @@
       "One of the top bee-attracting plants in the world; excellent for boosting pollination in adjacent food crops.",
       "Frost-sensitive; use as a spring or summer cover crop. Winter-kills in zones 7 and below.",
       "Seeds need darkness to germinate; cover lightly with soil after sowing."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Phacelia_tanacetifolia_7735.JPG/330px-Phacelia_tanacetifolia_7735.JPG"
   },
   {
     "common_name": "Elderberry",
@@ -6969,7 +7154,8 @@
       "Prune out canes older than 3 years in late winter to maintain productive, vigorous growth.",
       "Raw berries, leaves, and stems contain cyanogenic glycosides and must be cooked before consumption.",
       "Thrives in moist, rich soil; tolerates poorly drained conditions better than most fruit crops."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Sambucus-berries.jpg/330px-Sambucus-berries.jpg"
   },
   {
     "common_name": "Mulberry",
@@ -7009,7 +7195,8 @@
       "Select named cultivars grafted onto rootstock for reliable fruit quality; seedlings are highly variable.",
       "Prune in late winter to maintain a manageable size and improve air circulation.",
       "One of the lowest-maintenance fruit-producing trees; rarely troubled by serious pests or diseases."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/MorusRubra9.jpg/330px-MorusRubra9.jpg"
   },
   {
     "common_name": "Serviceberry (Juneberry)",
@@ -7049,7 +7236,8 @@
       "Bird netting is often necessary to harvest berries before birds strip the shrub clean.",
       "Minimal pruning required; remove dead, crossing, or crowded branches in late winter.",
       "Offers four-season interest: spring flowers, summer fruit, fall color, and attractive winter bark and form."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Amelanchier_alnifolia_var._semiintegrifolia_4.jpg/330px-Amelanchier_alnifolia_var._semiintegrifolia_4.jpg"
   },
   {
     "common_name": "Huckleberry",
@@ -7089,7 +7277,8 @@
       "Naturally an understory plant; prefers partial shade, especially in hot afternoon sun.",
       "Very slow to establish; expect 3-5 years before significant fruiting begins.",
       "Mulch heavily with acidic materials such as pine needles, wood chips, or composted bark."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Vacciniumovatum.jpg/330px-Vacciniumovatum.jpg"
   },
   {
     "common_name": "Lingonberry",
@@ -7129,7 +7318,8 @@
       "Spreads slowly by underground runners to form a dense, weed-suppressing mat.",
       "Extremely cold-hardy; one of the few fruit crops that thrive in zones 2-3.",
       "Mulch with pine needles or acidic wood chips to maintain soil acidity and moisture."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Vaccinium_vitis-idaea_20060824_003.jpg/330px-Vaccinium_vitis-idaea_20060824_003.jpg"
   },
   {
     "common_name": "Cranberry",
@@ -7168,7 +7358,8 @@
       "Commercial flooding is for harvest and winter protection, not for growing; do not keep plants submerged during the growing season.",
       "Vines spread by runners and form a dense mat; established beds may produce for decades.",
       "Top-dress beds with a thin layer of sand every 2-3 years to promote new root and stem growth."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cranberry_bog.jpg/330px-Cranberry_bog.jpg"
   },
   {
     "common_name": "Persimmon",
@@ -7208,7 +7399,8 @@
       "The deep taproot makes transplanting difficult; plant young, bare-root trees and handle roots carefully.",
       "Fruit must be completely ripe and soft to eat; unripe fruit is intensely astringent.",
       "Extremely low-maintenance once established; virtually free of serious pest and disease problems."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Diospyros_virginiana_BB-1913.png/330px-Diospyros_virginiana_BB-1913.png"
   },
   {
     "common_name": "Pawpaw",
@@ -7248,7 +7440,8 @@
       "Young trees need shade for the first 1-2 years; gradually increase sun exposure as they mature.",
       "Flowers are pollinated by flies and beetles, not bees; hand pollination dramatically improves fruit set.",
       "Spreads by root suckers to form patches; remove suckers if a single-trunk tree is desired."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Asimina_triloba3.jpg/330px-Asimina_triloba3.jpg"
   },
   {
     "common_name": "Quince",
@@ -7288,7 +7481,8 @@
       "Fruit must be cooked before eating; raw quince is hard, dry, and astringent.",
       "The high pectin content makes quince ideal for jelly, paste (membrillo), and adding body to other fruit preserves.",
       "Susceptible to fire blight; prune out any blackened, wilted shoots immediately and sterilize tools between cuts."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Pancrace_Bessa00.jpg/330px-Pancrace_Bessa00.jpg"
   },
   {
     "common_name": "Medlar",
@@ -7328,7 +7522,8 @@
       "Extremely low-maintenance; virtually free of pest and disease problems.",
       "The bletting process is not rotting; it is an enzymatic softening that converts starches to sugars.",
       "Makes an attractive ornamental with showy white spring flowers and beautiful fall foliage."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Medlar_pomes_and_leaves.jpg/330px-Medlar_pomes_and_leaves.jpg"
   },
   {
     "common_name": "Goji Berry",
@@ -7372,7 +7567,8 @@
       "Can become invasive via root suckers; install a root barrier or plant in a contained area.",
       "Train onto a trellis or stake the main stem for easier harvesting and better air circulation.",
       "As a member of Solanaceae, it is susceptible to the same diseases as tomatoes and peppers; rotate accordingly."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Lycium_barbarum_-_Wolfberries_China_7-05.jpg/330px-Lycium_barbarum_-_Wolfberries_China_7-05.jpg"
   },
   {
     "common_name": "Aronia (Chokeberry)",
@@ -7412,7 +7608,8 @@
       "Self-fertile but cross-pollination with a second cultivar increases berry size and yield.",
       "Beautiful fall foliage in brilliant red and orange adds ornamental value.",
       "Virtually free of pest and disease problems; deer typically avoid browsing the foliage."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Aronia_melanocarpa_cv_Rubina_P1020524.JPG/330px-Aronia_melanocarpa_cv_Rubina_P1020524.JPG"
   },
   {
     "common_name": "Sea Buckthorn",
@@ -7452,7 +7649,8 @@
       "Fixes nitrogen through root nodules with Frankia bacteria, improving soil fertility.",
       "Spreads aggressively by root suckers; install a root barrier or mow around plantings regularly.",
       "Extremely thorny; wear heavy gloves and long sleeves when harvesting."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Hippophae_rhamnoides-01_%28xndr%29.JPG/330px-Hippophae_rhamnoides-01_%28xndr%29.JPG"
   },
   {
     "common_name": "Hardy Kiwi",
@@ -7492,7 +7690,8 @@
       "Requires a very strong trellis or pergola; mature vines are extremely heavy and vigorous.",
       "Vulnerable to late spring frosts that damage new growth; avoid frost pockets and south-facing walls that promote early bud break.",
       "Prune vines in late winter while dormant; summer-prune vigorous new growth to maintain manageable size."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Weiki01.jpg/330px-Weiki01.jpg"
   },
   {
     "common_name": "Jostaberry",
@@ -7532,6 +7731,7 @@
       "Thornless stems make harvesting much easier compared to gooseberries.",
       "Highly resistant to powdery mildew, white pine blister rust, and most other Ribes diseases.",
       "Prune out branches older than 4 years in late winter to maintain vigorous, productive bushes."
-    ]
+    ],
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Ribes_nidigrolaria.jpg/330px-Ribes_nidigrolaria.jpg"
   }
 ]

@@ -48,7 +48,12 @@ export const PlantCatalogCreateSchema = z.object({
   growing_tips: z.array(z.string()).optional(),
 });
 
-export const PlantCatalogSchema = BaseEntitySchema.merge(PlantCatalogCreateSchema);
+export const PlantCatalogUpdateSchema = PlantCatalogCreateSchema.partial();
+
+export const PlantCatalogSchema = BaseEntitySchema.merge(PlantCatalogCreateSchema).extend({
+  is_custom: z.number().optional(),
+});
 
 export type PlantCatalog = z.infer<typeof PlantCatalogSchema>;
 export type PlantCatalogCreate = z.infer<typeof PlantCatalogCreateSchema>;
+export type PlantCatalogUpdate = z.infer<typeof PlantCatalogUpdateSchema>;

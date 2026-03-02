@@ -15,7 +15,7 @@ export class UploadService {
     private db: Database.Database,
     private uploadRepo: UploadRepository,
   ) {
-    this.uploadPath = process.env.UPLOAD_PATH || path.resolve(process.cwd(), 'data/uploads');
+    this.uploadPath = path.resolve(process.env.UPLOAD_PATH || 'data/uploads');
     this.ensureUploadDir();
   }
 

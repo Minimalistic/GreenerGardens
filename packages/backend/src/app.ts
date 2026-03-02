@@ -7,7 +7,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { getDb } from './db/connection.js';
 import { runMigrations } from './db/migrate.js';
-import { seedPlantCatalog } from './db/seed.js';
+import { seedPlantCatalog, updatePlantImages } from './db/seed.js';
 import { registerRoutes } from './routes/index.js';
 import { NotFoundError, ValidationError } from './utils/errors.js';
 import { ZodError } from 'zod';
@@ -29,7 +29,7 @@ export async function buildApp() {
   });
 
   // Serve uploaded files
-  const uploadPath = process.env.UPLOAD_PATH || path.resolve(process.cwd(), 'data/uploads');
+  const uploadPath = path.resolve(process.env.UPLOAD_PATH || 'data/uploads');
   if (!fs.existsSync(uploadPath)) {
     fs.mkdirSync(uploadPath, { recursive: true });
   }
@@ -56,6 +56,7 @@ export async function buildApp() {
 
   // Seed plant catalog
   seedPlantCatalog(db);
+  updatePlantImages(db);
 
   // Health check
   server.get('/api/v1/health', async () => {

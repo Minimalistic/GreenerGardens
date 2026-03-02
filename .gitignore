@@ -3,6 +3,7 @@ node_modules/
 
 # Build output
 dist/
+*.tsbuildinfo
 
 # SQLite databases
 data/*.db

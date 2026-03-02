@@ -82,3 +82,28 @@ export function seedPlantCatalog(db: Database.Database): void {
   insertAll(plants);
   console.log(`Seeded ${plants.length} plants into catalog`);
 }
+
+export function updatePlantImages(db: Database.Database): void {
+  if (!fs.existsSync(SEED_FILE)) return;
+
+  const plants = JSON.parse(fs.readFileSync(SEED_FILE, 'utf-8'));
+  const plantsWithImages = plants.filter((p: any) => p.image_url);
+  if (plantsWithImages.length === 0) return;
+
+  const stmt = db.prepare(
+    `UPDATE plant_catalog SET image_url = ? WHERE common_name = ? AND image_url IS NULL`
+  );
+
+  let updated = 0;
+  const updateAll = db.transaction((items: any[]) => {
+    for (const p of items) {
+      const result = stmt.run(p.image_url, p.common_name);
+      if (result.changes > 0) updated++;
+    }
+  });
+
+  updateAll(plantsWithImages);
+  if (updated > 0) {
+    console.log(`Updated ${updated} plant images from seed data`);
+  }
+}

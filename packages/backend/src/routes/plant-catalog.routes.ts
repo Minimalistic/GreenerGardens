@@ -25,4 +25,19 @@ export function plantCatalogRoutes(fastify: FastifyInstance, catalogService: Pla
     if (!plant) throw new NotFoundError('PlantCatalog', request.params.id);
     return { success: true, data: plant };
   });
+
+  fastify.post('/api/v1/plant-catalog', async (request, reply) => {
+    const plant = catalogService.create(request.body);
+    return reply.status(201).send({ success: true, data: plant });
+  });
+
+  fastify.patch<{ Params: { id: string } }>('/api/v1/plant-catalog/:id', async (request) => {
+    const plant = catalogService.update(request.params.id, request.body);
+    return { success: true, data: plant };
+  });
+
+  fastify.delete<{ Params: { id: string } }>('/api/v1/plant-catalog/:id', async (request, reply) => {
+    catalogService.remove(request.params.id);
+    return reply.status(204).send();
+  });
 }

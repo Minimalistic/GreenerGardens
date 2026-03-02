@@ -36,7 +36,7 @@ export function registerCoreRoutes(fastify: FastifyInstance, db: Database.Databa
   const gardenService = new GardenService(db, gardenRepo, history);
   const plotService = new PlotService(db, plotRepo, subPlotRepo, gardenRepo, history);
   const subPlotService = new SubPlotService(db, subPlotRepo, history);
-  const catalogService = new PlantCatalogService(catalogRepo);
+  const catalogService = new PlantCatalogService(db, catalogRepo, history);
   const instanceService = new PlantInstanceService(db, instanceRepo, subPlotRepo, history, catalogRepo, plotRepo, gardenRepo);
   const harvestService = new HarvestService(db, harvestRepo, history);
 

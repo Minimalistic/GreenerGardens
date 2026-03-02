@@ -27,6 +27,8 @@ export function SetupWizard() {
   const { setCurrentGardenId } = useGardenContext();
   const setupMutation = useCompleteSetup();
   const [step, setStep] = useState<Step>('welcome');
+  const [detecting, setDetecting] = useState(false);
+  const [locationError, setLocationError] = useState('');
   const [data, setData] = useState<GardenData>({
     name: '',
     address: '',
@@ -39,7 +41,16 @@ export function SetupWizard() {
   });
 
   const detectLocation = () => {
-    if (!navigator.geolocation) return;
+    setLocationError('');
+    if (!navigator.geolocation) {
+      setLocationError('Geolocation is not supported by your browser.');
+      return;
+    }
+    if (window.isSecureContext === false) {
+      setLocationError('Location detection requires HTTPS or localhost.');
+      return;
+    }
+    setDetecting(true);
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const lat = pos.coords.latitude;
@@ -54,9 +65,26 @@ export function SetupWizard() {
           last_frost_date: frost?.lastFrost ?? '',
           first_frost_date: frost?.firstFrost ?? '',
         }));
+        setDetecting(false);
         setStep('zone');
       },
-      () => setStep('zone'),
+      (err) => {
+        setDetecting(false);
+        switch (err.code) {
+          case err.PERMISSION_DENIED:
+            setLocationError('Location permission denied. Please enter coordinates manually.');
+            break;
+          case err.POSITION_UNAVAILABLE:
+            setLocationError('Location unavailable. Please enter coordinates manually.');
+            break;
+          case err.TIMEOUT:
+            setLocationError('Location request timed out. Please try again or enter coordinates manually.');
+            break;
+          default:
+            setLocationError('Could not detect location. Please enter coordinates manually.');
+        }
+      },
+      { timeout: 10000 },
     );
   };
 
@@ -149,10 +177,13 @@ export function SetupWizard() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Button variant="outline" className="w-full" onClick={detectLocation}>
+              <Button variant="outline" className="w-full" onClick={detectLocation} disabled={detecting}>
                 <MapPin className="w-4 h-4 mr-2" />
-                Auto-detect My Location
+                {detecting ? 'Detecting...' : 'Auto-detect My Location'}
               </Button>
+              {locationError && (
+                <p className="text-sm text-destructive">{locationError}</p>
+              )}
               <div className="relative">
                 <div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div>
                 <div className="relative flex justify-center text-xs uppercase">

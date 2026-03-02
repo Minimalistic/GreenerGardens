@@ -7,6 +7,8 @@ import type { SubPlotWithPlant } from '@/hooks/use-sub-plots';
 const MIN_SCALE = 0.2;
 const MAX_SCALE = 5;
 const ZOOM_SPEED = 1.08;
+const FIT_PADDING = 20;
+const BUTTON_ZOOM = 1.3;
 
 function snapTo(value: number, grid: number) {
   return Math.round(value / grid) * grid;
@@ -39,36 +41,84 @@ export function SubPlotCanvas({
   const stageRef = useRef<Konva.Stage>(null);
   const transformerRef = useRef<Konva.Transformer>(null);
   const subPlotRefs = useRef<Map<string, Konva.Group>>(new Map());
-  const [containerWidth, setContainerWidth] = useState(800);
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [containerHeight, setContainerHeight] = useState(0);
   const [snapEnabled, setSnapEnabled] = useState(true);
 
   // Canvas dimensions in pixels based on plot dimensions
   const canvasWidth = widthFt * PX_PER_FT;
   const canvasHeight = lengthFt * PX_PER_FT;
 
-  // Base scale = fit container width. User zoom is on top of this.
-  const baseScale = containerWidth / canvasWidth;
+  // Base scale = fit both dimensions within container with padding
+  const baseScale = containerWidth > FIT_PADDING * 2 && containerHeight > FIT_PADDING * 2
+    ? Math.min(
+        (containerWidth - FIT_PADDING * 2) / canvasWidth,
+        (containerHeight - FIT_PADDING * 2) / canvasHeight,
+      )
+    : 1;
   const [userScale, setUserScale] = useState(1);
   const [stagePos, setStagePos] = useState({ x: 0, y: 0 });
 
   const scale = baseScale * userScale;
-  const displayWidth = containerWidth;
-  const displayHeight = canvasHeight * scale;
+  const displayWidth = containerWidth || 800;
+  const displayHeight = containerHeight || 500;
 
-  const resetView = useCallback(() => {
+  // Fit view: center the plot in the viewport at 1x zoom
+  const fitView = useCallback(() => {
     setUserScale(1);
-    setStagePos({ x: 0, y: 0 });
-  }, []);
+    setStagePos({
+      x: (containerWidth - canvasWidth * baseScale) / 2,
+      y: (containerHeight - canvasHeight * baseScale) / 2,
+    });
+  }, [containerWidth, containerHeight, canvasWidth, canvasHeight, baseScale]);
+
+  // Zoom by factor, centered on viewport center
+  const zoomByFactor = useCallback((factor: number) => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    const oldScale = scale;
+    const newUserScale = clampScale((oldScale * factor) / baseScale);
+    const newScale = baseScale * newUserScale;
+    const cx = containerWidth / 2;
+    const cy = containerHeight / 2;
+    const pointTo = {
+      x: (cx - stage.x()) / oldScale,
+      y: (cy - stage.y()) / oldScale,
+    };
+    setUserScale(newUserScale);
+    setStagePos({
+      x: cx - pointTo.x * newScale,
+      y: cy - pointTo.y * newScale,
+    });
+  }, [scale, baseScale, containerWidth, containerHeight]);
 
   useEffect(() => {
     if (!containerRef.current) return;
     const observer = new ResizeObserver(entries => {
-      const { width } = entries[0].contentRect;
+      const { width, height } = entries[0].contentRect;
       setContainerWidth(width);
+      setContainerHeight(height);
     });
     observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, []);
+
+  // Center view on first real container measurement
+  const initialFitDone = useRef(false);
+  useEffect(() => {
+    if (!initialFitDone.current && containerWidth > 0 && containerHeight > 0) {
+      initialFitDone.current = true;
+      const bs = Math.min(
+        (containerWidth - FIT_PADDING * 2) / canvasWidth,
+        (containerHeight - FIT_PADDING * 2) / canvasHeight,
+      );
+      setUserScale(1);
+      setStagePos({
+        x: (containerWidth - canvasWidth * bs) / 2,
+        y: (containerHeight - canvasHeight * bs) / 2,
+      });
+    }
+  }, [containerWidth, containerHeight, canvasWidth, canvasHeight]);
 
   // Wheel zoom (centered on pointer)
   const handleWheel = useCallback((e: Konva.KonvaEventObject<WheelEvent>) => {
@@ -246,21 +296,32 @@ export function SubPlotCanvas({
   const rowCount = Math.ceil(canvasHeight / PX_PER_FT);
 
   const zoomPercent = Math.round(scale * 100);
-  const isZoomed = Math.abs(userScale - 1) > 0.01;
 
   return (
-    <div ref={containerRef} className="w-full rounded-lg border bg-card overflow-hidden relative touch-none">
+    <div ref={containerRef} className="w-full h-[60vh] min-h-[300px] rounded-lg border bg-card overflow-hidden relative touch-none">
       {/* Top toolbar */}
-      <div className="absolute top-2 right-2 z-10 flex items-center gap-1.5">
-        {isZoomed && (
-          <button
-            onClick={resetView}
-            className="px-2 py-1 text-xs font-medium rounded border bg-background text-muted-foreground border-border hover:bg-muted transition-colors"
-            title="Reset zoom"
-          >
-            Fit
-          </button>
-        )}
+      <div className="absolute top-2 right-2 z-10 flex items-center gap-1">
+        <button
+          onClick={() => zoomByFactor(1 / BUTTON_ZOOM)}
+          className="w-7 h-7 flex items-center justify-center text-sm font-bold rounded border bg-background text-muted-foreground border-border hover:bg-muted transition-colors"
+          title="Zoom out"
+        >
+          &minus;
+        </button>
+        <button
+          onClick={() => zoomByFactor(BUTTON_ZOOM)}
+          className="w-7 h-7 flex items-center justify-center text-sm font-bold rounded border bg-background text-muted-foreground border-border hover:bg-muted transition-colors"
+          title="Zoom in"
+        >
+          +
+        </button>
+        <button
+          onClick={fitView}
+          className="px-2 py-1 text-xs font-medium rounded border bg-background text-muted-foreground border-border hover:bg-muted transition-colors"
+          title="Fit to view"
+        >
+          Fit
+        </button>
         <button
           onClick={() => setSnapEnabled(s => !s)}
           className={`px-2.5 py-1 text-xs font-medium rounded border transition-colors ${

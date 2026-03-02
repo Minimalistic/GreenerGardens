@@ -1,0 +1,1 @@
+ALTER TABLE plant_catalog ADD COLUMN is_custom INTEGER NOT NULL DEFAULT 0;
