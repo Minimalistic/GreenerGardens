@@ -48,29 +48,30 @@ async function fetchForAllGardens(
       if (!garden.latitude || !garden.longitude) continue;
       try {
         const result = await weatherService.fetchCurrentWeather(garden.id);
-        if (result.cached) {
-          console.log(`[WeatherJob] Garden ${garden.id}: using cached data`);
-        } else if (result.error) {
+        if (result.error) {
           console.log(`[WeatherJob] Garden ${garden.id}: fetch error — ${result.error}`);
-        } else {
-          console.log(`[WeatherJob] Garden ${garden.id}: fresh weather data fetched`);
-          // Run alert checks after fresh weather data
-          if (alertServiceRef) {
-            try {
-              const frostAlert = await alertServiceRef.checkFrostAlert(garden.id);
-              await alertServiceRef.checkHeatAlert(garden.id);
+          continue;
+        }
 
-              // Send push notification for frost alerts
-              if (frostAlert && frostAlert.length > 0 && pushServiceRef) {
-                pushServiceRef.broadcastByPreference('frost', {
-                  title: 'Frost Alert',
-                  body: `Frost warning for ${garden.name || 'your garden'}. Protect tender plants!`,
-                  url: '/weather',
-                }).catch(err => console.error(`[WeatherJob] Push notification failed: ${err.message}`));
-              }
-            } catch (alertErr: any) {
-              console.error(`[WeatherJob] Alert check failed for garden ${garden.id}: ${alertErr.message}`);
+        console.log(`[WeatherJob] Garden ${garden.id}: ${result.cached ? 'using cached data' : 'fresh weather data fetched'}`);
+
+        // Run alert checks on every cycle (cached or fresh) so alerts
+        // survive server restarts and aren't lost when data is cached
+        if (alertServiceRef) {
+          try {
+            const frostAlert = await alertServiceRef.checkFrostAlert(garden.id);
+            await alertServiceRef.checkHeatAlert(garden.id);
+
+            // Send push notification for NEW frost alerts (only on fresh data to avoid re-notifying)
+            if (!result.cached && frostAlert && frostAlert.length > 0 && pushServiceRef) {
+              pushServiceRef.broadcastByPreference('frost', {
+                title: 'Frost Alert',
+                body: `Frost warning for ${garden.name || 'your garden'}. Protect tender plants!`,
+                url: '/weather',
+              }).catch(err => console.error(`[WeatherJob] Push notification failed: ${err.message}`));
             }
+          } catch (alertErr: any) {
+            console.error(`[WeatherJob] Alert check failed for garden ${garden.id}: ${alertErr.message}`);
           }
         }
       } catch (err: any) {
