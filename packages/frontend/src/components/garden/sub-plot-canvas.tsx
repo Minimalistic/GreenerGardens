@@ -4,8 +4,16 @@ import type Konva from 'konva';
 import { PX_PER_FT } from './garden-canvas';
 import type { SubPlotWithPlant } from '@/hooks/use-sub-plots';
 
+const MIN_SCALE = 0.2;
+const MAX_SCALE = 5;
+const ZOOM_SPEED = 1.08;
+
 function snapTo(value: number, grid: number) {
   return Math.round(value / grid) * grid;
+}
+
+function clampScale(s: number) {
+  return Math.min(MAX_SCALE, Math.max(MIN_SCALE, s));
 }
 
 interface Props {
@@ -38,10 +46,19 @@ export function SubPlotCanvas({
   const canvasWidth = widthFt * PX_PER_FT;
   const canvasHeight = lengthFt * PX_PER_FT;
 
-  // Scale to fit the container width (scale up for small plots, down for large)
-  const scale = containerWidth / canvasWidth;
-  const displayWidth = canvasWidth * scale;
+  // Base scale = fit container width. User zoom is on top of this.
+  const baseScale = containerWidth / canvasWidth;
+  const [userScale, setUserScale] = useState(1);
+  const [stagePos, setStagePos] = useState({ x: 0, y: 0 });
+
+  const scale = baseScale * userScale;
+  const displayWidth = containerWidth;
   const displayHeight = canvasHeight * scale;
+
+  const resetView = useCallback(() => {
+    setUserScale(1);
+    setStagePos({ x: 0, y: 0 });
+  }, []);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -51,6 +68,106 @@ export function SubPlotCanvas({
     });
     observer.observe(containerRef.current);
     return () => observer.disconnect();
+  }, []);
+
+  // Wheel zoom (centered on pointer)
+  const handleWheel = useCallback((e: Konva.KonvaEventObject<WheelEvent>) => {
+    e.evt.preventDefault();
+    const stage = stageRef.current;
+    if (!stage) return;
+
+    const pointer = stage.getPointerPosition();
+    if (!pointer) return;
+
+    const oldScale = scale;
+    const direction = e.evt.deltaY < 0 ? 1 : -1;
+    const newUserScale = clampScale(
+      (direction > 0 ? oldScale * ZOOM_SPEED : oldScale / ZOOM_SPEED) / baseScale
+    );
+    const newScale = baseScale * newUserScale;
+
+    const mousePointTo = {
+      x: (pointer.x - stage.x()) / oldScale,
+      y: (pointer.y - stage.y()) / oldScale,
+    };
+
+    setUserScale(newUserScale);
+    setStagePos({
+      x: pointer.x - mousePointTo.x * newScale,
+      y: pointer.y - mousePointTo.y * newScale,
+    });
+  }, [scale, baseScale]);
+
+  // Pinch-to-zoom
+  const lastPinchDist = useRef<number | null>(null);
+  const lastPinchCenter = useRef<{ x: number; y: number } | null>(null);
+
+  const handleTouchMove = useCallback((e: Konva.KonvaEventObject<TouchEvent>) => {
+    const touch = e.evt.touches;
+    if (touch.length !== 2) {
+      lastPinchDist.current = null;
+      lastPinchCenter.current = null;
+      return;
+    }
+    e.evt.preventDefault();
+
+    const stage = stageRef.current;
+    if (!stage) return;
+
+    const p1 = { x: touch[0].clientX, y: touch[0].clientY };
+    const p2 = { x: touch[1].clientX, y: touch[1].clientY };
+    const dist = Math.sqrt((p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2);
+    const center = { x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 };
+
+    const rect = stage.container().getBoundingClientRect();
+    const stageCenter = { x: center.x - rect.left, y: center.y - rect.top };
+
+    if (lastPinchDist.current != null && lastPinchCenter.current != null) {
+      const oldScale = scale;
+      const scaleFactor = dist / lastPinchDist.current;
+      const newScale = clampScale(oldScale * scaleFactor / baseScale) * baseScale;
+      const newUserScale = newScale / baseScale;
+
+      const mousePointTo = {
+        x: (stageCenter.x - stage.x()) / oldScale,
+        y: (stageCenter.y - stage.y()) / oldScale,
+      };
+
+      const dx = stageCenter.x - lastPinchCenter.current.x;
+      const dy = stageCenter.y - lastPinchCenter.current.y;
+
+      setUserScale(newUserScale);
+      setStagePos({
+        x: stageCenter.x - mousePointTo.x * newScale + dx,
+        y: stageCenter.y - mousePointTo.y * newScale + dy,
+      });
+    }
+
+    lastPinchDist.current = dist;
+    lastPinchCenter.current = stageCenter;
+  }, [scale, baseScale]);
+
+  const handleTouchEnd = useCallback(() => {
+    lastPinchDist.current = null;
+    lastPinchCenter.current = null;
+  }, []);
+
+  // Prevent default touch behavior on the canvas container
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const prevent = (e: TouchEvent) => {
+      if (e.touches.length >= 2) e.preventDefault();
+    };
+    el.addEventListener('touchmove', prevent, { passive: false });
+    return () => el.removeEventListener('touchmove', prevent);
+  }, []);
+
+  // Stage drag end (pan)
+  const handleStageDragEnd = useCallback((e: Konva.KonvaEventObject<DragEvent>) => {
+    if (e.target === e.target.getStage()) {
+      setStagePos({ x: e.target.x(), y: e.target.y() });
+    }
   }, []);
 
   // Attach transformer to selected sub-plot
@@ -114,27 +231,55 @@ export function SubPlotCanvas({
     });
   }, [onSubPlotDragEnd, snapEnabled]);
 
+  // Scale-aware sizes so visual elements stay consistent on screen regardless of zoom
+  const labelFontSize = Math.max(2, Math.min(11, 12 / scale));
+  const dimFontSize = Math.max(1.5, Math.min(9, 10 / scale));
+  const textPad = Math.max(1, Math.min(4, 4 / scale));
+  const borderWidth = Math.max(0.25, 1 / scale);
+  const selectedBorderWidth = Math.max(0.5, 2.5 / scale);
+  const gridLineWidth = Math.max(0.25, 1 / scale);
+  const cornerRadius = Math.max(0.5, 3 / scale);
+  const shadowBlur = Math.max(0.5, 2 / scale);
+  const selectedShadowBlur = Math.max(1, 6 / scale);
+
   const colCount = Math.ceil(canvasWidth / PX_PER_FT);
   const rowCount = Math.ceil(canvasHeight / PX_PER_FT);
 
-  return (
-    <div ref={containerRef} className="w-full rounded-lg border bg-card overflow-hidden relative">
-      {/* Snap toggle */}
-      <button
-        onClick={() => setSnapEnabled(s => !s)}
-        className={`absolute top-2 right-2 z-10 px-2.5 py-1 text-xs font-medium rounded border transition-colors ${
-          snapEnabled
-            ? 'bg-primary text-primary-foreground border-primary'
-            : 'bg-background text-muted-foreground border-border hover:bg-muted'
-        }`}
-      >
-        Snap {snapEnabled ? 'ON' : 'OFF'}
-      </button>
+  const zoomPercent = Math.round(scale * 100);
+  const isZoomed = Math.abs(userScale - 1) > 0.01;
 
-      {/* Scale indicator */}
-      <div className="absolute bottom-2 left-2 z-10 flex items-center gap-1.5 text-[10px] text-muted-foreground">
-        <div className="border-t border-muted-foreground" style={{ width: PX_PER_FT * scale }} />
-        <span>1 ft</span>
+  return (
+    <div ref={containerRef} className="w-full rounded-lg border bg-card overflow-hidden relative touch-none">
+      {/* Top toolbar */}
+      <div className="absolute top-2 right-2 z-10 flex items-center gap-1.5">
+        {isZoomed && (
+          <button
+            onClick={resetView}
+            className="px-2 py-1 text-xs font-medium rounded border bg-background text-muted-foreground border-border hover:bg-muted transition-colors"
+            title="Reset zoom"
+          >
+            Fit
+          </button>
+        )}
+        <button
+          onClick={() => setSnapEnabled(s => !s)}
+          className={`px-2.5 py-1 text-xs font-medium rounded border transition-colors ${
+            snapEnabled
+              ? 'bg-primary text-primary-foreground border-primary'
+              : 'bg-background text-muted-foreground border-border hover:bg-muted'
+          }`}
+        >
+          Snap {snapEnabled ? 'ON' : 'OFF'}
+        </button>
+      </div>
+
+      {/* Bottom indicators */}
+      <div className="absolute bottom-2 left-2 z-10 flex items-center gap-3 text-[10px] text-muted-foreground">
+        <div className="flex items-center gap-1.5">
+          <div className="border-t border-muted-foreground" style={{ width: PX_PER_FT * scale }} />
+          <span>1 ft</span>
+        </div>
+        <span>{zoomPercent}%</span>
       </div>
 
       <Stage
@@ -143,7 +288,15 @@ export function SubPlotCanvas({
         height={displayHeight}
         scaleX={scale}
         scaleY={scale}
+        x={stagePos.x}
+        y={stagePos.y}
+        draggable
         onClick={handleStageClick}
+        onTap={handleStageClick}
+        onWheel={handleWheel}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onDragEnd={handleStageDragEnd}
       >
         {/* Grid layer */}
         <Layer listening={false}>
@@ -156,7 +309,7 @@ export function SubPlotCanvas({
               key={`gv-${i}`}
               points={[i * PX_PER_FT, 0, i * PX_PER_FT, canvasHeight]}
               stroke="#c5c2b5"
-              strokeWidth={1}
+              strokeWidth={gridLineWidth}
               opacity={0.6}
             />
           ))}
@@ -165,7 +318,7 @@ export function SubPlotCanvas({
               key={`gh-${i}`}
               points={[0, i * PX_PER_FT, canvasWidth, i * PX_PER_FT]}
               stroke="#c5c2b5"
-              strokeWidth={1}
+              strokeWidth={gridLineWidth}
               opacity={0.6}
             />
           ))}
@@ -173,17 +326,16 @@ export function SubPlotCanvas({
           {/* Foot labels — every foot for small plots, every 5ft for large */}
           {Array.from({ length: colCount + 1 }).map((_, i) => {
             if (i === 0) return null;
-            // Show every foot if plot <= 10ft, otherwise every 5ft
             if (colCount > 10 && i % 5 !== 0) return null;
             return (
-              <Text key={`lx-${i}`} x={i * PX_PER_FT + 2} y={2} text={`${i}'`} fontSize={9} fill="#999" />
+              <Text key={`lx-${i}`} x={i * PX_PER_FT + textPad} y={textPad} text={`${i}'`} fontSize={dimFontSize} fill="#999" />
             );
           })}
           {Array.from({ length: rowCount + 1 }).map((_, i) => {
             if (i === 0) return null;
             if (rowCount > 10 && i % 5 !== 0) return null;
             return (
-              <Text key={`ly-${i}`} x={2} y={i * PX_PER_FT + 2} text={`${i}'`} fontSize={9} fill="#999" />
+              <Text key={`ly-${i}`} x={textPad} y={i * PX_PER_FT + textPad} text={`${i}'`} fontSize={dimFontSize} fill="#999" />
             );
           })}
         </Layer>
@@ -227,32 +379,32 @@ export function SubPlotCanvas({
                   height={g.height}
                   fill={fillColor}
                   opacity={0.75}
-                  cornerRadius={3}
+                  cornerRadius={cornerRadius}
                   stroke={isSelected ? '#F4D03F' : '#555'}
-                  strokeWidth={isSelected ? 3 : 1}
+                  strokeWidth={isSelected ? selectedBorderWidth : borderWidth}
                   shadowColor="rgba(0,0,0,0.1)"
-                  shadowBlur={isSelected ? 6 : 2}
+                  shadowBlur={isSelected ? selectedShadowBlur : shadowBlur}
                 />
                 <Text
                   text={label}
-                  x={4}
-                  y={4}
-                  fontSize={11}
+                  x={textPad}
+                  y={textPad}
+                  fontSize={labelFontSize}
                   fontStyle="bold"
                   fill="white"
-                  width={g.width - 8}
+                  width={g.width - textPad * 2}
                   ellipsis
                   wrap="none"
                   listening={false}
                 />
-                {g.width >= PX_PER_FT * 1.5 && g.height >= PX_PER_FT * 1.2 && (
+                {g.height > labelFontSize + dimFontSize + textPad * 3 && (
                   <Text
                     text={`${widthLabel}' x ${heightLabel}'`}
-                    x={4}
-                    y={g.height - 16}
-                    fontSize={9}
+                    x={textPad}
+                    y={g.height - dimFontSize - textPad}
+                    fontSize={dimFontSize}
                     fill="rgba(255,255,255,0.8)"
-                    width={g.width - 8}
+                    width={g.width - textPad * 2}
                     ellipsis
                     wrap="none"
                     listening={false}
@@ -265,18 +417,28 @@ export function SubPlotCanvas({
           <Transformer
             ref={transformerRef}
             rotateEnabled={false}
+            keepRatio={false}
             enabledAnchors={[
               'top-left', 'top-right', 'bottom-left', 'bottom-right',
               'middle-left', 'middle-right', 'top-center', 'bottom-center',
             ]}
             borderStroke="#F4D03F"
-            borderStrokeWidth={2}
+            borderStrokeWidth={selectedBorderWidth}
             anchorStroke="#F4D03F"
             anchorFill="#fff"
-            anchorSize={7}
+            anchorSize={Math.max(8, 14 / scale)}
             boundBoxFunc={(_oldBox, newBox) => {
               if (newBox.width < PX_PER_FT || newBox.height < PX_PER_FT) {
                 return _oldBox;
+              }
+              if (snapEnabled) {
+                return {
+                  ...newBox,
+                  x: snapTo(newBox.x, PX_PER_FT),
+                  y: snapTo(newBox.y, PX_PER_FT),
+                  width: Math.max(PX_PER_FT, snapTo(newBox.width, PX_PER_FT)),
+                  height: Math.max(PX_PER_FT, snapTo(newBox.height, PX_PER_FT)),
+                };
               }
               return newBox;
             }}

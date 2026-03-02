@@ -30,7 +30,7 @@ export function AppShell() {
   const title = PAGE_TITLES[location.pathname] ?? 'GardenVault';
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen overflow-x-hidden">
       <Sidebar />
 
       <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
@@ -39,9 +39,9 @@ export function AppShell() {
         </SheetContent>
       </Sheet>
 
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 min-w-0 flex flex-col">
         <Header title={title} onMenuToggle={() => setMobileMenuOpen(true)} />
-        <main className="flex-1 p-4 pb-20 lg:pb-4">
+        <main className="flex-1 p-4 pb-20 lg:pb-4 overflow-x-hidden">
           <Outlet />
         </main>
       </div>
