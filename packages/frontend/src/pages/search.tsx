@@ -73,7 +73,7 @@ export function SearchPage() {
                 >
                   <CardContent className="py-3 flex items-center gap-3">
                     {item.emoji ? (
-                      <span className="text-lg grayscale">{item.emoji}</span>
+                      <span className="text-lg plant-emoji">{item.emoji}</span>
                     ) : (
                       <Icon className="w-4 h-4 text-muted-foreground" />
                     )}

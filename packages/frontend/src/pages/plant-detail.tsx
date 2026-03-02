@@ -40,7 +40,7 @@ export function PlantDetail() {
         </Button>
         <div>
           <div className="flex items-center gap-2">
-            {p.emoji && <span className="text-2xl grayscale">{p.emoji}</span>}
+            {p.emoji && <span className="text-2xl plant-emoji">{p.emoji}</span>}
             <h2 className="text-xl font-semibold">{p.common_name}</h2>
             {isCustom && <Badge variant="secondary">Custom</Badge>}
           </div>
