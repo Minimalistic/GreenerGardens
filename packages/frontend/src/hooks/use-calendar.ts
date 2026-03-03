@@ -6,7 +6,7 @@ import type { ApiResponse } from '@gardenvault/shared';
 export interface CalendarEvent {
   id: string;
   date: string;
-  type: 'indoor_start' | 'direct_sow' | 'transplant' | 'harvest' | 'task' | 'frost';
+  type: 'indoor_start' | 'direct_sow' | 'transplant' | 'harvest' | 'task' | 'frost' | 'planted' | 'germinated' | 'transplanted' | 'harvested' | 'finished';
   title: string;
   description: string | null;
   entity_type: string | null;

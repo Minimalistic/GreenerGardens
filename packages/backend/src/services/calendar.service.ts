@@ -7,7 +7,7 @@ import type { TaskRepository, TaskRow } from '../db/repositories/task.repository
 export interface CalendarEvent {
   id: string;
   date: string;
-  type: 'indoor_start' | 'direct_sow' | 'transplant' | 'harvest' | 'task' | 'frost';
+  type: 'indoor_start' | 'direct_sow' | 'transplant' | 'harvest' | 'task' | 'frost' | 'planted' | 'germinated' | 'transplanted' | 'harvested' | 'finished';
   title: string;
   description: string | null;
   entity_type: string | null;
@@ -26,9 +26,21 @@ export interface PlantingSuggestion {
 }
 
 function addDays(dateStr: string, days: number): string {
-  const d = new Date(dateStr + 'T12:00:00');
+  // Handle MM-DD format (frost dates) by prepending current year
+  const normalized = dateStr.match(/^\d{2}-\d{2}$/)
+    ? `${new Date().getFullYear()}-${dateStr}`
+    : dateStr;
+  const d = new Date(normalized + 'T12:00:00');
   d.setDate(d.getDate() + days);
   return d.toISOString().split('T')[0];
+}
+
+/** Normalize MM-DD frost dates to YYYY-MM-DD using the given year (defaults to current). */
+function normalizeFrostDate(dateStr: string, year?: number): string {
+  if (dateStr.match(/^\d{2}-\d{2}$/)) {
+    return `${year ?? new Date().getFullYear()}-${dateStr}`;
+  }
+  return dateStr;
 }
 
 function isInRange(date: string, start: string, end: string): boolean {
@@ -64,6 +76,10 @@ export class CalendarService {
     // Task events
     this.addTaskEvents(startDate, endDate, events);
 
+    // Actual lifecycle events
+    this.addActualPlantEvents(gardenId, startDate, endDate, events);
+    this.addHarvestEvents(gardenId, startDate, endDate, events);
+
     events.sort((a, b) => a.date.localeCompare(b.date));
     return events;
   }
@@ -83,6 +99,8 @@ export class CalendarService {
     this.addFrostEvents(garden, startDate, endDate, events);
     this.addPlantEvents(garden, startDate, endDate, events);
     this.addTaskEvents(startDate, endDate, events);
+    this.addActualPlantEvents(gardenId, startDate, endDate, events);
+    this.addHarvestEvents(gardenId, startDate, endDate, events);
 
     events.sort((a, b) => a.date.localeCompare(b.date));
     return events;
@@ -239,31 +257,38 @@ export class CalendarService {
   }
 
   private addFrostEvents(garden: GardenRow, startDate: string, endDate: string, events: CalendarEvent[]) {
-    if (garden.last_frost_date && isInRange(garden.last_frost_date, startDate, endDate)) {
-      events.push({
-        id: `frost-last-${garden.last_frost_date}`,
-        date: garden.last_frost_date,
-        type: 'frost',
-        title: 'Last frost date',
-        description: 'Average last frost date for your area',
-        entity_type: 'garden',
-        entity_id: garden.id,
-        plant_name: null,
-        priority: 'high',
-      });
+    const year = parseInt(startDate.slice(0, 4), 10);
+    if (garden.last_frost_date) {
+      const lastFrost = normalizeFrostDate(garden.last_frost_date, year);
+      if (isInRange(lastFrost, startDate, endDate)) {
+        events.push({
+          id: `frost-last-${lastFrost}`,
+          date: lastFrost,
+          type: 'frost',
+          title: 'Last frost date',
+          description: 'Average last frost date for your area',
+          entity_type: 'garden',
+          entity_id: garden.id,
+          plant_name: null,
+          priority: 'high',
+        });
+      }
     }
-    if (garden.first_frost_date && isInRange(garden.first_frost_date, startDate, endDate)) {
-      events.push({
-        id: `frost-first-${garden.first_frost_date}`,
-        date: garden.first_frost_date,
-        type: 'frost',
-        title: 'First frost date',
-        description: 'Average first frost date for your area',
-        entity_type: 'garden',
-        entity_id: garden.id,
-        plant_name: null,
-        priority: 'high',
-      });
+    if (garden.first_frost_date) {
+      const firstFrost = normalizeFrostDate(garden.first_frost_date, year);
+      if (isInRange(firstFrost, startDate, endDate)) {
+        events.push({
+          id: `frost-first-${firstFrost}`,
+          date: firstFrost,
+          type: 'frost',
+          title: 'First frost date',
+          description: 'Average first frost date for your area',
+          entity_type: 'garden',
+          entity_id: garden.id,
+          plant_name: null,
+          priority: 'high',
+        });
+      }
     }
   }
 
@@ -386,6 +411,90 @@ export class CalendarService {
         entity_id: task.entity_id,
         plant_name: null,
         priority: task.priority,
+      });
+    }
+  }
+
+  private addActualPlantEvents(gardenId: string, startDate: string, endDate: string, events: CalendarEvent[]) {
+    const instances = this.db.prepare(`
+      SELECT pi.id, pi.date_planted, pi.date_germinated, pi.date_transplanted, pi.date_finished,
+             pc.common_name
+      FROM plant_instances pi
+      JOIN plant_catalog pc ON pi.plant_catalog_id = pc.id
+      JOIN plots p ON pi.plot_id = p.id
+      WHERE p.garden_id = ?
+        AND (
+          pi.date_planted BETWEEN ? AND ?
+          OR pi.date_germinated BETWEEN ? AND ?
+          OR pi.date_transplanted BETWEEN ? AND ?
+          OR pi.date_finished BETWEEN ? AND ?
+        )
+    `).all(gardenId, startDate, endDate, startDate, endDate, startDate, endDate, startDate, endDate) as Array<{
+      id: string;
+      date_planted: string | null;
+      date_germinated: string | null;
+      date_transplanted: string | null;
+      date_finished: string | null;
+      common_name: string;
+    }>;
+
+    const dateFields = [
+      { field: 'date_planted', type: 'planted', verb: 'Planted' },
+      { field: 'date_germinated', type: 'germinated', verb: 'Germinated' },
+      { field: 'date_transplanted', type: 'transplanted', verb: 'Transplanted' },
+      { field: 'date_finished', type: 'finished', verb: 'Finished' },
+    ] as const;
+
+    for (const inst of instances) {
+      for (const { field, type, verb } of dateFields) {
+        const date = inst[field];
+        if (date && isInRange(date, startDate, endDate)) {
+          events.push({
+            id: `${type}-${inst.id}`,
+            date,
+            type,
+            title: `${verb} ${inst.common_name}`,
+            description: null,
+            entity_type: 'plant_instance',
+            entity_id: inst.id,
+            plant_name: inst.common_name,
+            priority: null,
+          });
+        }
+      }
+    }
+  }
+
+  private addHarvestEvents(gardenId: string, startDate: string, endDate: string, events: CalendarEvent[]) {
+    const harvests = this.db.prepare(`
+      SELECT h.id, h.date_harvested, h.quantity, h.unit, h.plant_instance_id,
+             pc.common_name
+      FROM harvests h
+      JOIN plant_instances pi ON h.plant_instance_id = pi.id
+      JOIN plant_catalog pc ON pi.plant_catalog_id = pc.id
+      JOIN plots p ON h.plot_id = p.id
+      WHERE p.garden_id = ?
+        AND h.date_harvested BETWEEN ? AND ?
+    `).all(gardenId, startDate, endDate) as Array<{
+      id: string;
+      date_harvested: string;
+      quantity: number;
+      unit: string;
+      plant_instance_id: string;
+      common_name: string;
+    }>;
+
+    for (const h of harvests) {
+      events.push({
+        id: `harvested-${h.id}`,
+        date: h.date_harvested,
+        type: 'harvested',
+        title: `Harvested ${h.common_name}`,
+        description: `${h.quantity} ${h.unit}`,
+        entity_type: 'plant_instance',
+        entity_id: h.plant_instance_id,
+        plant_name: h.common_name,
+        priority: null,
       });
     }
   }

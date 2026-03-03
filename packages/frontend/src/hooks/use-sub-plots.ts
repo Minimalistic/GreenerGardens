@@ -6,6 +6,11 @@ export interface SubPlotWithPlant extends SubPlot {
   plant_name: string | null;
   plant_catalog_id: string | null;
   variety_name: string | null;
+  status: string | null;
+  health: string | null;
+  date_planted: string | null;
+  expected_harvest_date: string | null;
+  planting_method: string | null;
 }
 
 export function useSubPlotsByPlot(plotId: string | null) {

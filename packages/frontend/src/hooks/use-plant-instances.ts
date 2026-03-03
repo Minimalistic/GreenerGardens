@@ -38,6 +38,7 @@ export function useUpdatePlantStatus() {
       queryClient.invalidateQueries({ queryKey: ['plant-instances'] });
       queryClient.invalidateQueries({ queryKey: ['plant-instance', variables.id] });
       queryClient.invalidateQueries({ queryKey: ['sub-plots'] });
+      queryClient.invalidateQueries({ queryKey: ['sub-plots-with-plants'] });
     },
   });
 }
@@ -49,6 +50,7 @@ export function useUpdatePlantHealth() {
       api.patch<ApiResponse<PlantInstance>>(`/plant-instances/${id}/health`, { health }),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['plant-instance', variables.id] });
+      queryClient.invalidateQueries({ queryKey: ['sub-plots-with-plants'] });
     },
   });
 }
@@ -81,6 +83,7 @@ export function useUpdatePlantInstance() {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['plant-instances'] });
       queryClient.invalidateQueries({ queryKey: ['plant-instance', variables.id] });
+      queryClient.invalidateQueries({ queryKey: ['sub-plots-with-plants'] });
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
   });

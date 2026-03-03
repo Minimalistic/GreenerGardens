@@ -13,6 +13,11 @@ const EVENT_STYLES: Record<string, { color: string; icon: typeof Sprout; label: 
   harvest: { color: 'bg-orange-500', icon: Scissors, label: 'Harvest' },
   task: { color: 'bg-sky-500', icon: ListChecks, label: 'Task' },
   frost: { color: 'bg-red-500', icon: Snowflake, label: 'Frost' },
+  planted: { color: 'bg-green-600', icon: Sprout, label: 'Planted' },
+  germinated: { color: 'bg-emerald-500', icon: Leaf, label: 'Germinated' },
+  transplanted: { color: 'bg-blue-600', icon: Sprout, label: 'Transplanted' },
+  harvested: { color: 'bg-amber-500', icon: Scissors, label: 'Harvested' },
+  finished: { color: 'bg-gray-500', icon: ListChecks, label: 'Finished' },
 };
 
 function EventDot({ type }: { type: string }) {
