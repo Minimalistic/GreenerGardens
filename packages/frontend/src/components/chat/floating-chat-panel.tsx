@@ -200,14 +200,15 @@ export function FloatingChatPanel() {
   return (
     <div
       style={{ width: `${sidebarWidth}px` }}
-      className="h-full flex flex-col bg-card border-l relative select-none"
+      className="h-full max-w-full flex flex-col bg-card border-l relative select-none"
     >
       {/* Resize drag handle */}
       <div
         onMouseDown={handleDragStart}
         className={cn(
-          'absolute left-0 top-0 bottom-0 w-1.5 cursor-col-resize z-10 flex items-center justify-center',
+          'absolute left-0 top-0 bottom-0 w-1.5 cursor-col-resize z-10 items-center justify-center',
           'hover:bg-primary/10 active:bg-primary/20 transition-colors',
+          'hidden md:flex',
           isDragging && 'bg-primary/20',
         )}
       >
