@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { usePlantInstance, useUpdatePlantStatus, useUpdatePlantHealth } from '@/hooks/use-plant-instances';
+import { usePlantInstance, useUpdatePlantStatus, useUpdatePlantHealth, useUpdatePlantInstance } from '@/hooks/use-plant-instances';
+import { useTasks, useUpdateTask } from '@/hooks/use-tasks';
 import { useEntityHistory } from '@/hooks/use-history';
 import { useHarvestsByPlant, useCreateHarvest } from '@/hooks/use-harvests';
 import { PlantStatusBadge } from '@/components/garden/plant-status-badge';
@@ -7,11 +8,12 @@ import { SeedStartingTracker } from '@/components/garden/seed-starting-tracker';
 import { EntityNotes } from '@/components/notes/entity-notes';
 import { HarvestQuickLog } from '@/components/garden/harvest-quick-log';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft, Clock } from 'lucide-react';
+import { ArrowLeft, Clock, Pencil, Map } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { useState } from 'react';
 
@@ -30,8 +32,12 @@ export function PlantInstanceDetail() {
   const { data: historyData } = useEntityHistory('plant_instance', instanceId ?? null);
   const updateStatus = useUpdatePlantStatus();
   const updateHealth = useUpdatePlantHealth();
+  const updatePlantInstance = useUpdatePlantInstance();
+  const { data: tasksData } = useTasks();
+  const updateTask = useUpdateTask();
   const { toast } = useToast();
   const [harvestOpen, setHarvestOpen] = useState(false);
+  const [editingHarvestDate, setEditingHarvestDate] = useState(false);
 
   if (isLoading) {
     return (
@@ -60,6 +66,25 @@ export function PlantInstanceDetail() {
       toast({ title: `Health updated to ${health}` });
     } catch {
       toast({ title: 'Failed to update health', variant: 'destructive' });
+    }
+  };
+
+  const allTasks = tasksData?.data ?? [];
+  const harvestTask = allTasks.find(
+    t => t.task_type === 'harvesting' && t.entity_type === 'plant_instance' && t.entity_id === instanceId && t.status !== 'completed' && t.status !== 'skipped'
+  );
+
+  const handleHarvestDateChange = async (newDate: string) => {
+    try {
+      await updatePlantInstance.mutateAsync({ id: instanceId!, data: { expected_harvest_date: newDate } });
+      // Sync the harvest task due_date if one exists
+      if (harvestTask) {
+        await updateTask.mutateAsync({ id: harvestTask.id, data: { due_date: newDate } });
+      }
+      toast({ title: 'Expected harvest date updated' });
+      setEditingHarvestDate(false);
+    } catch {
+      toast({ title: 'Failed to update harvest date', variant: 'destructive' });
     }
   };
 
@@ -149,6 +174,46 @@ export function PlantInstanceDetail() {
               <span>{plant.date_planted}</span>
             </div>
           )}
+          <div className="flex justify-between items-center">
+            <span className="text-muted-foreground">Expected Harvest</span>
+            {editingHarvestDate ? (
+              <Input
+                type="date"
+                defaultValue={plant.expected_harvest_date ?? ''}
+                className="w-auto h-7 text-sm"
+                autoFocus
+                onBlur={(e) => {
+                  if (e.target.value && e.target.value !== plant.expected_harvest_date) {
+                    handleHarvestDateChange(e.target.value);
+                  } else {
+                    setEditingHarvestDate(false);
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    const val = (e.target as HTMLInputElement).value;
+                    if (val && val !== plant.expected_harvest_date) {
+                      handleHarvestDateChange(val);
+                    } else {
+                      setEditingHarvestDate(false);
+                    }
+                  } else if (e.key === 'Escape') {
+                    setEditingHarvestDate(false);
+                  }
+                }}
+              />
+            ) : (
+              <span className="flex items-center gap-1">
+                {plant.expected_harvest_date
+                  ? new Date(plant.expected_harvest_date + 'T12:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric', year: 'numeric' })
+                  : <span className="text-muted-foreground italic">Not set</span>
+                }
+                <button onClick={() => setEditingHarvestDate(true)} className="text-muted-foreground hover:text-foreground">
+                  <Pencil className="w-3 h-3" />
+                </button>
+              </span>
+            )}
+          </div>
           {plant.quantity > 1 && (
             <div className="flex justify-between">
               <span className="text-muted-foreground">Quantity</span>
@@ -176,6 +241,12 @@ export function PlantInstanceDetail() {
         <Button className="flex-1" onClick={() => setHarvestOpen(true)}>
           Log Harvest
         </Button>
+        {plant.plot_id && (
+          <Button variant="outline" className="flex-1" onClick={() => navigate(`/garden/plots/${plant.plot_id}`)}>
+            <Map className="w-4 h-4 mr-1" />
+            View in Plot
+          </Button>
+        )}
       </div>
 
       {history.length > 0 && (

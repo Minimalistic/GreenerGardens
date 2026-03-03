@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus, CheckCircle2, Clock, SkipForward, Calendar, AlertTriangle, LayoutGrid, TableIcon } from 'lucide-react';
 import { useOverdueTasks, useTodayTasks, useWeekTasks, useTasks, useCreateTask, useCompleteTask, useSkipTask, useUpdateTask } from '@/hooks/use-tasks';
 import type { Task, TaskCreate } from '@/hooks/use-tasks';
+import { useUpdatePlantInstance } from '@/hooks/use-plant-instances';
 import { DataTable, type Column } from '@/components/data-table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -24,8 +26,21 @@ import {
 } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 
+function TaskTitleLink({ task }: { task: Task }) {
+  const navigate = useNavigate();
+  const canNavigate = task.entity_type === 'plant_instance' && task.entity_id;
+  return (
+    <span
+      className={canNavigate ? 'cursor-pointer hover:underline text-primary' : ''}
+      onClick={canNavigate ? () => navigate(`/plants/${task.entity_id}`) : undefined}
+    >
+      {task.title}
+    </span>
+  );
+}
+
 const taskColumns: Column<Task>[] = [
-  { key: 'title', label: 'Title' },
+  { key: 'title', label: 'Title', render: (row) => <TaskTitleLink task={row} /> },
   { key: 'task_type', label: 'Type', render: (row) => (
     <span className="capitalize">{row.task_type.replace(/_/g, ' ')}</span>
   )},
@@ -61,6 +76,8 @@ function TaskCard({ task, onComplete, onSkip, onReschedule }: {
   onSkip: (id: string) => void;
   onReschedule: (id: string) => void;
 }) {
+  const navigate = useNavigate();
+  const canNavigate = task.entity_type === 'plant_instance' && task.entity_id;
   const isOverdue = task.due_date && task.due_date < new Date().toISOString().split('T')[0] && task.status !== 'completed' && task.status !== 'skipped';
 
   return (
@@ -73,7 +90,12 @@ function TaskCard({ task, onComplete, onSkip, onReschedule }: {
       </button>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <span className="font-medium text-sm truncate">{task.title}</span>
+          <span
+            className={`font-medium text-sm truncate ${canNavigate ? 'cursor-pointer hover:underline text-primary' : ''}`}
+            onClick={canNavigate ? () => navigate(`/plants/${task.entity_id}`) : undefined}
+          >
+            {task.title}
+          </span>
           <PriorityBadge priority={task.priority} />
           {task.auto_generated && (
             <span className="text-xs text-muted-foreground italic">auto</span>
@@ -213,6 +235,52 @@ function CreateTaskDialog() {
   );
 }
 
+function RescheduleDialog({ task, open, onOpenChange }: {
+  task: Task | null;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const [date, setDate] = useState(tomorrow.toISOString().split('T')[0]);
+  const updateTask = useUpdateTask();
+  const updatePlantInstance = useUpdatePlantInstance();
+  const { toast } = useToast();
+
+  const handleConfirm = () => {
+    if (!task || !date) return;
+    updateTask.mutate({ id: task.id, data: { due_date: date } }, {
+      onSuccess: () => {
+        // If it's a harvest task linked to a plant instance, sync the expected harvest date
+        if (task.task_type === 'harvesting' && task.entity_type === 'plant_instance' && task.entity_id) {
+          updatePlantInstance.mutate({ id: task.entity_id, data: { expected_harvest_date: date } });
+        }
+        toast({ title: `Rescheduled to ${new Date(date + 'T12:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric' })}` });
+        onOpenChange(false);
+      },
+    });
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-xs">
+        <DialogHeader>
+          <DialogTitle>Reschedule Task</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4">
+          <div>
+            <Label htmlFor="reschedule-date">New date</Label>
+            <Input id="reschedule-date" type="date" value={date} onChange={e => setDate(e.target.value)} />
+          </div>
+          <Button onClick={handleConfirm} disabled={!date || updateTask.isPending} className="w-full">
+            {updateTask.isPending ? 'Saving...' : 'Reschedule'}
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 function TaskSection({ title, icon: Icon, tasks, variant, onComplete, onSkip, onReschedule }: {
   title: string;
   icon: React.ElementType;
@@ -246,6 +314,7 @@ export function TasksPage() {
   const [view, setView] = useState<'card' | 'table'>(() =>
     (localStorage.getItem('tasks-view') as 'card' | 'table') ?? 'card'
   );
+  const [rescheduleTask, setRescheduleTask] = useState<Task | null>(null);
   const toggleView = (v: 'card' | 'table') => {
     setView(v);
     localStorage.setItem('tasks-view', v);
@@ -258,7 +327,6 @@ export function TasksPage() {
   const isLoading = overdueLoading || todayLoading;
   const completeTask = useCompleteTask();
   const skipTask = useSkipTask();
-  const updateTask = useUpdateTask();
   const { toast } = useToast();
 
   const overdue = overdueData?.data ?? [];
@@ -290,13 +358,8 @@ export function TasksPage() {
   };
 
   const handleReschedule = (id: string) => {
-    // Reschedule to tomorrow
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const tomorrowStr = tomorrow.toISOString().split('T')[0];
-    updateTask.mutate({ id, data: { due_date: tomorrowStr } }, {
-      onSuccess: () => toast({ title: 'Rescheduled to tomorrow' }),
-    });
+    const task = allTasks.find(t => t.id === id) ?? overdue.find(t => t.id === id) ?? today.find(t => t.id === id) ?? week.find(t => t.id === id);
+    if (task) setRescheduleTask(task);
   };
 
   const isEmpty = overdue.length === 0 && today.length === 0 && week.length === 0 && later.length === 0;
@@ -349,6 +412,12 @@ export function TasksPage() {
           <TaskSection title="Later" icon={Clock} tasks={later} onComplete={handleComplete} onSkip={handleSkip} onReschedule={handleReschedule} />
         </>
       )}
+
+      <RescheduleDialog
+        task={rescheduleTask}
+        open={!!rescheduleTask}
+        onOpenChange={(open) => { if (!open) setRescheduleTask(null); }}
+      />
     </div>
   );
 }

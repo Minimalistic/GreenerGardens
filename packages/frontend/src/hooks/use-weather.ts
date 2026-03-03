@@ -89,4 +89,33 @@ export function useForecast() {
   });
 }
 
-export type { WeatherReading, ForecastItem };
+interface DailySummary {
+  date: string;
+  high_f: number | null;
+  low_f: number | null;
+  avg_f: number | null;
+  precipitation_total_inches: number | null;
+  gdd_accumulated: number | null;
+  frost_occurred: boolean;
+  freeze_occurred: boolean;
+}
+
+interface DailySummaryResponse {
+  success: boolean;
+  data: DailySummary[];
+}
+
+export function useWeatherDailySummary(start: string, end: string) {
+  const { currentGardenId } = useGardenContext();
+  return useQuery({
+    queryKey: ['weather', 'daily-summary', currentGardenId, start, end],
+    queryFn: () =>
+      api.get<DailySummaryResponse>(
+        `/weather/daily-summary?garden_id=${currentGardenId}&start=${start}&end=${end}`,
+      ),
+    enabled: !!currentGardenId && !!start && !!end,
+    staleTime: 60 * 60 * 1000,
+  });
+}
+
+export type { WeatherReading, ForecastItem, DailySummary };

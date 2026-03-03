@@ -1,5 +1,7 @@
+import { useNavigate } from 'react-router-dom';
 import { Cloud, CloudRain, CloudSnow, Droplets, Sun, Thermometer, Wind, AlertTriangle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { useCurrentWeather, useForecast, useWeatherStatus } from '@/hooks/use-weather';
 import type { ForecastItem } from '@/hooks/use-weather';
 import { formatDistanceToNow } from 'date-fns';
@@ -44,6 +46,7 @@ function hasFrostRisk(items: ForecastItem[]): boolean {
 }
 
 export function WeatherWidget() {
+  const navigate = useNavigate();
   const { data: statusData } = useWeatherStatus();
   const { data: currentData, isLoading: currentLoading } = useCurrentWeather();
   const { data: forecastData } = useForecast();
@@ -114,14 +117,14 @@ export function WeatherWidget() {
     : 'unknown';
 
   return (
-    <Card>
+    <Card className="cursor-pointer hover:bg-muted/50 transition-colors" onClick={() => navigate('/weather')}>
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <CardTitle className="text-base flex items-center gap-2">
             <Thermometer className="w-5 h-5" />
             Weather
           </CardTitle>
-          <span className="text-xs text-muted-foreground">Updated {updatedAgo}</span>
+          <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); navigate('/weather'); }}>Details</Button>
         </div>
       </CardHeader>
       <CardContent className="space-y-4">

@@ -30,6 +30,7 @@ const SearchPage = lazy(() => import('@/pages/search').then(m => ({ default: m.S
 const AnalyticsPage = lazy(() => import('@/pages/analytics').then(m => ({ default: m.AnalyticsPage })));
 const SeedInventoryPage = lazy(() => import('@/pages/seed-inventory').then(m => ({ default: m.SeedInventoryPage })));
 const HistoryPage = lazy(() => import('@/pages/history').then(m => ({ default: m.HistoryPage })));
+const WeatherPage = lazy(() => import('@/pages/weather').then(m => ({ default: m.WeatherPage })));
 
 export default function App() {
   return (
@@ -60,6 +61,7 @@ export default function App() {
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/analytics" element={<AnalyticsPage />} />
                 <Route path="/seeds" element={<SeedInventoryPage />} />
+                <Route path="/weather" element={<WeatherPage />} />
                 <Route path="/history" element={<HistoryPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
               </Route>

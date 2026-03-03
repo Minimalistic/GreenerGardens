@@ -55,9 +55,9 @@ export function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <StatCard icon={Map} label="Plots" value={plotCount} />
-        <StatCard icon={Sprout} label="Active Plants" value={plantCount} />
-        <StatCard icon={Scissors} label="Harvests This Season" value={harvestCount} />
+        <StatCard icon={Map} label="Plots" value={plotCount} href="/garden" />
+        <StatCard icon={Sprout} label="Active Plants" value={plantCount} href="/catalog" />
+        <StatCard icon={Scissors} label="Harvests This Season" value={harvestCount} href="/harvests" />
       </div>
 
       <AlertBanner />
@@ -85,20 +85,28 @@ export function Dashboard() {
               <p className="text-sm text-muted-foreground">No tasks for today. Enjoy your garden!</p>
             ) : (
               <div className="space-y-2">
-                {dashboardTasks.map(task => (
-                  <div key={task.id} className="flex items-center gap-2 text-sm">
-                    <button
-                      onClick={() => completeTask.mutate(task.id)}
-                      className="text-muted-foreground hover:text-primary shrink-0"
-                    >
-                      <CheckCircle2 className="w-4 h-4" />
-                    </button>
-                    <span className="truncate">{task.title}</span>
-                    {task.due_date && task.due_date < new Date().toISOString().split('T')[0] && (
-                      <span className="text-xs text-destructive shrink-0">overdue</span>
-                    )}
-                  </div>
-                ))}
+                {dashboardTasks.map(task => {
+                  const canNavigate = task.entity_type === 'plant_instance' && task.entity_id;
+                  return (
+                    <div key={task.id} className="flex items-center gap-2 text-sm">
+                      <button
+                        onClick={() => completeTask.mutate(task.id)}
+                        className="text-muted-foreground hover:text-primary shrink-0"
+                      >
+                        <CheckCircle2 className="w-4 h-4" />
+                      </button>
+                      <span
+                        className={`truncate ${canNavigate ? 'cursor-pointer hover:underline text-primary' : ''}`}
+                        onClick={canNavigate ? () => navigate(`/plants/${task.entity_id}`) : undefined}
+                      >
+                        {task.title}
+                      </span>
+                      {task.due_date && task.due_date < new Date().toISOString().split('T')[0] && (
+                        <span className="text-xs text-destructive shrink-0">overdue</span>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             )}
           </CardContent>
@@ -109,7 +117,10 @@ export function Dashboard() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Recent Activity</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-base">Recent Activity</CardTitle>
+            <Button variant="ghost" size="sm" onClick={() => navigate('/history')}>View all</Button>
+          </div>
         </CardHeader>
         <CardContent>
           <ActivityFeed />

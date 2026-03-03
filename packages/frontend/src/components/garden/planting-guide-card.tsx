@@ -4,6 +4,7 @@ import { Sprout, Clock, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react'
 import { usePlantingGuide } from '@/hooks/use-planting-guide';
 import { useGardenContext } from '@/contexts/garden-context';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { PLANT_TYPE_COLORS } from '@/lib/plant-type-colors';
@@ -91,6 +92,7 @@ function GuideSection({ title, icon: Icon, entries }: { title: string; icon: typ
 }
 
 export function PlantingGuideCard() {
+  const navigate = useNavigate();
   const { currentGardenId } = useGardenContext();
   const { data, isLoading } = usePlantingGuide(currentGardenId);
   const guide = data?.data;
@@ -105,10 +107,13 @@ export function PlantingGuideCard() {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="text-base flex items-center gap-2">
-          <Sprout className="w-4 h-4" />
-          What to Plant Now
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-base flex items-center gap-2">
+            <Sprout className="w-4 h-4" />
+            What to Plant Now
+          </CardTitle>
+          <Button variant="ghost" size="sm" onClick={() => navigate('/calendar')}>View calendar</Button>
+        </div>
       </CardHeader>
       <CardContent className="space-y-3">
         <GuideSection title="Start Indoors" icon={Sprout} entries={guide.start_indoors ?? []} />

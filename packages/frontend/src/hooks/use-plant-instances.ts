@@ -73,6 +73,19 @@ export function useCreateSuccessionPlanting() {
   });
 }
 
+export function useUpdatePlantInstance() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: Partial<PlantInstanceUpdate> }) =>
+      api.patch<ApiResponse<PlantInstance>>(`/plant-instances/${id}`, data),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['plant-instances'] });
+      queryClient.invalidateQueries({ queryKey: ['plant-instance', variables.id] });
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
+  });
+}
+
 export function useDeletePlantInstance() {
   const queryClient = useQueryClient();
   return useMutation({
