@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Sprout, Leaf, Scissors, ListChecks, Snowflake, Sun } from 'lucide-react';
 import { useCalendarEvents, usePlantingSuggestions } from '@/hooks/use-calendar';
 import { DayNotes } from '@/components/notes/day-notes';
@@ -26,11 +27,29 @@ function EventDot({ type }: { type: string }) {
   return <div className={`w-1.5 h-1.5 rounded-full ${style?.color ?? 'bg-gray-400'}`} />;
 }
 
+function eventPath(entityType: string | null, entityId: string | null): string | null {
+  if (!entityType || !entityId) return null;
+  switch (entityType) {
+    case 'plant_catalog': return `/catalog/${entityId}`;
+    case 'plant_instance': return `/plants/${entityId}`;
+    case 'plot': return `/garden/plots/${entityId}`;
+    case 'task': return '/tasks';
+    case 'harvest': return '/harvests';
+    case 'pest_event': return '/pest-events';
+    default: return null;
+  }
+}
+
 function EventItem({ event }: { event: CalendarEvent }) {
+  const navigate = useNavigate();
   const style = EVENT_STYLES[event.type];
   const Icon = style?.icon ?? ListChecks;
+  const path = eventPath(event.entity_type, event.entity_id);
   return (
-    <div className="flex items-start gap-2 py-1.5">
+    <div
+      className={`flex items-start gap-2 py-1.5 rounded-md px-1 transition-colors ${path ? 'cursor-pointer hover:bg-muted' : ''}`}
+      onClick={path ? () => navigate(path) : undefined}
+    >
       <div className={`w-5 h-5 rounded flex items-center justify-center mt-0.5 ${style?.color ?? 'bg-gray-400'} text-white`}>
         <Icon className="w-3 h-3" />
       </div>
@@ -48,10 +67,14 @@ function EventItem({ event }: { event: CalendarEvent }) {
 }
 
 function SuggestionCard({ suggestion }: { suggestion: PlantingSuggestion }) {
+  const navigate = useNavigate();
   const style = EVENT_STYLES[suggestion.action];
   const Icon = style?.icon ?? Leaf;
   return (
-    <div className="flex items-center gap-3 p-3 rounded-lg border bg-card">
+    <div
+      className="flex items-center gap-3 p-3 rounded-lg border bg-card cursor-pointer hover:bg-muted/50 transition-colors"
+      onClick={() => navigate(`/catalog/${suggestion.plant_catalog_id}`)}
+    >
       <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${style?.color ?? 'bg-green-500'} text-white`}>
         <Icon className="w-4 h-4" />
       </div>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { usePlantCatalogEntry } from '@/hooks/use-plant-catalog';
+import { useWikipediaSummary } from '@/hooks/use-wikipedia';
 import { PlantFormDialog } from '@/components/plant-form-dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { PlantTypeBadge } from '@/components/garden/plant-type-badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft, Sun, Droplets, Ruler, Clock, Pencil } from 'lucide-react';
+import { ArrowLeft, Sun, Droplets, Ruler, Clock, Pencil, ExternalLink } from 'lucide-react';
 import { EntityNotes } from '@/components/notes/entity-notes';
 import { PlantActivityTab } from '@/components/garden/plant-activity-tab';
 import { plantTypeEmoji } from '@/lib/plant-type-emoji';
@@ -17,6 +18,7 @@ export function PlantDetail() {
   const { plantId } = useParams<{ plantId: string }>();
   const navigate = useNavigate();
   const { data, isLoading } = usePlantCatalogEntry(plantId ?? null);
+  const { data: wikiResponse, isLoading: wikiLoading } = useWikipediaSummary(plantId ?? null);
   const [formOpen, setFormOpen] = useState(false);
 
   if (isLoading) {
@@ -51,6 +53,15 @@ export function PlantDetail() {
           )}
         </div>
         <div className="ml-auto flex items-center gap-2">
+          <a
+            href={p.wikipedia_url || `https://en.wikipedia.org/wiki/${encodeURIComponent((p.common_name as string).replace(/ /g, '_'))}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ExternalLink className="w-3.5 h-3.5" />
+            Wikipedia
+          </a>
           <PlantTypeBadge plantType={p.plant_type} />
           {isCustom && (
             <Button variant="outline" size="sm" onClick={() => setFormOpen(true)}>
@@ -83,6 +94,50 @@ export function PlantDetail() {
 
         <TabsContent value="overview" className="space-y-4">
           {p.description && <p className="text-sm">{p.description}</p>}
+          {wikiLoading && (
+            <Card>
+              <CardContent className="pt-4 flex gap-4">
+                <Skeleton className="w-24 h-24 rounded shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-5/6" />
+                </div>
+              </CardContent>
+            </Card>
+          )}
+          {wikiResponse?.data && (
+            <Card>
+              <CardContent className="pt-4 flex gap-4">
+                {wikiResponse.data.thumbnail_url && (
+                  <img
+                    src={wikiResponse.data.thumbnail_url}
+                    alt={p.common_name}
+                    className="w-24 h-24 rounded object-cover shrink-0"
+                  />
+                )}
+                <div className="flex-1 min-w-0">
+                  {wikiResponse.data.description && (
+                    <p className="text-sm italic text-muted-foreground mb-1">
+                      {wikiResponse.data.description}
+                    </p>
+                  )}
+                  {wikiResponse.data.extract && (
+                    <p className="text-sm line-clamp-4">{wikiResponse.data.extract}</p>
+                  )}
+                  <a
+                    href={p.wikipedia_url || `https://en.wikipedia.org/wiki/${encodeURIComponent((p.common_name as string).replace(/ /g, '_'))}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mt-2 transition-colors"
+                  >
+                    <ExternalLink className="w-3 h-3" />
+                    Source: Wikipedia (CC BY-SA 4.0)
+                  </a>
+                </div>
+              </CardContent>
+            </Card>
+          )}
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             {p.sun_exposure && (
               <InfoCard icon={Sun} label="Sun" value={p.sun_exposure.replace(/_/g, ' ')} />

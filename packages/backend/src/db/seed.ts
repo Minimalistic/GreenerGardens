@@ -33,9 +33,9 @@ export function seedPlantCatalog(db: Database.Database): void {
       planting_depth_inches, indoor_start_weeks_before_frost, outdoor_sow_weeks_after_frost,
       transplant_weeks_after_last_frost, succession_planting_interval_days,
       harvest_instructions, storage_instructions,
-      companions_json, antagonists_json, rotation_family, growing_tips_json
+      companions_json, antagonists_json, rotation_family, growing_tips_json, wikipedia_url
     ) VALUES (
-      ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+      ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
     )
   `);
 
@@ -76,6 +76,7 @@ export function seedPlantCatalog(db: Database.Database): void {
         JSON.stringify(p.antagonists ?? []),
         p.rotation_family ?? null,
         JSON.stringify(p.growing_tips ?? []),
+        p.wikipedia_url ?? null,
       );
     }
   });
@@ -159,5 +160,30 @@ export function updatePlantCompanions(db: Database.Database): void {
   updateAll(plants);
   if (updated > 0) {
     console.log(`Updated ${updated} plant companion data from seed data`);
+  }
+}
+
+export function updatePlantWikipediaUrls(db: Database.Database): void {
+  if (!fs.existsSync(SEED_FILE)) return;
+
+  const plants = JSON.parse(fs.readFileSync(SEED_FILE, 'utf-8'));
+  const plantsWithUrls = plants.filter((p: any) => p.wikipedia_url);
+  if (plantsWithUrls.length === 0) return;
+
+  const stmt = db.prepare(
+    `UPDATE plant_catalog SET wikipedia_url = ? WHERE common_name = ? AND wikipedia_url IS NULL`
+  );
+
+  let updated = 0;
+  const updateAll = db.transaction((items: any[]) => {
+    for (const p of items) {
+      const result = stmt.run(p.wikipedia_url, p.common_name);
+      if (result.changes > 0) updated++;
+    }
+  });
+
+  updateAll(plantsWithUrls);
+  if (updated > 0) {
+    console.log(`Updated ${updated} plant Wikipedia URLs from seed data`);
   }
 }

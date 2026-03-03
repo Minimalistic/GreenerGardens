@@ -12,6 +12,7 @@ export const PlantCatalogCreateSchema = z.object({
   description: z.string().max(1000).optional(),
   image_url: z.string().url().optional(),
   emoji: z.string().max(4).optional(),
+  wikipedia_url: z.string().url().optional(),
 
   // Growing info
   sun_exposure: SunExposureEnum.optional(),
