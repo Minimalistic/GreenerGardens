@@ -14,6 +14,7 @@ interface Note {
   photo_ids: string[];
   tags: string[];
   pinned: boolean;
+  note_date: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -25,6 +26,7 @@ interface NoteCreate {
   photo_ids?: string[];
   tags?: string[];
   pinned?: boolean;
+  note_date?: string | null;
 }
 
 export function useNotes(filters?: { pinned?: boolean; limit?: number }) {
@@ -51,6 +53,14 @@ export function useNotesByEntity(entityType: string | null, entityId: string | n
     queryKey: ['notes', 'entity', entityType, entityId],
     queryFn: () => api.get<{ data: Note[] }>(`/notes/entity/${entityType}/${entityId}`),
     enabled: !!entityType && !!entityId,
+  });
+}
+
+export function useNotesByDate(date: string | null) {
+  return useQuery({
+    queryKey: ['notes', 'date', date],
+    queryFn: () => api.get<{ data: Note[] }>(`/notes/date/${date}`),
+    enabled: !!date,
   });
 }
 

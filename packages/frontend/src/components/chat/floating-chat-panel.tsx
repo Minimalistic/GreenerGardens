@@ -123,6 +123,16 @@ export function FloatingChatPanel() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  // Scroll to bottom when chat panel is opened / activated
+  useEffect(() => {
+    if (!isOpen) return;
+    // rAF waits for Radix ScrollArea viewport to be fully laid out after mount
+    const id = requestAnimationFrame(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'instant' });
+    });
+    return () => cancelAnimationFrame(id);
+  }, [isOpen]);
+
   // Resize drag handler
   const handleDragStart = useCallback(
     (e: React.MouseEvent) => {

@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { ChevronLeft, ChevronRight, Sprout, Leaf, Scissors, ListChecks, Snowflake, Sun } from 'lucide-react';
 import { useCalendarEvents, usePlantingSuggestions } from '@/hooks/use-calendar';
+import { DayNotes } from '@/components/notes/day-notes';
 import type { CalendarEvent, PlantingSuggestion } from '@/hooks/use-calendar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -255,6 +256,9 @@ export function CalendarPage() {
               )}
             </CardContent>
           </Card>
+
+          {/* Day notes */}
+          {selectedDate && <DayNotes date={selectedDate} />}
 
           {/* Planting suggestions */}
           {suggestions.length > 0 && (

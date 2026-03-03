@@ -36,6 +36,14 @@ export function noteRoutes(fastify: FastifyInstance, noteService: NoteService) {
     reply.status(204);
   });
 
+  fastify.get<{ Params: { date: string } }>(
+    '/api/v1/notes/date/:date',
+    async (request) => {
+      const data = noteService.findByDate(request.params.date);
+      return { success: true, data };
+    },
+  );
+
   fastify.get<{ Params: { entityType: string; entityId: string } }>(
     '/api/v1/notes/entity/:entityType/:entityId',
     async (request) => {

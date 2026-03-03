@@ -116,6 +116,98 @@ export class PlantCatalogService {
     })();
   }
 
+  getActivity(catalogId: string) {
+    // 1. All plantings for this catalog entry
+    const plantings = this.db.prepare(`
+      SELECT pi.id, pi.variety_name, pi.status, pi.date_planted, pi.quantity,
+             p.name AS plot_name
+      FROM plant_instances pi
+      JOIN plots p ON p.id = pi.plot_id
+      WHERE pi.plant_catalog_id = ?
+      ORDER BY pi.date_planted DESC
+    `).all(catalogId) as any[];
+
+    const instanceIds = plantings.map(r => r.id);
+
+    let harvests: any[] = [];
+    let tasks: any[] = [];
+    let pestEvents: any[] = [];
+    let harvestTotal = 0;
+    let taskTotal = 0;
+    let pestTotal = 0;
+
+    if (instanceIds.length > 0) {
+      const placeholders = instanceIds.map(() => '?').join(',');
+
+      // 2a. Harvests
+      harvestTotal = (this.db.prepare(`
+        SELECT COUNT(*) AS cnt FROM harvests WHERE plant_instance_id IN (${placeholders})
+      `).get(...instanceIds) as any).cnt;
+
+      harvests = this.db.prepare(`
+        SELECT h.id, h.plant_instance_id, h.date_harvested, h.quantity, h.unit, h.quality,
+               pi.variety_name, p.name AS plot_name
+        FROM harvests h
+        JOIN plant_instances pi ON pi.id = h.plant_instance_id
+        JOIN plots p ON p.id = h.plot_id
+        WHERE h.plant_instance_id IN (${placeholders})
+        ORDER BY h.date_harvested DESC
+        LIMIT 10
+      `).all(...instanceIds) as any[];
+
+      // 2b. Tasks
+      taskTotal = (this.db.prepare(`
+        SELECT COUNT(*) AS cnt FROM tasks WHERE entity_type = 'plant_instance' AND entity_id IN (${placeholders})
+      `).get(...instanceIds) as any).cnt;
+
+      tasks = this.db.prepare(`
+        SELECT t.id, t.title, t.status, t.priority, t.due_date, t.entity_id
+        FROM tasks t
+        WHERE t.entity_type = 'plant_instance' AND t.entity_id IN (${placeholders})
+        ORDER BY
+          CASE t.status WHEN 'in_progress' THEN 0 WHEN 'pending' THEN 1 ELSE 2 END,
+          t.due_date ASC
+        LIMIT 10
+      `).all(...instanceIds) as any[];
+
+      // 2c. Pest events
+      pestTotal = (this.db.prepare(`
+        SELECT COUNT(*) AS cnt FROM pest_events WHERE entity_type = 'plant_instance' AND entity_id IN (${placeholders})
+      `).get(...instanceIds) as any).cnt;
+
+      pestEvents = this.db.prepare(`
+        SELECT pe.id, pe.pest_name, pe.severity, pe.outcome, pe.detected_date, pe.entity_id
+        FROM pest_events pe
+        WHERE pe.entity_type = 'plant_instance' AND pe.entity_id IN (${placeholders})
+        ORDER BY pe.detected_date DESC
+        LIMIT 10
+      `).all(...instanceIds) as any[];
+    }
+
+    // 3. Seed inventory (direct link to catalog, no instances needed)
+    const seeds = this.db.prepare(`
+      SELECT id, variety_name, brand, quantity_packets, quantity_seeds_approx, expiration_date
+      FROM seed_inventory
+      WHERE plant_catalog_id = ?
+      ORDER BY expiration_date DESC
+    `).all(catalogId) as any[];
+
+    return {
+      counts: {
+        plantings: plantings.length,
+        harvests: harvestTotal,
+        tasks: taskTotal,
+        pest_events: pestTotal,
+        seeds: seeds.length,
+      },
+      plantings,
+      harvests,
+      tasks,
+      pest_events: pestEvents,
+      seeds,
+    };
+  }
+
   private deserialize(row: PlantCatalogRow) {
     return {
       ...row,

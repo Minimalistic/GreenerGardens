@@ -26,6 +26,10 @@ export class NoteService {
     return this.noteRepo.findByEntity(entityType, entityId).map(r => this.deserialize(r));
   }
 
+  findByDate(date: string) {
+    return this.noteRepo.findByDate(date).map(r => this.deserialize(r));
+  }
+
   create(data: unknown) {
     const parsed = NoteCreateSchema.parse(data);
     const id = uuid();

@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ArrowLeft, Sun, Droplets, Ruler, Clock, Pencil } from 'lucide-react';
 import { EntityNotes } from '@/components/notes/entity-notes';
+import { PlantActivityTab } from '@/components/garden/plant-activity-tab';
 import { plantTypeEmoji } from '@/lib/plant-type-emoji';
 
 export function PlantDetail() {
@@ -77,6 +78,7 @@ export function PlantDetail() {
           <TabsTrigger value="planting">Planting</TabsTrigger>
           <TabsTrigger value="companions">Companions</TabsTrigger>
           <TabsTrigger value="notes">Notes</TabsTrigger>
+          <TabsTrigger value="activity">Activity</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
@@ -219,6 +221,10 @@ export function PlantDetail() {
 
         <TabsContent value="notes">
           <EntityNotes entityType="plant_catalog" entityId={plantId!} />
+        </TabsContent>
+
+        <TabsContent value="activity">
+          <PlantActivityTab plantId={plantId!} />
         </TabsContent>
       </Tabs>
 

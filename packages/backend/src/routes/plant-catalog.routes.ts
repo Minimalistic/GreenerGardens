@@ -26,6 +26,11 @@ export function plantCatalogRoutes(fastify: FastifyInstance, catalogService: Pla
     return { success: true, data: plant };
   });
 
+  fastify.get<{ Params: { id: string } }>('/api/v1/plant-catalog/:id/activity', async (request) => {
+    const activity = catalogService.getActivity(request.params.id);
+    return { success: true, data: activity };
+  });
+
   fastify.post('/api/v1/plant-catalog', async (request, reply) => {
     const plant = catalogService.create(request.body);
     return reply.status(201).send({ success: true, data: plant });

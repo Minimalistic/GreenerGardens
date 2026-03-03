@@ -9,6 +9,7 @@ export interface NoteRow {
   photo_ids: string;
   tags: string;
   pinned: number;
+  note_date: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -45,6 +46,12 @@ export class NoteRepository extends BaseRepository<NoteRow> {
     return this.db.prepare(
       `SELECT * FROM notes WHERE entity_links LIKE ? ORDER BY pinned DESC, created_at DESC`
     ).all(`%"entity_id":"${entityId}"%`) as NoteRow[];
+  }
+
+  findByDate(date: string): NoteRow[] {
+    return this.db.prepare(
+      'SELECT * FROM notes WHERE note_date = ? ORDER BY pinned DESC, created_at DESC'
+    ).all(date) as NoteRow[];
   }
 
   search(query: string, limit = 50): NoteRow[] {

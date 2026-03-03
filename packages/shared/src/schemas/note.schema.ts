@@ -14,6 +14,7 @@ export const NoteCreateSchema = z.object({
   photo_ids: z.array(z.string()).default([]),
   tags: z.array(z.string()).default([]),
   pinned: z.boolean().default(false),
+  note_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(),
 });
 
 export const NoteUpdateSchema = z.object({
@@ -23,6 +24,7 @@ export const NoteUpdateSchema = z.object({
   photo_ids: z.array(z.string()).optional(),
   tags: z.array(z.string()).optional(),
   pinned: z.boolean().optional(),
+  note_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(),
 });
 
 export const NoteSchema = BaseEntitySchema.merge(NoteCreateSchema);
