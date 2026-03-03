@@ -4,6 +4,7 @@ import { Search as SearchIcon, FileText, Map, Bug, CheckSquare, Tag, Sprout } fr
 import { useSearch } from '@/hooks/use-search';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { plantTypeEmoji } from '@/lib/plant-type-emoji';
 
 const entityIcons: Record<string, typeof SearchIcon> = {
   plant_catalog: Sprout,
@@ -72,8 +73,8 @@ export function SearchPage() {
                   }}
                 >
                   <CardContent className="py-3 flex items-center gap-3">
-                    {item.emoji ? (
-                      <span className="text-lg plant-emoji">{item.emoji}</span>
+                    {item.entity_type === 'plant_catalog' ? (
+                      <span className="text-lg plant-emoji">{plantTypeEmoji(item.plant_type)}</span>
                     ) : (
                       <Icon className="w-4 h-4 text-muted-foreground" />
                     )}

@@ -10,6 +10,7 @@ import { PlantTypeBadge } from '@/components/garden/plant-type-badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Search, LayoutGrid, TableIcon, Plus } from 'lucide-react';
+import { plantTypeEmoji } from '@/lib/plant-type-emoji';
 const TYPE_FILTERS = [
   { value: '', label: 'All Types' },
   { value: 'vegetable', label: 'Vegetables' },
@@ -67,7 +68,9 @@ export function PlantCatalogPage() {
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full bg-muted" />
+            <div className="w-full h-full bg-muted flex items-center justify-center">
+              <span className="text-sm plant-emoji">{plantTypeEmoji(row.plant_type)}</span>
+            </div>
           )}
         </div>
       ),
@@ -80,7 +83,7 @@ export function PlantCatalogPage() {
           className="text-left font-medium hover:underline"
           onClick={() => navigate(`/catalog/${row.id}`)}
         >
-          {row.emoji && <span className="mr-1 plant-emoji">{row.emoji}</span>}
+          <span className="mr-1 plant-emoji">{plantTypeEmoji(row.plant_type)}</span>
           {row.common_name}
         </button>
       ),
@@ -189,7 +192,7 @@ export function PlantCatalogPage() {
                 <CardContent className="p-4 space-y-2 relative">
                   <div className="flex items-start justify-between">
                     <h3 className="font-semibold text-sm">
-                      {plant.emoji && <span className="mr-1 plant-emoji">{plant.emoji}</span>}
+                      <span className="mr-1 plant-emoji">{plantTypeEmoji(plant.plant_type)}</span>
                       {plant.common_name}
                     </h3>
                     <PlantTypeBadge

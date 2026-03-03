@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ArrowLeft, Sun, Droplets, Ruler, Clock, Pencil } from 'lucide-react';
 import { EntityNotes } from '@/components/notes/entity-notes';
+import { plantTypeEmoji } from '@/lib/plant-type-emoji';
 
 export function PlantDetail() {
   const { plantId } = useParams<{ plantId: string }>();
@@ -40,7 +41,7 @@ export function PlantDetail() {
         </Button>
         <div>
           <div className="flex items-center gap-2">
-            {p.emoji && <span className="text-2xl plant-emoji">{p.emoji}</span>}
+            <span className="text-2xl plant-emoji">{plantTypeEmoji(p.plant_type)}</span>
             <h2 className="text-xl font-semibold">{p.common_name}</h2>
             {isCustom && <Badge variant="secondary">Custom</Badge>}
           </div>

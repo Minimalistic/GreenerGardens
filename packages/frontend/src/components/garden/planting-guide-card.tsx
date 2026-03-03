@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { PLANT_TYPE_COLORS } from '@/lib/plant-type-colors';
+import { plantTypeEmoji } from '@/lib/plant-type-emoji';
 
 function GuideSection({ title, icon: Icon, entries }: { title: string; icon: typeof Sprout; entries: any[] }) {
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ function GuideSection({ title, icon: Icon, entries }: { title: string; icon: typ
             )}
             onClick={() => navigate(`/catalog/${entry.plant_id}`)}
           >
-            {entry.emoji && <span className="mr-0.5 plant-emoji">{entry.emoji}</span>}
+            <span className="mr-0.5 plant-emoji">{plantTypeEmoji(entry.plant_type)}</span>
             {entry.common_name}
             <span className="ml-1 text-xs opacity-70">({entry.days_remaining}d left)</span>
           </Badge>
@@ -79,7 +80,7 @@ function GuideSection({ title, icon: Icon, entries }: { title: string; icon: typ
                 )}
                 onClick={() => navigate(`/catalog/${entry.plant_id}`)}
               >
-                {entry.emoji && <span className="mr-0.5 plant-emoji">{entry.emoji}</span>}
+                <span className="mr-0.5 plant-emoji">{plantTypeEmoji(entry.plant_type)}</span>
                 {entry.common_name}
                 <span className="ml-1 text-xs opacity-70">({entry.days_remaining}d left)</span>
               </Badge>
