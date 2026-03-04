@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, Sun, Moon, Monitor, ChevronDown, Check, Settings, Wrench } from 'lucide-react';
+import { Sun, Moon, Monitor, ChevronDown, Check, Settings, Wrench } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -16,10 +16,9 @@ import { SettingsDialog } from '@/components/settings-dialog';
 
 interface HeaderProps {
   title: string;
-  onMenuToggle?: () => void;
 }
 
-export function Header({ title, onMenuToggle }: HeaderProps) {
+export function Header({ title }: HeaderProps) {
   const { currentGardenId, setCurrentGardenId, garden } = useGardenContext();
   const { data: gardensData } = useGardens();
   const { theme, setTheme, resolvedTheme } = useTheme();
@@ -32,14 +31,6 @@ export function Header({ title, onMenuToggle }: HeaderProps) {
     <>
       <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="flex items-center h-14 px-4 gap-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="lg:hidden"
-            onClick={onMenuToggle}
-          >
-            <Menu className="w-5 h-5" />
-          </Button>
           <div className="flex-1">
             <h1 className="text-lg font-semibold">{title}</h1>
           </div>

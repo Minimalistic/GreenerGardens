@@ -1,10 +1,8 @@
-import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Sidebar } from './sidebar';
 import { Header } from './header';
 import { MobileNav } from './mobile-nav';
-import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { Toaster } from '@/components/ui/toaster';
 import { useAssistantContext } from '@/contexts/assistant-context';
 import { FloatingChatButton } from '@/components/chat/floating-chat-button';
@@ -29,7 +27,6 @@ const PAGE_TITLES: Record<string, string> = {
 };
 
 export function AppShell() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { isOpen, sidebarWidth, close } = useAssistantContext();
 
@@ -39,14 +36,8 @@ export function AppShell() {
     <div className="flex h-screen overflow-hidden">
       <Sidebar />
 
-      <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-        <SheetContent side="left" className="w-60 p-4">
-          <Sidebar mobile onNavigate={() => setMobileMenuOpen(false)} />
-        </SheetContent>
-      </Sheet>
-
       <div className="flex-1 min-w-0 flex flex-col min-h-0">
-        <Header title={title} onMenuToggle={() => setMobileMenuOpen(true)} />
+        <Header title={title} />
         <div className="flex flex-1 min-h-0">
           <main className="flex-1 min-w-0 overflow-y-auto p-4 pb-20 lg:pb-4">
             <Outlet />

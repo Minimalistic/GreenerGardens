@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Sprout, Leaf, Scissors, ListChecks, Snowflake, Sun } from 'lucide-react';
 import { useCalendarEvents, usePlantingSuggestions } from '@/hooks/use-calendar';
 import { DayNotes } from '@/components/notes/day-notes';
@@ -98,10 +98,13 @@ function getFirstDayOfWeek(year: number, month: number): number {
 }
 
 export function CalendarPage() {
+  const [searchParams] = useSearchParams();
+  const dateParam = searchParams.get('date');
+  const initDate = dateParam && /^\d{4}-\d{2}-\d{2}$/.test(dateParam) ? new Date(dateParam + 'T12:00:00') : null;
   const now = new Date();
-  const [year, setYear] = useState(now.getFullYear());
-  const [month, setMonth] = useState(now.getMonth() + 1);
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [year, setYear] = useState(initDate ? initDate.getFullYear() : now.getFullYear());
+  const [month, setMonth] = useState(initDate ? initDate.getMonth() + 1 : now.getMonth() + 1);
+  const [selectedDate, setSelectedDate] = useState<string | null>(dateParam ?? null);
 
   const { data: eventsData, isLoading } = useCalendarEvents(month, year);
   const { data: suggestionsData } = usePlantingSuggestions();

@@ -81,15 +81,15 @@ export function MobileNav() {
                 onClick={() => setMoreOpen(false)}
                 className={({ isActive }) =>
                   cn(
-                    'flex flex-col items-center justify-center gap-1.5 p-3 rounded-xl text-xs transition-colors',
+                    'flex flex-col items-center gap-1.5 pt-3 pb-2 px-1 rounded-xl text-xs transition-colors',
                     isActive
                       ? 'bg-primary/10 text-primary font-medium'
                       : 'text-muted-foreground hover:bg-muted'
                   )
                 }
               >
-                <Icon className="w-6 h-6" />
-                <span>{label}</span>
+                <Icon className="w-6 h-6 shrink-0" />
+                <span className="text-center leading-tight">{label}</span>
               </NavLink>
             ))}
           </nav>

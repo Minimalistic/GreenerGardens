@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { usePlantCatalogEntry } from '@/hooks/use-plant-catalog';
+import { useMemo, useState } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { usePlantCatalogEntry, usePlantCatalogSearch } from '@/hooks/use-plant-catalog';
 import { useWikipediaSummary } from '@/hooks/use-wikipedia';
 import { PlantFormDialog } from '@/components/plant-form-dialog';
 import { Button } from '@/components/ui/button';
@@ -19,6 +19,27 @@ export function PlantDetail() {
   const navigate = useNavigate();
   const { data, isLoading } = usePlantCatalogEntry(plantId ?? null);
   const { data: wikiResponse, isLoading: wikiLoading } = useWikipediaSummary(plantId ?? null);
+  const { data: catalogData } = usePlantCatalogSearch({ limit: 500 });
+  const catalogEntries = (catalogData as any)?.data ?? [];
+  const plantNameToId = useMemo(() => {
+    const exact = new Map<string, string>();
+    for (const entry of catalogEntries) {
+      exact.set(entry.common_name.toLowerCase(), entry.id);
+    }
+    return (name: string): string | undefined => {
+      const lower = name.toLowerCase();
+      // Exact match first
+      if (exact.has(lower)) return exact.get(lower);
+      // Try to find a catalog entry that contains the companion name or vice versa
+      for (const entry of catalogEntries) {
+        const entryName = entry.common_name.toLowerCase();
+        if (entryName.includes(lower) || lower.includes(entryName)) {
+          return entry.id;
+        }
+      }
+      return undefined;
+    };
+  }, [catalogEntries]);
   const [formOpen, setFormOpen] = useState(false);
 
   if (isLoading) {
@@ -38,21 +59,21 @@ export function PlantDetail() {
 
   return (
     <div className="space-y-4 max-w-3xl mx-auto">
-      <div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon" onClick={() => navigate('/catalog')}>
+      <div className="flex flex-wrap items-center gap-2">
+        <Button variant="ghost" size="icon" className="shrink-0" onClick={() => navigate('/catalog')}>
           <ArrowLeft className="w-5 h-5" />
         </Button>
-        <div>
-          <div className="flex items-center gap-2">
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="text-2xl plant-emoji">{plantTypeEmoji(p.plant_type)}</span>
-            <h2 className="text-xl font-semibold">{p.common_name}</h2>
+            <h2 className="text-xl font-semibold truncate">{p.common_name}</h2>
             {isCustom && <Badge variant="secondary">Custom</Badge>}
           </div>
           {p.scientific_name && (
-            <p className="text-sm text-muted-foreground italic">{p.scientific_name}</p>
+            <p className="text-sm text-muted-foreground italic truncate">{p.scientific_name}</p>
           )}
         </div>
-        <div className="ml-auto flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           <a
             href={p.wikipedia_url || `https://en.wikipedia.org/wiki/${encodeURIComponent((p.common_name as string).replace(/ /g, '_'))}`}
             target="_blank"
@@ -60,13 +81,13 @@ export function PlantDetail() {
             className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
           >
             <ExternalLink className="w-3.5 h-3.5" />
-            Wikipedia
+            <span className="hidden sm:inline">Wikipedia</span>
           </a>
           <PlantTypeBadge plantType={p.plant_type} />
           {isCustom && (
             <Button variant="outline" size="sm" onClick={() => setFormOpen(true)}>
-              <Pencil className="w-4 h-4 mr-1" />
-              Edit
+              <Pencil className="w-4 h-4 sm:mr-1" />
+              <span className="hidden sm:inline">Edit</span>
             </Button>
           )}
         </div>
@@ -83,13 +104,13 @@ export function PlantDetail() {
       )}
 
       <Tabs defaultValue="overview">
-        <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="growing">Growing</TabsTrigger>
-          <TabsTrigger value="planting">Planting</TabsTrigger>
-          <TabsTrigger value="companions">Companions</TabsTrigger>
-          <TabsTrigger value="notes">Notes</TabsTrigger>
-          <TabsTrigger value="activity">Activity</TabsTrigger>
+        <TabsList className="w-full overflow-x-auto justify-start sm:justify-center">
+          <TabsTrigger value="overview" className="px-2 sm:px-3 text-xs sm:text-sm">Overview</TabsTrigger>
+          <TabsTrigger value="growing" className="px-2 sm:px-3 text-xs sm:text-sm">Growing</TabsTrigger>
+          <TabsTrigger value="planting" className="px-2 sm:px-3 text-xs sm:text-sm">Planting</TabsTrigger>
+          <TabsTrigger value="companions" className="px-2 sm:px-3 text-xs sm:text-sm">Companions</TabsTrigger>
+          <TabsTrigger value="notes" className="px-2 sm:px-3 text-xs sm:text-sm">Notes</TabsTrigger>
+          <TabsTrigger value="activity" className="px-2 sm:px-3 text-xs sm:text-sm">Activity</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
@@ -107,36 +128,38 @@ export function PlantDetail() {
             </Card>
           )}
           {wikiResponse?.data && (
-            <Card>
-              <CardContent className="pt-4 flex gap-4">
-                {wikiResponse.data.thumbnail_url && (
-                  <img
-                    src={wikiResponse.data.thumbnail_url}
-                    alt={p.common_name}
-                    className="w-24 h-24 rounded object-cover shrink-0"
-                  />
-                )}
-                <div className="flex-1 min-w-0">
-                  {wikiResponse.data.description && (
-                    <p className="text-sm italic text-muted-foreground mb-1">
-                      {wikiResponse.data.description}
-                    </p>
+            <a
+              href={p.wikipedia_url || `https://en.wikipedia.org/wiki/${encodeURIComponent((p.common_name as string).replace(/ /g, '_'))}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block"
+            >
+              <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
+                <CardContent className="pt-4 flex gap-4">
+                  {wikiResponse.data.thumbnail_url && (
+                    <img
+                      src={wikiResponse.data.thumbnail_url}
+                      alt={p.common_name}
+                      className="w-24 h-24 rounded object-cover shrink-0"
+                    />
                   )}
-                  {wikiResponse.data.extract && (
-                    <p className="text-sm line-clamp-4">{wikiResponse.data.extract}</p>
-                  )}
-                  <a
-                    href={p.wikipedia_url || `https://en.wikipedia.org/wiki/${encodeURIComponent((p.common_name as string).replace(/ /g, '_'))}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mt-2 transition-colors"
-                  >
-                    <ExternalLink className="w-3 h-3" />
-                    Source: Wikipedia (CC BY-SA 4.0)
-                  </a>
-                </div>
-              </CardContent>
-            </Card>
+                  <div className="flex-1 min-w-0">
+                    {wikiResponse.data.description && (
+                      <p className="text-sm italic text-muted-foreground mb-1">
+                        {wikiResponse.data.description}
+                      </p>
+                    )}
+                    {wikiResponse.data.extract && (
+                      <p className="text-sm line-clamp-4">{wikiResponse.data.extract}</p>
+                    )}
+                    <span className="inline-flex items-center gap-1 text-xs text-muted-foreground mt-2">
+                      <ExternalLink className="w-3 h-3" />
+                      Source: Wikipedia (CC BY-SA 4.0)
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+            </a>
           )}
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             {p.sun_exposure && (
@@ -229,9 +252,16 @@ export function PlantDetail() {
                   const name = typeof c === 'string' ? c : c.name;
                   const notes = typeof c === 'string' ? null : c.notes;
                   const rel = typeof c === 'string' ? null : c.relationship;
+                  const linkedId = plantNameToId(name);
                   return (
                     <div key={i} className="flex items-start gap-2">
-                      <Badge variant="outline" className="bg-green-50 dark:bg-green-950 shrink-0">{name}</Badge>
+                      {linkedId ? (
+                        <Link to={`/catalog/${linkedId}`}>
+                          <Badge variant="outline" className="bg-green-50 dark:bg-green-950 shrink-0 hover:bg-green-100 dark:hover:bg-green-900 cursor-pointer transition-colors">{name}</Badge>
+                        </Link>
+                      ) : (
+                        <Badge variant="outline" className="bg-green-50 dark:bg-green-950 shrink-0">{name}</Badge>
+                      )}
                       <div className="text-xs text-muted-foreground">
                         {rel && <span className="capitalize">{rel.replace(/_/g, ' ')}</span>}
                         {rel && notes && <span> &mdash; </span>}
@@ -251,9 +281,16 @@ export function PlantDetail() {
                   const name = typeof a === 'string' ? a : a.name;
                   const notes = typeof a === 'string' ? null : a.notes;
                   const rel = typeof a === 'string' ? null : a.relationship;
+                  const linkedId = plantNameToId(name);
                   return (
                     <div key={i} className="flex items-start gap-2">
-                      <Badge variant="outline" className="bg-red-50 dark:bg-red-950 shrink-0">{name}</Badge>
+                      {linkedId ? (
+                        <Link to={`/catalog/${linkedId}`}>
+                          <Badge variant="outline" className="bg-red-50 dark:bg-red-950 shrink-0 hover:bg-red-100 dark:hover:bg-red-900 cursor-pointer transition-colors">{name}</Badge>
+                        </Link>
+                      ) : (
+                        <Badge variant="outline" className="bg-red-50 dark:bg-red-950 shrink-0">{name}</Badge>
+                      )}
                       <div className="text-xs text-muted-foreground">
                         {rel && <span className="capitalize">{rel.replace(/_/g, ' ')}</span>}
                         {rel && notes && <span> &mdash; </span>}

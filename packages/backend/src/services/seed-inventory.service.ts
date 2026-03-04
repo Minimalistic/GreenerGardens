@@ -18,9 +18,9 @@ export class SeedInventoryService {
   }
 
   findAll(options?: { limit?: number; offset?: number; expiring_soon?: boolean; low_quantity?: boolean }) {
-    if (options?.expiring_soon) return this.seedRepo.findExpiringSoon().map(r => this.deserialize(r));
-    if (options?.low_quantity) return this.seedRepo.findLowQuantity().map(r => this.deserialize(r));
-    return this.seedRepo.findAll({ limit: options?.limit, offset: options?.offset }).map(r => this.deserialize(r));
+    if (options?.expiring_soon) return this.seedRepo.findExpiringSoonWithPlant().map(r => this.deserialize(r));
+    if (options?.low_quantity) return this.seedRepo.findLowQuantityWithPlant().map(r => this.deserialize(r));
+    return this.seedRepo.findAllWithPlant({ limit: options?.limit, offset: options?.offset }).map(r => this.deserialize(r));
   }
 
   findById(id: string) {

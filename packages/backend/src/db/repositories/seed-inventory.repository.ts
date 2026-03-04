@@ -21,13 +21,42 @@ export interface SeedInventoryRow {
   updated_at: string;
 }
 
+export interface SeedInventoryWithPlantRow extends SeedInventoryRow {
+  plant_name: string | null;
+  plant_emoji: string | null;
+}
+
 export class SeedInventoryRepository extends BaseRepository<SeedInventoryRow> {
   constructor(db: Database.Database) {
     super(db, 'seed_inventory');
   }
 
+  private static readonly PLANT_JOIN = `
+    SELECT si.*, pc.common_name AS plant_name, pc.emoji AS plant_emoji
+    FROM seed_inventory si
+    LEFT JOIN plant_catalog pc ON si.plant_catalog_id = pc.id`;
+
+  findAllWithPlant(options?: { limit?: number; offset?: number }): SeedInventoryWithPlantRow[] {
+    let sql = `${SeedInventoryRepository.PLANT_JOIN} ORDER BY si.created_at DESC`;
+    if (options?.limit) sql += ` LIMIT ${options.limit}`;
+    if (options?.offset) sql += ` OFFSET ${options.offset}`;
+    return this.db.prepare(sql).all() as SeedInventoryWithPlantRow[];
+  }
+
   findByPlant(plantCatalogId: string): SeedInventoryRow[] {
     return this.db.prepare('SELECT * FROM seed_inventory WHERE plant_catalog_id = ? ORDER BY created_at DESC').all(plantCatalogId) as SeedInventoryRow[];
+  }
+
+  findExpiringSoonWithPlant(daysAhead: number = 90): SeedInventoryWithPlantRow[] {
+    return this.db.prepare(
+      `${SeedInventoryRepository.PLANT_JOIN} WHERE si.expiration_date IS NOT NULL AND si.expiration_date <= date('now', '+' || ? || ' days') AND si.expiration_date >= date('now') ORDER BY si.expiration_date ASC`
+    ).all(daysAhead) as SeedInventoryWithPlantRow[];
+  }
+
+  findLowQuantityWithPlant(threshold: number = 1): SeedInventoryWithPlantRow[] {
+    return this.db.prepare(
+      `${SeedInventoryRepository.PLANT_JOIN} WHERE si.quantity_packets <= ? ORDER BY si.quantity_packets ASC`
+    ).all(threshold) as SeedInventoryWithPlantRow[];
   }
 
   findExpiringSoon(daysAhead: number = 90): SeedInventoryRow[] {

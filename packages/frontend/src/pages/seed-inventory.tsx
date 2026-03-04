@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Sprout, Plus, AlertTriangle, Package, Trash2, LayoutGrid, TableIcon } from 'lucide-react';
+import { Sprout, Plus, AlertTriangle, Package, Trash2, LayoutGrid, TableIcon, X } from 'lucide-react';
 import { useSeedInventory, useCreateSeedInventory, useUpdateSeedInventory, useDeleteSeedInventory } from '@/hooks/use-seed-inventory';
+import { usePlantCatalogSearch } from '@/hooks/use-plant-catalog';
 import { DataTable, type Column } from '@/components/data-table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,6 +13,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 
 interface SeedFormData {
+  plant_catalog_id: string | undefined;
   variety_name: string;
   brand: string;
   source: string;
@@ -19,14 +21,17 @@ interface SeedFormData {
   quantity_seeds_approx: number | undefined;
   purchase_date: string;
   expiration_date: string;
+  lot_number: string;
+  germination_rate_tested: number | undefined;
   storage_location: string;
   cost_cents: number | undefined;
   notes: string;
 }
 
 const emptyForm: SeedFormData = {
-  variety_name: '', brand: '', source: '', quantity_packets: 1,
+  plant_catalog_id: undefined, variety_name: '', brand: '', source: '', quantity_packets: 1,
   quantity_seeds_approx: undefined, purchase_date: '', expiration_date: '',
+  lot_number: '', germination_rate_tested: undefined,
   storage_location: '', cost_cents: undefined, notes: '',
 };
 
@@ -39,7 +44,15 @@ function isExpiringSeed(date: string | null) {
 }
 
 const seedColumns: Column<any>[] = [
-  { key: 'variety_name', label: 'Variety' },
+  { key: 'variety_name', label: 'Variety', render: (row) => (
+    <span className="flex items-center gap-1.5">
+      {row.plant_emoji && <span>{row.plant_emoji}</span>}
+      <span>{row.variety_name}</span>
+      {row.plant_name && row.plant_name !== row.variety_name && (
+        <span className="text-muted-foreground text-xs">({row.plant_name})</span>
+      )}
+    </span>
+  )},
   { key: 'brand', label: 'Brand', render: (row) => row.brand || '-' },
   { key: 'quantity_packets', label: 'Packets', render: (row) => (
     <span>
@@ -73,6 +86,13 @@ export function SeedInventoryPage() {
   const [form, setForm] = useState<SeedFormData>(emptyForm);
   const [filter, setFilter] = useState<'all' | 'expiring' | 'low'>('all');
 
+  // Plant catalog search for the form
+  const [plantSearch, setPlantSearch] = useState('');
+  const [plantSearchOpen, setPlantSearchOpen] = useState(false);
+  const [selectedPlantLabel, setSelectedPlantLabel] = useState('');
+  const { data: catalogData } = usePlantCatalogSearch({ search: plantSearch, limit: 10 });
+  const catalogResults = catalogData?.data ?? [];
+
   const { data, isLoading } = useSeedInventory(
     filter === 'expiring' ? { expiring_soon: true } : filter === 'low' ? { low_quantity: true } : undefined
   );
@@ -86,12 +106,16 @@ export function SeedInventoryPage() {
   const openCreate = () => {
     setEditId(null);
     setForm(emptyForm);
+    setPlantSearch('');
+    setSelectedPlantLabel('');
+    setPlantSearchOpen(false);
     setDialogOpen(true);
   };
 
   const openEdit = (seed: any) => {
     setEditId(seed.id);
     setForm({
+      plant_catalog_id: seed.plant_catalog_id ?? undefined,
       variety_name: seed.variety_name ?? '',
       brand: seed.brand ?? '',
       source: seed.source ?? '',
@@ -99,11 +123,33 @@ export function SeedInventoryPage() {
       quantity_seeds_approx: seed.quantity_seeds_approx ?? undefined,
       purchase_date: seed.purchase_date ?? '',
       expiration_date: seed.expiration_date ?? '',
+      lot_number: seed.lot_number ?? '',
+      germination_rate_tested: seed.germination_rate_tested ?? undefined,
       storage_location: seed.storage_location ?? '',
       cost_cents: seed.cost_cents ?? undefined,
       notes: seed.notes ?? '',
     });
+    setSelectedPlantLabel(
+      seed.plant_catalog_id
+        ? `${seed.plant_emoji ? seed.plant_emoji + ' ' : ''}${seed.plant_name || 'Linked plant'}`
+        : ''
+    );
+    setPlantSearch('');
+    setPlantSearchOpen(false);
     setDialogOpen(true);
+  };
+
+  const handleSelectPlant = (plant: any) => {
+    setForm({ ...form, plant_catalog_id: plant.id });
+    setSelectedPlantLabel(`${plant.emoji ? plant.emoji + ' ' : ''}${plant.common_name}`);
+    setPlantSearch('');
+    setPlantSearchOpen(false);
+  };
+
+  const handleClearPlant = () => {
+    setForm({ ...form, plant_catalog_id: undefined });
+    setSelectedPlantLabel('');
+    setPlantSearch('');
   };
 
   const handleSubmit = async () => {
@@ -113,6 +159,8 @@ export function SeedInventoryPage() {
         quantity_packets: Number(form.quantity_packets),
         quantity_seeds_approx: form.quantity_seeds_approx ? Number(form.quantity_seeds_approx) : undefined,
         cost_cents: form.cost_cents ? Number(form.cost_cents) : undefined,
+        germination_rate_tested: form.germination_rate_tested != null ? Number(form.germination_rate_tested) : undefined,
+        lot_number: form.lot_number || undefined,
       };
       if (editId) {
         await updateSeed.mutateAsync({ id: editId, data: payload });
@@ -194,8 +242,11 @@ export function SeedInventoryPage() {
             <Card key={seed.id} className="cursor-pointer hover:bg-muted/50 transition-colors" onClick={() => openEdit(seed)}>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm flex items-center justify-between">
-                  <span className="truncate">{seed.variety_name}</span>
-                  <div className="flex gap-1">
+                  <span className="truncate flex items-center gap-1.5">
+                    {seed.plant_emoji && <span>{seed.plant_emoji}</span>}
+                    {seed.variety_name}
+                  </span>
+                  <div className="flex gap-1 shrink-0">
                     {seed.quantity_packets <= 1 && (
                       <Badge variant="destructive" className="text-xs">Low</Badge>
                     )}
@@ -209,6 +260,9 @@ export function SeedInventoryPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-1 text-sm">
+                {seed.plant_name && (
+                  <p className="text-xs text-muted-foreground">{seed.plant_name}</p>
+                )}
                 {seed.brand && <p className="text-muted-foreground">{seed.brand}</p>}
                 <p>Packets: <span className="font-medium">{seed.quantity_packets}</span></p>
                 {seed.quantity_seeds_approx && <p>~{seed.quantity_seeds_approx} seeds</p>}
@@ -222,11 +276,58 @@ export function SeedInventoryPage() {
       )}
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{editId ? 'Edit Seed Packet' : 'Add Seed Packet'}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
+            {/* Plant Catalog Link */}
+            <div>
+              <Label>Plant (from catalog)</Label>
+              {form.plant_catalog_id && selectedPlantLabel ? (
+                <div className="flex items-center gap-2 mt-1 px-3 py-2 border rounded-md bg-muted/50">
+                  <span className="text-sm flex-1">{selectedPlantLabel}</span>
+                  <button
+                    type="button"
+                    onClick={handleClearPlant}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <div className="relative">
+                  <Input
+                    placeholder="Search plant catalog..."
+                    value={plantSearch}
+                    onChange={(e) => {
+                      setPlantSearch(e.target.value);
+                      setPlantSearchOpen(e.target.value.length > 0);
+                    }}
+                    onFocus={() => plantSearch && setPlantSearchOpen(true)}
+                  />
+                  {plantSearchOpen && catalogResults.length > 0 && (
+                    <div className="absolute z-50 top-full left-0 right-0 mt-1 border rounded-md bg-popover shadow-md max-h-40 overflow-y-auto">
+                      {catalogResults.map((plant: any) => (
+                        <button
+                          key={plant.id}
+                          className="w-full text-left px-3 py-2 text-sm hover:bg-muted flex items-center gap-2"
+                          onClick={() => handleSelectPlant(plant)}
+                        >
+                          {plant.emoji && <span>{plant.emoji}</span>}
+                          <span>{plant.common_name}</span>
+                          {plant.scientific_name && (
+                            <span className="text-xs text-muted-foreground italic">{plant.scientific_name}</span>
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+              <p className="text-xs text-muted-foreground mt-1">Link to a plant for cross-referencing</p>
+            </div>
+
             <div>
               <Label>Variety Name *</Label>
               <Input value={form.variety_name} onChange={(e) => setForm({ ...form, variety_name: e.target.value })} />
@@ -259,6 +360,16 @@ export function SeedInventoryPage() {
               <div>
                 <Label>Expiration Date</Label>
                 <Input type="date" value={form.expiration_date} onChange={(e) => setForm({ ...form, expiration_date: e.target.value })} />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label>Lot Number</Label>
+                <Input value={form.lot_number} onChange={(e) => setForm({ ...form, lot_number: e.target.value })} />
+              </div>
+              <div>
+                <Label>Germination Rate (%)</Label>
+                <Input type="number" min={0} max={100} value={form.germination_rate_tested ?? ''} onChange={(e) => setForm({ ...form, germination_rate_tested: e.target.value ? parseFloat(e.target.value) : undefined })} />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">

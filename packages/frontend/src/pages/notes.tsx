@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, StickyNote, Pin, Trash2, Pencil, Check, X } from 'lucide-react';
+import { Plus, StickyNote, Pin, Trash2, Pencil, Check, X, Calendar } from 'lucide-react';
 import { useNotes, useCreateNote, useDeleteNote, useUpdateNote } from '@/hooks/use-notes';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -174,6 +174,16 @@ export function NotesPage() {
                               {tag}
                             </Badge>
                           ))}
+                          {note.note_date && (
+                            <Badge
+                              variant="outline"
+                              className="text-xs cursor-pointer hover:bg-muted"
+                              onClick={() => navigate(`/calendar?date=${note.note_date}`)}
+                            >
+                              <Calendar className="w-3 h-3 mr-1" />
+                              {new Date(note.note_date + 'T12:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric', year: 'numeric' })}
+                            </Badge>
+                          )}
                           {note.entity_links?.length > 0 && note.entity_links.map((link: any) => {
                             const path = entityLinkPath(link.entity_type, link.entity_id);
                             return (
