@@ -36,7 +36,7 @@ export class GardenRepository extends BaseRepository<GardenRow> {
              OR (json_extract(je.value, '$.entity_type') = 'plot' AND json_extract(je.value, '$.entity_id') IN (SELECT id FROM plots WHERE garden_id = ?))
              OR (json_extract(je.value, '$.entity_type') = 'plant_instance' AND json_extract(je.value, '$.entity_id') IN (SELECT id FROM plant_instances WHERE plot_id IN (SELECT id FROM plots WHERE garden_id = ?)))
         ) AS notes
-    `).get(id, id, id, id, id, id, id, id) as any;
+    `).get(id, id, id, id, id, id, id, id) as { plots: number; sub_plots: number; plant_instances: number; harvests: number; soil_tests: number; notes: number };
     return row;
   }
 }

@@ -77,7 +77,7 @@ export function PlotDetail() {
 
   if (!plot) return <p>Plot not found</p>;
 
-  const dims = (plot as any).dimensions;
+  const dims = plot.dimensions;
   const widthFt = dims?.width_ft ?? 4;
   const lengthFt = dims?.length_ft ?? 4;
 
@@ -184,9 +184,9 @@ export function PlotDetail() {
           <ArrowLeft className="w-5 h-5" />
         </Button>
         <div className="flex-1">
-          <h2 className="text-xl font-semibold">{(plot as any).name}</h2>
+          <h2 className="text-xl font-semibold">{plot.name}</h2>
           <p className="text-sm text-muted-foreground capitalize">
-            {(plot as any).plot_type?.replace('_', ' ')}
+            {plot.plot_type?.replace('_', ' ')}
             {dims && ` - ${dims.length_ft}' x ${dims.width_ft}'`}
           </p>
         </div>
@@ -477,7 +477,7 @@ export function PlotDetail() {
         onOpenChange={setTaskDialogOpen}
         entityType="plot"
         entityId={plotId!}
-        entityName={(plot as any).name}
+        entityName={plot.name}
       />
     </div>
   );

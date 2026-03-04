@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import { queryKeys } from '@/lib/query-keys';
 
 interface SoilTest {
   id: string;
@@ -38,7 +39,7 @@ interface SoilTestCreate {
 
 export function useSoilTests(plotId: string | null) {
   return useQuery({
-    queryKey: ['soil-tests', plotId],
+    queryKey: queryKeys.soilTests.byPlot(plotId!),
     queryFn: () => api.get<{ data: SoilTest[] }>(`/soil-tests?plot=${plotId}`),
     enabled: !!plotId,
   });
@@ -46,7 +47,7 @@ export function useSoilTests(plotId: string | null) {
 
 export function useSoilTestTrends(plotId: string | null) {
   return useQuery({
-    queryKey: ['soil-tests', 'trends', plotId],
+    queryKey: queryKeys.soilTests.trends(plotId!),
     queryFn: () => api.get<{ data: SoilTest[] }>(`/soil-tests/trends?plot=${plotId}`),
     enabled: !!plotId,
   });
@@ -57,7 +58,7 @@ export function useCreateSoilTest() {
   return useMutation({
     mutationFn: (data: SoilTestCreate) => api.post<{ data: SoilTest }>('/soil-tests', data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['soil-tests'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.soilTests.all });
     },
   });
 }
@@ -68,7 +69,7 @@ export function useUpdateSoilTest() {
     mutationFn: ({ id, ...data }: { id: string } & Partial<SoilTestCreate>) =>
       api.patch<{ data: SoilTest }>(`/soil-tests/${id}`, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['soil-tests'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.soilTests.all });
     },
   });
 }
@@ -78,7 +79,7 @@ export function useDeleteSoilTest() {
   return useMutation({
     mutationFn: (id: string) => api.delete(`/soil-tests/${id}`),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['soil-tests'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.soilTests.all });
     },
   });
 }

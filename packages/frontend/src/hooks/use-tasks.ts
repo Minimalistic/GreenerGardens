@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import { queryKeys } from '@/lib/query-keys';
 import type { ApiResponse } from '@gardenvault/shared';
 
 interface Task {
@@ -44,28 +45,28 @@ export function useTasks(filters?: {
   const qs = params.toString();
 
   return useQuery({
-    queryKey: ['tasks', filters],
+    queryKey: queryKeys.tasks.list(filters),
     queryFn: () => api.get<ApiResponse<Task[]>>(`/tasks${qs ? `?${qs}` : ''}`),
   });
 }
 
 export function useOverdueTasks() {
   return useQuery({
-    queryKey: ['tasks', 'overdue'],
+    queryKey: queryKeys.tasks.overdue,
     queryFn: () => api.get<ApiResponse<Task[]>>('/tasks/overdue'),
   });
 }
 
 export function useTodayTasks() {
   return useQuery({
-    queryKey: ['tasks', 'today'],
+    queryKey: queryKeys.tasks.today,
     queryFn: () => api.get<ApiResponse<Task[]>>('/tasks/today'),
   });
 }
 
 export function useWeekTasks() {
   return useQuery({
-    queryKey: ['tasks', 'week'],
+    queryKey: queryKeys.tasks.week,
     queryFn: () => api.get<ApiResponse<Task[]>>('/tasks/week'),
   });
 }
@@ -76,8 +77,8 @@ export function useCreateTask() {
     mutationFn: (data: TaskCreate) =>
       api.post<ApiResponse<Task>>('/tasks', data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
-      queryClient.invalidateQueries({ queryKey: ['history'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.tasks.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.history.all });
     },
   });
 }
@@ -88,7 +89,7 @@ export function useUpdateTask() {
     mutationFn: ({ id, data }: { id: string; data: Partial<TaskCreate & { status: string; due_date: string }> }) =>
       api.patch<ApiResponse<Task>>(`/tasks/${id}`, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.tasks.all });
     },
   });
 }
@@ -99,7 +100,7 @@ export function useCompleteTask() {
     mutationFn: (id: string) =>
       api.patch<ApiResponse<Task>>(`/tasks/${id}/complete`, {}),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.tasks.all });
     },
   });
 }
@@ -110,7 +111,7 @@ export function useSkipTask() {
     mutationFn: (id: string) =>
       api.patch<ApiResponse<Task>>(`/tasks/${id}/skip`, {}),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.tasks.all });
     },
   });
 }
@@ -120,7 +121,7 @@ export function useDeleteTask() {
   return useMutation({
     mutationFn: (id: string) => api.delete(`/tasks/${id}`),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.tasks.all });
     },
   });
 }

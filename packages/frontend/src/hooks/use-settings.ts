@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import { queryKeys } from '@/lib/query-keys';
 import type { ApiResponse } from '@gardenvault/shared';
 
 export interface SettingsData {
@@ -23,7 +24,7 @@ export interface SettingsData {
 
 export function useSettings() {
   return useQuery({
-    queryKey: ['settings'],
+    queryKey: queryKeys.settings.all,
     queryFn: () => api.get<ApiResponse<SettingsData | null>>('/settings'),
   });
 }
@@ -34,8 +35,8 @@ export function useUpdateSettings() {
     mutationFn: (data: Record<string, any>) =>
       api.patch<ApiResponse<any>>('/settings', data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['settings'] });
-      queryClient.invalidateQueries({ queryKey: ['gardens'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.settings.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.gardens.all });
       queryClient.invalidateQueries({ queryKey: ['garden'] });
     },
   });

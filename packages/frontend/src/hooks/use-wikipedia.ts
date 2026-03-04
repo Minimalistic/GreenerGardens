@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import { queryKeys } from '@/lib/query-keys';
 
 interface WikipediaSummary {
   id: string;
@@ -19,7 +20,7 @@ interface WikipediaResponse {
 
 export function useWikipediaSummary(plantId: string | null) {
   return useQuery({
-    queryKey: ['plant-catalog', plantId, 'wikipedia'],
+    queryKey: queryKeys.plantCatalog.wikipedia(plantId!),
     queryFn: () => api.get<WikipediaResponse>(`/plant-catalog/${plantId}/wikipedia`),
     enabled: !!plantId,
     staleTime: 24 * 60 * 60 * 1000, // 24 hours

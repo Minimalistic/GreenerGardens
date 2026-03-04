@@ -50,7 +50,7 @@ export function seedInventoryRoutes(fastify: FastifyInstance, seedService: SeedI
   fastify.post<{ Params: { id: string }; Body: { count: number } }>(
     '/api/v1/seed-inventory/:id/deduct',
     async (request) => {
-      const data = seedService.deductSeeds(request.params.id, (request.body as any).count ?? 1);
+      const data = seedService.deductSeeds(request.params.id, request.body.count ?? 1);
       return { success: true, data };
     },
   );

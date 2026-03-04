@@ -21,7 +21,7 @@ export function PlantDetail() {
   const { data, isLoading } = usePlantCatalogEntry(plantId ?? null);
   const { data: wikiResponse, isLoading: wikiLoading } = useWikipediaSummary(plantId ?? null);
   const { data: catalogData } = usePlantCatalogSearch({ limit: 500 });
-  const catalogEntries = (catalogData as any)?.data ?? [];
+  const catalogEntries = catalogData?.data ?? [];
   const plantNameToId = useMemo(() => {
     const exact = new Map<string, string>();
     for (const entry of catalogEntries) {
@@ -44,7 +44,7 @@ export function PlantDetail() {
   const [formOpen, setFormOpen] = useState(false);
   const { data: pestCatalogData } = usePestCatalogSearch({ limit: 200 });
   const pestNameToId = useMemo(() => {
-    const entries = (pestCatalogData as any)?.data ?? [];
+    const entries = pestCatalogData?.data ?? [];
     const map = new Map<string, string>();
     for (const entry of entries) {
       map.set(entry.common_name.toLowerCase(), entry.id);
@@ -64,7 +64,7 @@ export function PlantDetail() {
   const plant = data?.data;
   if (!plant) return <p>Plant not found</p>;
 
-  const p = plant as any;
+  const p = plant;
   const isCustom = p.is_custom === 1;
 
   return (
@@ -190,12 +190,12 @@ export function PlantDetail() {
               />
             )}
           </div>
-          {p.growing_tips?.length > 0 && (
+          {(p.growing_tips?.length ?? 0) > 0 && (
             <Card>
               <CardHeader><CardTitle className="text-sm">Growing Tips</CardTitle></CardHeader>
               <CardContent>
                 <ul className="text-sm space-y-1 list-disc list-inside">
-                  {p.growing_tips.map((tip: string, i: number) => (
+                  {p.growing_tips!.map((tip: string, i: number) => (
                     <li key={i}>{tip}</li>
                   ))}
                 </ul>
@@ -255,11 +255,11 @@ export function PlantDetail() {
         </TabsContent>
 
         <TabsContent value="companions" className="space-y-4">
-          {p.companions?.length > 0 && (
+          {(p.companions?.length ?? 0) > 0 && (
             <Card>
               <CardHeader><CardTitle className="text-sm text-green-700 dark:text-green-400">Good Companions</CardTitle></CardHeader>
               <CardContent className="space-y-2">
-                {p.companions.map((c: any, i: number) => {
+                {p.companions!.map((c: any, i: number) => {
                   const name = typeof c === 'string' ? c : c.name;
                   const notes = typeof c === 'string' ? null : c.notes;
                   const rel = typeof c === 'string' ? null : c.relationship;
@@ -284,11 +284,11 @@ export function PlantDetail() {
               </CardContent>
             </Card>
           )}
-          {p.antagonists?.length > 0 && (
+          {(p.antagonists?.length ?? 0) > 0 && (
             <Card>
               <CardHeader><CardTitle className="text-sm text-red-700 dark:text-red-400">Avoid Planting Near</CardTitle></CardHeader>
               <CardContent className="space-y-2">
-                {p.antagonists.map((a: any, i: number) => {
+                {p.antagonists!.map((a: any, i: number) => {
                   const name = typeof a === 'string' ? a : a.name;
                   const notes = typeof a === 'string' ? null : a.notes;
                   const rel = typeof a === 'string' ? null : a.relationship;

@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import { queryKeys } from '@/lib/query-keys';
 
 interface PushPreferences {
   tasks: boolean;
@@ -34,7 +35,7 @@ export function usePushNotifications() {
 
   // Fetch VAPID public key
   const { data: vapidResp } = useQuery({
-    queryKey: ['push', 'vapid-key'],
+    queryKey: queryKeys.push.vapidKey,
     queryFn: () => api.get<VapidResponse>('/push/vapid-key'),
     enabled: isSupported,
   });

@@ -49,11 +49,11 @@ export class HarvestRepository extends BaseRepository<HarvestRow> {
         COUNT(DISTINCT plant_instance_id) as unique_plants,
         (SELECT COUNT(*) FROM harvests WHERE date_harvested >= ?) as this_season_count
       FROM harvests
-    `).get(yearStart) as any;
+    `).get(yearStart) as HarvestStats;
     return row;
   }
 
-  findWithPlantInfo(limit: number = 20, offset: number = 0): any[] {
+  findWithPlantInfo(limit: number = 20, offset: number = 0): (HarvestRow & { common_name: string; variety_name: string | null })[] {
     return this.db.prepare(`
       SELECT h.*, pc.common_name, pi.variety_name
       FROM harvests h
@@ -61,6 +61,6 @@ export class HarvestRepository extends BaseRepository<HarvestRow> {
       JOIN plant_catalog pc ON pi.plant_catalog_id = pc.id
       ORDER BY h.date_harvested DESC
       LIMIT ? OFFSET ?
-    `).all(limit, offset) as any[];
+    `).all(limit, offset) as (HarvestRow & { common_name: string; variety_name: string | null })[];
   }
 }

@@ -1,9 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import { queryKeys } from '@/lib/query-keys';
 
 export function useBackupList() {
   return useQuery({
-    queryKey: ['backups'],
+    queryKey: queryKeys.backups.all,
     queryFn: () => api.get<{ data: any[] }>('/backup/list'),
   });
 }
@@ -12,7 +13,7 @@ export function useCreateBackup() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: () => api.post<{ data: any }>('/backup/create', {}),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['backups'] }); },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: queryKeys.backups.all }); },
   });
 }
 
@@ -20,7 +21,7 @@ export function useDeleteBackup() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (filename: string) => api.delete(`/backup/${filename}`),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['backups'] }); },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: queryKeys.backups.all }); },
   });
 }
 

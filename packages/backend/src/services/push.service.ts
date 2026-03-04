@@ -102,7 +102,7 @@ export class PushService {
   async broadcastByPreference(type: NotificationType, payload: NotificationPayload): Promise<number> {
     if (!this.configured) return 0;
 
-    const subs = this.db.prepare('SELECT * FROM push_subscriptions').all() as any[];
+    const subs = this.db.prepare('SELECT * FROM push_subscriptions').all() as { id: string; endpoint: string; keys_p256dh: string; keys_auth: string; preferences: string }[];
     let sent = 0;
 
     for (const sub of subs) {

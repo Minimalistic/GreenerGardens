@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import { queryKeys } from '@/lib/query-keys';
 import { useGardenContext } from '@/contexts/garden-context';
 
 interface WeatherReading {
@@ -61,7 +62,7 @@ interface ForecastResponse {
 
 export function useWeatherStatus() {
   return useQuery({
-    queryKey: ['weather-status'],
+    queryKey: queryKeys.weather.status,
     queryFn: () => api.get<WeatherStatusResponse>('/weather/status'),
     staleTime: 5 * 60 * 1000,
   });
@@ -70,7 +71,7 @@ export function useWeatherStatus() {
 export function useCurrentWeather() {
   const { currentGardenId } = useGardenContext();
   return useQuery({
-    queryKey: ['weather', 'current', currentGardenId],
+    queryKey: queryKeys.weather.current(currentGardenId!),
     queryFn: () => api.get<CurrentWeatherResponse>(`/weather/current?garden_id=${currentGardenId}`),
     enabled: !!currentGardenId,
     refetchInterval: 30 * 60 * 1000,
@@ -81,7 +82,7 @@ export function useCurrentWeather() {
 export function useForecast() {
   const { currentGardenId } = useGardenContext();
   return useQuery({
-    queryKey: ['weather', 'forecast', currentGardenId],
+    queryKey: queryKeys.weather.forecast(currentGardenId!),
     queryFn: () => api.get<ForecastResponse>(`/weather/forecast?garden_id=${currentGardenId}`),
     enabled: !!currentGardenId,
     refetchInterval: 2 * 60 * 60 * 1000,
@@ -108,7 +109,7 @@ interface DailySummaryResponse {
 export function useWeatherDailySummary(start: string, end: string) {
   const { currentGardenId } = useGardenContext();
   return useQuery({
-    queryKey: ['weather', 'daily-summary', currentGardenId, start, end],
+    queryKey: queryKeys.weather.dailySummary(currentGardenId!, start, end),
     queryFn: () =>
       api.get<DailySummaryResponse>(
         `/weather/daily-summary?garden_id=${currentGardenId}&start=${start}&end=${end}`,

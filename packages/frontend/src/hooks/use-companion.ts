@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import { queryKeys } from '@/lib/query-keys';
 
 interface CompanionCheck {
   plant: string;
@@ -26,7 +27,7 @@ interface CompanionSuggestion {
 export function useCompanionCheck(plantId: string | null, neighborIds: string[]) {
   const neighbors = neighborIds.join(',');
   return useQuery({
-    queryKey: ['companion', 'check', plantId, neighbors],
+    queryKey: queryKeys.companion.check(plantId!, neighbors),
     queryFn: () => api.get<{ data: CompatibilityReport }>(`/companion/check?plant=${plantId}&neighbors=${neighbors}`),
     enabled: !!plantId && neighborIds.length > 0,
   });
@@ -34,7 +35,7 @@ export function useCompanionCheck(plantId: string | null, neighborIds: string[])
 
 export function useCompanionSuggestions(plantId: string | null, plotId: string | null) {
   return useQuery({
-    queryKey: ['companion', 'suggestions', plantId, plotId],
+    queryKey: queryKeys.companion.suggestions(plantId!, plotId!),
     queryFn: () => api.get<{ data: CompanionSuggestion }>(`/companion/suggestions?plant=${plantId}&plot=${plotId}`),
     enabled: !!plantId && !!plotId,
   });

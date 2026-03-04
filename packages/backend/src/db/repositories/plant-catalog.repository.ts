@@ -101,7 +101,7 @@ export class PlantCatalogRepository extends BaseRepository<PlantCatalogRow> {
 
     const total = (this.db.prepare(
       `SELECT COUNT(*) as count FROM plant_catalog ${where}`
-    ).get(...params) as any).count;
+    ).get(...params) as { count: number }).count;
 
     const data = this.db.prepare(
       `SELECT * FROM plant_catalog ${where} ORDER BY ${orderBy} ${orderDir} LIMIT ? OFFSET ?`

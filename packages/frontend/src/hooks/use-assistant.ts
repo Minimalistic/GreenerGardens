@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { api } from '@/lib/api';
+import { queryKeys } from '@/lib/query-keys';
 import type { ApiResponse } from '@gardenvault/shared';
 
 interface Conversation {
@@ -21,7 +22,7 @@ interface Message {
 
 export function useAssistantStatus() {
   return useQuery({
-    queryKey: ['assistant', 'status'],
+    queryKey: queryKeys.assistant.status,
     queryFn: () => api.get<ApiResponse<{ configured: boolean }>>('/assistant/status'),
     staleTime: 60_000,
   });
@@ -29,14 +30,14 @@ export function useAssistantStatus() {
 
 export function useConversations() {
   return useQuery({
-    queryKey: ['assistant', 'conversations'],
+    queryKey: queryKeys.assistant.conversations,
     queryFn: () => api.get<ApiResponse<Conversation[]>>('/assistant/conversations'),
   });
 }
 
 export function useConversationMessages(conversationId: string | null) {
   return useQuery({
-    queryKey: ['assistant', 'messages', conversationId],
+    queryKey: queryKeys.assistant.messages(conversationId!),
     queryFn: () => api.get<ApiResponse<Message[]>>(`/assistant/conversations/${conversationId}/messages`),
     enabled: !!conversationId,
   });
@@ -48,7 +49,7 @@ export function useCreateConversation() {
     mutationFn: (title?: string) =>
       api.post<ApiResponse<Conversation>>('/assistant/conversations', { title }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['assistant', 'conversations'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.assistant.conversations });
     },
   });
 }
@@ -58,7 +59,7 @@ export function useDeleteConversation() {
   return useMutation({
     mutationFn: (id: string) => api.delete(`/assistant/conversations/${id}`),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['assistant', 'conversations'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.assistant.conversations });
     },
   });
 }
@@ -190,8 +191,8 @@ export function useSendMessage() {
         abortRef.current = null;
         // Await refetch so streamedContent stays visible until stored messages arrive
         await Promise.all([
-          queryClient.invalidateQueries({ queryKey: ['assistant', 'messages', conversationId] }),
-          queryClient.invalidateQueries({ queryKey: ['assistant', 'conversations'] }),
+          queryClient.invalidateQueries({ queryKey: queryKeys.assistant.messages(conversationId) }),
+          queryClient.invalidateQueries({ queryKey: queryKeys.assistant.conversations }),
         ]);
         setStreamedContent('');
       }

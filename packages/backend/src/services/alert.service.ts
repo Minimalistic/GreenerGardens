@@ -23,7 +23,7 @@ export class AlertService {
       const forecastItems = result.data;
       if (!forecastItems || forecastItems.length === 0) return [];
 
-      const alerts: any[] = [];
+      const alerts: { date: string; temp: number; type: string; task_id: string }[] = [];
       const frostThreshold = 36; // °F
 
       // Group forecast by date
@@ -41,7 +41,7 @@ export class AlertService {
           // Check if alert task already exists for this date
           const existing = this.db.prepare(
             `SELECT id FROM tasks WHERE task_type = 'frost_alert' AND due_date = ? AND status IN ('pending', 'in_progress') AND auto_generated = 1`
-          ).get(date) as any;
+          ).get(date) as { id: string } | undefined;
 
           if (!existing) {
             const taskId = uuid();
@@ -88,7 +88,7 @@ export class AlertService {
       const forecastItems = result.data;
       if (!forecastItems || forecastItems.length === 0) return [];
 
-      const alerts: any[] = [];
+      const alerts: { date: string; temp: number; type: string; task_id: string }[] = [];
       const heatThreshold = 95;
 
       const dateTemps = new Map<string, number>();
@@ -104,7 +104,7 @@ export class AlertService {
         if (maxTemp >= heatThreshold) {
           const existing = this.db.prepare(
             `SELECT id FROM tasks WHERE task_type = 'heat_alert' AND due_date = ? AND status IN ('pending', 'in_progress') AND auto_generated = 1`
-          ).get(date) as any;
+          ).get(date) as { id: string } | undefined;
 
           if (!existing) {
             const taskId = uuid();
@@ -144,6 +144,6 @@ export class AlertService {
        AND status IN ('pending', 'in_progress')
        AND auto_generated = 1
        ORDER BY due_date ASC`
-    ).all(gardenId) as any[];
+    ).all(gardenId) as { id: string; title: string; task_type: string; due_date: string | null; priority: string; status: string }[];
   }
 }

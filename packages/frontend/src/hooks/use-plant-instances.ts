@@ -1,17 +1,18 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import { queryKeys } from '@/lib/query-keys';
 import type { ApiResponse, PlantInstance, PlantInstanceCreate, PlantInstanceUpdate } from '@gardenvault/shared';
 
 export function usePlantInstances() {
   return useQuery({
-    queryKey: ['plant-instances'],
+    queryKey: queryKeys.plantInstances.all,
     queryFn: () => api.get<ApiResponse<PlantInstance[]>>('/plant-instances'),
   });
 }
 
 export function usePlantInstance(id: string | null) {
   return useQuery({
-    queryKey: ['plant-instance', id],
+    queryKey: queryKeys.plantInstances.detail(id!),
     queryFn: () => api.get<ApiResponse<PlantInstance>>(`/plant-instances/${id}`),
     enabled: !!id,
   });
@@ -23,8 +24,8 @@ export function useCreatePlantInstance() {
     mutationFn: (data: PlantInstanceCreate) =>
       api.post<ApiResponse<PlantInstance>>('/plant-instances', data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['plant-instances'] });
-      queryClient.invalidateQueries({ queryKey: ['sub-plots'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.plantInstances.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.subPlots.all });
     },
   });
 }
@@ -35,10 +36,10 @@ export function useUpdatePlantStatus() {
     mutationFn: ({ id, status }: { id: string; status: string }) =>
       api.patch<ApiResponse<PlantInstance>>(`/plant-instances/${id}/status`, { status }),
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['plant-instances'] });
-      queryClient.invalidateQueries({ queryKey: ['plant-instance', variables.id] });
-      queryClient.invalidateQueries({ queryKey: ['sub-plots'] });
-      queryClient.invalidateQueries({ queryKey: ['sub-plots-with-plants'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.plantInstances.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.plantInstances.detail(variables.id) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.subPlots.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.subPlots.allWithPlants });
     },
   });
 }
@@ -49,8 +50,8 @@ export function useUpdatePlantHealth() {
     mutationFn: ({ id, health }: { id: string; health: string }) =>
       api.patch<ApiResponse<PlantInstance>>(`/plant-instances/${id}/health`, { health }),
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['plant-instance', variables.id] });
-      queryClient.invalidateQueries({ queryKey: ['sub-plots-with-plants'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.plantInstances.detail(variables.id) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.subPlots.allWithPlants });
     },
   });
 }
@@ -68,8 +69,8 @@ export function useCreateSuccessionPlanting() {
       sub_plot_id?: string;
     }) => api.post<ApiResponse<PlantInstance[]>>('/plant-instances/succession', data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['plant-instances'] });
-      queryClient.invalidateQueries({ queryKey: ['sub-plots'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.plantInstances.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.subPlots.all });
       queryClient.invalidateQueries({ queryKey: ['calendar'] });
     },
   });
@@ -81,10 +82,10 @@ export function useUpdatePlantInstance() {
     mutationFn: ({ id, data }: { id: string; data: Partial<PlantInstanceUpdate> }) =>
       api.patch<ApiResponse<PlantInstance>>(`/plant-instances/${id}`, data),
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['plant-instances'] });
-      queryClient.invalidateQueries({ queryKey: ['plant-instance', variables.id] });
-      queryClient.invalidateQueries({ queryKey: ['sub-plots-with-plants'] });
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.plantInstances.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.plantInstances.detail(variables.id) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.subPlots.allWithPlants });
+      queryClient.invalidateQueries({ queryKey: queryKeys.tasks.all });
     },
   });
 }
@@ -94,8 +95,8 @@ export function useDeletePlantInstance() {
   return useMutation({
     mutationFn: (id: string) => api.delete(`/plant-instances/${id}`),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['plant-instances'] });
-      queryClient.invalidateQueries({ queryKey: ['sub-plots'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.plantInstances.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.subPlots.all });
     },
   });
 }

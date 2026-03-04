@@ -9,7 +9,7 @@ const SEED_FILE = path.resolve(__dirname, '../../../../seed_data/plant_catalog.j
 
 export function seedPlantCatalog(db: Database.Database): void {
   // Check if already seeded
-  const count = (db.prepare('SELECT COUNT(*) as count FROM plant_catalog').get() as any).count;
+  const count = (db.prepare('SELECT COUNT(*) as count FROM plant_catalog').get() as { count: number }).count;
   if (count > 0) {
     console.log(`Plant catalog already seeded with ${count} entries`);
     return;

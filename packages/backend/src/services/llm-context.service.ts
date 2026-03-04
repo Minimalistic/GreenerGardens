@@ -26,7 +26,7 @@ export class LlmContextService {
     // Plots
     const plots = this.db.prepare(
       'SELECT id, name, plot_type, sun_exposure FROM plots WHERE garden_id = ?'
-    ).all(gardenId) as any[];
+    ).all(gardenId) as { id: string; name: string; plot_type: string; sun_exposure: string | null }[];
     if (plots.length > 0) {
       sections.push(`\n## Plots (${plots.length})`);
       for (const p of plots) {
@@ -45,7 +45,7 @@ export class LlmContextService {
       WHERE p.garden_id = ?
         AND pi.status NOT IN ('finished', 'failed', 'removed')
       ORDER BY pc.common_name
-    `).all(gardenId) as any[];
+    `).all(gardenId) as { status: string; date_planted: string | null; health: string | null; notes: string | null; common_name: string; plant_type: string; days_to_maturity_min: number | null; plot_name: string }[];
     if (plants.length > 0) {
       sections.push(`\n## Active Plants (${plants.length})`);
       for (const pl of plants.slice(0, 30)) {
@@ -68,7 +68,7 @@ export class LlmContextService {
       WHERE p.garden_id = ?
       ORDER BY h.date_harvested DESC
       LIMIT 10
-    `).all(gardenId) as any[];
+    `).all(gardenId) as { quantity: number; unit: string; date_harvested: string; quality: string; common_name: string }[];
     if (harvests.length > 0) {
       sections.push(`\n## Recent Harvests`);
       for (const h of harvests) {
@@ -77,11 +77,11 @@ export class LlmContextService {
     }
 
     // Pending tasks (scoped to this garden via entity relationships)
-    const plotIds = plots.map((p: any) => p.id);
+    const plotIds = plots.map(p => p.id);
     const plantInstanceIds = plotIds.length > 0
       ? (this.db.prepare(
           `SELECT id FROM plant_instances WHERE plot_id IN (${plotIds.map(() => '?').join(',')})`
-        ).all(...plotIds) as any[]).map((r: any) => r.id)
+        ).all(...plotIds) as { id: string }[]).map(r => r.id)
       : [];
     const entityIds = [gardenId, ...plotIds, ...plantInstanceIds];
     const tasks = entityIds.length > 0
@@ -92,7 +92,7 @@ export class LlmContextService {
             AND entity_id IN (${entityIds.map(() => '?').join(',')})
           ORDER BY due_date ASC
           LIMIT 10
-        `).all(...entityIds) as any[]
+        `).all(...entityIds) as { title: string; task_type: string; due_date: string | null; priority: string }[]
       : [];
     if (tasks.length > 0) {
       sections.push(`\n## Pending Tasks`);
@@ -109,7 +109,7 @@ export class LlmContextService {
         WHERE garden_id = ?
         ORDER BY date DESC
         LIMIT 5
-      `).all(gardenId) as any[];
+      `).all(gardenId) as { date: string; temp_high_f: number; temp_low_f: number; conditions: string; precipitation_in: number | null }[];
       if (weather.length > 0) {
         sections.push(`\n## Recent Weather`);
         for (const w of weather) {

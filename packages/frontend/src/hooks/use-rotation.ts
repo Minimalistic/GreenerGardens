@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import { queryKeys } from '@/lib/query-keys';
 
 interface RotationCheck {
   status: 'ok' | 'warning' | 'violation';
@@ -17,7 +18,7 @@ interface PlotRotationHistory {
 
 export function useRotationCheck(plotId: string | null, plantCatalogId: string | null) {
   return useQuery({
-    queryKey: ['rotation', 'check', plotId, plantCatalogId],
+    queryKey: queryKeys.rotation.check(plotId!, plantCatalogId!),
     queryFn: () => api.get<{ data: RotationCheck }>(`/rotation/check?plot=${plotId}&plant=${plantCatalogId}`),
     enabled: !!plotId && !!plantCatalogId,
   });
@@ -25,7 +26,7 @@ export function useRotationCheck(plotId: string | null, plantCatalogId: string |
 
 export function useRotationHistory(plotId: string | null, years = 5) {
   return useQuery({
-    queryKey: ['rotation', 'history', plotId, years],
+    queryKey: queryKeys.rotation.history(plotId!, years),
     queryFn: () => api.get<{ data: PlotRotationHistory[] }>(`/rotation/history?plot=${plotId}&years=${years}`),
     enabled: !!plotId,
   });

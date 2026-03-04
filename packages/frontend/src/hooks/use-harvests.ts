@@ -1,17 +1,18 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import { queryKeys } from '@/lib/query-keys';
 import type { ApiResponse, Harvest, HarvestCreate } from '@gardenvault/shared';
 
 export function useHarvests() {
   return useQuery({
-    queryKey: ['harvests'],
+    queryKey: queryKeys.harvests.all,
     queryFn: () => api.get<ApiResponse<Harvest[]>>('/harvests'),
   });
 }
 
 export function useHarvestsByPlant(plantInstanceId: string | null) {
   return useQuery({
-    queryKey: ['harvests', 'plant', plantInstanceId],
+    queryKey: queryKeys.harvests.byPlant(plantInstanceId!),
     queryFn: () => api.get<ApiResponse<Harvest[]>>(`/harvests?plant_instance_id=${plantInstanceId}`),
     enabled: !!plantInstanceId,
   });
@@ -23,16 +24,16 @@ export function useCreateHarvest() {
     mutationFn: (data: HarvestCreate) =>
       api.post<ApiResponse<Harvest>>('/harvests', data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['harvests'] });
-      queryClient.invalidateQueries({ queryKey: ['harvest-stats'] });
-      queryClient.invalidateQueries({ queryKey: ['history'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.harvests.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.harvests.stats });
+      queryClient.invalidateQueries({ queryKey: queryKeys.history.all });
     },
   });
 }
 
 export function useHarvestStats() {
   return useQuery({
-    queryKey: ['harvest-stats'],
+    queryKey: queryKeys.harvests.stats,
     queryFn: () => api.get<ApiResponse<{
       total_harvests: number;
       total_weight_oz: number;
@@ -47,8 +48,8 @@ export function useDeleteHarvest() {
   return useMutation({
     mutationFn: (id: string) => api.delete(`/harvests/${id}`),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['harvests'] });
-      queryClient.invalidateQueries({ queryKey: ['harvest-stats'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.harvests.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.harvests.stats });
     },
   });
 }

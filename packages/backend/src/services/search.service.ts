@@ -22,7 +22,7 @@ export class SearchService {
       `SELECT id, common_name, scientific_name, family, emoji, plant_type FROM plant_catalog
        WHERE common_name LIKE ? OR scientific_name LIKE ? OR family LIKE ?
        LIMIT ?`
-    ).all(pattern, pattern, pattern, limit) as any[];
+    ).all(pattern, pattern, pattern, limit) as { id: string; common_name: string; scientific_name: string | null; family: string | null; emoji: string | null; plant_type: string | null }[];
 
     for (const p of plants) {
       results.push({
@@ -39,7 +39,7 @@ export class SearchService {
     // Search plots
     const plots = this.db.prepare(
       `SELECT id, name, notes FROM plots WHERE name LIKE ? OR notes LIKE ? LIMIT ?`
-    ).all(pattern, pattern, limit) as any[];
+    ).all(pattern, pattern, limit) as { id: string; name: string; notes: string | null }[];
 
     for (const p of plots) {
       results.push({
@@ -54,7 +54,7 @@ export class SearchService {
     // Search notes
     const notes = this.db.prepare(
       `SELECT id, content FROM notes WHERE content LIKE ? LIMIT ?`
-    ).all(pattern, limit) as any[];
+    ).all(pattern, limit) as { id: string; content: string }[];
 
     for (const n of notes) {
       results.push({
@@ -69,7 +69,7 @@ export class SearchService {
     // Search tasks
     const tasks = this.db.prepare(
       `SELECT id, title, description FROM tasks WHERE title LIKE ? OR description LIKE ? LIMIT ?`
-    ).all(pattern, pattern, limit) as any[];
+    ).all(pattern, pattern, limit) as { id: string; title: string; description: string | null }[];
 
     for (const t of tasks) {
       results.push({
@@ -84,7 +84,7 @@ export class SearchService {
     // Search pest events
     const pests = this.db.prepare(
       `SELECT id, pest_name, notes FROM pest_events WHERE pest_name LIKE ? OR notes LIKE ? LIMIT ?`
-    ).all(pattern, pattern, limit) as any[];
+    ).all(pattern, pattern, limit) as { id: string; pest_name: string; notes: string | null }[];
 
     for (const pe of pests) {
       results.push({
@@ -99,7 +99,7 @@ export class SearchService {
     // Search tags
     const tags = this.db.prepare(
       `SELECT id, name FROM tags WHERE name LIKE ? LIMIT ?`
-    ).all(pattern, limit) as any[];
+    ).all(pattern, limit) as { id: string; name: string }[];
 
     for (const tag of tags) {
       results.push({

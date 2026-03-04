@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import { queryKeys } from '@/lib/query-keys';
 import type { PestCatalog, PestCatalogCreate, PaginatedResponse, ApiResponse } from '@gardenvault/shared';
 
 interface PestCatalogSearchParams {
@@ -22,7 +23,7 @@ export function usePestCatalogSearch(params: PestCatalogSearchParams) {
 
   const qs = queryParams.toString();
   return useQuery({
-    queryKey: ['pest-catalog', params],
+    queryKey: queryKeys.pestCatalog.list(params),
     queryFn: () =>
       api.get<PaginatedResponse<PestCatalog>>(`/pest-catalog${qs ? `?${qs}` : ''}`),
   });
@@ -30,7 +31,7 @@ export function usePestCatalogSearch(params: PestCatalogSearchParams) {
 
 export function usePestCatalogEntry(id: string | null) {
   return useQuery({
-    queryKey: ['pest-catalog', id],
+    queryKey: queryKeys.pestCatalog.detail(id!),
     queryFn: () => api.get<ApiResponse<PestCatalog>>(`/pest-catalog/${id}`),
     enabled: !!id,
   });
@@ -42,7 +43,7 @@ export function useCreatePestCatalogEntry() {
     mutationFn: (data: PestCatalogCreate) =>
       api.post<ApiResponse<PestCatalog>>('/pest-catalog', data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['pest-catalog'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.pestCatalog.all });
     },
   });
 }
@@ -53,7 +54,7 @@ export function useUpdatePestCatalogEntry() {
     mutationFn: ({ id, data }: { id: string; data: Partial<PestCatalogCreate> }) =>
       api.patch<ApiResponse<PestCatalog>>(`/pest-catalog/${id}`, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['pest-catalog'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.pestCatalog.all });
     },
   });
 }
@@ -63,7 +64,7 @@ export function useDeletePestCatalogEntry() {
   return useMutation({
     mutationFn: (id: string) => api.delete(`/pest-catalog/${id}`),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['pest-catalog'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.pestCatalog.all });
     },
   });
 }

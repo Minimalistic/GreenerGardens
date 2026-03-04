@@ -56,6 +56,6 @@ export class PlantInstanceRepository extends BaseRepository<PlantInstanceRow> {
       FROM plant_instances pi
       JOIN plant_catalog pc ON pi.plant_catalog_id = pc.id
       WHERE pi.id = ?
-    `).get(id) as any;
+    `).get(id) as (PlantInstanceRow & { common_name: string; plant_type: string }) | undefined;
   }
 }

@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import { queryKeys } from '@/lib/query-keys';
 import type { HistoryLog } from '@gardenvault/shared';
 
 interface HistoryResponse {
@@ -15,7 +16,7 @@ interface HistoryResponse {
 
 export function useRecentActivity(limit: number = 20) {
   return useQuery({
-    queryKey: ['history', 'recent', limit],
+    queryKey: queryKeys.history.recent(limit),
     queryFn: () => api.get<HistoryResponse>(`/history?limit=${limit}`),
   });
 }
@@ -39,14 +40,14 @@ export function useFilteredHistory(filters: HistoryFilters) {
   params.set('limit', String(filters.limit ?? 50));
 
   return useQuery({
-    queryKey: ['history', 'filtered', filters],
+    queryKey: queryKeys.history.filtered(filters),
     queryFn: () => api.get<HistoryResponse>(`/history?${params.toString()}`),
   });
 }
 
 export function useEntityHistory(entityType: string | null, entityId: string | null) {
   return useQuery({
-    queryKey: ['history', entityType, entityId],
+    queryKey: queryKeys.history.entity(entityType!, entityId!),
     queryFn: () => api.get<{ success: true; data: HistoryLog[] }>(`/history/${entityType}/${entityId}`),
     enabled: !!entityType && !!entityId,
   });

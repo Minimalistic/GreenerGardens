@@ -8,7 +8,7 @@ export function settingsRoutes(fastify: FastifyInstance, gardenService: GardenSe
     if (gardens.length === 0) {
       return { success: true, data: null };
     }
-    const garden = gardens[0] as any;
+    const garden = gardens[0];
     return {
       success: true,
       data: {
@@ -34,7 +34,7 @@ export function settingsRoutes(fastify: FastifyInstance, gardenService: GardenSe
     if (gardens.length === 0) {
       return { success: false, error: { code: 'NO_GARDEN', message: 'No garden configured' } };
     }
-    const gardenId = (gardens[0] as any).id;
+    const gardenId = gardens[0].id;
     const updated = gardenService.update(gardenId, request.body);
     return { success: true, data: updated };
   });

@@ -62,7 +62,7 @@ export class PlantingGuideService {
 
     // Get all plants appropriate for this zone
     const zone = garden.usda_zone ? parseInt(garden.usda_zone) : null;
-    const allPlants = this.catalogRepo.findAll({ limit: 500 }) as any[];
+    const allPlants = this.catalogRepo.findAll({ limit: 500 });
 
     const startIndoors: PlantingGuideEntry[] = [];
     const directSow: PlantingGuideEntry[] = [];
@@ -148,7 +148,7 @@ export class PlantingGuideService {
   }
 
   private makeEntry(
-    plant: any,
+    plant: { id: string; common_name: string; plant_type: string; emoji: string | null },
     action: string,
     currentDate: Date,
     windowStart: Date,

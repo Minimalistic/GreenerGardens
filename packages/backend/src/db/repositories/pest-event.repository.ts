@@ -65,7 +65,7 @@ export class PestEventRepository extends BaseRepository<PestEventRow> {
 
     const where = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
 
-    const row = this.db.prepare(`SELECT COUNT(*) as count FROM pest_events ${where}`).get(...params) as any;
+    const row = this.db.prepare(`SELECT COUNT(*) as count FROM pest_events ${where}`).get(...params) as { count: number };
     return row.count;
   }
 

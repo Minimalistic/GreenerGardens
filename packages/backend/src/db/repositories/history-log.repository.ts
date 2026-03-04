@@ -55,7 +55,7 @@ export class HistoryLogRepository {
   }
 
   count(): number {
-    return (this.db.prepare('SELECT COUNT(*) as count FROM history_log').get() as any).count;
+    return (this.db.prepare('SELECT COUNT(*) as count FROM history_log').get() as { count: number }).count;
   }
 
   findFiltered(
@@ -73,7 +73,7 @@ export class HistoryLogRepository {
     const { sql, params } = this.buildFilterClause(filters);
     return (this.db.prepare(
       `SELECT COUNT(*) as count FROM history_log${sql}`
-    ).get(...params) as any).count;
+    ).get(...params) as { count: number }).count;
   }
 
   private buildFilterClause(filters: { entity_type?: string; action?: string; start_date?: string; end_date?: string }) {

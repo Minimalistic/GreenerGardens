@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import { queryKeys } from '@/lib/query-keys';
 
 interface Upload {
   id: string;
@@ -15,7 +16,7 @@ interface Upload {
 
 export function useUploadsByEntity(entityType: string | null, entityId: string | null) {
   return useQuery({
-    queryKey: ['uploads', entityType, entityId],
+    queryKey: queryKeys.uploads.byEntity(entityType!, entityId!),
     queryFn: () => api.get<{ data: Upload[] }>(`/uploads/entity/${entityType}/${entityId}`),
     enabled: !!entityType && !!entityId,
   });
@@ -32,7 +33,7 @@ export function useUploadFile() {
       return res.json() as Promise<{ data: Upload }>;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['uploads'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.uploads.all });
     },
   });
 }
@@ -42,7 +43,7 @@ export function useDeleteUpload() {
   return useMutation({
     mutationFn: (id: string) => api.delete(`/uploads/${id}`),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['uploads'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.uploads.all });
     },
   });
 }

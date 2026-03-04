@@ -25,7 +25,7 @@ export class BaseRepository<T extends Record<string, any>> {
   }
 
   count(): number {
-    const row = this.db.prepare(`SELECT COUNT(*) as count FROM ${this.tableName}`).get() as any;
+    const row = this.db.prepare(`SELECT COUNT(*) as count FROM ${this.tableName}`).get() as { count: number };
     return row.count;
   }
 

@@ -51,7 +51,8 @@ export function PlantInstanceDetail() {
     );
   }
 
-  const plant = data?.data as any;
+  // The API returns PlantInstance joined with plant_catalog fields
+  const plant = data?.data as (NonNullable<typeof data>)['data'] & { common_name?: string; plant_type?: string } | undefined;
   if (!plant) return <p>Plant not found</p>;
 
   const handleStatusChange = async (status: string) => {

@@ -8,7 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SEED_FILE = path.resolve(__dirname, '../../../../seed_data/pest_catalog.json');
 
 export function seedPestCatalog(db: Database.Database): void {
-  const count = (db.prepare('SELECT COUNT(*) as count FROM pest_catalog').get() as any).count;
+  const count = (db.prepare('SELECT COUNT(*) as count FROM pest_catalog').get() as { count: number }).count;
   if (count > 0) {
     console.log(`Pest catalog already seeded with ${count} entries`);
     return;

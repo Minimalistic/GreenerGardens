@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import { queryKeys } from '@/lib/query-keys';
 import type { PlantCatalog, PlantCatalogCreate, PaginatedResponse, ApiResponse } from '@gardenvault/shared';
 
 interface CatalogSearchParams {
@@ -24,7 +25,7 @@ export function usePlantCatalogSearch(params: CatalogSearchParams) {
 
   const qs = queryParams.toString();
   return useQuery({
-    queryKey: ['plant-catalog', params],
+    queryKey: queryKeys.plantCatalog.list(params),
     queryFn: () =>
       api.get<PaginatedResponse<PlantCatalog>>(`/plant-catalog${qs ? `?${qs}` : ''}`),
   });
@@ -32,7 +33,7 @@ export function usePlantCatalogSearch(params: CatalogSearchParams) {
 
 export function usePlantCatalogEntry(id: string | null) {
   return useQuery({
-    queryKey: ['plant-catalog', id],
+    queryKey: queryKeys.plantCatalog.detail(id!),
     queryFn: () => api.get<ApiResponse<PlantCatalog>>(`/plant-catalog/${id}`),
     enabled: !!id,
   });
@@ -44,7 +45,7 @@ export function useCreatePlantCatalogEntry() {
     mutationFn: (data: PlantCatalogCreate) =>
       api.post<ApiResponse<PlantCatalog>>('/plant-catalog', data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['plant-catalog'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.plantCatalog.all });
     },
   });
 }
@@ -55,7 +56,7 @@ export function useUpdatePlantCatalogEntry() {
     mutationFn: ({ id, data }: { id: string; data: Partial<PlantCatalogCreate> }) =>
       api.patch<ApiResponse<PlantCatalog>>(`/plant-catalog/${id}`, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['plant-catalog'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.plantCatalog.all });
     },
   });
 }
@@ -114,7 +115,7 @@ export interface PlantCatalogActivity {
 
 export function usePlantCatalogActivity(id: string | null) {
   return useQuery({
-    queryKey: ['plant-catalog', id, 'activity'],
+    queryKey: queryKeys.plantCatalog.activity(id!),
     queryFn: () => api.get<ApiResponse<PlantCatalogActivity>>(`/plant-catalog/${id}/activity`),
     enabled: !!id,
   });
@@ -125,7 +126,7 @@ export function useDeletePlantCatalogEntry() {
   return useMutation({
     mutationFn: (id: string) => api.delete(`/plant-catalog/${id}`),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['plant-catalog'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.plantCatalog.all });
     },
   });
 }

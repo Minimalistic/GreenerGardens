@@ -125,13 +125,13 @@ export class PlantCatalogService {
       JOIN plots p ON p.id = pi.plot_id
       WHERE pi.plant_catalog_id = ?
       ORDER BY pi.date_planted DESC
-    `).all(catalogId) as any[];
+    `).all(catalogId) as { id: string; variety_name: string | null; status: string; date_planted: string | null; quantity: number; plot_name: string }[];
 
     const instanceIds = plantings.map(r => r.id);
 
-    let harvests: any[] = [];
-    let tasks: any[] = [];
-    let pestEvents: any[] = [];
+    let harvests: { id: string; plant_instance_id: string; date_harvested: string; quantity: number; unit: string; quality: string; variety_name: string | null; plot_name: string }[] = [];
+    let tasks: { id: string; title: string; status: string; priority: string; due_date: string | null; entity_id: string }[] = [];
+    let pestEvents: { id: string; pest_name: string; severity: string; outcome: string; detected_date: string; entity_id: string }[] = [];
     let harvestTotal = 0;
     let taskTotal = 0;
     let pestTotal = 0;
@@ -142,7 +142,7 @@ export class PlantCatalogService {
       // 2a. Harvests
       harvestTotal = (this.db.prepare(`
         SELECT COUNT(*) AS cnt FROM harvests WHERE plant_instance_id IN (${placeholders})
-      `).get(...instanceIds) as any).cnt;
+      `).get(...instanceIds) as { cnt: number }).cnt;
 
       harvests = this.db.prepare(`
         SELECT h.id, h.plant_instance_id, h.date_harvested, h.quantity, h.unit, h.quality,
@@ -153,12 +153,12 @@ export class PlantCatalogService {
         WHERE h.plant_instance_id IN (${placeholders})
         ORDER BY h.date_harvested DESC
         LIMIT 10
-      `).all(...instanceIds) as any[];
+      `).all(...instanceIds) as typeof harvests;
 
       // 2b. Tasks
       taskTotal = (this.db.prepare(`
         SELECT COUNT(*) AS cnt FROM tasks WHERE entity_type = 'plant_instance' AND entity_id IN (${placeholders})
-      `).get(...instanceIds) as any).cnt;
+      `).get(...instanceIds) as { cnt: number }).cnt;
 
       tasks = this.db.prepare(`
         SELECT t.id, t.title, t.status, t.priority, t.due_date, t.entity_id
@@ -168,12 +168,12 @@ export class PlantCatalogService {
           CASE t.status WHEN 'in_progress' THEN 0 WHEN 'pending' THEN 1 ELSE 2 END,
           t.due_date ASC
         LIMIT 10
-      `).all(...instanceIds) as any[];
+      `).all(...instanceIds) as typeof tasks;
 
       // 2c. Pest events
       pestTotal = (this.db.prepare(`
         SELECT COUNT(*) AS cnt FROM pest_events WHERE entity_type = 'plant_instance' AND entity_id IN (${placeholders})
-      `).get(...instanceIds) as any).cnt;
+      `).get(...instanceIds) as { cnt: number }).cnt;
 
       pestEvents = this.db.prepare(`
         SELECT pe.id, pe.pest_name, pe.severity, pe.outcome, pe.detected_date, pe.entity_id
@@ -181,7 +181,7 @@ export class PlantCatalogService {
         WHERE pe.entity_type = 'plant_instance' AND pe.entity_id IN (${placeholders})
         ORDER BY pe.detected_date DESC
         LIMIT 10
-      `).all(...instanceIds) as any[];
+      `).all(...instanceIds) as typeof pestEvents;
     }
 
     // 3. Seed inventory (direct link to catalog, no instances needed)
@@ -190,7 +190,7 @@ export class PlantCatalogService {
       FROM seed_inventory
       WHERE plant_catalog_id = ?
       ORDER BY expiration_date DESC
-    `).all(catalogId) as any[];
+    `).all(catalogId) as { id: string; variety_name: string; brand: string | null; quantity_packets: number; quantity_seeds_approx: number | null; expiration_date: string | null }[];
 
     return {
       counts: {

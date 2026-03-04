@@ -19,6 +19,7 @@ import {
   useDeletePlantCatalogEntry,
 } from '@/hooks/use-plant-catalog';
 import { Trash2 } from 'lucide-react';
+import type { PlantType, PlantLifecycle, SunExposure, WaterNeeds, PlantCatalogCreate } from '@gardenvault/shared';
 
 const PLANT_TYPES = ['vegetable', 'fruit', 'herb', 'flower', 'tree', 'shrub', 'vine', 'grass', 'succulent', 'other'] as const;
 const LIFECYCLES = ['annual', 'biennial', 'perennial'] as const;
@@ -113,12 +114,12 @@ function formToPayload(form: typeof EMPTY_FORM) {
     common_name: form.common_name.trim(),
     scientific_name: optStr(form.scientific_name),
     family: optStr(form.family),
-    plant_type: form.plant_type as any,
-    lifecycle: (form.lifecycle || undefined) as any,
+    plant_type: form.plant_type as PlantType,
+    lifecycle: (form.lifecycle || undefined) as PlantLifecycle | undefined,
     description: optStr(form.description),
     image_url: optStr(form.image_url),
-    sun_exposure: (form.sun_exposure || undefined) as any,
-    water_needs: (form.water_needs || undefined) as any,
+    sun_exposure: (form.sun_exposure || undefined) as SunExposure | undefined,
+    water_needs: (form.water_needs || undefined) as WaterNeeds | undefined,
     min_zone: optInt(form.min_zone),
     max_zone: optInt(form.max_zone),
     soil_ph_min: optNum(form.soil_ph_min),
@@ -177,7 +178,7 @@ export function PlantFormDialog({ open, onOpenChange, plant, onDeleted }: PlantF
         { onSuccess: () => onOpenChange(false) },
       );
     } else {
-      createMutation.mutate(payload as any, {
+      createMutation.mutate(payload as PlantCatalogCreate, {
         onSuccess: () => onOpenChange(false),
       });
     }

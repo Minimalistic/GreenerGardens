@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 import { useGardenContext } from '@/contexts/garden-context';
+import { queryKeys } from '@/lib/query-keys';
 import type { ApiResponse } from '@gardenvault/shared';
 
 export interface CalendarEvent {
@@ -27,7 +28,7 @@ export interface PlantingSuggestion {
 export function useCalendarEvents(month: number, year: number) {
   const { currentGardenId } = useGardenContext();
   return useQuery({
-    queryKey: ['calendar', currentGardenId, year, month],
+    queryKey: queryKeys.calendar.month(currentGardenId!, year, month),
     queryFn: () =>
       api.get<ApiResponse<CalendarEvent[]>>(
         `/calendar?garden_id=${currentGardenId}&month=${month}&year=${year}`,
@@ -40,7 +41,7 @@ export function useCalendarEvents(month: number, year: number) {
 export function useCalendarWeek() {
   const { currentGardenId } = useGardenContext();
   return useQuery({
-    queryKey: ['calendar', 'week', currentGardenId],
+    queryKey: queryKeys.calendar.week(currentGardenId!),
     queryFn: () =>
       api.get<ApiResponse<CalendarEvent[]>>(
         `/calendar/week?garden_id=${currentGardenId}`,
@@ -53,7 +54,7 @@ export function useCalendarWeek() {
 export function usePlantingSuggestions() {
   const { currentGardenId } = useGardenContext();
   return useQuery({
-    queryKey: ['calendar', 'suggestions', currentGardenId],
+    queryKey: queryKeys.calendar.suggestions(currentGardenId!),
     queryFn: () =>
       api.get<ApiResponse<PlantingSuggestion[]>>(
         `/calendar/suggestions?garden_id=${currentGardenId}`,

@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import { queryKeys } from '@/lib/query-keys';
 
 interface PestEvent {
   id: string;
@@ -43,14 +44,14 @@ export function usePestEvents(filters?: { entity_type?: string; entity_id?: stri
   if (filters?.severity) params.set('severity', filters.severity);
   const qs = params.toString();
   return useQuery({
-    queryKey: ['pest-events', filters],
+    queryKey: queryKeys.pestEvents.list(filters),
     queryFn: () => api.get<{ data: PestEvent[] }>(`/pest-events${qs ? `?${qs}` : ''}`),
   });
 }
 
 export function usePestEvent(id: string | null) {
   return useQuery({
-    queryKey: ['pest-event', id],
+    queryKey: queryKeys.pestEvents.detail(id!),
     queryFn: () => api.get<{ data: PestEvent }>(`/pest-events/${id}`),
     enabled: !!id,
   });
@@ -61,7 +62,7 @@ export function useCreatePestEvent() {
   return useMutation({
     mutationFn: (data: PestEventCreate) => api.post<{ data: PestEvent }>('/pest-events', data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['pest-events'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.pestEvents.all });
     },
   });
 }
@@ -72,7 +73,7 @@ export function useUpdatePestEvent() {
     mutationFn: ({ id, ...data }: { id: string } & Partial<PestEventCreate>) =>
       api.patch<{ data: PestEvent }>(`/pest-events/${id}`, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['pest-events'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.pestEvents.all });
     },
   });
 }
@@ -82,7 +83,7 @@ export function useDeletePestEvent() {
   return useMutation({
     mutationFn: (id: string) => api.delete(`/pest-events/${id}`),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['pest-events'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.pestEvents.all });
     },
   });
 }

@@ -46,7 +46,7 @@ const outcomeIcons: Record<string, typeof Clock> = {
 function useAffectedAreaOptions() {
   const { currentGardenId, garden } = useGardenContext();
   const { data: plotsData } = usePlotsByGarden(currentGardenId);
-  const plots = (plotsData?.data ?? []) as any[];
+  const plots = plotsData?.data ?? [];
   return { currentGardenId, garden, plots };
 }
 

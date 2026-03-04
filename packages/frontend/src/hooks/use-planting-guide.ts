@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import { queryKeys } from '@/lib/query-keys';
 
 interface PlantingGuideEntry {
   plant_id: string;
@@ -27,7 +28,7 @@ export function usePlantingGuide(gardenId: string | null, date?: string) {
   if (gardenId) params.set('garden_id', gardenId);
   if (date) params.set('date', date);
   return useQuery({
-    queryKey: ['planting-guide', gardenId, date],
+    queryKey: queryKeys.plantingGuide.byGarden(gardenId!, date),
     queryFn: () => api.get<{ data: PlantingGuide }>(`/planting-guide?${params.toString()}`),
     enabled: !!gardenId,
   });

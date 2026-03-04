@@ -17,7 +17,7 @@ export function PestCatalogDetail() {
   const { data: catalogData } = usePlantCatalogSearch({ limit: 500 });
 
   const plantNameToId = useMemo(() => {
-    const entries = (catalogData as any)?.data ?? [];
+    const entries = catalogData?.data ?? [];
     const map = new Map<string, string>();
     for (const entry of entries) {
       map.set(entry.common_name.toLowerCase(), entry.id);
@@ -34,7 +34,7 @@ export function PestCatalogDetail() {
     );
   }
 
-  const pest = data?.data as any;
+  const pest = data?.data;
   if (!pest) return <p>Pest not found</p>;
 
   const affectedPlants: string[] = pest.affected_plants ?? [];
@@ -67,9 +67,11 @@ export function PestCatalogDetail() {
           <Badge className={`${CATEGORY_COLORS[pest.category] ?? ''} capitalize`} variant="outline">
             {pest.category}
           </Badge>
-          <Badge className={`${SEVERITY_COLORS[pest.severity_potential] ?? ''} capitalize`} variant="outline">
-            {pest.severity_potential}
-          </Badge>
+          {pest.severity_potential && (
+            <Badge className={`${SEVERITY_COLORS[pest.severity_potential] ?? ''} capitalize`} variant="outline">
+              {pest.severity_potential}
+            </Badge>
+          )}
         </div>
       </div>
 
@@ -86,9 +88,9 @@ export function PestCatalogDetail() {
           {pest.description && <p className="text-sm">{pest.description}</p>}
 
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-            <FactCard icon={AlertTriangle} label="Severity" value={pest.severity_potential} />
-            <FactCard icon={Zap} label="Spread Rate" value={pest.spread_rate} />
-            <FactCard icon={Target} label="Damage Type" value={pest.damage_type?.replace(/_/g, ' ')} />
+            {pest.severity_potential && <FactCard icon={AlertTriangle} label="Severity" value={pest.severity_potential} />}
+            {pest.spread_rate && <FactCard icon={Zap} label="Spread Rate" value={pest.spread_rate} />}
+            {pest.damage_type && <FactCard icon={Target} label="Damage Type" value={pest.damage_type.replace(/_/g, ' ')} />}
             {pest.seasonality && <FactCard icon={Calendar} label="Seasonality" value={pest.seasonality} />}
             {(pest.min_zone || pest.max_zone) && (
               <FactCard icon={MapPin} label="USDA Zones" value={`${pest.min_zone ?? '?'} - ${pest.max_zone ?? '?'}`} />

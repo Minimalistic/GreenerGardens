@@ -72,7 +72,7 @@ export class PestCatalogRepository extends BaseRepository<PestCatalogRow> {
 
     const total = (this.db.prepare(
       `SELECT COUNT(*) as count FROM pest_catalog ${where}`
-    ).get(...params) as any).count;
+    ).get(...params) as { count: number }).count;
 
     const data = this.db.prepare(
       `SELECT * FROM pest_catalog ${where} ORDER BY ${orderBy} ${orderDir} LIMIT ? OFFSET ?`

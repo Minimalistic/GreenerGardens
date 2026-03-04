@@ -24,7 +24,7 @@ export function tagRoutes(fastify: FastifyInstance, tagService: TagService) {
   });
 
   fastify.post<{ Params: { id: string } }>('/api/v1/tags/:id/entities', async (request, reply) => {
-    const { entity_type, entity_id } = request.body as any;
+    const { entity_type, entity_id } = request.body as { entity_type: string; entity_id: string };
     tagService.addEntityTag(request.params.id, entity_type, entity_id);
     reply.status(201);
     return { success: true };
