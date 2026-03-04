@@ -5,7 +5,7 @@
     "category": "insect",
     "subcategory": "sap-sucking",
     "description": "Tiny soft-bodied insects that cluster on new growth and leaf undersides, feeding on plant sap. They reproduce rapidly and can transmit plant viruses. Heavy infestations cause curled, yellowed leaves and sticky honeydew deposits.",
-    "emoji": "🐛",
+    "emoji": "\ud83d\udc1b",
     "appearance": [
       "Tiny pear-shaped bodies 1-3mm long",
       "Green, black, red, yellow, or white depending on species",
@@ -26,7 +26,6 @@
       "Amaranth",
       "Angelica",
       "Annual Ryegrass",
-      "Apple",
       "Armenian Cucumber",
       "Aronia (Chokeberry)",
       "Artichoke",
@@ -159,7 +158,6 @@
       "Parsnip",
       "Passion Fruit",
       "Pawpaw",
-      "Peach",
       "Peanut",
       "Persimmon",
       "Petunia",
@@ -175,7 +173,6 @@
       "Raspberry",
       "Rhubarb",
       "Romanesco",
-      "Rose",
       "Rosemary",
       "Rudbeckia (Goldsturm)",
       "Rutabaga",
@@ -223,7 +220,7 @@
       "Zucchini"
     ],
     "favorable_conditions": [
-      "Warm temperatures 65-80°F",
+      "Warm temperatures 65-80\u00b0F",
       "High nitrogen fertilization promoting lush growth",
       "Absence of natural predators",
       "Sheltered garden locations"
@@ -276,7 +273,7 @@
     "category": "insect",
     "subcategory": "sap-sucking",
     "description": "Small white-winged insects that congregate on leaf undersides and fly up in clouds when disturbed. They suck plant sap and excrete honeydew, promoting sooty mold growth. Whiteflies are particularly problematic in greenhouses and warm climates.",
-    "emoji": "🦟",
+    "emoji": "\ud83e\udd9f",
     "appearance": [
       "Tiny white moth-like insects about 1-2mm",
       "White waxy wings held tent-like over body",
@@ -299,7 +296,6 @@
       "Cucumber",
       "Eggplant",
       "Geranium",
-      "Hibiscus",
       "Hot Pepper",
       "Lavender",
       "Lettuce",
@@ -311,7 +307,7 @@
       "Winter Squash"
     ],
     "favorable_conditions": [
-      "Warm temperatures above 75°F",
+      "Warm temperatures above 75\u00b0F",
       "Greenhouse or protected growing environments",
       "Dense plant canopy with poor air circulation",
       "Absence of natural enemies"
@@ -363,7 +359,7 @@
     "category": "insect",
     "subcategory": "caterpillar",
     "description": "Large green caterpillars up to 4 inches long with a distinctive horn on their rear end. They are voracious feeders that can defoliate tomato plants rapidly. The adult form is the five-spotted hawk moth.",
-    "emoji": "🐛",
+    "emoji": "\ud83d\udc1b",
     "appearance": [
       "Large green caterpillar up to 4 inches",
       "White V-shaped markings along sides",
@@ -384,8 +380,8 @@
       "Eggplant",
       "Ground Cherry",
       "Hot Pepper",
+      "Nicotiana",
       "Potato",
-      "Tobacco",
       "Tomatillo",
       "Tomato"
     ],
@@ -443,7 +439,7 @@
     "category": "insect",
     "subcategory": "caterpillar",
     "description": "Velvety green caterpillars that are the larvae of the common white cabbage butterfly. They chew large ragged holes in brassica leaves and can contaminate heads with dark green frass. One of the most common garden pests worldwide.",
-    "emoji": "🦋",
+    "emoji": "\ud83e\udd8b",
     "appearance": [
       "Velvety green caterpillar about 1 inch long",
       "Faint yellow stripe down the back",
@@ -472,7 +468,7 @@
       "Turnip"
     ],
     "favorable_conditions": [
-      "Cool to warm temperatures 60-80°F",
+      "Cool to warm temperatures 60-80\u00b0F",
       "Presence of brassica crops",
       "Absence of row covers",
       "Gardens without beneficial insects"
@@ -524,7 +520,7 @@
     "category": "insect",
     "subcategory": "caterpillar",
     "description": "A pale green caterpillar that moves in a distinctive looping motion, arching its back as it crawls. It feeds on brassica leaves and can cause significant damage to cole crops. The adult is a grayish-brown moth with a silver figure-eight mark on each forewing.",
-    "emoji": "🐛",
+    "emoji": "\ud83d\udc1b",
     "appearance": [
       "Pale green caterpillar about 1.5 inches long",
       "Moves with a distinctive looping or inchworm gait",
@@ -558,7 +554,7 @@
       "Tomato"
     ],
     "favorable_conditions": [
-      "Warm temperatures 70-85°F",
+      "Warm temperatures 70-85\u00b0F",
       "Late summer and fall",
       "Fields near weedy borders",
       "Absence of natural enemies"
@@ -610,7 +606,7 @@
     "category": "insect",
     "subcategory": "sap-sucking",
     "description": "A flat, brownish-gray bug that feeds on squash and pumpkin plants by piercing leaves and stems to suck sap. Adults emit a foul odor when crushed. They can transmit cucurbit yellow vine disease and cause significant wilting damage.",
-    "emoji": "🪲",
+    "emoji": "\ud83e\udeb2",
     "appearance": [
       "Flat grayish-brown shield-shaped adults about 5/8 inch",
       "Nymphs are pale green to gray with dark legs",
@@ -689,7 +685,7 @@
     "category": "insect",
     "subcategory": "borer",
     "description": "A clearwing moth whose larvae bore into the stems of squash and pumpkin plants, causing sudden wilting and death. The adult moth resembles a wasp with bright orange and black coloring. Larvae feed inside stems, making them difficult to control once established.",
-    "emoji": "🦗",
+    "emoji": "\ud83e\udd97",
     "appearance": [
       "Adult moth with clear wings and orange-black abdomen",
       "White grub-like larvae inside stems up to 1 inch",
@@ -767,7 +763,7 @@
     "category": "insect",
     "subcategory": "leaf-chewing",
     "description": "A highly destructive beetle with distinctive yellow and black striped wing covers. Both adults and larvae voraciously consume potato foliage and can completely defoliate plants. This pest has developed resistance to many common insecticides.",
-    "emoji": "🪲",
+    "emoji": "\ud83e\udeb2",
     "appearance": [
       "Round yellow-orange beetle with 10 black stripes on wing covers",
       "Orange eggs in clusters on leaf undersides",
@@ -791,7 +787,7 @@
       "Tomato"
     ],
     "favorable_conditions": [
-      "Warm spring temperatures above 55°F",
+      "Warm spring temperatures above 55\u00b0F",
       "Fields with previous potato plantings",
       "Monoculture of potatoes or related crops",
       "Absence of crop rotation"
@@ -844,7 +840,7 @@
     "category": "insect",
     "subcategory": "leaf-chewing",
     "description": "Tiny jumping beetles that chew small round holes in leaves, creating a distinctive shothole appearance. They are especially damaging to young seedlings and transplants. Multiple species exist, each preferring different host plants.",
-    "emoji": "🪲",
+    "emoji": "\ud83e\udeb2",
     "appearance": [
       "Very small shiny beetles 1-3mm long",
       "Dark colored, often black or metallic blue-green",
@@ -938,7 +934,7 @@
     "category": "insect",
     "subcategory": "leaf-chewing",
     "description": "Metallic green and copper beetles that skeletonize leaves by eating tissue between veins. Larvae (white grubs) feed on grass roots and other organic matter in soil. They are a major pest of ornamental and edible plants across eastern North America.",
-    "emoji": "🪲",
+    "emoji": "\ud83e\udeb2",
     "appearance": [
       "Metallic green head and thorax with copper wing covers",
       "About 1/2 inch long with tufts of white hair along sides",
@@ -954,12 +950,10 @@
     ],
     "life_cycle": "Adults emerge in early summer and feed for 4-6 weeks. Females lay eggs in soil where grubs develop over fall and winter. One generation per year with a 10-month larval period.",
     "affected_plants": [
-      "Apple",
       "Basil",
       "Blackberry",
       "Blueberry",
       "Borage",
-      "Cherry",
       "Echinacea",
       "Edamame",
       "Elderberry",
@@ -970,19 +964,15 @@
       "Honeyberry",
       "Kiwi",
       "Lima Bean",
-      "Linden",
-      "Peach",
-      "Plum",
       "Raspberry",
       "Rhubarb",
-      "Rose",
       "Sweet Corn",
       "Winged Bean",
       "Yard Long Bean",
       "Zinnia"
     ],
     "favorable_conditions": [
-      "Warm summer days 85-95°F",
+      "Warm summer days 85-95\u00b0F",
       "Irrigated lawns for grub development",
       "Presence of preferred host plants",
       "Eastern and central United States"
@@ -1034,7 +1024,7 @@
     "category": "insect",
     "subcategory": "leaf-chewing",
     "description": "A ladybug relative that is one of the few harmful members of its family. Adults and spiny yellow larvae feed on bean leaf undersides, skeletonizing the foliage. They can severely reduce bean yields if not controlled early.",
-    "emoji": "🪲",
+    "emoji": "\ud83e\udeb2",
     "appearance": [
       "Copper-colored oval beetle with 16 black spots",
       "About 1/4 inch long, resembles a ladybug",
@@ -1057,12 +1047,11 @@
       "Green Bean",
       "Lima Bean",
       "Snap Pea",
-      "Soybean",
       "Winged Bean",
       "Yard Long Bean"
     ],
     "favorable_conditions": [
-      "Warm temperatures above 70°F",
+      "Warm temperatures above 70\u00b0F",
       "Dense bean plantings",
       "Eastern United States",
       "Gardens without crop rotation"
@@ -1115,7 +1104,7 @@
     "category": "insect",
     "subcategory": "leaf-chewing",
     "description": "A yellow beetle with three black stripes that feeds on cucurbit crops and transmits bacterial wilt disease. Adults chew holes in leaves, flowers, and fruit, while larvae feed on roots. The disease transmission makes this pest far more dangerous than the direct feeding damage.",
-    "emoji": "🪲",
+    "emoji": "\ud83e\udeb2",
     "appearance": [
       "Yellow-green beetle with three black stripes",
       "About 1/4 inch long",
@@ -1141,7 +1130,7 @@
       "Zucchini"
     ],
     "favorable_conditions": [
-      "Warm spring days above 65°F",
+      "Warm spring days above 65\u00b0F",
       "Young cucurbit seedlings and transplants",
       "Fields near overwintering habitat",
       "Previous cucurbit plantings"
@@ -1193,7 +1182,7 @@
     "category": "insect",
     "subcategory": "leaf-chewing",
     "description": "A yellowish-green beetle with 12 black spots on its wing covers. Similar in damage to the striped cucumber beetle, it feeds on a broader range of plants. Larvae, known as southern corn rootworms, feed on roots of corn and other crops.",
-    "emoji": "🪲",
+    "emoji": "\ud83e\udeb2",
     "appearance": [
       "Yellowish-green beetle with 12 black spots",
       "About 1/4 inch long",
@@ -1228,7 +1217,7 @@
       "Yard Long Bean"
     ],
     "favorable_conditions": [
-      "Warm temperatures above 70°F",
+      "Warm temperatures above 70\u00b0F",
       "Southern and central United States",
       "Gardens with diverse cucurbit plantings",
       "Moist soil conditions"
@@ -1280,7 +1269,7 @@
     "category": "insect",
     "subcategory": "caterpillar",
     "description": "A major pest of sweet corn that also attacks tomatoes and peppers. Larvae enter corn ears through the silk and feed on developing kernels. On tomatoes, they bore into fruit. Also known as the tomato fruitworm and cotton bollworm.",
-    "emoji": "🐛",
+    "emoji": "\ud83d\udc1b",
     "appearance": [
       "Caterpillar up to 2 inches, variable colors from green to brown to pink",
       "Dark stripes along body with microspines",
@@ -1297,7 +1286,6 @@
     "life_cycle": "Moths migrate northward in spring laying eggs on corn silks and other hosts. Larvae feed 2-3 weeks before dropping to soil to pupate. Two to four generations per year depending on climate. Cannot overwinter north of zone 7.",
     "affected_plants": [
       "Bell Pepper",
-      "Cotton",
       "Edamame",
       "Fava Bean",
       "Green Bean",
@@ -1364,7 +1352,7 @@
     "category": "insect",
     "subcategory": "caterpillar",
     "description": "Plump, dull-colored caterpillars that feed at night, cutting off seedlings at the soil line. They hide in the soil during the day and curl into a C-shape when disturbed. Several species exist, including black, variegated, and dingy cutworms.",
-    "emoji": "🐛",
+    "emoji": "\ud83d\udc1b",
     "appearance": [
       "Plump smooth caterpillars 1-2 inches long",
       "Dull gray, brown, or black coloring",
@@ -1455,7 +1443,7 @@
     "category": "insect",
     "subcategory": "sap-sucking",
     "description": "Extremely small slender insects that rasp and suck plant tissue, causing silvery streaking on leaves and scarring on fruit. They can transmit serious plant viruses like Tomato Spotted Wilt Virus. Their tiny size makes them difficult to detect until damage appears.",
-    "emoji": "🦟",
+    "emoji": "\ud83e\udd9f",
     "appearance": [
       "Very tiny slender insects barely visible at 1-2mm",
       "Yellowish to dark brown or black",
@@ -1491,7 +1479,6 @@
       "Onion",
       "Peanut",
       "Petunia",
-      "Rose",
       "Snap Pea",
       "Strawberry",
       "Summer Squash",
@@ -1555,7 +1542,7 @@
     "category": "insect",
     "subcategory": "leaf-mining",
     "description": "Small fly larvae that tunnel between upper and lower leaf surfaces, creating distinctive winding white trails. While mostly cosmetic on established plants, heavy infestations can reduce photosynthesis and stunt growth. Multiple species affect different host plants.",
-    "emoji": "🪰",
+    "emoji": "\ud83e\udeb0",
     "appearance": [
       "Winding white or pale trails visible in leaves",
       "Tiny yellow or black flies 1-2mm long",
@@ -1596,7 +1583,7 @@
       "Yard Long Bean"
     ],
     "favorable_conditions": [
-      "Warm temperatures 70-85°F",
+      "Warm temperatures 70-85\u00b0F",
       "Greenhouse environments",
       "Overuse of broad-spectrum insecticides killing natural enemies",
       "Lush green growth"
@@ -1648,7 +1635,7 @@
     "category": "insect",
     "subcategory": "sap-sucking",
     "description": "Small immobile insects that attach to stems and leaves, forming protective waxy or shell-like coverings. They suck plant sap and produce honeydew that promotes sooty mold. Armored scales have a hard cover while soft scales produce honeydew.",
-    "emoji": "🐚",
+    "emoji": "\ud83d\udc1a",
     "appearance": [
       "Small round or oval bumps on stems and leaves",
       "Waxy or shell-like covering in white, brown, or gray",
@@ -1664,18 +1651,11 @@
     ],
     "life_cycle": "Female scales lay eggs beneath their protective covering. Tiny mobile crawlers emerge and settle on new feeding sites within hours. Once settled they form their protective covering and remain stationary. One to several generations per year.",
     "affected_plants": [
-      "Apple",
       "Bay Laurel",
       "Blueberry",
-      "Camellia",
-      "Citrus",
-      "Fern",
       "Fig",
       "Grape",
-      "Holly",
-      "Kiwi",
-      "Peach",
-      "Rose"
+      "Kiwi"
     ],
     "favorable_conditions": [
       "Stressed or weakened plants",
@@ -1731,7 +1711,7 @@
     "category": "insect",
     "subcategory": "sap-sucking",
     "description": "Soft-bodied white cottony insects that feed on plant sap in protected locations like leaf axils and stem joints. They produce honeydew that attracts ants and supports sooty mold. Mealybugs weaken plants and can transmit viruses.",
-    "emoji": "🐛",
+    "emoji": "\ud83d\udc1b",
     "appearance": [
       "White cottony masses in leaf axils and on stems",
       "Oval soft-bodied insects covered in white waxy filaments",
@@ -1748,16 +1728,10 @@
     "life_cycle": "Females lay 300-600 eggs in cottony masses. Nymphs (crawlers) settle and begin feeding within days. Development from egg to adult takes 1-3 months. Multiple overlapping generations per year.",
     "affected_plants": [
       "Bell Pepper",
-      "Citrus",
-      "Coleus",
-      "Fern",
       "Fig",
-      "Fuchsia",
       "Grape",
       "Hot Pepper",
-      "Orchid",
       "Passion Fruit",
-      "Rose",
       "Strawberry",
       "Tomato"
     ],
@@ -1814,7 +1788,7 @@
     "category": "insect",
     "subcategory": "sap-sucking",
     "description": "A brightly colored stink bug with striking red or orange and black markings that feeds on brassica crops. It pierces plant tissue and sucks sap, causing white or yellow blotches. Heavy infestations can kill young plants and reduce yields significantly.",
-    "emoji": "🪲",
+    "emoji": "\ud83e\udeb2",
     "appearance": [
       "Shield-shaped bug about 3/8 inch long",
       "Dramatic red/orange and black banded pattern",
@@ -1842,7 +1816,7 @@
       "Turnip"
     ],
     "favorable_conditions": [
-      "Warm temperatures above 70°F",
+      "Warm temperatures above 70\u00b0F",
       "Southern United States (main range)",
       "Presence of brassica crops",
       "Overwintering debris in garden"
@@ -1894,7 +1868,7 @@
     "category": "insect",
     "subcategory": "leaf-chewing",
     "description": "A small colorful beetle specific to asparagus that feeds on spears, ferns, and stems. Both adults and grayish larvae cause damage by chewing on asparagus tissue. The spotted asparagus beetle is a closely related species that feeds primarily on berries.",
-    "emoji": "🪲",
+    "emoji": "\ud83e\udeb2",
     "appearance": [
       "Elongated beetle about 1/4 inch with blue-black wing covers and cream spots",
       "Red thorax with two black spots",
@@ -1965,7 +1939,7 @@
     "category": "insect",
     "subcategory": "root-feeding",
     "description": "A small shiny dark fly whose larvae tunnel into carrot roots, creating rusty-brown trails and rendering the crop unmarketable. The damage also provides entry points for secondary rot organisms. It is one of the most serious carrot pests in cool climates.",
-    "emoji": "🪰",
+    "emoji": "\ud83e\udeb0",
     "appearance": [
       "Adult is a small shiny dark fly about 1/4 inch",
       "Yellow-white maggots about 1/3 inch in roots",
@@ -2043,7 +2017,7 @@
     "category": "insect",
     "subcategory": "root-feeding",
     "description": "Small white fly larvae that feed on the roots and lower stems of various vegetables, tunneling into root crops and destroying root systems of transplants. The cabbage root maggot, onion maggot, and seedcorn maggot are the most common garden species.",
-    "emoji": "🪰",
+    "emoji": "\ud83e\udeb0",
     "appearance": [
       "Adult is a small gray fly resembling a housefly",
       "White legless maggots about 1/3 inch in soil and roots",
@@ -2090,7 +2064,7 @@
     "prevention": [
       "Use row covers from planting through establishment",
       "Place cardboard or felt collars around transplant stems",
-      "Delay planting until soil warms above 65°F",
+      "Delay planting until soil warms above 65\u00b0F",
       "Avoid incorporating fresh organic matter before planting"
     ],
     "organic_treatments": [
@@ -2128,7 +2102,7 @@
     "category": "insect",
     "subcategory": "omnivore",
     "description": "Elongated brown insects with distinctive pincers (cerci) on their rear end. While they are beneficial predators of aphids and other soft-bodied insects, they also feed on seedlings, soft fruit, and flower petals. They are nocturnal and hide in tight dark spaces during the day.",
-    "emoji": "🪳",
+    "emoji": "\ud83e\udeb3",
     "appearance": [
       "Elongated brown body about 3/4 inch long",
       "Prominent curved pincers on rear end",
@@ -2154,7 +2128,6 @@
       "Lettuce",
       "Lima Bean",
       "Marigold",
-      "Peach",
       "Strawberry",
       "Sunflower",
       "Sweet Corn",
@@ -2215,7 +2188,7 @@
     "category": "insect",
     "subcategory": "root-feeding",
     "description": "Hard-shelled yellowish-brown larvae of click beetles that live in soil and feed on seeds, roots, and tubers. They bore into potatoes, carrots, and other root crops and can persist in soil for 2-5 years in the larval stage. They are most problematic in recently converted sod or grassland.",
-    "emoji": "🪱",
+    "emoji": "\ud83e\udeb1",
     "appearance": [
       "Hard shiny yellowish-brown segmented larvae 1/2 to 1.5 inches",
       "Cylindrical body with tough outer shell",
@@ -2245,7 +2218,6 @@
       "Sweet Corn",
       "Sweet Potato",
       "Turnip",
-      "Wheat",
       "Winged Bean",
       "Yard Long Bean"
     ],
@@ -2303,7 +2275,7 @@
     "category": "mite",
     "subcategory": "sap-sucking",
     "description": "Tiny arachnids that feed on leaf undersides, causing stippling, yellowing, and fine webbing. They reproduce explosively in hot, dry conditions and can devastate plants within weeks. Two-spotted spider mites are the most common garden species.",
-    "emoji": "🕷️",
+    "emoji": "\ud83d\udd77\ufe0f",
     "appearance": [
       "Extremely tiny (barely visible) yellowish-green or red mites",
       "Fine silken webbing on leaf undersides and between leaves",
@@ -2319,7 +2291,6 @@
     ],
     "life_cycle": "Eggs hatch in 3-5 days. Mites pass through larval and two nymphal stages in 5-10 days. Adults live 2-4 weeks. A single female can lay over 100 eggs. Populations explode in hot dry conditions with generations overlapping.",
     "affected_plants": [
-      "Apple",
       "Bee Balm",
       "Bell Pepper",
       "Blackberry",
@@ -2342,9 +2313,7 @@
       "Mint",
       "Morning Glory",
       "Oregano",
-      "Peach",
       "Raspberry",
-      "Rose",
       "Rosemary",
       "Sage",
       "Salvia",
@@ -2360,7 +2329,7 @@
       "Zinnia"
     ],
     "favorable_conditions": [
-      "Hot dry weather above 80°F",
+      "Hot dry weather above 80\u00b0F",
       "Dusty conditions",
       "Water-stressed plants",
       "Overuse of broad-spectrum insecticides killing predatory mites"
@@ -2413,7 +2382,7 @@
     "category": "mite",
     "subcategory": "sap-sucking",
     "description": "Microscopic mites that feed on young growing tissue, causing severe distortion, bronzing, and stunting. They are too small to see without magnification and are often misdiagnosed as herbicide damage or a nutritional disorder. Extremely damaging to peppers, eggplant, and many ornamentals.",
-    "emoji": "🔬",
+    "emoji": "\ud83d\udd2c",
     "appearance": [
       "Microscopic mites invisible to naked eye",
       "Require 20x magnification or higher to see",
@@ -2429,10 +2398,8 @@
     ],
     "life_cycle": "Eggs hatch in 2-3 days. Development from egg to adult in 4-6 days under warm conditions. Extremely rapid reproduction with populations doubling every few days. Adults carry eggs on their bodies to new growth.",
     "affected_plants": [
-      "Begonia",
       "Bell Pepper",
       "Cucumber",
-      "Cyclamen",
       "Dahlia",
       "Edamame",
       "Eggplant",
@@ -2447,7 +2414,7 @@
       "Yard Long Bean"
     ],
     "favorable_conditions": [
-      "Warm humid conditions 70-85°F",
+      "Warm humid conditions 70-85\u00b0F",
       "High humidity above 70%",
       "Greenhouse and protected environments",
       "Dense plantings"
@@ -2469,7 +2436,7 @@
       "Neem oil spray applied to new growth",
       "Horticultural oil spray at summer rate",
       "Insecticidal soap targeting new growth areas",
-      "Hot water treatment of transplants (110°F for 15 minutes)"
+      "Hot water treatment of transplants (110\u00b0F for 15 minutes)"
     ],
     "chemical_treatments": [
       "Abamectin spray",
@@ -2499,7 +2466,7 @@
     "category": "mite",
     "subcategory": "sap-sucking",
     "description": "Extremely tiny elongated mites that cause russeting, bronzing, and surface damage to fruit and foliage. Tomato russet mite is one of the most damaging garden species, causing stems to turn brown and greasy-looking. They require high magnification to identify.",
-    "emoji": "🔬",
+    "emoji": "\ud83d\udd2c",
     "appearance": [
       "Microscopic elongated worm-like mites",
       "Require 40x+ magnification to see",
@@ -2515,20 +2482,16 @@
     ],
     "life_cycle": "Eggs hatch in 2-3 days. Development is rapid at 7-10 days per generation in warm conditions. Populations build from lower plant parts upward. They spread by wind, on tools, and by crawling between adjacent plants.",
     "affected_plants": [
-      "Apple",
       "Bell Pepper",
-      "Citrus",
       "Eggplant",
       "Grape",
       "Hot Pepper",
-      "Peach",
-      "Pear",
       "Potato",
       "Tomato"
     ],
     "favorable_conditions": [
       "Hot dry weather",
-      "Temperatures above 80°F",
+      "Temperatures above 80\u00b0F",
       "Low humidity",
       "Dense plant canopy"
     ],
@@ -2579,7 +2542,7 @@
     "category": "fungal",
     "subcategory": "foliar",
     "description": "A widespread fungal disease that produces white powdery patches on leaf surfaces, stems, and sometimes fruit. Unlike most fungal diseases, it thrives in dry conditions with moderate temperatures. Different species are host-specific but symptoms are similar.",
-    "emoji": "🍄",
+    "emoji": "\ud83c\udf44",
     "appearance": [
       "White to grayish powdery coating on leaf surfaces",
       "Patches start small and spread to cover entire leaves",
@@ -2599,7 +2562,6 @@
       "Amaranth",
       "Angelica",
       "Annual Ryegrass",
-      "Apple",
       "Armenian Cucumber",
       "Aronia (Chokeberry)",
       "Artichoke",
@@ -2697,7 +2659,6 @@
       "Quince",
       "Rapini (Broccoli Rabe)",
       "Romanesco",
-      "Rose",
       "Rosemary",
       "Rudbeckia (Goldsturm)",
       "Rutabaga",
@@ -2735,7 +2696,7 @@
       "Zucchini"
     ],
     "favorable_conditions": [
-      "Moderate temperatures 60-80°F",
+      "Moderate temperatures 60-80\u00b0F",
       "High humidity with dry leaf surfaces",
       "Crowded plantings with poor air circulation",
       "Shaded conditions"
@@ -2788,7 +2749,7 @@
     "category": "fungal",
     "subcategory": "foliar",
     "description": "An oomycete disease (not a true fungus) that causes angular yellow or brown patches on leaf upper surfaces with corresponding fuzzy grayish-purple growth on undersides. It thrives in cool wet conditions and can devastate cucurbit and brassica crops rapidly.",
-    "emoji": "🍄",
+    "emoji": "\ud83c\udf44",
     "appearance": [
       "Angular yellow or pale green patches on leaf upper surfaces",
       "Fuzzy grayish-purple sporulation on leaf undersides",
@@ -2844,7 +2805,7 @@
       "Zucchini"
     ],
     "favorable_conditions": [
-      "Cool temperatures 50-70°F",
+      "Cool temperatures 50-70\u00b0F",
       "Extended leaf wetness from rain or dew",
       "High humidity above 85%",
       "Cool nights with warm days"
@@ -2897,7 +2858,7 @@
     "category": "fungal",
     "subcategory": "foliar",
     "description": "A common fungal disease of tomatoes and potatoes that causes dark brown concentric-ringed spots (target spots) on lower leaves first, progressing upward. It reduces photosynthetic capacity, weakens plants, and can cause significant yield loss. The pathogen overwinters in soil and plant debris.",
-    "emoji": "🍂",
+    "emoji": "\ud83c\udf42",
     "appearance": [
       "Dark brown spots with concentric rings (target or bullseye pattern)",
       "Spots start on lower older leaves",
@@ -2922,7 +2883,7 @@
       "Tomato"
     ],
     "favorable_conditions": [
-      "Warm temperatures 75-85°F",
+      "Warm temperatures 75-85\u00b0F",
       "Extended leaf wetness",
       "Alternating wet and dry periods",
       "Stressed or nutrient-deficient plants",
@@ -2976,7 +2937,7 @@
     "category": "fungal",
     "subcategory": "foliar",
     "description": "A devastating oomycete disease infamous for causing the Irish Potato Famine. It causes dark water-soaked lesions on leaves and stems that expand rapidly in cool wet weather, destroying entire plants within days. White fuzzy sporulation appears on leaf undersides in humid conditions.",
-    "emoji": "☠️",
+    "emoji": "\u2620\ufe0f",
     "appearance": [
       "Dark water-soaked lesions on leaves and stems",
       "White fuzzy sporulation on leaf undersides in humid conditions",
@@ -2997,7 +2958,7 @@
       "Tomato"
     ],
     "favorable_conditions": [
-      "Cool temperatures 50-70°F",
+      "Cool temperatures 50-70\u00b0F",
       "Extended leaf wetness and rain",
       "High humidity above 90%",
       "Cool nights followed by warm humid days"
@@ -3050,7 +3011,7 @@
     "category": "fungal",
     "subcategory": "vascular",
     "description": "A soil-borne fungal disease that enters plants through roots and clogs vascular tissue, causing progressive wilting and death. Different strains are host-specific. The fungus persists in soil for many years, making crop rotation alone insufficient for control.",
-    "emoji": "🥀",
+    "emoji": "\ud83e\udd40",
     "appearance": [
       "Yellowing and wilting on one side of plant first",
       "Brown discoloration in vascular tissue when stem is cut",
@@ -3068,7 +3029,6 @@
     "affected_plants": [
       "Asparagus",
       "Austrian Winter Pea",
-      "Banana",
       "Basil",
       "Bell Pepper",
       "Cantaloupe",
@@ -3089,7 +3049,7 @@
       "Watermelon"
     ],
     "favorable_conditions": [
-      "Warm soil temperatures above 75°F",
+      "Warm soil temperatures above 75\u00b0F",
       "Acidic soil pH below 6.5",
       "Sandy soils that warm quickly",
       "Root damage from cultivation or nematodes",
@@ -3143,7 +3103,7 @@
     "category": "fungal",
     "subcategory": "vascular",
     "description": "A soil-borne fungal disease similar to Fusarium wilt but favoring cooler conditions. It causes progressive yellowing, wilting, and death by clogging plant vascular tissue. The fungus has an extremely wide host range including hundreds of plant species and persists in soil for over a decade.",
-    "emoji": "🥀",
+    "emoji": "\ud83e\udd40",
     "appearance": [
       "V-shaped yellowing patterns on leaf margins",
       "One-sided wilting of branches or plant",
@@ -3165,19 +3125,17 @@
       "Eggplant",
       "Elderberry",
       "Hot Pepper",
-      "Maple",
       "Mint",
       "Okra",
       "Potato",
       "Raspberry",
-      "Rose",
       "Strawberry",
       "Tomatillo",
       "Tomato",
       "Watermelon"
     ],
     "favorable_conditions": [
-      "Cool soil temperatures 65-75°F",
+      "Cool soil temperatures 65-75\u00b0F",
       "Moist soil conditions",
       "Heavy clay soils",
       "Previous susceptible crop plantings",
@@ -3231,7 +3189,7 @@
     "category": "fungal",
     "subcategory": "foliar",
     "description": "A common tomato disease causing numerous small circular spots with dark borders and tan centers on lower leaves. It progresses rapidly in wet weather, defoliating plants from the bottom up. It reduces yields by removing photosynthetic leaf area and exposing fruit to sunscald.",
-    "emoji": "🍂",
+    "emoji": "\ud83c\udf42",
     "appearance": [
       "Numerous small circular spots 1/8 inch diameter",
       "Dark brown borders with grayish-tan centers",
@@ -3255,7 +3213,7 @@
     ],
     "favorable_conditions": [
       "Wet weather with frequent rain",
-      "Temperatures 60-80°F",
+      "Temperatures 60-80\u00b0F",
       "Extended leaf wetness",
       "Dense plant canopy",
       "Overhead irrigation"
@@ -3308,7 +3266,7 @@
     "category": "fungal",
     "subcategory": "fruit rot",
     "description": "A fungal disease that causes dark sunken lesions on ripe fruit, leaves, and stems. On tomatoes, it creates round water-soaked spots that develop dark centers on ripe fruit. The disease is most damaging on ripe or overripe fruit in warm wet conditions.",
-    "emoji": "🍄",
+    "emoji": "\ud83c\udf44",
     "appearance": [
       "Round sunken dark lesions on fruit",
       "Lesions may have concentric rings or pink spore masses",
@@ -3324,7 +3282,6 @@
     ],
     "life_cycle": "Fungus overwinters in plant debris and infected seed. Spores are rain-splashed onto fruit and foliage. Infection is latent on green fruit, becoming visible as fruit ripens. Multiple cycles per season in wet weather.",
     "affected_plants": [
-      "Apple",
       "Bay Laurel",
       "Bell Pepper",
       "Blackberry",
@@ -3341,7 +3298,6 @@
       "Hot Pepper",
       "Lima Bean",
       "Passion Fruit",
-      "Peach",
       "Pumpkin",
       "Raspberry",
       "Rhubarb",
@@ -3353,7 +3309,7 @@
       "Yard Long Bean"
     ],
     "favorable_conditions": [
-      "Warm temperatures 75-85°F with rain",
+      "Warm temperatures 75-85\u00b0F with rain",
       "High humidity",
       "Overripe fruit left on plants",
       "Splashing water from overhead irrigation",
@@ -3407,7 +3363,7 @@
     "category": "fungal",
     "subcategory": "fruit rot",
     "description": "A ubiquitous fungal disease that causes soft brown rot covered with fuzzy gray spores on flowers, fruit, stems, and leaves. It thrives in cool damp conditions and enters through wounds, dead flowers, or other weak tissue. Extremely common in greenhouses and on strawberries.",
-    "emoji": "🍄",
+    "emoji": "\ud83c\udf44",
     "appearance": [
       "Fuzzy gray-brown mold covering affected tissue",
       "Soft brown watery rot beneath mold",
@@ -3457,7 +3413,6 @@
       "Petunia",
       "Radicchio",
       "Raspberry",
-      "Rose",
       "Snapdragon",
       "Strawberry",
       "Sweet Pea",
@@ -3467,7 +3422,7 @@
       "Yard Long Bean"
     ],
     "favorable_conditions": [
-      "Cool temperatures 55-75°F",
+      "Cool temperatures 55-75\u00b0F",
       "High humidity above 90%",
       "Poor air circulation",
       "Wounded or senescing plant tissue",
@@ -3521,7 +3476,7 @@
     "category": "fungal",
     "subcategory": "seedling disease",
     "description": "A complex of soil-borne pathogens that attack seeds and young seedlings, causing them to rot before or just after emergence. Affected seedlings develop water-soaked stems at the soil line, topple over, and die. It is the most common cause of seedling failure.",
-    "emoji": "🌱",
+    "emoji": "\ud83c\udf31",
     "appearance": [
       "Seedlings topple over at soil line",
       "Water-soaked pinched stem at soil level",
@@ -3617,7 +3572,7 @@
     "category": "fungal",
     "subcategory": "foliar",
     "description": "A group of obligate fungal parasites that produce distinctive rust-colored (orange, yellow, brown, or reddish) pustules on leaf undersides and stems. Rust diseases are host-specific and do not typically kill plants but weaken them significantly and reduce yields.",
-    "emoji": "🍂",
+    "emoji": "\ud83c\udf42",
     "appearance": [
       "Orange, yellow, or reddish-brown pustules on leaf undersides",
       "Corresponding yellow spots on upper leaf surface",
@@ -3633,7 +3588,6 @@
     ],
     "life_cycle": "Spores land on wet leaves and germinate. Pustules form in 7-14 days releasing masses of wind-dispersed spores. Some rusts require alternate hosts to complete their lifecycle. Overwinters as spores on debris or perennial hosts.",
     "affected_plants": [
-      "Apple",
       "Asparagus",
       "Bee Balm",
       "Blackberry",
@@ -3658,7 +3612,6 @@
       "Peanut",
       "Raspberry",
       "Rhubarb",
-      "Rose",
       "Snapdragon",
       "Sorrel",
       "Sunflower",
@@ -3669,7 +3622,7 @@
       "Yarrow"
     ],
     "favorable_conditions": [
-      "Moderate temperatures 60-75°F",
+      "Moderate temperatures 60-75\u00b0F",
       "Extended leaf wetness 6-8+ hours",
       "Dew formation on leaves",
       "Crowded plantings",
@@ -3723,7 +3676,7 @@
     "category": "fungal",
     "subcategory": "foliar",
     "description": "The most common and serious disease of roses, causing distinctive round black spots with fringed margins on leaves. Affected leaves yellow and drop prematurely, weakening the plant over time. Repeated defoliation can eventually kill roses.",
-    "emoji": "⚫",
+    "emoji": "\u26ab",
     "appearance": [
       "Round black spots up to 1/2 inch with feathery edges",
       "Spots develop on upper leaf surfaces",
@@ -3738,12 +3691,10 @@
       "Plants may be nearly leafless by late summer"
     ],
     "life_cycle": "Fungus overwinters on fallen leaves and infected canes. Spores are rain-splashed to new foliage in spring. Infection requires 7+ hours of continuous leaf wetness. New lesions appear in 3-16 days and produce spores for secondary spread.",
-    "affected_plants": [
-      "Rose"
-    ],
+    "affected_plants": [],
     "favorable_conditions": [
       "Extended leaf wetness from rain or overhead watering",
-      "Warm temperatures 65-80°F",
+      "Warm temperatures 65-80\u00b0F",
       "Poor air circulation around bushes",
       "Susceptible rose varieties"
     ],
@@ -3795,7 +3746,7 @@
     "category": "fungal",
     "subcategory": "root disease",
     "description": "A soil-borne disease of brassica crops that causes grotesque swelling and distortion of roots, preventing proper water and nutrient uptake. Plants wilt on hot days and become stunted. The pathogen can persist in soil for 15-20 years, making it one of the most difficult garden diseases to manage.",
-    "emoji": "🥦",
+    "emoji": "\ud83e\udd66",
     "appearance": [
       "Swollen distorted club-shaped roots",
       "Roots may be several times normal diameter",
@@ -3826,7 +3777,7 @@
     "favorable_conditions": [
       "Acidic soil pH below 6.5",
       "Wet poorly drained soil",
-      "Warm soil temperatures 64-77°F",
+      "Warm soil temperatures 64-77\u00b0F",
       "Previously infested soil",
       "Contaminated transplants"
     ],
@@ -3878,7 +3829,7 @@
     "category": "fungal",
     "subcategory": "stem rot",
     "description": "A soil-borne fungal disease that causes white cottony mold on stems, leaves, and fruit. Hard black sclerotia form inside infected stems and can survive in soil for 5-10 years. It has an extremely wide host range and is favored by cool, wet conditions.",
-    "emoji": "🍄",
+    "emoji": "\ud83c\udf44",
     "appearance": [
       "White cottony mycelium on stems, leaves, and fruit",
       "Hard black sclerotia inside stems (1/8 to 1/2 inch)",
@@ -3913,7 +3864,7 @@
       "Yard Long Bean"
     ],
     "favorable_conditions": [
-      "Cool temperatures 55-70°F",
+      "Cool temperatures 55-70\u00b0F",
       "Prolonged wet conditions",
       "Dense plant canopy",
       "Poor air circulation",
@@ -3966,7 +3917,7 @@
     "category": "fungal",
     "subcategory": "foliar",
     "description": "A fungal disease causing circular tan to brown leaf spots often with distinct purple to reddish borders. It is particularly damaging to beets, Swiss chard, and spinach. Severe infections cause extensive defoliation reducing yield and quality of these leaf crops.",
-    "emoji": "🍂",
+    "emoji": "\ud83c\udf42",
     "appearance": [
       "Circular spots with tan centers and dark purple-red borders",
       "Spots 1/8 to 1/4 inch in diameter",
@@ -3988,16 +3939,15 @@
       "Carrot",
       "Celery",
       "Dill",
+      "Edamame",
       "Fennel",
       "Hot Pepper",
       "Peanut",
-      "Rice",
-      "Soybean",
       "Spinach",
       "Swiss Chard"
     ],
     "favorable_conditions": [
-      "Warm temperatures 75-90°F",
+      "Warm temperatures 75-90\u00b0F",
       "High humidity",
       "Extended leaf wetness",
       "Dense plantings",
@@ -4051,7 +4001,7 @@
     "category": "fungal",
     "subcategory": "vascular",
     "description": "A serious disease of brassica crops that causes V-shaped yellow lesions on leaf edges that progress inward with blackened veins. Despite being caused by a bacterium, it is traditionally grouped with fungal diseases in many references. It can spread rapidly in warm wet conditions.",
-    "emoji": "🖤",
+    "emoji": "\ud83d\udda4",
     "appearance": [
       "V-shaped yellow lesions at leaf margins",
       "Black veins within yellowed areas",
@@ -4080,7 +4030,7 @@
       "Turnip"
     ],
     "favorable_conditions": [
-      "Warm temperatures above 75°F",
+      "Warm temperatures above 75\u00b0F",
       "Rainy or overhead-irrigated conditions",
       "Wounded or insect-damaged plants",
       "Contaminated seed"
@@ -4100,7 +4050,7 @@
     ],
     "organic_treatments": [
       "Copper-based bactericide spray",
-      "Hot-water seed treatment (122°F for 20 minutes)",
+      "Hot-water seed treatment (122\u00b0F for 20 minutes)",
       "Remove and destroy infected plants",
       "Acibenzolar-S-methyl (plant defense activator)",
       "Hydrogen peroxide spray"
@@ -4133,7 +4083,7 @@
     "category": "fungal",
     "subcategory": "root disease",
     "description": "A general term for several soil-borne pathogens that attack and destroy plant root systems, causing wilting, yellowing, and death. The diseases thrive in wet, poorly drained soils. Multiple organisms can be involved, and symptoms are often similar regardless of the specific pathogen.",
-    "emoji": "🥀",
+    "emoji": "\ud83e\udd40",
     "appearance": [
       "Brown or black mushy roots",
       "Roots may slough off outer layer when pulled",
@@ -4337,7 +4287,7 @@
     "category": "fungal",
     "subcategory": "foliar",
     "description": "A black crusty or powdery fungal growth that develops on honeydew deposits left by sap-sucking insects like aphids, whiteflies, scale, and mealybugs. Sooty mold itself does not directly infect plants but blocks light and reduces photosynthesis. Controlling the honeydew-producing insects eliminates the problem.",
-    "emoji": "🖤",
+    "emoji": "\ud83d\udda4",
     "appearance": [
       "Black sooty or crusty coating on leaves and stems",
       "Can be wiped or peeled off leaf surface",
@@ -4353,16 +4303,10 @@
     ],
     "life_cycle": "Sooty mold fungi grow saprophytically on honeydew sugar deposits. They do not penetrate plant tissue. Growth continues as long as honeydew is present. The mold does not spread between plants except where honeydew bridges exist.",
     "affected_plants": [
-      "Apple",
       "Bell Pepper",
-      "Citrus",
-      "Crape Myrtle",
       "Fig",
-      "Gardenia",
       "Grape",
-      "Hibiscus",
       "Hot Pepper",
-      "Rose",
       "Tomato"
     ],
     "favorable_conditions": [
@@ -4418,7 +4362,7 @@
     "category": "bacterial",
     "subcategory": "vascular",
     "description": "Devastating bacterial diseases that cause rapid wilting and death. Ralstonia solanacearum affects solanaceous crops in warm climates via soil, while Erwinia tracheiphila is transmitted to cucurbits by cucumber beetles. Plants wilt suddenly and do not recover, even with adequate watering.",
-    "emoji": "🦠",
+    "emoji": "\ud83e\udda0",
     "appearance": [
       "Rapid wilting of entire plant or individual vines",
       "No obvious leaf spots or discoloration initially",
@@ -4434,7 +4378,6 @@
     ],
     "life_cycle": "Erwinia tracheiphila is transmitted by cucumber beetle feeding. Bacteria multiply in vascular tissue, blocking water flow. Ralstonia solanacearum enters through roots from infested soil and is favored by warm wet conditions. Both persist in soil and plant debris.",
     "affected_plants": [
-      "Banana",
       "Bell Pepper",
       "Cantaloupe",
       "Cucumber",
@@ -4450,7 +4393,7 @@
       "Zucchini"
     ],
     "favorable_conditions": [
-      "Warm temperatures above 75°F",
+      "Warm temperatures above 75\u00b0F",
       "Cucumber beetle activity (for cucurbit wilt)",
       "Wet poorly drained soils (for Ralstonia)",
       "Wounded roots",
@@ -4504,7 +4447,7 @@
     "category": "bacterial",
     "subcategory": "foliar",
     "description": "A group of bacterial diseases causing angular water-soaked spots on leaves that turn brown with yellow halos. Multiple Xanthomonas and Pseudomonas species affect peppers, tomatoes, lettuce, and other crops. The bacteria spread rapidly in warm wet conditions through splashing water.",
-    "emoji": "🦠",
+    "emoji": "\ud83e\udda0",
     "appearance": [
       "Small angular water-soaked spots on leaves",
       "Spots turn brown or tan with yellow halos",
@@ -4526,14 +4469,12 @@
       "Geranium",
       "Hot Pepper",
       "Lettuce",
-      "Peach",
-      "Plum",
       "Spinach",
       "Swiss Chard",
       "Tomato"
     ],
     "favorable_conditions": [
-      "Warm temperatures 75-90°F",
+      "Warm temperatures 75-90\u00b0F",
       "Frequent rain or overhead irrigation",
       "Handling plants when wet",
       "Contaminated seed",
@@ -4587,7 +4528,7 @@
     "category": "bacterial",
     "subcategory": "vascular",
     "description": "A devastating bacterial disease of apple, pear, and related plants that causes branches to wilt and turn black as if scorched by fire. Bacteria enter through flowers during warm wet spring weather and can kill branches, limbs, or entire trees. Oozing cankers are a key diagnostic feature.",
-    "emoji": "🔥",
+    "emoji": "\ud83d\udd25",
     "appearance": [
       "Blackened wilted shoot tips curved into shepherd's crook shape",
       "Branches appear scorched or burned",
@@ -4603,16 +4544,10 @@
     ],
     "life_cycle": "Bacteria overwinter in bark cankers. In spring, ooze containing millions of bacteria is spread by rain, insects, and pruning tools to open flowers. Infection moves through vascular tissue into branches and trunk. Disease is most active during warm wet bloom periods.",
     "affected_plants": [
-      "Apple",
-      "Cotoneaster",
-      "Crabapple",
-      "Hawthorn",
-      "Mountain Ash",
-      "Pear",
       "Quince"
     ],
     "favorable_conditions": [
-      "Warm temperatures 70-85°F during bloom",
+      "Warm temperatures 70-85\u00b0F during bloom",
       "Rain or high humidity during flowering",
       "Vigorous succulent growth from excess nitrogen",
       "Hail or storm damage creating wounds"
@@ -4665,7 +4600,7 @@
     "category": "bacterial",
     "subcategory": "vascular",
     "description": "Bacterial diseases causing cankers (dead areas) on stems, wilting, and leaf spotting. Clavibacter michiganensis affects tomatoes systemically, while Pseudomonas syringae causes cankers on stone fruit trees. Both are seed-borne and spread by water splash and contaminated tools.",
-    "emoji": "🦠",
+    "emoji": "\ud83e\udda0",
     "appearance": [
       "Dark raised cankers on stems",
       "Wilting of one side of plant (tomato)",
@@ -4681,13 +4616,9 @@
     ],
     "life_cycle": "Bacteria survive in seed, on plant debris, and in cankers on perennial hosts. Spread by rain splash, irrigation, contaminated tools, and transplant handling. Enter through wounds and natural openings. Systemic infection follows vascular tissue.",
     "affected_plants": [
-      "Apricot",
       "Bell Pepper",
       "Blueberry",
-      "Cherry",
       "Hot Pepper",
-      "Peach",
-      "Plum",
       "Tomato"
     ],
     "favorable_conditions": [
@@ -4744,7 +4675,7 @@
     "category": "bacterial",
     "subcategory": "gall-forming",
     "description": "A soil-borne bacterium that enters through wounds and causes tumor-like galls on plant crowns, roots, and sometimes stems. The bacterium actually transfers DNA into plant cells, causing uncontrolled cell growth. It affects a wide range of woody and herbaceous plants.",
-    "emoji": "🦠",
+    "emoji": "\ud83e\udda0",
     "appearance": [
       "Round rough-textured galls at soil line or on roots",
       "Galls start soft and light-colored, become hard and dark",
@@ -4760,15 +4691,9 @@
     ],
     "life_cycle": "Bacteria survive in soil for 2+ years. They enter through fresh wounds (transplanting, cultivation, freeze damage). Bacteria transfer a DNA plasmid into plant cells causing tumor formation. Bacteria spread via infected planting material, contaminated soil, and water.",
     "affected_plants": [
-      "Apple",
       "Blueberry",
-      "Cherry",
       "Grape",
-      "Peach",
-      "Raspberry",
-      "Rose",
-      "Walnut",
-      "Willow"
+      "Raspberry"
     ],
     "favorable_conditions": [
       "Wound sites on plants",
@@ -4824,7 +4749,7 @@
     "category": "bacterial",
     "subcategory": "tissue decay",
     "description": "A bacterial disease that causes rapid soft, mushy, foul-smelling decay of plant tissue. It can affect virtually any succulent plant tissue including fruits, tubers, bulbs, and stems. The bacteria produce enzymes that dissolve cell walls, turning tissue into a watery, smelly mass.",
-    "emoji": "🦠",
+    "emoji": "\ud83e\udda0",
     "appearance": [
       "Water-soaked soft mushy tissue",
       "Cream to brown discoloration",
@@ -4856,7 +4781,7 @@
       "Tomato"
     ],
     "favorable_conditions": [
-      "Warm temperatures above 70°F",
+      "Warm temperatures above 70\u00b0F",
       "High moisture and humidity",
       "Wounded or bruised tissue",
       "Poor air circulation in storage",
@@ -4910,7 +4835,7 @@
     "category": "bacterial",
     "subcategory": "foliar",
     "description": "A seed-borne bacterial disease primarily affecting beans that causes small water-soaked spots surrounded by distinctive yellow-green halos. In cool wet conditions, it can spread rapidly and cause severe defoliation and pod infection, significantly reducing yields.",
-    "emoji": "🦠",
+    "emoji": "\ud83e\udda0",
     "appearance": [
       "Small water-soaked spots with large yellow-green halos",
       "Spots 1-3mm surrounded by halos up to 10mm",
@@ -4930,12 +4855,11 @@
       "Fava Bean",
       "Green Bean",
       "Lima Bean",
-      "Runner Bean",
       "Winged Bean",
       "Yard Long Bean"
     ],
     "favorable_conditions": [
-      "Cool temperatures 64-72°F",
+      "Cool temperatures 64-72\u00b0F",
       "Frequent rain or dew",
       "Overhead irrigation",
       "Contaminated seed",
@@ -4989,7 +4913,7 @@
     "category": "viral",
     "subcategory": "mosaic virus",
     "description": "One of the most stable and persistent plant viruses, causing mottled light and dark green mosaic patterns on leaves, stunted growth, and reduced yields. It can survive on surfaces, in soil, and even in dried tobacco products for decades. Easily spread by touch.",
-    "emoji": "🧬",
+    "emoji": "\ud83e\uddec",
     "appearance": [
       "Light and dark green mosaic mottling on leaves",
       "Distorted and crinkled leaves",
@@ -5009,10 +4933,10 @@
       "Bell Pepper",
       "Eggplant",
       "Hot Pepper",
+      "Nicotiana",
       "Petunia",
       "Potato",
       "Spinach",
-      "Tobacco",
       "Tomato"
     ],
     "favorable_conditions": [
@@ -5069,7 +4993,7 @@
     "category": "viral",
     "subcategory": "mosaic virus",
     "description": "One of the most widespread plant viruses, affecting over 1,200 plant species. It causes mosaic patterns, stunting, and fruit deformities. The virus is transmitted by over 80 species of aphids in a non-persistent manner, meaning aphids can acquire and transmit the virus within seconds.",
-    "emoji": "🧬",
+    "emoji": "\ud83e\uddec",
     "appearance": [
       "Yellow and green mosaic mottling on leaves",
       "Distorted wrinkled leaves",
@@ -5157,7 +5081,7 @@
     "category": "viral",
     "subcategory": "leaf curl virus",
     "description": "A devastating viral disease transmitted by the sweetpotato whitefly (Bemisia tabaci) that causes severe stunting, leaf curling, and yellowing in tomatoes. Infected plants produce little to no fruit. The virus has spread globally and is a major threat to tomato production in warm regions.",
-    "emoji": "🧬",
+    "emoji": "\ud83e\uddec",
     "appearance": [
       "Severe upward curling and cupping of leaves",
       "Yellow leaf margins",
@@ -5179,15 +5103,15 @@
       "Green Bean",
       "Hot Pepper",
       "Lima Bean",
+      "Nicotiana",
       "Petunia",
-      "Tobacco",
       "Tomato",
       "Winged Bean",
       "Yard Long Bean"
     ],
     "favorable_conditions": [
       "High whitefly populations",
-      "Warm temperatures above 77°F",
+      "Warm temperatures above 77\u00b0F",
       "Year-round growing seasons",
       "Nearby infested crops or weeds",
       "Tropical and subtropical climates"
@@ -5240,7 +5164,7 @@
     "category": "viral",
     "subcategory": "wilt virus",
     "description": "A serious viral disease transmitted by thrips that causes bronzed ring spots on fruit, necrotic streaks on stems, and wilting. It has an extremely wide host range of over 1,000 plant species. Western flower thrips is the primary vector. Infected plants often die or produce no marketable fruit.",
-    "emoji": "🧬",
+    "emoji": "\ud83e\uddec",
     "appearance": [
       "Bronze ring spots on green and ripe fruit",
       "Dark necrotic streaks on stems",
@@ -5261,11 +5185,11 @@
       "Hot Pepper",
       "Impatiens",
       "Lettuce",
+      "Nicotiana",
       "Peanut",
       "Petunia",
       "Potato",
       "Spinach",
-      "Tobacco",
       "Tomato"
     ],
     "favorable_conditions": [
@@ -5323,7 +5247,7 @@
     "category": "viral",
     "subcategory": "mosaic virus",
     "description": "A potyvirus that causes severe mosaic, leaf distortion, and dramatic fruit deformities in cucurbit crops. Transmitted by aphids in a non-persistent manner. Infected squash and zucchini produce knobby, discolored, unmarketable fruit. One of the most damaging cucurbit viruses worldwide.",
-    "emoji": "🧬",
+    "emoji": "\ud83e\uddec",
     "appearance": [
       "Severe yellow-green mosaic on leaves",
       "Extremely distorted blistered leaves",
@@ -5402,7 +5326,7 @@
     "category": "nematode",
     "subcategory": "endoparasitic",
     "description": "Microscopic roundworms that invade plant roots and stimulate the formation of characteristic knots or galls, disrupting water and nutrient uptake. They are the most economically important plant-parasitic nematodes, affecting thousands of plant species worldwide and persisting in soil for years.",
-    "emoji": "🪱",
+    "emoji": "\ud83e\udeb1",
     "appearance": [
       "Characteristic swollen galls or knots on roots",
       "Galls range from small beads to large irregular lumps",
@@ -5439,7 +5363,7 @@
       "Yard Long Bean"
     ],
     "favorable_conditions": [
-      "Warm sandy soils above 65°F",
+      "Warm sandy soils above 65\u00b0F",
       "Light textured well-drained soils",
       "Continuous planting of susceptible crops",
       "Low organic matter soils",
@@ -5493,7 +5417,7 @@
     "category": "nematode",
     "subcategory": "migratory endoparasitic",
     "description": "Migratory root-parasitic nematodes that tunnel through root tissue, creating dark brown lesions and providing entry points for secondary root rot pathogens. Unlike root-knot nematodes, they do not cause galls but instead destroy root tissue as they feed and move through it.",
-    "emoji": "🪱",
+    "emoji": "\ud83e\udeb1",
     "appearance": [
       "Dark brown lesions on roots",
       "Rotted and discolored root tissue",
@@ -5509,26 +5433,22 @@
     ],
     "life_cycle": "All life stages can infect and damage roots. Nematodes move freely through soil and root tissue, feeding on cells as they go. Eggs are laid in root tissue or soil. Life cycle takes 3-9 weeks. Several generations per year.",
     "affected_plants": [
-      "Apple",
       "Austrian Winter Pea",
       "Carrot",
-      "Cherry",
       "Edamame",
       "Fava Bean",
       "Green Bean",
       "Lima Bean",
       "Potato",
       "Snap Pea",
-      "Soybean",
       "Strawberry",
       "Sweet Corn",
-      "Wheat",
       "Winged Bean",
       "Yard Long Bean"
     ],
     "favorable_conditions": [
       "Moist soil conditions",
-      "Cool to moderate soil temperatures 60-75°F",
+      "Cool to moderate soil temperatures 60-75\u00b0F",
       "Sandy to loamy soils",
       "Continuous cropping of susceptible hosts",
       "Compacted or poorly drained soils"
@@ -5580,7 +5500,7 @@
     "category": "mollusk",
     "subcategory": "gastropod",
     "description": "Shell-less gastropod mollusks that feed at night on leaves, fruit, and seedlings, leaving distinctive slime trails. They are particularly damaging to tender seedlings, lettuce, strawberries, and hostas. Slugs thrive in moist conditions and can consume entire seedlings overnight.",
-    "emoji": "🐌",
+    "emoji": "\ud83d\udc0c",
     "appearance": [
       "Soft slimy body without a shell, 1-6 inches long",
       "Gray, brown, black, or orange-brown coloring",
@@ -5654,7 +5574,6 @@
       "Heliotrope",
       "Hollyhock",
       "Horseradish",
-      "Hosta",
       "Hot Pepper",
       "Huckleberry",
       "Hyacinth",
@@ -5731,7 +5650,7 @@
     ],
     "favorable_conditions": [
       "Moist or rainy weather",
-      "Cool temperatures 40-65°F",
+      "Cool temperatures 40-65\u00b0F",
       "Mulched garden beds",
       "Dense ground cover providing hiding spots",
       "Clay soils that retain moisture"
@@ -5784,7 +5703,7 @@
     "category": "mollusk",
     "subcategory": "gastropod",
     "description": "Shelled gastropod mollusks similar to slugs in feeding habits but carrying a coiled shell. They chew holes in leaves, flowers, and fruit, primarily feeding at night. Garden snails can be long-lived (several years) and are most problematic in mild, humid coastal climates.",
-    "emoji": "🐌",
+    "emoji": "\ud83d\udc0c",
     "appearance": [
       "Coiled shell 1/2 to 1.5 inches in diameter",
       "Soft gray-brown body with two pairs of tentacles",
@@ -5802,16 +5721,13 @@
     "affected_plants": [
       "Basil",
       "Cabbage",
-      "Citrus",
       "Dahlia",
       "Edamame",
       "Fava Bean",
       "Green Bean",
-      "Hosta",
       "Lettuce",
       "Lima Bean",
       "Marigold",
-      "Rose",
       "Strawberry",
       "Winged Bean",
       "Yard Long Bean"
@@ -5871,7 +5787,7 @@
     "category": "mammal",
     "subcategory": "browser",
     "description": "White-tailed and mule deer are among the most damaging garden pests in suburban and rural areas. They browse on a wide range of garden plants, eating leaves, stems, flowers, and fruit. A single deer can consume 6-10 pounds of vegetation daily and can destroy a garden overnight.",
-    "emoji": "🦌",
+    "emoji": "\ud83e\udd8c",
     "appearance": [
       "Large hoofed mammals, 100-300 lbs",
       "Torn or ragged browse lines on plants",
@@ -5887,17 +5803,14 @@
     ],
     "life_cycle": "Deer are active year-round but garden damage peaks in spring (new growth) and late fall/winter (food scarcity). Fawns are born in late spring. Deer establish regular feeding routes and return repeatedly to productive food sources.",
     "affected_plants": [
-      "Apple",
       "Austrian Winter Pea",
       "Blueberry",
       "Broccoli",
       "Edamame",
       "Fava Bean",
       "Green Bean",
-      "Hosta",
       "Lettuce",
       "Lima Bean",
-      "Rose",
       "Snap Pea",
       "Strawberry",
       "Sweet Corn",
@@ -5961,7 +5874,7 @@
     "category": "mammal",
     "subcategory": "herbivore",
     "description": "Cottontail rabbits are common garden pests that clip young plants at the base and eat tender leaves, stems, and bark. They are especially damaging to young plants and seedlings in spring. Rabbits can breed prolifically, with several litters per year.",
-    "emoji": "🐰",
+    "emoji": "\ud83d\udc30",
     "appearance": [
       "Small brown/gray furred mammals 2-4 lbs",
       "Clean-cut 45-degree angle bites on stems",
@@ -5977,7 +5890,6 @@
     ],
     "life_cycle": "Rabbits breed from February through September, producing 3-5 litters of 4-6 young per year. Young rabbits begin feeding on garden plants within weeks. Rabbits do not travel far from cover, typically staying within 200 feet of dense brush or burrows.",
     "affected_plants": [
-      "Apple",
       "Austrian Winter Pea",
       "Beet",
       "Bell Pepper",
@@ -6052,7 +5964,7 @@
     "category": "mammal",
     "subcategory": "burrowing",
     "description": "Voles are small rodents that gnaw on plant roots, bulbs, and bark at or below ground level, while moles tunnel through soil eating insects and grubs but damaging roots in the process. Voles often use mole tunnels for access. Both create visible surface tunnels or raised ridges in lawns and beds.",
-    "emoji": "🐭",
+    "emoji": "\ud83d\udc2d",
     "appearance": [
       "Voles: small mouse-like rodents with short tails",
       "Moles: dark-furred with large paddle-like front feet",
@@ -6068,13 +5980,10 @@
     ],
     "life_cycle": "Voles breed year-round, producing 5-10 litters per year with 3-6 young each. Populations can explode. Moles are solitary, breeding once per year. Both are active year-round and do not hibernate. Voles use grass-covered surface runways.",
     "affected_plants": [
-      "Apple",
       "Beet",
       "Blueberry",
       "Carrot",
       "Crocus",
-      "Grass",
-      "Hosta",
       "Potato",
       "Sweet Potato",
       "Tulip"
@@ -6134,7 +6043,7 @@
     "category": "mammal",
     "subcategory": "herbivore",
     "description": "Also known as woodchucks, these large burrowing rodents can consume up to 1.5 pounds of vegetation daily and are especially fond of bean, pea, carrot, and brassica crops. Their extensive burrow systems can undermine garden beds, paths, and foundations.",
-    "emoji": "🦫",
+    "emoji": "\ud83e\uddab",
     "appearance": [
       "Stocky brown-furred rodent, 5-14 lbs",
       "Broad flat head with small rounded ears",
@@ -6150,7 +6059,6 @@
     ],
     "life_cycle": "Groundhogs hibernate from late fall through early spring. They breed in March-April, producing one litter of 2-6 young. Young disperse in mid-summer and may establish new territories near gardens. Most active in early morning and late afternoon.",
     "affected_plants": [
-      "Alfalfa",
       "Austrian Winter Pea",
       "Broccoli",
       "Cabbage",
@@ -6223,7 +6131,7 @@
     "category": "nutritional",
     "subcategory": "calcium deficiency",
     "description": "A physiological disorder caused by calcium deficiency in developing fruit, resulting in dark, sunken, leathery patches on the blossom end (bottom) of tomatoes, peppers, squash, and watermelon. It is usually caused by inconsistent watering rather than insufficient soil calcium.",
-    "emoji": "🍅",
+    "emoji": "\ud83c\udf45",
     "appearance": [
       "Dark brown to black sunken patch on bottom of fruit",
       "Leathery dry texture in affected area",
@@ -6304,7 +6212,7 @@
     "category": "environmental",
     "subcategory": "sun damage",
     "description": "A condition where fruit or bark is damaged by intense direct sunlight, usually after sudden exposure due to defoliation, pruning, or storms. On tomatoes and peppers, it appears as white or tan papery patches on the sun-facing side of fruit. On trees, it causes bark cracking on the south or west side.",
-    "emoji": "☀️",
+    "emoji": "\u2600\ufe0f",
     "appearance": [
       "White or light tan papery patches on sun-facing side of fruit",
       "Blistered or bleached fruit surface",
@@ -6320,11 +6228,9 @@
     ],
     "life_cycle": null,
     "affected_plants": [
-      "Apple",
       "Bell Pepper",
       "Eggplant",
       "Hot Pepper",
-      "Maple",
       "Pumpkin",
       "Summer Squash",
       "Tomato",
@@ -6333,7 +6239,7 @@
     ],
     "favorable_conditions": [
       "Sudden exposure of fruit to direct sun after defoliation",
-      "Very hot sunny weather above 90°F",
+      "Very hot sunny weather above 90\u00b0F",
       "Plants that have lost leaf cover to disease or pests",
       "Recently pruned trees with exposed trunk",
       "Light-colored or thin-skinned fruit varieties"
@@ -6386,7 +6292,7 @@
     "category": "environmental",
     "subcategory": "premature flowering",
     "description": "A stress response in which cool-season crops prematurely send up a flower stalk, making leaves bitter and tough and ending the harvest window. Bolting is triggered by long days, heat stress, or prolonged cold exposure (vernalization). It is a natural part of the plant lifecycle but undesirable in the garden.",
-    "emoji": "🌸",
+    "emoji": "\ud83c\udf38",
     "appearance": [
       "Elongated stem rising from center of plant",
       "Flower buds developing at top of stem",
@@ -6418,7 +6324,7 @@
       "Spinach"
     ],
     "favorable_conditions": [
-      "Hot temperatures above 75-80°F for cool-season crops",
+      "Hot temperatures above 75-80\u00b0F for cool-season crops",
       "Long days (14+ hours of daylight)",
       "Prolonged cold exposure (vernalization) in biennial crops",
       "Water stress",
@@ -6472,7 +6378,7 @@
     "category": "environmental",
     "subcategory": "fruit deformity",
     "description": "A physiological disorder of tomatoes causing extreme distortion and scarring at the blossom end, with deep indentations, puckering, and brown corky scars. It is caused by disrupted pollination from cool temperatures during flowering. The fruit is ugly but perfectly safe to eat.",
-    "emoji": "🍅",
+    "emoji": "\ud83c\udf45",
     "appearance": [
       "Deep puckers and indentations at blossom end of fruit",
       "Brown corky scar tissue in folds",
@@ -6494,7 +6400,7 @@
       "Tomato"
     ],
     "favorable_conditions": [
-      "Cool temperatures below 55°F during flowering",
+      "Cool temperatures below 55\u00b0F during flowering",
       "Wide temperature fluctuations",
       "Herbicide exposure (especially 2,4-D drift)",
       "Excessive pruning of foliage near flower clusters",
@@ -6548,7 +6454,7 @@
     "category": "environmental",
     "subcategory": "fruit disorder",
     "description": "A physiological condition where tomato and other fruit crack open due to rapid growth following heavy rain or inconsistent watering. Concentric cracks circle the stem end, while radial cracks radiate outward from the stem. The fruit is edible but prone to secondary infections.",
-    "emoji": "🍅",
+    "emoji": "\ud83c\udf45",
     "appearance": [
       "Concentric rings of cracks around stem end",
       "Radial cracks radiating from stem outward",
@@ -6565,9 +6471,7 @@
     "life_cycle": null,
     "affected_plants": [
       "Cabbage",
-      "Cherry",
       "Grape",
-      "Plum",
       "Tomato"
     ],
     "favorable_conditions": [
@@ -6624,8 +6528,8 @@
     "scientific_name": null,
     "category": "environmental",
     "subcategory": "cold injury",
-    "description": "Injury to plant tissue caused by freezing temperatures, resulting in water-soaked, darkened, and wilted foliage that turns brown or black. Tender warm-season crops are killed by even light frost (32°F), while cold-hardy crops can tolerate varying degrees of frost. Late spring and early fall frosts cause the most garden damage.",
-    "emoji": "❄️",
+    "description": "Injury to plant tissue caused by freezing temperatures, resulting in water-soaked, darkened, and wilted foliage that turns brown or black. Tender warm-season crops are killed by even light frost (32\u00b0F), while cold-hardy crops can tolerate varying degrees of frost. Late spring and early fall frosts cause the most garden damage.",
+    "emoji": "\u2744\ufe0f",
     "appearance": [
       "Dark water-soaked wilted foliage",
       "Blackened leaves and stem tips",
@@ -6662,7 +6566,7 @@
     ],
     "favorable_conditions": [
       "Clear still nights allowing radiative cooling",
-      "Temperatures dropping to 32°F or below",
+      "Temperatures dropping to 32\u00b0F or below",
       "Low-lying areas where cold air pools",
       "Early fall or late spring timing",
       "Young tender transplants newly set out"
@@ -6688,7 +6592,7 @@
       "Cold frames and low tunnels for extending season"
     ],
     "chemical_treatments": [
-      "Anti-transpirant sprays provide minimal frost protection (1-2°F)",
+      "Anti-transpirant sprays provide minimal frost protection (1-2\u00b0F)",
       "No chemical can prevent frost damage in severe events",
       "Crop insurance for commercial operations",
       "Focus on physical protection methods",
@@ -6715,7 +6619,7 @@
     "category": "insect",
     "subcategory": "sap-sucking",
     "description": "An invasive shield-shaped bug from Asia that pierces fruit and vegetables to suck juices, leaving dimpled discolored areas. It feeds on a wide range of garden and orchard crops. Adults overwinter in homes and emerge in spring to feed and lay eggs on garden plants.",
-    "emoji": "🪲",
+    "emoji": "\ud83e\udeb2",
     "appearance": [
       "Shield-shaped brown mottled bug about 5/8 inch",
       "Alternating dark and light banding on antennae and abdomen edges",
@@ -6731,7 +6635,6 @@
     ],
     "life_cycle": "Adults overwinter in buildings and emerge in spring. Eggs are laid in clusters of 25-28. Nymphs develop through 5 instars over 5-8 weeks. One to two generations per year. Adults seek shelter in fall.",
     "affected_plants": [
-      "Apple",
       "Bell Pepper",
       "Cowpea",
       "Edamame",
@@ -6741,17 +6644,14 @@
       "Hot Pepper",
       "Lima Bean",
       "Okra",
-      "Peach",
-      "Pear",
       "Raspberry",
-      "Soybean",
       "Sweet Corn",
       "Tomato",
       "Winged Bean",
       "Yard Long Bean"
     ],
     "favorable_conditions": [
-      "Warm temperatures above 70°F",
+      "Warm temperatures above 70\u00b0F",
       "Buildings nearby for overwintering",
       "Diverse crop plantings",
       "Eastern and mid-Atlantic United States"
@@ -6803,7 +6703,7 @@
     "category": "insect",
     "subcategory": "caterpillar",
     "description": "The same species as the corn earworm but when attacking tomatoes, it bores into fruit near the stem end causing deep tunnels and rot. A single larva can damage multiple fruit. On peppers, it bores into the fruit cavity. This is one of the most damaging direct pests of tomato fruit.",
-    "emoji": "🐛",
+    "emoji": "\ud83d\udc1b",
     "appearance": [
       "Variable-colored caterpillar up to 2 inches (green, brown, or pink)",
       "Dark microspines along body and dark stripes",
@@ -6885,7 +6785,7 @@
     "category": "insect",
     "subcategory": "caterpillar",
     "description": "Caterpillars that construct distinctive spindle-shaped bags of silk and plant material around themselves as they feed. They can severely defoliate evergreen and deciduous trees and shrubs. The bags protect larvae from predators and insecticides, making timing of control critical.",
-    "emoji": "🐛",
+    "emoji": "\ud83d\udc1b",
     "appearance": [
       "Spindle-shaped silk bags 1-2 inches covered with plant debris",
       "Bags hang from branches like small ornaments",
@@ -6900,17 +6800,7 @@
       "Killed evergreen branches will not regrow"
     ],
     "life_cycle": "Eggs overwinter inside old female bags. Tiny caterpillars emerge in late spring and immediately begin building bags. Larvae feed and enlarge bags over 2-3 months. Males pupate and emerge as moths; females remain in bags. One generation per year.",
-    "affected_plants": [
-      "Apple",
-      "Arborvitae",
-      "Cedar",
-      "Elm",
-      "Juniper",
-      "Maple",
-      "Rose",
-      "Spruce",
-      "Sycamore"
-    ],
+    "affected_plants": [],
     "favorable_conditions": [
       "Established populations from previous years",
       "Evergreen plantings especially junipers",
@@ -6964,7 +6854,7 @@
     "category": "insect",
     "subcategory": "leaf-chewing",
     "description": "Wasp-related insects whose larvae closely resemble caterpillars but have more than 5 pairs of prolegs. Rose sawflies, pear slug sawflies, and currant sawflies skeletonize leaves. They are not controlled by Bt (which only works on true caterpillars), requiring different management approaches.",
-    "emoji": "🐛",
+    "emoji": "\ud83d\udc1b",
     "appearance": [
       "Larvae resemble caterpillars but with 6+ pairs of prolegs",
       "Various colors from green to black depending on species",
@@ -6980,14 +6870,9 @@
     ],
     "life_cycle": "Adults lay eggs in leaf tissue using a saw-like ovipositor. Larvae feed for 2-4 weeks before dropping to soil to pupate. Some species have one generation, others two per year. Pupae overwinter in soil.",
     "affected_plants": [
-      "Cherry",
       "Currant",
       "Gooseberry",
-      "Pear",
-      "Pine",
-      "Raspberry",
-      "Rose",
-      "Willow"
+      "Raspberry"
     ],
     "favorable_conditions": [
       "Spring emergence of adults",
@@ -7042,7 +6927,7 @@
     "category": "insect",
     "subcategory": "sap-sucking",
     "description": "Medium to large plant bugs with distinctive flattened leaf-like expansions on their hind legs. They pierce fruit and seeds to feed, causing dimpled, discolored, and distorted fruit. They are becoming increasingly problematic on tomatoes, peppers, pomegranates, and citrus across the southern United States.",
-    "emoji": "🪲",
+    "emoji": "\ud83e\udeb2",
     "appearance": [
       "Brown elongated bugs about 3/4 to 1 inch",
       "Distinctive leaf-shaped flattened hind legs",
@@ -7058,19 +6943,14 @@
     ],
     "life_cycle": "Adults overwinter in sheltered locations and emerge in spring. Eggs are laid in chains along stems and leaf midribs. Nymphs develop through five instars. One to two generations per year. Adults are strong fliers.",
     "affected_plants": [
-      "Almond",
       "Bell Pepper",
       "Blueberry",
-      "Citrus",
       "Fig",
       "Hot Pepper",
-      "Peach",
-      "Pecan",
-      "Pomegranate",
       "Tomato"
     ],
     "favorable_conditions": [
-      "Warm weather above 70°F",
+      "Warm weather above 70\u00b0F",
       "Fruiting plants and trees",
       "Southern and western United States",
       "Buildings and structures for overwintering"
@@ -7122,7 +7002,7 @@
     "category": "insect",
     "subcategory": "sap-sucking",
     "description": "A small brownish bug that feeds on flowers, buds, and developing fruit of many crops, injecting toxic saliva that causes pitting, dimpling, and deformity. It is particularly damaging to strawberries (causing button berries) and peppers. It feeds on over 300 host plants.",
-    "emoji": "🪲",
+    "emoji": "\ud83e\udeb2",
     "appearance": [
       "Small brownish-yellow bug about 1/4 inch with mottled markings",
       "V-shaped pale marking on back behind head",
@@ -7138,7 +7018,6 @@
     ],
     "life_cycle": "Adults overwinter in leaf litter and emerge in early spring, feeding on weeds before moving to garden crops. Eggs are inserted into plant tissue. Nymphs feed on buds and flowers. Two to five generations per year.",
     "affected_plants": [
-      "Apple",
       "Aster",
       "Bell Pepper",
       "Celery",
@@ -7150,7 +7029,6 @@
       "Hot Pepper",
       "Lettuce",
       "Lima Bean",
-      "Peach",
       "Strawberry",
       "Winged Bean",
       "Yard Long Bean"
@@ -7208,7 +7086,7 @@
     "category": "insect",
     "subcategory": "leaf-chewing",
     "description": "Large jumping insects that can consume massive quantities of foliage during outbreak years. They are most damaging in dry years when natural fungal diseases that normally control them are reduced. Grasshoppers prefer dry warm conditions and are most problematic in arid and semi-arid regions.",
-    "emoji": "🦗",
+    "emoji": "\ud83e\udd97",
     "appearance": [
       "Large jumping insects 1-3 inches long",
       "Brown, green, or yellow depending on species",
@@ -7229,7 +7107,6 @@
       "Carrot",
       "Edamame",
       "Fava Bean",
-      "Grass",
       "Green Bean",
       "Kale",
       "Lettuce",
@@ -7296,7 +7173,7 @@
     "category": "insect",
     "subcategory": "root-feeding",
     "description": "A specific root maggot that attacks brassica crops, with small white maggots feeding on roots and stems below the soil line. Severely infested plants wilt and die. It is the most damaging pest of brassica transplants in cool climates and can devastate spring cole crop plantings.",
-    "emoji": "🪰",
+    "emoji": "\ud83e\udeb0",
     "appearance": [
       "Small gray fly similar to a housefly but smaller",
       "White legless maggots 1/3 inch in roots",
@@ -7376,7 +7253,7 @@
     "category": "fungal",
     "subcategory": "foliar",
     "description": "A fungal disease that causes dramatic puckering, curling, thickening, and reddish discoloration of peach and nectarine leaves in spring. Affected leaves eventually yellow and fall. Repeated severe infections weaken trees and reduce fruit production. It must be treated preventatively before symptoms appear.",
-    "emoji": "🍑",
+    "emoji": "\ud83c\udf51",
     "appearance": [
       "Severely puckered and distorted leaves",
       "Thickened reddish or yellowish blistered leaf tissue",
@@ -7391,14 +7268,9 @@
       "Reduced fruit set and tree vigor"
     ],
     "life_cycle": "Spores overwinter on bark and bud scales. Infection occurs during cool wet weather as buds open in spring. Fungus grows inside leaf tissue causing distortion. New spores form on leaf surface and return to bark for next year. Only one infection cycle per year.",
-    "affected_plants": [
-      "Almond",
-      "Nectarine",
-      "Peach",
-      "Plum"
-    ],
+    "affected_plants": [],
     "favorable_conditions": [
-      "Cool wet spring weather 50-70°F",
+      "Cool wet spring weather 50-70\u00b0F",
       "Rain during bud break",
       "Extended leaf wetness",
       "Untreated trees from previous season"
@@ -7450,7 +7322,7 @@
     "category": "fungal",
     "subcategory": "foliar",
     "description": "A unique rust disease that requires two hosts to complete its lifecycle: Eastern red cedar (juniper) and apple/crabapple. On apples, it causes bright orange spots on leaves and fruit. On cedars, it forms brown galls that produce spectacular orange gelatinous tentacles in spring rain.",
-    "emoji": "🍎",
+    "emoji": "\ud83c\udf4e",
     "appearance": [
       "Bright yellow-orange spots on apple leaves upper surface",
       "Cup-shaped structures with fringed edges on leaf undersides",
@@ -7466,11 +7338,6 @@
     ],
     "life_cycle": "Spores from cedar galls infect apple leaves in spring. After several months, spores from apple leaves infect cedar, where galls develop over 2 years. The disease requires both hosts within about 2 miles of each other to complete the cycle.",
     "affected_plants": [
-      "Apple",
-      "Crabapple",
-      "Eastern Red Cedar",
-      "Juniper",
-      "Pear",
       "Quince"
     ],
     "favorable_conditions": [
@@ -7526,7 +7393,7 @@
     "category": "bacterial",
     "subcategory": "foliar",
     "description": "A bacterial disease affecting peach, plum, nectarine, and cherry that causes angular leaf spots, fruit spots, and twig cankers. Infected fruit develops dark sunken spots that crack, making it unmarketable. The disease is most severe during warm wet growing seasons.",
-    "emoji": "🦠",
+    "emoji": "\ud83e\udda0",
     "appearance": [
       "Angular water-soaked spots on leaves",
       "Spots turn brown with yellow halos and may fall out (shot-hole)",
@@ -7542,15 +7409,9 @@
       "Overall decline in tree vigor"
     ],
     "life_cycle": "Bacteria overwinter in twig cankers and bud tissue. In spring, rain splashes bacteria to new leaves and developing fruit. Spread is rapid during warm rainy periods. Multiple infection cycles during the growing season.",
-    "affected_plants": [
-      "Apricot",
-      "Cherry",
-      "Nectarine",
-      "Peach",
-      "Plum"
-    ],
+    "affected_plants": [],
     "favorable_conditions": [
-      "Warm rainy weather 75-85°F",
+      "Warm rainy weather 75-85\u00b0F",
       "Wind-driven rain",
       "Spring storms with hail",
       "Sandy soils (lower nutrition increases susceptibility)",
@@ -7604,7 +7465,7 @@
     "category": "fungal",
     "subcategory": "tuber disease",
     "description": "A soil-borne disease of potatoes causing raised pustules on tuber surfaces that rupture to release powdery brown spore balls. It reduces tuber quality and marketability and also serves as a vector for potato mop-top virus. Resting spores persist in soil for many years.",
-    "emoji": "🥔",
+    "emoji": "\ud83e\udd54",
     "appearance": [
       "Raised circular pustules on tuber skin",
       "Pustules rupture to reveal powdery dark brown spore balls",
@@ -7623,7 +7484,7 @@
       "Potato"
     ],
     "favorable_conditions": [
-      "Cool wet soil 54-64°F",
+      "Cool wet soil 54-64\u00b0F",
       "Poorly drained soil",
       "Acidic soil pH",
       "Continuous potato cropping",
@@ -7677,7 +7538,7 @@
     "category": "fungal",
     "subcategory": "stem rot",
     "description": "A soil-borne fungal disease that causes rapid wilting and death by attacking the base of plant stems at the soil line. Distinctive white fan-shaped mycelial growth and small round tan sclerotia (resembling mustard seeds) appear at the soil line. It thrives in hot humid conditions.",
-    "emoji": "🍄",
+    "emoji": "\ud83c\udf44",
     "appearance": [
       "White fan-shaped mycelial mat at soil line",
       "Small round tan to brown sclerotia like mustard seeds on mycelium",
@@ -7691,9 +7552,8 @@
       "Rapid plant death after initial wilting",
       "Brown sunken lesion girdling stem base"
     ],
-    "life_cycle": "Sclerotia survive in upper soil layers for years. In hot weather, they germinate and grow rapidly over soil surface to infect plant stems at ground level. Mycelium grows across soil to adjacent plants. New sclerotia form on dying tissue. Most active at 85-95°F.",
+    "life_cycle": "Sclerotia survive in upper soil layers for years. In hot weather, they germinate and grow rapidly over soil surface to infect plant stems at ground level. Mycelium grows across soil to adjacent plants. New sclerotia form on dying tissue. Most active at 85-95\u00b0F.",
     "affected_plants": [
-      "Apple",
       "Beet",
       "Bell Pepper",
       "Carrot",
@@ -7710,7 +7570,7 @@
       "Yard Long Bean"
     ],
     "favorable_conditions": [
-      "Hot temperatures 85-95°F",
+      "Hot temperatures 85-95\u00b0F",
       "High humidity and soil moisture",
       "Southern and southeastern United States",
       "Acidic soils",
@@ -7764,7 +7624,7 @@
     "category": "fungal",
     "subcategory": "foliar",
     "description": "A group of fungal diseases causing dark brown to black spots with concentric rings on leaves of brassicas, carrots, and other crops. Similar to early blight on tomatoes but affecting different host plants. It is seed-borne and favored by warm wet conditions with splashing water.",
-    "emoji": "🍂",
+    "emoji": "\ud83c\udf42",
     "appearance": [
       "Dark brown to black circular spots with concentric rings",
       "Target-like appearance on leaves",
@@ -7793,7 +7653,7 @@
       "Zinnia"
     ],
     "favorable_conditions": [
-      "Warm temperatures 75-85°F",
+      "Warm temperatures 75-85\u00b0F",
       "Frequent rain or overhead irrigation",
       "Extended leaf wetness",
       "Weakened or stressed plants",
@@ -7834,7 +7694,7 @@
       "Compost tea foliar applications"
     ],
     "cultural_treatments": [
-      "Use hot-water treated seed (122°F for 20 minutes for brassicas)",
+      "Use hot-water treated seed (122\u00b0F for 20 minutes for brassicas)",
       "Remove infected plant debris",
       "Rotate away from host crops for 2+ years",
       "Avoid working with wet plants",
@@ -7847,7 +7707,7 @@
     "category": "fungal",
     "subcategory": "gall-forming",
     "description": "A fungal disease that causes large swollen grayish-white galls on corn ears, tassels, and stalks. The galls fill with masses of dark powdery spores. While considered a devastating disease by most gardeners, the young galls are actually a prized delicacy in Mexican cuisine known as huitlacoche.",
-    "emoji": "🌽",
+    "emoji": "\ud83c\udf3d",
     "appearance": [
       "Large swollen grayish-white galls on ears, stalks, or tassels",
       "Galls range from marble to softball sized",
@@ -7863,11 +7723,10 @@
     ],
     "life_cycle": "Spores overwinter in soil and on crop debris. They infect through wounds (hail, insect damage, cultivation) or natural openings on actively growing tissue. Galls develop within 10-14 days and release billions of spores when mature.",
     "affected_plants": [
-      "Sweet Corn",
-      "Teosinte"
+      "Sweet Corn"
     ],
     "favorable_conditions": [
-      "Warm temperatures 79-93°F",
+      "Warm temperatures 79-93\u00b0F",
       "Drought stress followed by irrigation or rain",
       "Mechanical or hail injury",
       "Insect damage creating wounds",
@@ -7921,7 +7780,7 @@
     "category": "viral",
     "subcategory": "mosaic virus",
     "description": "A seed-borne virus transmitted by cucumber beetles that causes mosaic, mottling, and deformation of leaves and fruit in cucurbit crops. Unlike aphid-transmitted mosaic viruses, this one is spread by beetles and can also be transmitted through contaminated seed, making seed selection critical.",
-    "emoji": "🧬",
+    "emoji": "\ud83e\uddec",
     "appearance": [
       "Green and yellow mosaic mottling on leaves",
       "Raised blistered areas on leaves",
@@ -8000,7 +7859,7 @@
     "category": "fungal",
     "subcategory": "stem and fruit rot",
     "description": "A devastating oomycete disease affecting peppers, squash, and other cucurbits that causes rapid wilting, dark stem lesions, and white moldy fruit rot. It thrives in warm wet conditions and poorly drained soil. The pathogen produces swimming zoospores that spread through saturated soil and splashing water.",
-    "emoji": "🍄",
+    "emoji": "\ud83c\udf44",
     "appearance": [
       "Dark water-soaked lesions on stems at or near soil line",
       "White cottony mold on fruit in humid conditions",
@@ -8028,7 +7887,7 @@
       "Zucchini"
     ],
     "favorable_conditions": [
-      "Warm temperatures 75-90°F",
+      "Warm temperatures 75-90\u00b0F",
       "Heavy rain or flooding",
       "Poorly drained soil",
       "Low-lying garden areas",
@@ -8082,7 +7941,7 @@
     "category": "insect",
     "subcategory": "caterpillar",
     "description": "A caterpillar pest that feeds on flower buds and blooms of petunias, geraniums, nicotiana, and other garden flowers. It bores into buds before they open, destroying them from within. Damage often goes unnoticed until plants fail to bloom. Also damages tobacco, cotton, and some vegetable crops.",
-    "emoji": "🐛",
+    "emoji": "\ud83d\udc1b",
     "appearance": [
       "Caterpillar up to 1.5 inches, green to reddish-brown with pale stripes",
       "Bore holes visible in flower buds",
@@ -8103,12 +7962,10 @@
       "Hot Pepper",
       "Nicotiana",
       "Petunia",
-      "Rose",
-      "Snapdragon",
-      "Tobacco"
+      "Snapdragon"
     ],
     "favorable_conditions": [
-      "Warm temperatures above 70°F",
+      "Warm temperatures above 70\u00b0F",
       "Flowering plants especially petunias",
       "Southern and central United States",
       "Evening moth activity for egg laying"
