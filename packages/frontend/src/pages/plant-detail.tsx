@@ -69,47 +69,96 @@ export function PlantDetail() {
 
   return (
     <div className="space-y-4 max-w-3xl mx-auto">
-      <div className="flex flex-wrap items-center gap-2">
-        <Button variant="ghost" size="icon" className="shrink-0" onClick={() => navigate('/catalog')}>
-          <ArrowLeft className="w-5 h-5" />
-        </Button>
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-2xl plant-emoji">{p.emoji || plantTypeEmoji(p.plant_type)}</span>
-            <h2 className="text-xl font-semibold truncate">{p.common_name}</h2>
-            {isCustom && <Badge variant="secondary">Custom</Badge>}
+      {/* Hero section with blurred background */}
+      {p.image_url ? (
+        <div className="relative -mx-4 sm:-mx-6 md:mx-0 md:rounded-xl overflow-hidden">
+          {/* Blurred background layer */}
+          <div className="absolute inset-0">
+            <img
+              src={p.image_url}
+              alt=""
+              aria-hidden
+              className="w-full h-full object-cover scale-110 blur-2xl brightness-75"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/30" />
           </div>
-          {p.scientific_name && (
-            <p className="text-sm text-muted-foreground italic truncate">{p.scientific_name}</p>
-          )}
+          {/* Foreground content */}
+          <div className="relative px-4 sm:px-6 pt-3 pb-4 space-y-3">
+            <div className="flex flex-wrap items-center gap-2">
+              <Button variant="ghost" size="icon" className="shrink-0 text-white/90 hover:text-white hover:bg-white/10" onClick={() => navigate('/catalog')}>
+                <ArrowLeft className="w-5 h-5" />
+              </Button>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-2xl plant-emoji">{p.emoji || plantTypeEmoji(p.plant_type)}</span>
+                  <h2 className="text-xl font-semibold truncate text-white drop-shadow-sm">{p.common_name}</h2>
+                  {isCustom && <Badge variant="secondary">Custom</Badge>}
+                </div>
+                {p.scientific_name && (
+                  <p className="text-sm text-white/70 italic truncate">{p.scientific_name}</p>
+                )}
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <a
+                  href={p.wikipedia_url || `https://en.wikipedia.org/wiki/${encodeURIComponent((p.common_name as string).replace(/ /g, '_'))}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs text-white/60 hover:text-white transition-colors"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Wikipedia</span>
+                </a>
+                <PlantTypeBadge plantType={p.plant_type} />
+                {isCustom && (
+                  <Button variant="outline" size="sm" className="border-white/30 text-white hover:bg-white/10" onClick={() => setFormOpen(true)}>
+                    <Pencil className="w-4 h-4 sm:mr-1" />
+                    <span className="hidden sm:inline">Edit</span>
+                  </Button>
+                )}
+              </div>
+            </div>
+            <div className="rounded-lg overflow-hidden shadow-lg">
+              <img
+                src={p.image_url}
+                alt={p.common_name}
+                className="w-full max-h-64 object-cover"
+              />
+            </div>
+          </div>
         </div>
-        <div className="flex items-center gap-2 shrink-0">
-          <a
-            href={p.wikipedia_url || `https://en.wikipedia.org/wiki/${encodeURIComponent((p.common_name as string).replace(/ /g, '_'))}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <ExternalLink className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Wikipedia</span>
-          </a>
-          <PlantTypeBadge plantType={p.plant_type} />
-          {isCustom && (
-            <Button variant="outline" size="sm" onClick={() => setFormOpen(true)}>
-              <Pencil className="w-4 h-4 sm:mr-1" />
-              <span className="hidden sm:inline">Edit</span>
-            </Button>
-          )}
-        </div>
-      </div>
-
-      {p.image_url && (
-        <div className="rounded-lg overflow-hidden bg-muted">
-          <img
-            src={p.image_url}
-            alt={p.common_name}
-            className="w-full max-h-64 object-cover"
-          />
+      ) : (
+        <div className="flex flex-wrap items-center gap-2">
+          <Button variant="ghost" size="icon" className="shrink-0" onClick={() => navigate('/catalog')}>
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-2xl plant-emoji">{p.emoji || plantTypeEmoji(p.plant_type)}</span>
+              <h2 className="text-xl font-semibold truncate">{p.common_name}</h2>
+              {isCustom && <Badge variant="secondary">Custom</Badge>}
+            </div>
+            {p.scientific_name && (
+              <p className="text-sm text-muted-foreground italic truncate">{p.scientific_name}</p>
+            )}
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <a
+              href={p.wikipedia_url || `https://en.wikipedia.org/wiki/${encodeURIComponent((p.common_name as string).replace(/ /g, '_'))}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ExternalLink className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Wikipedia</span>
+            </a>
+            <PlantTypeBadge plantType={p.plant_type} />
+            {isCustom && (
+              <Button variant="outline" size="sm" onClick={() => setFormOpen(true)}>
+                <Pencil className="w-4 h-4 sm:mr-1" />
+                <span className="hidden sm:inline">Edit</span>
+              </Button>
+            )}
+          </div>
         </div>
       )}
 

@@ -8,19 +8,23 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SEED_FILE = path.resolve(__dirname, '../../../../seed_data/plant_catalog.json');
 
 export function seedPlantCatalog(db: Database.Database): void {
-  // Check if already seeded
-  const count = (db.prepare('SELECT COUNT(*) as count FROM plant_catalog').get() as any).count;
-  if (count > 0) {
-    console.log(`Plant catalog already seeded with ${count} entries`);
-    return;
-  }
-
   if (!fs.existsSync(SEED_FILE)) {
     console.log('No seed data file found at', SEED_FILE);
     return;
   }
 
   const plants = JSON.parse(fs.readFileSync(SEED_FILE, 'utf-8'));
+
+  // Build set of existing plant names to avoid duplicates
+  const existing = new Set<string>(
+    (db.prepare('SELECT common_name FROM plant_catalog').all() as any[]).map(r => r.common_name.toLowerCase()),
+  );
+
+  const newPlants = plants.filter((p: any) => !existing.has(p.common_name.toLowerCase()));
+  if (newPlants.length === 0) {
+    console.log(`Plant catalog up to date (${existing.size} entries)`);
+    return;
+  }
 
   const stmt = db.prepare(`
     INSERT INTO plant_catalog (
@@ -81,8 +85,8 @@ export function seedPlantCatalog(db: Database.Database): void {
     }
   });
 
-  insertAll(plants);
-  console.log(`Seeded ${plants.length} plants into catalog`);
+  insertAll(newPlants);
+  console.log(`Seeded ${newPlants.length} new plants into catalog (${existing.size + newPlants.length} total)`);
 }
 
 export function updatePlantImages(db: Database.Database): void {
