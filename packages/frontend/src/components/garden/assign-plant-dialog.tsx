@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { PlantStatus, PlantingMethod } from '@gardenvault/shared';
 import { usePlantCatalogSearch } from '@/hooks/use-plant-catalog';
 import { useCreatePlantInstance } from '@/hooks/use-plant-instances';
 import { PlantTypeBadge } from '@/components/garden/plant-type-badge';
@@ -59,8 +60,8 @@ export function AssignPlantDialog({ open, onOpenChange, plotId, subPlotId }: Ass
   const [selectedCatalogId, setSelectedCatalogId] = useState<string | null>(null);
   const [varietyName, setVarietyName] = useState('');
   const [datePlanted, setDatePlanted] = useState(new Date().toISOString().slice(0, 10));
-  const [plantStatus, setPlantStatus] = useState('seed_started');
-  const [plantingMethod, setPlantingMethod] = useState('direct_seed');
+  const [plantStatus, setPlantStatus] = useState<PlantStatus>('seed_started');
+  const [plantingMethod, setPlantingMethod] = useState<PlantingMethod>('direct_seed');
   const [moreOptionsOpen, setMoreOptionsOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [source, setSource] = useState('');
@@ -170,11 +171,11 @@ export function AssignPlantDialog({ open, onOpenChange, plotId, subPlotId }: Ass
           {/* Planting method */}
           <div className="space-y-2">
             <Label>Planting Method</Label>
-            <Select value={plantingMethod} onValueChange={(method) => {
-              setPlantingMethod(method);
+            <Select value={plantingMethod} onValueChange={(method: string) => {
+              setPlantingMethod(method as PlantingMethod);
               const allowed = STATUSES_BY_METHOD[method] ?? STATUS_ORDER;
               if (!allowed.includes(plantStatus)) {
-                setPlantStatus(DEFAULT_STATUS_FOR_METHOD[method] ?? 'planned');
+                setPlantStatus((DEFAULT_STATUS_FOR_METHOD[method] ?? 'planned') as PlantStatus);
               }
             }}>
               <SelectTrigger>
@@ -193,11 +194,11 @@ export function AssignPlantDialog({ open, onOpenChange, plotId, subPlotId }: Ass
           {/* Status */}
           <div className="space-y-2">
             <Label>Status</Label>
-            <Select value={plantStatus} onValueChange={(status) => {
-              setPlantStatus(status);
+            <Select value={plantStatus} onValueChange={(status: string) => {
+              setPlantStatus(status as PlantStatus);
               const requiredMethod = METHOD_FOR_STATUS[status];
               if (requiredMethod && requiredMethod !== plantingMethod) {
-                setPlantingMethod(requiredMethod);
+                setPlantingMethod(requiredMethod as PlantingMethod);
               }
             }}>
               <SelectTrigger>

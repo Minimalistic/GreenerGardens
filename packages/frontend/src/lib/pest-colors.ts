@@ -16,4 +16,5 @@ export const CATEGORY_COLORS: Record<string, string> = {
   mammal: 'bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-200',
   nutritional: 'bg-lime-100 text-lime-800 dark:bg-lime-900 dark:text-lime-200',
   environmental: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200',
+  other: 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200',
 };

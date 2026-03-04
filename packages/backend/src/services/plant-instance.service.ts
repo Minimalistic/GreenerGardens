@@ -187,7 +187,7 @@ export class PlantInstanceService {
         sub_plot_id: params.sub_plot_id,
         planting_method: params.planting_method ?? 'direct_seed',
         date_planted: datePlanted,
-        status: i === 0 ? 'planned' : 'planned',
+        status: 'planned',
         notes: `Succession planting ${i + 1} of ${params.count}`,
       });
       instances.push(instance);

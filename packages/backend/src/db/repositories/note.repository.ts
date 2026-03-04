@@ -42,10 +42,13 @@ export class NoteRepository extends BaseRepository<NoteRow> {
   }
 
   findByEntity(entityType: string, entityId: string): NoteRow[] {
-    // Search in entity_links JSON array for matching entity
-    return this.db.prepare(
-      `SELECT * FROM notes WHERE entity_links LIKE ? ORDER BY pinned DESC, created_at DESC`
-    ).all(`%"entity_id":"${entityId}"%`) as NoteRow[];
+    // Search entity_links JSON array using json_each for safe extraction
+    return this.db.prepare(`
+      SELECT DISTINCT n.* FROM notes n, json_each(n.entity_links) je
+      WHERE json_extract(je.value, '$.entity_id') = ?
+        AND json_extract(je.value, '$.entity_type') = ?
+      ORDER BY n.pinned DESC, n.created_at DESC
+    `).all(entityId, entityType) as NoteRow[];
   }
 
   findByDate(date: string): NoteRow[] {
