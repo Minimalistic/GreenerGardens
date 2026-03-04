@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Map, Sprout, Scissors, Plus, CheckCircle2, Calendar } from 'lucide-react';
+import { Map, Sprout, Scissors, Plus, CheckCircle2, Calendar, ExternalLink } from 'lucide-react';
 import { useGardenContext } from '@/contexts/garden-context';
 import { usePlotsByGarden } from '@/hooks/use-plots';
 import { usePlantInstances } from '@/hooks/use-plant-instances';
@@ -86,21 +86,37 @@ export function Dashboard() {
             ) : (
               <div className="space-y-2">
                 {dashboardTasks.map(task => {
-                  const canNavigate = task.entity_type === 'plant_instance' && task.entity_id;
+                  const route = task.entity_type && task.entity_id
+                    ? task.entity_type === 'plant_instance' ? `/plants/${task.entity_id}`
+                    : task.entity_type === 'plot' ? `/garden/plots/${task.entity_id}`
+                    : task.entity_type === 'garden' ? `/garden`
+                    : null : null;
+                  const entityLabel = task.entity_name
+                    ?? (task.entity_type === 'plant_instance' ? 'Plant'
+                    : task.entity_type === 'plot' ? 'Plot'
+                    : task.entity_type === 'garden' ? 'Garden'
+                    : null);
                   return (
-                    <div key={task.id} className="flex items-center gap-2 text-sm">
+                    <div
+                      key={task.id}
+                      className={`flex items-center gap-2 text-sm ${route ? 'cursor-pointer hover:bg-muted/50 -mx-1 px-1 rounded transition-colors' : ''}`}
+                      onClick={route ? () => navigate(route) : undefined}
+                    >
                       <button
-                        onClick={() => completeTask.mutate(task.id)}
+                        onClick={(e) => { e.stopPropagation(); completeTask.mutate(task.id); }}
                         className="text-muted-foreground hover:text-primary shrink-0"
                       >
                         <CheckCircle2 className="w-4 h-4" />
                       </button>
-                      <span
-                        className={`truncate ${canNavigate ? 'cursor-pointer hover:underline text-primary' : ''}`}
-                        onClick={canNavigate ? () => navigate(`/plants/${task.entity_id}`) : undefined}
-                      >
+                      <span className={`truncate ${route ? 'text-primary' : ''}`}>
                         {task.title}
                       </span>
+                      {entityLabel && (
+                        <span className="text-xs text-muted-foreground shrink-0 flex items-center gap-0.5">
+                          <ExternalLink className="w-3 h-3" />
+                          {entityLabel}
+                        </span>
+                      )}
                       {task.due_date && task.due_date < new Date().toISOString().split('T')[0] && (
                         <span className="text-xs text-destructive shrink-0">overdue</span>
                       )}

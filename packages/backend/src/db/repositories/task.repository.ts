@@ -16,9 +16,19 @@ export interface TaskRow {
   status: string;
   auto_generated: number;
   source_reason: string | null;
+  entity_name: string | null;
   created_at: string;
   updated_at: string;
 }
+
+const ENTITY_JOIN = `
+  LEFT JOIN plant_instances pi ON t.entity_type = 'plant_instance' AND t.entity_id = pi.id
+  LEFT JOIN plant_catalog pc ON pi.plant_catalog_id = pc.id
+  LEFT JOIN gardens g ON t.entity_type = 'garden' AND t.entity_id = g.id
+  LEFT JOIN plots p ON t.entity_type = 'plot' AND t.entity_id = p.id
+`;
+
+const ENTITY_SELECT = `t.*, COALESCE(pc.common_name, g.name, p.name, NULL) AS entity_name`;
 
 export class TaskRepository extends BaseRepository<TaskRow> {
   constructor(db: Database.Database) {
@@ -27,27 +37,27 @@ export class TaskRepository extends BaseRepository<TaskRow> {
 
   findByStatus(status: string, limit: number = 50, offset: number = 0): TaskRow[] {
     return this.db.prepare(
-      'SELECT * FROM tasks WHERE status = ? ORDER BY due_date ASC NULLS LAST, priority DESC LIMIT ? OFFSET ?'
+      `SELECT ${ENTITY_SELECT} FROM tasks t ${ENTITY_JOIN} WHERE t.status = ? ORDER BY t.due_date ASC NULLS LAST, t.priority DESC LIMIT ? OFFSET ?`
     ).all(status, limit, offset) as TaskRow[];
   }
 
   findByEntity(entityType: string, entityId: string): TaskRow[] {
     return this.db.prepare(
-      'SELECT * FROM tasks WHERE entity_type = ? AND entity_id = ? ORDER BY due_date ASC NULLS LAST'
+      `SELECT ${ENTITY_SELECT} FROM tasks t ${ENTITY_JOIN} WHERE t.entity_type = ? AND t.entity_id = ? ORDER BY t.due_date ASC NULLS LAST`
     ).all(entityType, entityId) as TaskRow[];
   }
 
   findOverdue(): TaskRow[] {
     const today = new Date().toISOString().split('T')[0];
     return this.db.prepare(
-      `SELECT * FROM tasks WHERE due_date < ? AND status NOT IN ('completed', 'skipped', 'cancelled') ORDER BY due_date ASC`
+      `SELECT ${ENTITY_SELECT} FROM tasks t ${ENTITY_JOIN} WHERE t.due_date < ? AND t.status NOT IN ('completed', 'skipped', 'cancelled') ORDER BY t.due_date ASC`
     ).all(today) as TaskRow[];
   }
 
   findDueToday(): TaskRow[] {
     const today = new Date().toISOString().split('T')[0];
     return this.db.prepare(
-      `SELECT * FROM tasks WHERE due_date = ? AND status NOT IN ('completed', 'skipped', 'cancelled') ORDER BY priority DESC`
+      `SELECT ${ENTITY_SELECT} FROM tasks t ${ENTITY_JOIN} WHERE t.due_date = ? AND t.status NOT IN ('completed', 'skipped', 'cancelled') ORDER BY t.priority DESC`
     ).all(today) as TaskRow[];
   }
 
@@ -58,7 +68,7 @@ export class TaskRepository extends BaseRepository<TaskRow> {
     const todayStr = today.toISOString().split('T')[0];
     const weekEndStr = weekEnd.toISOString().split('T')[0];
     return this.db.prepare(
-      `SELECT * FROM tasks WHERE due_date BETWEEN ? AND ? AND status NOT IN ('completed', 'skipped', 'cancelled') ORDER BY due_date ASC, priority DESC`
+      `SELECT ${ENTITY_SELECT} FROM tasks t ${ENTITY_JOIN} WHERE t.due_date BETWEEN ? AND ? AND t.status NOT IN ('completed', 'skipped', 'cancelled') ORDER BY t.due_date ASC, t.priority DESC`
     ).all(todayStr, weekEndStr) as TaskRow[];
   }
 
@@ -75,23 +85,23 @@ export class TaskRepository extends BaseRepository<TaskRow> {
     const params: any[] = [];
 
     if (filters.status) {
-      conditions.push('status = ?');
+      conditions.push('t.status = ?');
       params.push(filters.status);
     }
     if (filters.priority) {
-      conditions.push('priority = ?');
+      conditions.push('t.priority = ?');
       params.push(filters.priority);
     }
     if (filters.task_type) {
-      conditions.push('task_type = ?');
+      conditions.push('t.task_type = ?');
       params.push(filters.task_type);
     }
     if (filters.due_before) {
-      conditions.push('due_date <= ?');
+      conditions.push('t.due_date <= ?');
       params.push(filters.due_before);
     }
     if (filters.due_after) {
-      conditions.push('due_date >= ?');
+      conditions.push('t.due_date >= ?');
       params.push(filters.due_after);
     }
 
@@ -100,7 +110,7 @@ export class TaskRepository extends BaseRepository<TaskRow> {
     const offset = filters.offset ?? 0;
 
     return this.db.prepare(
-      `SELECT * FROM tasks ${where} ORDER BY due_date ASC NULLS LAST, priority DESC LIMIT ? OFFSET ?`
+      `SELECT ${ENTITY_SELECT} FROM tasks t ${ENTITY_JOIN} ${where} ORDER BY t.due_date ASC NULLS LAST, t.priority DESC LIMIT ? OFFSET ?`
     ).all(...params, limit, offset) as TaskRow[];
   }
 }

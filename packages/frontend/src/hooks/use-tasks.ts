@@ -17,6 +17,7 @@ interface Task {
   status: string;
   auto_generated: boolean;
   source_reason: string | null;
+  entity_name: string | null;
   created_at: string;
   updated_at: string;
 }

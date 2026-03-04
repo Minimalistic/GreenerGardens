@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, CheckCircle2, Clock, SkipForward, Calendar, AlertTriangle, LayoutGrid, TableIcon } from 'lucide-react';
+import { Plus, CheckCircle2, Clock, SkipForward, Calendar, AlertTriangle, LayoutGrid, TableIcon, ExternalLink } from 'lucide-react';
 import { useOverdueTasks, useTodayTasks, useWeekTasks, useTasks, useCreateTask, useCompleteTask, useSkipTask, useUpdateTask } from '@/hooks/use-tasks';
 import type { Task, TaskCreate } from '@/hooks/use-tasks';
 import { useUpdatePlantInstance } from '@/hooks/use-plant-instances';
@@ -26,13 +26,50 @@ import {
 } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 
+function getEntityRoute(task: Task): string | null {
+  if (!task.entity_type || !task.entity_id) return null;
+  switch (task.entity_type) {
+    case 'plant_instance': return `/plants/${task.entity_id}`;
+    case 'plot': return `/garden/plots/${task.entity_id}`;
+    case 'garden': return `/garden`;
+    default: return null;
+  }
+}
+
+function getEntityLabel(task: Task): string | null {
+  if (!task.entity_type || !task.entity_id) return null;
+  const name = task.entity_name;
+  switch (task.entity_type) {
+    case 'plant_instance': return name ?? 'Plant';
+    case 'plot': return name ?? 'Plot';
+    case 'garden': return name ?? 'Garden';
+    default: return null;
+  }
+}
+
+function SourceLink({ task }: { task: Task }) {
+  const navigate = useNavigate();
+  const route = getEntityRoute(task);
+  const label = getEntityLabel(task);
+  if (!label || !route) return null;
+  return (
+    <button
+      onClick={(e) => { e.stopPropagation(); navigate(route); }}
+      className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors"
+    >
+      <ExternalLink className="w-3 h-3" />
+      {label}
+    </button>
+  );
+}
+
 function TaskTitleLink({ task }: { task: Task }) {
   const navigate = useNavigate();
-  const canNavigate = task.entity_type === 'plant_instance' && task.entity_id;
+  const route = getEntityRoute(task);
   return (
     <span
-      className={canNavigate ? 'cursor-pointer hover:underline text-primary' : ''}
-      onClick={canNavigate ? () => navigate(`/plants/${task.entity_id}`) : undefined}
+      className={route ? 'cursor-pointer hover:underline text-primary' : ''}
+      onClick={route ? () => navigate(route) : undefined}
     >
       {task.title}
     </span>
@@ -52,7 +89,16 @@ const taskColumns: Column<Task>[] = [
     ? new Date(row.due_date + 'T12:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric', year: 'numeric' })
     : '-'
   },
-  { key: 'auto_generated', label: 'Source', render: (row) => row.auto_generated ? 'Auto' : '' },
+  { key: 'entity_name', label: 'Source', render: (row) => {
+    const label = getEntityLabel(row);
+    const route = getEntityRoute(row);
+    if (!label) return row.auto_generated ? 'Auto' : '';
+    return route ? (
+      <SourceLink task={row} />
+    ) : (
+      <span className="text-xs text-muted-foreground">{label}</span>
+    );
+  }},
 ];
 
 const PRIORITY_COLORS: Record<string, string> = {
@@ -77,53 +123,57 @@ function TaskCard({ task, onComplete, onSkip, onReschedule }: {
   onReschedule: (id: string) => void;
 }) {
   const navigate = useNavigate();
-  const canNavigate = task.entity_type === 'plant_instance' && task.entity_id;
+  const route = getEntityRoute(task);
   const isOverdue = task.due_date && task.due_date < new Date().toISOString().split('T')[0] && task.status !== 'completed' && task.status !== 'skipped';
 
+  const handleCardClick = () => {
+    if (route) navigate(route);
+  };
+
   return (
-    <div className={`flex items-start gap-3 p-3 rounded-lg border ${isOverdue ? 'border-destructive/30 bg-destructive/5' : 'bg-card'}`}>
+    <div
+      className={`flex items-start gap-3 p-3 rounded-lg border ${isOverdue ? 'border-destructive/30 bg-destructive/5' : 'bg-card'} ${route ? 'cursor-pointer hover:border-primary/40 transition-colors' : ''}`}
+      onClick={handleCardClick}
+    >
       <button
-        onClick={() => onComplete(task.id)}
+        onClick={(e) => { e.stopPropagation(); onComplete(task.id); }}
         className="mt-0.5 text-muted-foreground hover:text-primary transition-colors"
       >
         <CheckCircle2 className="w-5 h-5" />
       </button>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <span
-            className={`font-medium text-sm truncate ${canNavigate ? 'cursor-pointer hover:underline text-primary' : ''}`}
-            onClick={canNavigate ? () => navigate(`/plants/${task.entity_id}`) : undefined}
-          >
+          <span className={`font-medium text-sm truncate ${route ? 'text-primary' : ''}`}>
             {task.title}
           </span>
           <PriorityBadge priority={task.priority} />
-          {task.auto_generated && (
-            <span className="text-xs text-muted-foreground italic">auto</span>
-          )}
         </div>
         {task.description && (
           <p className="text-xs text-muted-foreground mt-0.5 truncate">{task.description}</p>
         )}
-        {task.due_date && (
-          <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
-            <Calendar className="w-3 h-3" />
-            {new Date(task.due_date + 'T12:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric' })}
-          </div>
-        )}
+        <div className="flex items-center gap-3 mt-1">
+          {task.due_date && (
+            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+              <Calendar className="w-3 h-3" />
+              {new Date(task.due_date + 'T12:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric' })}
+            </div>
+          )}
+          <SourceLink task={task} />
+        </div>
         {isOverdue && (
           <div className="mt-2 text-xs text-destructive">
             You planned to do this. Ready to log it, or want to reschedule?
             <div className="flex gap-2 mt-1">
-              <button onClick={() => onComplete(task.id)} className="underline hover:no-underline">Done</button>
-              <button onClick={() => onReschedule(task.id)} className="underline hover:no-underline">Reschedule</button>
-              <button onClick={() => onSkip(task.id)} className="underline hover:no-underline">Skip</button>
+              <button onClick={(e) => { e.stopPropagation(); onComplete(task.id); }} className="underline hover:no-underline">Done</button>
+              <button onClick={(e) => { e.stopPropagation(); onReschedule(task.id); }} className="underline hover:no-underline">Reschedule</button>
+              <button onClick={(e) => { e.stopPropagation(); onSkip(task.id); }} className="underline hover:no-underline">Skip</button>
             </div>
           </div>
         )}
       </div>
       {!isOverdue && (
         <div className="flex gap-1">
-          <button onClick={() => onSkip(task.id)} className="text-muted-foreground hover:text-foreground" title="Skip">
+          <button onClick={(e) => { e.stopPropagation(); onSkip(task.id); }} className="text-muted-foreground hover:text-foreground" title="Skip">
             <SkipForward className="w-4 h-4" />
           </button>
         </div>
