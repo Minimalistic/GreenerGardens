@@ -1,6 +1,8 @@
 import type { FastifyInstance } from 'fastify';
 import type { GardenService } from '../services/garden.service.js';
 import type { PlotService } from '../services/plot.service.js';
+import { GardenCreateSchema, GardenUpdateSchema } from '@gardenvault/shared';
+import { validate } from '../utils/validate.js';
 
 export function gardenRoutes(fastify: FastifyInstance, gardenService: GardenService, plotService: PlotService) {
   fastify.get('/api/v1/gardens', async () => {
@@ -9,7 +11,8 @@ export function gardenRoutes(fastify: FastifyInstance, gardenService: GardenServ
   });
 
   fastify.post('/api/v1/gardens', async (request, reply) => {
-    const garden = gardenService.create(request.body);
+    const body = validate(GardenCreateSchema, request.body);
+    const garden = gardenService.create(body);
     reply.status(201);
     return { success: true, data: garden };
   });
@@ -20,7 +23,8 @@ export function gardenRoutes(fastify: FastifyInstance, gardenService: GardenServ
   });
 
   fastify.patch<{ Params: { id: string } }>('/api/v1/gardens/:id', async (request) => {
-    const garden = gardenService.update(request.params.id, request.body);
+    const body = validate(GardenUpdateSchema, request.body);
+    const garden = gardenService.update(request.params.id, body);
     return { success: true, data: garden };
   });
 

@@ -1,5 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import type { PestEventService } from '../services/pest-event.service.js';
+import { PestEventCreateSchema, PestEventUpdateSchema } from '@gardenvault/shared';
+import { validate } from '../utils/validate.js';
 
 export function pestEventRoutes(fastify: FastifyInstance, pestEventService: PestEventService) {
   fastify.get<{ Querystring: { entity_type?: string; entity_id?: string; pest_type?: string; outcome?: string; severity?: string; limit?: string; offset?: string } }>(
@@ -16,7 +18,8 @@ export function pestEventRoutes(fastify: FastifyInstance, pestEventService: Pest
   );
 
   fastify.post('/api/v1/pest-events', async (request, reply) => {
-    const data = pestEventService.create(request.body);
+    const body = validate(PestEventCreateSchema, request.body);
+    const data = pestEventService.create(body);
     reply.status(201);
     return { success: true, data };
   });
@@ -27,7 +30,8 @@ export function pestEventRoutes(fastify: FastifyInstance, pestEventService: Pest
   });
 
   fastify.patch<{ Params: { id: string } }>('/api/v1/pest-events/:id', async (request) => {
-    const data = pestEventService.update(request.params.id, request.body);
+    const body = validate(PestEventUpdateSchema, request.body);
+    const data = pestEventService.update(request.params.id, body);
     return { success: true, data };
   });
 

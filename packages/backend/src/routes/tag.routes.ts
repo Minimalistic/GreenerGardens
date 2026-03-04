@@ -1,5 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import type { TagService } from '../services/tag.service.js';
+import { TagCreateSchema, TagUpdateSchema, EntityTagSchema } from '@gardenvault/shared';
+import { validate } from '../utils/validate.js';
 
 export function tagRoutes(fastify: FastifyInstance, tagService: TagService) {
   fastify.get('/api/v1/tags', async () => {
@@ -8,13 +10,15 @@ export function tagRoutes(fastify: FastifyInstance, tagService: TagService) {
   });
 
   fastify.post('/api/v1/tags', async (request, reply) => {
-    const data = tagService.create(request.body);
+    const body = validate(TagCreateSchema, request.body);
+    const data = tagService.create(body);
     reply.status(201);
     return { success: true, data };
   });
 
   fastify.patch<{ Params: { id: string } }>('/api/v1/tags/:id', async (request) => {
-    const data = tagService.update(request.params.id, request.body);
+    const body = validate(TagUpdateSchema, request.body);
+    const data = tagService.update(request.params.id, body);
     return { success: true, data };
   });
 
@@ -24,8 +28,8 @@ export function tagRoutes(fastify: FastifyInstance, tagService: TagService) {
   });
 
   fastify.post<{ Params: { id: string } }>('/api/v1/tags/:id/entities', async (request, reply) => {
-    const { entity_type, entity_id } = request.body as any;
-    tagService.addEntityTag(request.params.id, entity_type, entity_id);
+    const body = validate(EntityTagSchema.pick({ entity_type: true, entity_id: true }), request.body);
+    tagService.addEntityTag(request.params.id, body.entity_type, body.entity_id);
     reply.status(201);
     return { success: true };
   });

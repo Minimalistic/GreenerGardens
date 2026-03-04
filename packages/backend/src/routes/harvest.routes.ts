@@ -1,5 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import type { HarvestService } from '../services/harvest.service.js';
+import { HarvestCreateSchema, HarvestUpdateSchema } from '@gardenvault/shared';
+import { validate } from '../utils/validate.js';
 import { safeParseInt } from '../utils/parse.js';
 
 export function harvestRoutes(fastify: FastifyInstance, harvestService: HarvestService) {
@@ -18,7 +20,8 @@ export function harvestRoutes(fastify: FastifyInstance, harvestService: HarvestS
   });
 
   fastify.post('/api/v1/harvests', async (request, reply) => {
-    const harvest = harvestService.create(request.body);
+    const body = validate(HarvestCreateSchema, request.body);
+    const harvest = harvestService.create(body);
     reply.status(201);
     return { success: true, data: harvest };
   });
@@ -29,7 +32,8 @@ export function harvestRoutes(fastify: FastifyInstance, harvestService: HarvestS
   });
 
   fastify.patch<{ Params: { id: string } }>('/api/v1/harvests/:id', async (request) => {
-    const harvest = harvestService.update(request.params.id, request.body);
+    const body = validate(HarvestUpdateSchema, request.body);
+    const harvest = harvestService.update(request.params.id, body);
     return { success: true, data: harvest };
   });
 

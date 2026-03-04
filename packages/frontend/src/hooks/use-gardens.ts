@@ -54,6 +54,18 @@ export function useDeleteGarden() {
     mutationFn: (id: string) => api.delete(`/gardens/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['gardens'] });
+      queryClient.invalidateQueries({ queryKey: ['plots'] });
+      queryClient.invalidateQueries({ queryKey: ['sub-plots'] });
+      queryClient.invalidateQueries({ queryKey: ['sub-plots-with-plants'] });
+      queryClient.invalidateQueries({ queryKey: ['plant-instances'] });
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['harvests'] });
+      queryClient.invalidateQueries({ queryKey: ['harvest-stats'] });
+      queryClient.invalidateQueries({ queryKey: ['soil-tests'] });
+      queryClient.invalidateQueries({ queryKey: ['pest-events'] });
+      queryClient.invalidateQueries({ queryKey: ['notes'] });
+      queryClient.invalidateQueries({ queryKey: ['calendar'] });
+      queryClient.invalidateQueries({ queryKey: ['history'] });
     },
   });
 }

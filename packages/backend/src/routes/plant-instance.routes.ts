@@ -1,7 +1,19 @@
 import type { FastifyInstance } from 'fastify';
 import type { PlantInstanceService } from '../services/plant-instance.service.js';
-import { replyError } from '../utils/reply-error.js';
+import { PlantInstanceCreateSchema, PlantInstanceUpdateSchema, PlantInstanceStatusUpdateSchema, PlantInstanceHealthUpdateSchema } from '@gardenvault/shared';
+import { validate } from '../utils/validate.js';
 import { safeParseInt } from '../utils/parse.js';
+import { z } from 'zod';
+
+const SuccessionSchema = z.object({
+  plant_catalog_id: z.string().uuid(),
+  plot_id: z.string().uuid(),
+  start_date: z.string().min(1),
+  interval_days: z.number().int().positive(),
+  count: z.number().int().min(1).max(20),
+  planting_method: z.string().optional(),
+  sub_plot_id: z.string().uuid().optional(),
+});
 
 export function plantInstanceRoutes(fastify: FastifyInstance, instanceService: PlantInstanceService) {
   fastify.get<{ Querystring: { limit?: string; offset?: string } }>('/api/v1/plant-instances', async (request) => {
@@ -14,7 +26,8 @@ export function plantInstanceRoutes(fastify: FastifyInstance, instanceService: P
   });
 
   fastify.post('/api/v1/plant-instances', async (request, reply) => {
-    const instance = instanceService.create(request.body);
+    const body = validate(PlantInstanceCreateSchema, request.body);
+    const instance = instanceService.create(body);
     reply.status(201);
     return { success: true, data: instance };
   });
@@ -25,7 +38,8 @@ export function plantInstanceRoutes(fastify: FastifyInstance, instanceService: P
   });
 
   fastify.patch<{ Params: { id: string } }>('/api/v1/plant-instances/:id', async (request) => {
-    const instance = instanceService.update(request.params.id, request.body);
+    const body = validate(PlantInstanceUpdateSchema, request.body);
+    const instance = instanceService.update(request.params.id, body);
     return { success: true, data: instance };
   });
 
@@ -35,35 +49,20 @@ export function plantInstanceRoutes(fastify: FastifyInstance, instanceService: P
   });
 
   fastify.patch<{ Params: { id: string } }>('/api/v1/plant-instances/:id/status', async (request) => {
-    const instance = instanceService.updateStatus(request.params.id, request.body);
+    const body = validate(PlantInstanceStatusUpdateSchema, request.body);
+    const instance = instanceService.updateStatus(request.params.id, body);
     return { success: true, data: instance };
   });
 
   fastify.patch<{ Params: { id: string } }>('/api/v1/plant-instances/:id/health', async (request) => {
-    const instance = instanceService.updateHealth(request.params.id, request.body);
+    const body = validate(PlantInstanceHealthUpdateSchema, request.body);
+    const instance = instanceService.updateHealth(request.params.id, body);
     return { success: true, data: instance };
   });
 
   // Succession planting: create a series of staggered plant instances
   fastify.post('/api/v1/plant-instances/succession', async (request, reply) => {
-    const body = request.body as {
-      plant_catalog_id: string;
-      plot_id: string;
-      start_date: string;
-      interval_days: number;
-      count: number;
-      planting_method?: string;
-      sub_plot_id?: string;
-    };
-
-    if (!body.plant_catalog_id || !body.plot_id || !body.start_date || !body.interval_days || !body.count) {
-      return replyError(reply, 400, 'VALIDATION_ERROR', 'plant_catalog_id, plot_id, start_date, interval_days, and count are required');
-    }
-
-    if (body.count < 1 || body.count > 20) {
-      return replyError(reply, 400, 'VALIDATION_ERROR', 'count must be between 1 and 20');
-    }
-
+    const body = validate(SuccessionSchema, request.body);
     const instances = instanceService.createSuccession(body);
     reply.status(201);
     return { success: true, data: instances };

@@ -13,16 +13,19 @@ import { PlantingGuideCard } from '@/components/garden/planting-guide-card';
 import { AlertBanner } from '@/components/garden/alert-banner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { QueryError } from '@/components/query-error';
 
 export function Dashboard() {
   const navigate = useNavigate();
   const { currentGardenId } = useGardenContext();
-  const { data: plotsData } = usePlotsByGarden(currentGardenId);
-  const { data: plantsData } = usePlantInstances();
+  const plotsQuery = usePlotsByGarden(currentGardenId);
+  const plantsQuery = usePlantInstances();
   const { data: statsData } = useHarvestStats();
 
   const { data: todayTasksData } = useTodayTasks();
   const { data: overdueTasksData } = useOverdueTasks();
+  const plotsData = plotsQuery.data;
+  const plantsData = plantsQuery.data;
   const completeTask = useCompleteTask();
 
   const plotCount = plotsData?.data?.length ?? 0;
@@ -59,6 +62,13 @@ export function Dashboard() {
         <StatCard icon={Sprout} label="Active Plants" value={plantCount} href="/catalog" />
         <StatCard icon={Scissors} label="Harvests This Season" value={harvestCount} href="/harvests" />
       </div>
+
+      {(plotsQuery.isError || plantsQuery.isError) && (
+        <QueryError
+          error={plotsQuery.error || plantsQuery.error}
+          onRetry={() => { plotsQuery.refetch(); plantsQuery.refetch(); }}
+        />
+      )}
 
       <AlertBanner />
 

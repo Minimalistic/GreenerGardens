@@ -1,5 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import type { NoteService } from '../services/note.service.js';
+import { NoteCreateSchema, NoteUpdateSchema } from '@gardenvault/shared';
+import { validate } from '../utils/validate.js';
 
 export function noteRoutes(fastify: FastifyInstance, noteService: NoteService) {
   fastify.get<{ Querystring: { pinned?: string; limit?: string; offset?: string } }>(
@@ -16,7 +18,8 @@ export function noteRoutes(fastify: FastifyInstance, noteService: NoteService) {
   );
 
   fastify.post('/api/v1/notes', async (request, reply) => {
-    const data = noteService.create(request.body);
+    const body = validate(NoteCreateSchema, request.body);
+    const data = noteService.create(body);
     reply.status(201);
     return { success: true, data };
   });
@@ -27,7 +30,8 @@ export function noteRoutes(fastify: FastifyInstance, noteService: NoteService) {
   });
 
   fastify.patch<{ Params: { id: string } }>('/api/v1/notes/:id', async (request) => {
-    const data = noteService.update(request.params.id, request.body);
+    const body = validate(NoteUpdateSchema, request.body);
+    const data = noteService.update(request.params.id, body);
     return { success: true, data };
   });
 

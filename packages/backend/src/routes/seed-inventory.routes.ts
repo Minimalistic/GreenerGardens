@@ -1,6 +1,13 @@
 import type { FastifyInstance } from 'fastify';
 import type { SeedInventoryService } from '../services/seed-inventory.service.js';
+import { SeedInventoryCreateSchema, SeedInventoryUpdateSchema } from '@gardenvault/shared';
+import { validate } from '../utils/validate.js';
 import { safeParseInt } from '../utils/parse.js';
+import { z } from 'zod';
+
+const DeductSchema = z.object({
+  count: z.number().int().min(1).default(1),
+});
 
 export function seedInventoryRoutes(fastify: FastifyInstance, seedService: SeedInventoryService) {
   fastify.get<{ Querystring: { limit?: string; offset?: string; expiring_soon?: string; low_quantity?: string } }>(
@@ -18,7 +25,8 @@ export function seedInventoryRoutes(fastify: FastifyInstance, seedService: SeedI
   );
 
   fastify.post('/api/v1/seed-inventory', async (request, reply) => {
-    const data = seedService.create(request.body);
+    const body = validate(SeedInventoryCreateSchema, request.body);
+    const data = seedService.create(body);
     reply.status(201);
     return { success: true, data };
   });
@@ -38,7 +46,8 @@ export function seedInventoryRoutes(fastify: FastifyInstance, seedService: SeedI
   });
 
   fastify.patch<{ Params: { id: string } }>('/api/v1/seed-inventory/:id', async (request) => {
-    const data = seedService.update(request.params.id, request.body);
+    const body = validate(SeedInventoryUpdateSchema, request.body);
+    const data = seedService.update(request.params.id, body);
     return { success: true, data };
   });
 
@@ -47,10 +56,11 @@ export function seedInventoryRoutes(fastify: FastifyInstance, seedService: SeedI
     reply.status(204);
   });
 
-  fastify.post<{ Params: { id: string }; Body: { count: number } }>(
+  fastify.post<{ Params: { id: string } }>(
     '/api/v1/seed-inventory/:id/deduct',
     async (request) => {
-      const data = seedService.deductSeeds(request.params.id, (request.body as any).count ?? 1);
+      const body = validate(DeductSchema, request.body);
+      const data = seedService.deductSeeds(request.params.id, body.count);
       return { success: true, data };
     },
   );

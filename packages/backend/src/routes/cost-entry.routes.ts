@@ -1,5 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import type { CostEntryService } from '../services/cost-entry.service.js';
+import { CostEntryCreateSchema, CostEntryUpdateSchema } from '@gardenvault/shared';
+import { validate } from '../utils/validate.js';
 import { safeParseInt } from '../utils/parse.js';
 
 export function costEntryRoutes(fastify: FastifyInstance, costService: CostEntryService) {
@@ -31,7 +33,8 @@ export function costEntryRoutes(fastify: FastifyInstance, costService: CostEntry
   });
 
   fastify.post('/api/v1/costs', async (request, reply) => {
-    const data = costService.create(request.body);
+    const body = validate(CostEntryCreateSchema, request.body);
+    const data = costService.create(body);
     reply.status(201);
     return { success: true, data };
   });
@@ -42,7 +45,8 @@ export function costEntryRoutes(fastify: FastifyInstance, costService: CostEntry
   });
 
   fastify.patch<{ Params: { id: string } }>('/api/v1/costs/:id', async (request) => {
-    const data = costService.update(request.params.id, request.body);
+    const body = validate(CostEntryUpdateSchema, request.body);
+    const data = costService.update(request.params.id, body);
     return { success: true, data };
   });
 

@@ -1,6 +1,17 @@
 import type { FastifyInstance } from 'fastify';
 import type { UploadService } from '../services/upload.service.js';
 
+const ALLOWED_MIME_TYPES = new Set([
+  'image/jpeg',
+  'image/png',
+  'image/gif',
+  'image/webp',
+  'image/svg+xml',
+  'application/pdf',
+  'text/csv',
+  'application/json',
+]);
+
 export function uploadRoutes(fastify: FastifyInstance, uploadService: UploadService) {
   // Upload a file
   fastify.post('/api/v1/uploads', async (request, reply) => {
@@ -8,6 +19,17 @@ export function uploadRoutes(fastify: FastifyInstance, uploadService: UploadServ
     if (!data) {
       reply.status(400);
       return { success: false, error: { code: 'VALIDATION_ERROR', message: 'No file provided' } };
+    }
+
+    if (!ALLOWED_MIME_TYPES.has(data.mimetype)) {
+      reply.status(400);
+      return {
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: `File type '${data.mimetype}' is not allowed. Accepted types: ${[...ALLOWED_MIME_TYPES].join(', ')}`,
+        },
+      };
     }
 
     const buffer = await data.toBuffer();

@@ -13,6 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import { QueryError } from '@/components/query-error';
 
 const pestEventColumns: Column<any>[] = [
   { key: 'pest_name', label: 'Pest Name' },
@@ -266,7 +267,8 @@ export function PestEventsPage() {
   const [outcomeFilter, setOutcomeFilter] = useState<string | undefined>();
   const [pestTypeFilter, setPestTypeFilter] = useState<string | undefined>();
   const [severityFilter, setSeverityFilter] = useState<string | undefined>();
-  const { data } = usePestEvents({ outcome: outcomeFilter, pest_type: pestTypeFilter, severity: severityFilter });
+  const pestEventsQuery = usePestEvents({ outcome: outcomeFilter, pest_type: pestTypeFilter, severity: severityFilter });
+  const { data } = pestEventsQuery;
   const updatePestEvent = useUpdatePestEvent();
   const { toast } = useToast();
 
@@ -289,6 +291,9 @@ export function PestEventsPage() {
 
   return (
     <div className="space-y-4 max-w-3xl mx-auto">
+      {pestEventsQuery.isError && (
+        <QueryError error={pestEventsQuery.error} onRetry={() => pestEventsQuery.refetch()} />
+      )}
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">Pest & Disease Tracker</h2>
         <div className="flex items-center gap-2">

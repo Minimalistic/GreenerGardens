@@ -3,6 +3,7 @@ import type Database from 'better-sqlite3';
 import type { AlertService } from '../services/alert.service.js';
 import type { GardenRepository } from '../db/repositories/garden.repository.js';
 import { seedTestData } from '../db/seed-test-data.js';
+import { requireAdminKey } from '../utils/auth.js';
 
 // All user-data tables to clear (preserves plant_catalog and migrations)
 const USER_DATA_TABLES = [
@@ -47,7 +48,7 @@ export function adminRoutes(
   gardenRepo: GardenRepository,
 ) {
   // Clear all user data (keeps plant catalog reference data)
-  fastify.post('/api/v1/admin/reset-database', async (_request, reply) => {
+  fastify.post('/api/v1/admin/reset-database', { preHandler: [requireAdminKey] }, async (_request, reply) => {
     clearAllUserData(db);
     reply.status(200);
     return {
@@ -57,7 +58,7 @@ export function adminRoutes(
   });
 
   // Clear all user data and populate with test/demo data
-  fastify.post('/api/v1/admin/seed-test-data', async (_request, reply) => {
+  fastify.post('/api/v1/admin/seed-test-data', { preHandler: [requireAdminKey] }, async (_request, reply) => {
     clearAllUserData(db);
     const summary = seedTestData(db);
 

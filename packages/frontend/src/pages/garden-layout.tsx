@@ -22,6 +22,7 @@ import { useForm } from 'react-hook-form';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ConfirmDeleteDialog } from '@/components/confirm-delete-dialog';
 import type { SubPlot, ApiResponse } from '@gardenvault/shared';
+import { QueryError } from '@/components/query-error';
 
 interface PlotFormData {
   name: string;
@@ -58,8 +59,10 @@ const mod = isMac ? '\u2318' : 'Ctrl+';
 export function GardenLayout() {
   const navigate = useNavigate();
   const { currentGardenId, setCurrentGardenId } = useGardenContext();
-  const { data: gardensData, isLoading: gardensLoading } = useGardens();
-  const { data: plotsData, isLoading: plotsLoading } = usePlotsByGarden(currentGardenId);
+  const gardensQuery = useGardens();
+  const plotsQuery = usePlotsByGarden(currentGardenId);
+  const { data: gardensData, isLoading: gardensLoading } = gardensQuery;
+  const { data: plotsData, isLoading: plotsLoading } = plotsQuery;
   const createPlot = useCreatePlot();
   const updatePlot = useUpdatePlot();
   const deletePlot = useDeletePlot();
@@ -330,6 +333,15 @@ export function GardenLayout() {
           <Skeleton className="h-48 w-full rounded-lg" />
         </div>
       </div>
+    );
+  }
+
+  if (gardensQuery.isError || plotsQuery.isError) {
+    return (
+      <QueryError
+        error={gardensQuery.error || plotsQuery.error}
+        onRetry={() => { gardensQuery.refetch(); plotsQuery.refetch(); }}
+      />
     );
   }
 

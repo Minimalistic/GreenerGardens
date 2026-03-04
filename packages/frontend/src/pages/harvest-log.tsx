@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Scissors, Scale, Sprout, LayoutGrid, TableIcon } from 'lucide-react';
+import { QueryError } from '@/components/query-error';
 
 const QUALITY_COLORS: Record<string, string> = {
   excellent: 'bg-green-50 text-green-700 dark:bg-green-900 dark:text-green-200',
@@ -36,7 +37,8 @@ export function HarvestLog() {
     (localStorage.getItem('harvest-view') as 'card' | 'table') ?? 'card'
   );
   const navigate = useNavigate();
-  const { data: harvestsData, isLoading } = useHarvests();
+  const harvestsQuery = useHarvests();
+  const { data: harvestsData, isLoading } = harvestsQuery;
   const { data: statsData } = useHarvestStats();
   const harvests = harvestsData?.data ?? [];
   const stats = statsData?.data;
@@ -63,6 +65,9 @@ export function HarvestLog() {
 
   return (
     <div className="space-y-4 max-w-5xl mx-auto">
+      {harvestsQuery.isError && (
+        <QueryError error={harvestsQuery.error} onRetry={() => harvestsQuery.refetch()} />
+      )}
       {stats && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <StatCard icon={Scissors} label="Total Harvests" value={stats.total_harvests} />

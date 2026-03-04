@@ -1,6 +1,8 @@
 import type { FastifyInstance } from 'fastify';
 import type { PlotService } from '../services/plot.service.js';
 import type { SubPlotService } from '../services/sub-plot.service.js';
+import { PlotCreateSchema, PlotUpdateSchema } from '@gardenvault/shared';
+import { validate } from '../utils/validate.js';
 
 export function plotRoutes(fastify: FastifyInstance, plotService: PlotService, subPlotService: SubPlotService) {
   fastify.get('/api/v1/plots', async () => {
@@ -9,7 +11,8 @@ export function plotRoutes(fastify: FastifyInstance, plotService: PlotService, s
   });
 
   fastify.post('/api/v1/plots', async (request, reply) => {
-    const plot = plotService.create(request.body);
+    const body = validate(PlotCreateSchema, request.body);
+    const plot = plotService.create(body);
     reply.status(201);
     return { success: true, data: plot };
   });
@@ -20,7 +23,8 @@ export function plotRoutes(fastify: FastifyInstance, plotService: PlotService, s
   });
 
   fastify.patch<{ Params: { id: string } }>('/api/v1/plots/:id', async (request) => {
-    const plot = plotService.update(request.params.id, request.body);
+    const body = validate(PlotUpdateSchema, request.body);
+    const plot = plotService.update(request.params.id, body);
     return { success: true, data: plot };
   });
 

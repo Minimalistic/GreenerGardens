@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import { QueryError } from '@/components/query-error';
 
 function CreateNoteDialog() {
   const [open, setOpen] = useState(false);
@@ -71,7 +72,8 @@ function entityLinkPath(type: string, id: string): string | null {
 
 export function NotesPage() {
   const navigate = useNavigate();
-  const { data } = useNotes();
+  const notesQuery = useNotes();
+  const { data } = notesQuery;
   const deleteNote = useDeleteNote();
   const updateNote = useUpdateNote();
   const { toast } = useToast();
@@ -118,7 +120,11 @@ export function NotesPage() {
         <CreateNoteDialog />
       </div>
 
-      {notes.length === 0 ? (
+      {notesQuery.isError && (
+        <QueryError error={notesQuery.error} onRetry={() => notesQuery.refetch()} />
+      )}
+
+      {notes.length === 0 && !notesQuery.isError ? (
         <Card>
           <CardContent className="py-8 text-center text-muted-foreground">
             <StickyNote className="w-12 h-12 mx-auto mb-3 opacity-50" />

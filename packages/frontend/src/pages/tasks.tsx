@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
+import { QueryError } from '@/components/query-error';
 
 function getEntityRoute(task: Task): string | null {
   if (!task.entity_type || !task.entity_id) return null;
@@ -268,11 +269,14 @@ export function TasksPage() {
     localStorage.setItem('tasks-view', v);
   };
 
-  const { data: overdueData, isLoading: overdueLoading } = useOverdueTasks();
-  const { data: todayData, isLoading: todayLoading } = useTodayTasks();
+  const overdueQuery = useOverdueTasks();
+  const todayQuery = useTodayTasks();
   const { data: weekData } = useWeekTasks();
   const { data: allData } = useTasks();
-  const isLoading = overdueLoading || todayLoading;
+  const { data: overdueData } = overdueQuery;
+  const { data: todayData } = todayQuery;
+  const isLoading = overdueQuery.isLoading || todayQuery.isLoading;
+  const queryError = overdueQuery.error || todayQuery.error;
   const completeTask = useCompleteTask();
   const skipTask = useSkipTask();
   const { toast } = useToast();
@@ -328,6 +332,9 @@ export function TasksPage() {
 
   return (
     <div className="space-y-4 max-w-3xl mx-auto">
+      {queryError && (
+        <QueryError error={queryError} onRetry={() => { overdueQuery.refetch(); todayQuery.refetch(); }} />
+      )}
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">Tasks</h2>
         <div className="flex items-center gap-2">

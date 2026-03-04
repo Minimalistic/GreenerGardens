@@ -1,5 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import type { TaskService } from '../services/task.service.js';
+import { TaskCreateSchema, TaskUpdateSchema } from '@gardenvault/shared';
+import { validate } from '../utils/validate.js';
 import { safeParseInt } from '../utils/parse.js';
 
 export function taskRoutes(fastify: FastifyInstance, taskService: TaskService) {
@@ -33,7 +35,8 @@ export function taskRoutes(fastify: FastifyInstance, taskService: TaskService) {
   });
 
   fastify.post('/api/v1/tasks', async (request, reply) => {
-    const task = taskService.create(request.body);
+    const body = validate(TaskCreateSchema, request.body);
+    const task = taskService.create(body);
     reply.status(201);
     return { success: true, data: task };
   });
@@ -44,7 +47,8 @@ export function taskRoutes(fastify: FastifyInstance, taskService: TaskService) {
   });
 
   fastify.patch<{ Params: { id: string } }>('/api/v1/tasks/:id', async (request) => {
-    const task = taskService.update(request.params.id, request.body);
+    const body = validate(TaskUpdateSchema, request.body);
+    const task = taskService.update(request.params.id, body);
     return { success: true, data: task };
   });
 

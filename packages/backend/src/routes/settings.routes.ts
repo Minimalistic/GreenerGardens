@@ -1,5 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import type { GardenService } from '../services/garden.service.js';
+import { GardenUpdateSchema } from '@gardenvault/shared';
+import { validate } from '../utils/validate.js';
 
 export function settingsRoutes(fastify: FastifyInstance, gardenService: GardenService) {
   // GET /api/v1/settings — returns the current garden's settings + garden info
@@ -35,7 +37,8 @@ export function settingsRoutes(fastify: FastifyInstance, gardenService: GardenSe
       return { success: false, error: { code: 'NO_GARDEN', message: 'No garden configured' } };
     }
     const gardenId = (gardens[0] as any).id;
-    const updated = gardenService.update(gardenId, request.body);
+    const body = validate(GardenUpdateSchema, request.body);
+    const updated = gardenService.update(gardenId, body);
     return { success: true, data: updated };
   });
 }

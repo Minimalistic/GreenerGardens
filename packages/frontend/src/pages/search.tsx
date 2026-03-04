@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useDeferredValue } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search as SearchIcon, FileText, Map, Bug, CheckSquare, Tag, Sprout } from 'lucide-react';
 import { useSearch } from '@/hooks/use-search';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { plantTypeEmoji } from '@/lib/plant-type-emoji';
+import { QueryError } from '@/components/query-error';
 
 const entityIcons: Record<string, typeof SearchIcon> = {
   plant_catalog: Sprout,
@@ -26,10 +27,13 @@ const entityRoutes: Record<string, (id: string) => string> = {
 
 export function SearchPage() {
   const [query, setQuery] = useState('');
-  const { data, isLoading } = useSearch(query);
+  const deferredQuery = useDeferredValue(query);
+  const searchQuery = useSearch(deferredQuery);
+  const { data, isLoading } = searchQuery;
   const navigate = useNavigate();
 
   const results = data?.data ?? [];
+  const isStale = query !== deferredQuery;
 
   // Group by entity type
   const grouped = results.reduce((acc: Record<string, any[]>, r: any) => {
@@ -51,10 +55,14 @@ export function SearchPage() {
         />
       </div>
 
-      {isLoading && <p className="text-sm text-muted-foreground">Searching...</p>}
+      {searchQuery.isError && (
+        <QueryError error={searchQuery.error} onRetry={() => searchQuery.refetch()} />
+      )}
 
-      {query.trim().length >= 2 && results.length === 0 && !isLoading && (
-        <p className="text-sm text-muted-foreground">No results found for "{query}"</p>
+      {(isLoading || isStale) && <p className="text-sm text-muted-foreground">Searching...</p>}
+
+      {deferredQuery.trim().length >= 2 && results.length === 0 && !isLoading && !isStale && (
+        <p className="text-sm text-muted-foreground">No results found for "{deferredQuery}"</p>
       )}
 
       {Object.entries(grouped).map(([type, items]) => {

@@ -1,5 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import type { PlantCatalogService } from '../services/plant-catalog.service.js';
+import { PlantCatalogCreateSchema, PlantCatalogUpdateSchema } from '@gardenvault/shared';
+import { validate } from '../utils/validate.js';
 import { NotFoundError } from '../utils/errors.js';
 import { safeParseInt } from '../utils/parse.js';
 
@@ -32,12 +34,14 @@ export function plantCatalogRoutes(fastify: FastifyInstance, catalogService: Pla
   });
 
   fastify.post('/api/v1/plant-catalog', async (request, reply) => {
-    const plant = catalogService.create(request.body);
+    const body = validate(PlantCatalogCreateSchema, request.body);
+    const plant = catalogService.create(body);
     return reply.status(201).send({ success: true, data: plant });
   });
 
   fastify.patch<{ Params: { id: string } }>('/api/v1/plant-catalog/:id', async (request) => {
-    const plant = catalogService.update(request.params.id, request.body);
+    const body = validate(PlantCatalogUpdateSchema, request.body);
+    const plant = catalogService.update(request.params.id, body);
     return { success: true, data: plant };
   });
 
