@@ -97,13 +97,13 @@ export function updatePlantImages(db: Database.Database): void {
   if (plantsWithImages.length === 0) return;
 
   const stmt = db.prepare(
-    `UPDATE plant_catalog SET image_url = ? WHERE common_name = ? AND image_url IS NULL`
+    `UPDATE plant_catalog SET image_url = ? WHERE common_name = ? AND (image_url IS NULL OR image_url != ?)`
   );
 
   let updated = 0;
   const updateAll = db.transaction((items: any[]) => {
     for (const p of items) {
-      const result = stmt.run(p.image_url, p.common_name);
+      const result = stmt.run(p.image_url, p.common_name, p.image_url);
       if (result.changes > 0) updated++;
     }
   });

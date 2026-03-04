@@ -69,8 +69,8 @@
       "Mulch heavily to retain moisture"
     ],
     "transplant_weeks_after_last_frost": 2,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Tomato_je.jpg/330px-Tomato_je.jpg",
-    "emoji": "🍅",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Tomato_je.jpg/1280px-Tomato_je.jpg",
+    "emoji": "\ud83c\udf45",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Tomato",
     "common_pests": [
       {
@@ -375,8 +375,8 @@
       "Stake plants when fruit develops"
     ],
     "transplant_weeks_after_last_frost": 2,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Capsicum_annuum_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-027.jpg/330px-Capsicum_annuum_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-027.jpg",
-    "emoji": "🫑",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Capsicum_annuum_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-027.jpg/1280px-Capsicum_annuum_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-027.jpg",
+    "emoji": "\ud83e\uded1",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Capsicum_annuum",
     "common_pests": [
       {
@@ -658,8 +658,8 @@
     "transplant_weeks_after_last_frost": 2,
     "days_to_germination_min": 7,
     "days_to_germination_max": 14,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Red_capsicum_and_cross_section.jpg/330px-Red_capsicum_and_cross_section.jpg",
-    "emoji": "🌶️",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Red_capsicum_and_cross_section.jpg/1280px-Red_capsicum_and_cross_section.jpg",
+    "emoji": "\ud83c\udf36\ufe0f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Hot_Pepper",
     "common_pests": [
       {
@@ -955,8 +955,8 @@
       "Harvest frequently to encourage production"
     ],
     "transplant_weeks_after_last_frost": 2,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/ARS_cucumber.jpg/330px-ARS_cucumber.jpg",
-    "emoji": "🥒",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/ARS_cucumber.jpg/1280px-ARS_cucumber.jpg",
+    "emoji": "\ud83e\udd52",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Cucumber",
     "common_pests": [
       {
@@ -1147,8 +1147,8 @@
       "Watch for squash vine borers"
     ],
     "transplant_weeks_after_last_frost": 2,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Cucurbita_pepo_collage_1.png/330px-Cucurbita_pepo_collage_1.png",
-    "emoji": "🥒",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Cucurbita_pepo_collage_1.png/1280px-Cucurbita_pepo_collage_1.png",
+    "emoji": "\ud83e\udd52",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Cucurbita_pepo",
     "common_pests": [
       {
@@ -1256,8 +1256,8 @@
     "indoor_start_weeks_before_frost": 4,
     "days_to_germination_min": 4,
     "days_to_germination_max": 8,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Cucurbita_pepo_collage_1.png/330px-Cucurbita_pepo_collage_1.png",
-    "emoji": "🟡",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Cucurbita_pepo_collage_1.png/1280px-Cucurbita_pepo_collage_1.png",
+    "emoji": "\ud83d\udfe1",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Cucurbita_pepo",
     "common_pests": [
       {
@@ -1426,8 +1426,8 @@
     "indoor_start_weeks_before_frost": 4,
     "days_to_germination_min": 5,
     "days_to_germination_max": 10,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cucurbita_maxima_Blanco2.320.png/330px-Cucurbita_maxima_Blanco2.320.png",
-    "emoji": "🎃",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cucurbita_maxima_Blanco2.320.png/1280px-Cucurbita_maxima_Blanco2.320.png",
+    "emoji": "\ud83c\udf83",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Cucurbita_maxima",
     "common_pests": [
       {
@@ -1596,8 +1596,8 @@
     "indoor_start_weeks_before_frost": 4,
     "days_to_germination_min": 5,
     "days_to_germination_max": 10,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Cucurbita_pepo_collage_1.png/330px-Cucurbita_pepo_collage_1.png",
-    "emoji": "🎃",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Cucurbita_pepo_collage_1.png/1280px-Cucurbita_pepo_collage_1.png",
+    "emoji": "\ud83c\udf83",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Cucurbita_pepo",
     "common_pests": [
       {
@@ -1729,8 +1729,8 @@
     ],
     "transplant_weeks_after_last_frost": -2,
     "succession_planting_interval_days": 14,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Iceberg_lettuce_in_SB.jpg/330px-Iceberg_lettuce_in_SB.jpg",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Iceberg_lettuce_in_SB.jpg/1280px-Iceberg_lettuce_in_SB.jpg",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Lettuce",
     "common_pests": [
       {
@@ -1940,8 +1940,8 @@
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
     "succession_planting_interval_days": 14,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Spinacia_oleracea_Spinazie_bloeiend.jpg/330px-Spinacia_oleracea_Spinazie_bloeiend.jpg",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Spinacia_oleracea_Spinazie_bloeiend.jpg/1280px-Spinacia_oleracea_Spinazie_bloeiend.jpg",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Spinach",
     "common_pests": [
       {
@@ -2069,8 +2069,8 @@
       "Flavor improves after frost"
     ],
     "transplant_weeks_after_last_frost": -2,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Boerenkool.jpg/330px-Boerenkool.jpg",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Boerenkool.jpg/1280px-Boerenkool.jpg",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Kale",
     "common_pests": [
       {
@@ -2181,8 +2181,8 @@
     ],
     "transplant_weeks_after_last_frost": 0,
     "indoor_start_weeks_before_frost": 4,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Chard_%28Beta_vulgaris_var_cicla%29.jpg/330px-Chard_%28Beta_vulgaris_var_cicla%29.jpg",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Chard_%28Beta_vulgaris_var_cicla%29.jpg/1280px-Chard_%28Beta_vulgaris_var_cicla%29.jpg",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Chard",
     "common_pests": [
       {
@@ -2291,8 +2291,8 @@
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
     "succession_planting_interval_days": 21,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Daucus_carota_May_2008-1_edit.jpg/330px-Daucus_carota_May_2008-1_edit.jpg",
-    "emoji": "🥕",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Daucus_carota_May_2008-1_edit.jpg/1280px-Daucus_carota_May_2008-1_edit.jpg",
+    "emoji": "\ud83e\udd55",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Daucus_carota",
     "common_pests": [
       {
@@ -2430,13 +2430,13 @@
     "rotation_family": "Amaranthaceae",
     "growing_tips": [
       "Soak seeds overnight before planting",
-      "Each seed cluster produces multiple plants—thin early"
+      "Each seed cluster produces multiple plants\u2014thin early"
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
     "succession_planting_interval_days": 21,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Beta_vulgaris_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-167.jpg/330px-Beta_vulgaris_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-167.jpg",
-    "emoji": "🟣",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Beta_vulgaris_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-167.jpg/1280px-Beta_vulgaris_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-167.jpg",
+    "emoji": "\ud83d\udfe3",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Beta_vulgaris",
     "common_pests": [
       {
@@ -2570,8 +2570,8 @@
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
     "succession_planting_interval_days": 10,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Radish_3371103037_4ab07db0bf_o.jpg/330px-Radish_3371103037_4ab07db0bf_o.jpg",
-    "emoji": "🔴",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Radish_3371103037_4ab07db0bf_o.jpg/1280px-Radish_3371103037_4ab07db0bf_o.jpg",
+    "emoji": "\ud83d\udd34",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Radish",
     "common_pests": [
       {
@@ -2691,8 +2691,8 @@
     ],
     "transplant_weeks_after_last_frost": -2,
     "outdoor_sow_weeks_after_frost": -4,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Mixed_onions.jpg/330px-Mixed_onions.jpg",
-    "emoji": "🧅",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Mixed_onions.jpg/1280px-Mixed_onions.jpg",
+    "emoji": "\ud83e\uddc5",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Onion",
     "common_pests": [
       {
@@ -2829,7 +2829,7 @@
     "days_to_germination_min": 7,
     "days_to_germination_max": 14,
     "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/39/Allium_sativum_Woodwill_1793.jpg",
-    "emoji": "🧄",
+    "emoji": "\ud83e\uddc4",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Garlic",
     "common_pests": [
       {
@@ -2939,8 +2939,8 @@
     "indoor_start_weeks_before_frost": null,
     "days_to_germination_min": 14,
     "days_to_germination_max": 21,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Patates.jpg/330px-Patates.jpg",
-    "emoji": "🥔",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Patates.jpg/1280px-Patates.jpg",
+    "emoji": "\ud83e\udd54",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Potato",
     "common_pests": [
       {
@@ -3082,15 +3082,15 @@
     "rotation_family": "Convolvulaceae",
     "growing_tips": [
       "Start slips 6-8 weeks before transplanting",
-      "Cure harvested tubers at 85°F for 10 days"
+      "Cure harvested tubers at 85\u00b0F for 10 days"
     ],
     "transplant_weeks_after_last_frost": 3,
     "indoor_start_weeks_before_frost": null,
     "outdoor_sow_weeks_after_frost": null,
     "days_to_germination_min": null,
     "days_to_germination_max": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Ipomoea_batatas_006.JPG/330px-Ipomoea_batatas_006.JPG",
-    "emoji": "🍠",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Ipomoea_batatas_006.JPG/1280px-Ipomoea_batatas_006.JPG",
+    "emoji": "\ud83c\udf60",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Sweet_potato",
     "common_pests": [
       {
@@ -3223,8 +3223,8 @@
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
     "succession_planting_interval_days": 14,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Snijboon_peulen_Phaseolus_vulgaris.jpg/330px-Snijboon_peulen_Phaseolus_vulgaris.jpg",
-    "emoji": "🫘",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Snijboon_peulen_Phaseolus_vulgaris.jpg/1280px-Snijboon_peulen_Phaseolus_vulgaris.jpg",
+    "emoji": "\ud83e\uded8",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Phaseolus_vulgaris",
     "common_pests": [
       {
@@ -3470,8 +3470,8 @@
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
     "succession_planting_interval_days": 14,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Sugar_Snap_Pea.JPG/330px-Sugar_Snap_Pea.JPG",
-    "emoji": "🫛",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Sugar_Snap_Pea.JPG/1280px-Sugar_Snap_Pea.JPG",
+    "emoji": "\ud83e\udedb",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Mange_tout",
     "common_pests": [
       {
@@ -3613,8 +3613,8 @@
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
     "succession_planting_interval_days": 14,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Zea_mays_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-283.jpg/330px-Zea_mays_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-283.jpg",
-    "emoji": "🌽",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Zea_mays_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-283.jpg/1280px-Zea_mays_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-283.jpg",
+    "emoji": "\ud83c\udf3d",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Maize",
     "common_pests": [
       {
@@ -3777,8 +3777,8 @@
       "Side shoots produce for weeks after main head cut"
     ],
     "transplant_weeks_after_last_frost": -2,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Broccoli_and_cross_section_edit.jpg/330px-Broccoli_and_cross_section_edit.jpg",
-    "emoji": "🥦",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Broccoli_and_cross_section_edit.jpg/1280px-Broccoli_and_cross_section_edit.jpg",
+    "emoji": "\ud83e\udd66",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Broccoli",
     "common_pests": [
       {
@@ -3939,8 +3939,8 @@
     "outdoor_sow_weeks_after_frost": -2,
     "days_to_germination_min": 4,
     "days_to_germination_max": 10,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Chou-fleur_02.jpg/330px-Chou-fleur_02.jpg",
-    "emoji": "🥦",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Chou-fleur_02.jpg/1280px-Chou-fleur_02.jpg",
+    "emoji": "\ud83e\udd66",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Cauliflower",
     "common_pests": [
       {
@@ -4067,8 +4067,8 @@
     ],
     "transplant_weeks_after_last_frost": -2,
     "outdoor_sow_weeks_after_frost": -4,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Cabbage_and_cross_section_on_white.jpg/330px-Cabbage_and_cross_section_on_white.jpg",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Cabbage_and_cross_section_on_white.jpg/1280px-Cabbage_and_cross_section_on_white.jpg",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Cabbage",
     "common_pests": [
       {
@@ -4238,8 +4238,8 @@
     "outdoor_sow_weeks_after_frost": -2,
     "days_to_germination_min": 5,
     "days_to_germination_max": 10,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Brussels_sprout_closeup.jpg/330px-Brussels_sprout_closeup.jpg",
-    "emoji": "🥦",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Brussels_sprout_closeup.jpg/1280px-Brussels_sprout_closeup.jpg",
+    "emoji": "\ud83e\udd66",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Brussels_sprout",
     "common_pests": [
       {
@@ -4332,12 +4332,12 @@
     "rotation_family": "Solanaceae",
     "growing_tips": [
       "Needs very warm soil to thrive",
-      "Harvest when skin is glossy—dull skin means overripe"
+      "Harvest when skin is glossy\u2014dull skin means overripe"
     ],
     "transplant_weeks_after_last_frost": 2,
     "outdoor_sow_weeks_after_frost": 2,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Solanum_melongena_24_08_2012_%281%29.JPG/330px-Solanum_melongena_24_08_2012_%281%29.JPG",
-    "emoji": "🍆",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Solanum_melongena_24_08_2012_%281%29.JPG/1280px-Solanum_melongena_24_08_2012_%281%29.JPG",
+    "emoji": "\ud83c\udf46",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Eggplant",
     "common_pests": [
       {
@@ -4506,8 +4506,8 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_germination_min": 14,
     "days_to_germination_max": 21,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/2023-06-22_Apium_graveolens_%28Wild_Celery%29%2C_Elswick%2C_Northumberland_4.jpg/330px-2023-06-22_Apium_graveolens_%28Wild_Celery%29%2C_Elswick%2C_Northumberland_4.jpg",
-    "emoji": "🟩",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/2023-06-22_Apium_graveolens_%28Wild_Celery%29%2C_Elswick%2C_Northumberland_4.jpg/1280px-2023-06-22_Apium_graveolens_%28Wild_Celery%29%2C_Elswick%2C_Northumberland_4.jpg",
+    "emoji": "\ud83d\udfe9",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Apium_graveolens",
     "common_pests": [
       {
@@ -4592,7 +4592,7 @@
     "plant_type": "vegetable",
     "lifecycle": "perennial",
     "description": "Long-lived perennial that produces spears in spring for 15-20 years.",
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Asparagus-Bundle.jpg/330px-Asparagus-Bundle.jpg",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Asparagus-Bundle.jpg/1280px-Asparagus-Bundle.jpg",
     "sun_exposure": "full_sun",
     "water_needs": "moderate",
     "min_zone": 3,
@@ -4643,7 +4643,7 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_germination_min": 14,
     "days_to_germination_max": 28,
-    "emoji": "🌿",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Asparagus",
     "common_pests": [
       {
@@ -4723,8 +4723,8 @@
       "Harvest pods when 3-4 inches long"
     ],
     "transplant_weeks_after_last_frost": 3,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Hong_Kong_Okra_Aug_25_2012.JPG/330px-Hong_Kong_Okra_Aug_25_2012.JPG",
-    "emoji": "🟢",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Hong_Kong_Okra_Aug_25_2012.JPG/1280px-Hong_Kong_Okra_Aug_25_2012.JPG",
+    "emoji": "\ud83d\udfe2",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Okra",
     "common_pests": [
       {
@@ -4816,8 +4816,8 @@
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
     "succession_planting_interval_days": 21,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Turnip_2622027.jpg/330px-Turnip_2622027.jpg",
-    "emoji": "🟤",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Turnip_2622027.jpg/1280px-Turnip_2622027.jpg",
+    "emoji": "\ud83d\udfe4",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Turnip",
     "common_pests": [
       {
@@ -4921,14 +4921,14 @@
     ],
     "rotation_family": "Apiaceae",
     "growing_tips": [
-      "Use only fresh seed—viability drops quickly",
+      "Use only fresh seed\u2014viability drops quickly",
       "Flavor sweetens after frost"
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
     "outdoor_sow_weeks_after_frost": -2,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Pastinaca_sativa_MHNT.BOT.2004.0.jpg/330px-Pastinaca_sativa_MHNT.BOT.2004.0.jpg",
-    "emoji": "🟫",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Pastinaca_sativa_MHNT.BOT.2004.0.jpg/1280px-Pastinaca_sativa_MHNT.BOT.2004.0.jpg",
+    "emoji": "\ud83d\udfeb",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Parsnip",
     "common_pests": [
       {
@@ -5013,8 +5013,8 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_germination_min": 7,
     "days_to_germination_max": 14,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/A.ampeloprasum_1.jpg/330px-A.ampeloprasum_1.jpg",
-    "emoji": "🧅",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/A.ampeloprasum_1.jpg/1280px-A.ampeloprasum_1.jpg",
+    "emoji": "\ud83e\uddc5",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Allium_ampeloprasum",
     "common_pests": [
       {
@@ -5108,8 +5108,8 @@
     "outdoor_sow_weeks_after_frost": -4,
     "days_to_germination_min": 4,
     "days_to_germination_max": 10,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Brassica_oleracea_var._gongylodes_%28kohlrabi%29.jpg/330px-Brassica_oleracea_var._gongylodes_%28kohlrabi%29.jpg",
-    "emoji": "💜",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Brassica_oleracea_var._gongylodes_%28kohlrabi%29.jpg/1280px-Brassica_oleracea_var._gongylodes_%28kohlrabi%29.jpg",
+    "emoji": "\ud83d\udc9c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Kohlrabi",
     "common_pests": [
       {
@@ -5195,13 +5195,13 @@
     "rotation_family": "Brassicaceae",
     "growing_tips": [
       "Succession plant every 2-3 weeks",
-      "Bolts in heat—grow in spring and fall"
+      "Bolts in heat\u2014grow in spring and fall"
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
     "succession_planting_interval_days": 14,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Eruca_vesicaria_BM010755249.jpg/330px-Eruca_vesicaria_BM010755249.jpg",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Eruca_vesicaria_BM010755249.jpg/1280px-Eruca_vesicaria_BM010755249.jpg",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Eruca_vesicaria",
     "common_pests": [
       {
@@ -5289,8 +5289,8 @@
     "outdoor_sow_weeks_after_frost": -4,
     "days_to_germination_min": 5,
     "days_to_germination_max": 10,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Collard-Greens-Bundle.jpg/330px-Collard-Greens-Bundle.jpg",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Collard-Greens-Bundle.jpg/1280px-Collard-Greens-Bundle.jpg",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Collard_(plant)",
     "common_pests": [
       {
@@ -5373,7 +5373,7 @@
     "rotation_family": "Polygonaceae",
     "growing_tips": [
       "Don't harvest first year",
-      "Only eat stalks—leaves are poisonous",
+      "Only eat stalks\u2014leaves are poisonous",
       "Divide crowns every 4-5 years"
     ],
     "transplant_weeks_after_last_frost": -4,
@@ -5382,8 +5382,8 @@
     "days_to_maturity_max": 730,
     "days_to_germination_min": null,
     "days_to_germination_max": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Rheum_undulatum_in_Jardin_botanique_de_la_Charme.jpg/330px-Rheum_undulatum_in_Jardin_botanique_de_la_Charme.jpg",
-    "emoji": "🟥",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Rheum_undulatum_in_Jardin_botanique_de_la_Charme.jpg/1280px-Rheum_undulatum_in_Jardin_botanique_de_la_Charme.jpg",
+    "emoji": "\ud83d\udfe5",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Rheum_rhabarbarum",
     "common_pests": [
       {
@@ -5466,8 +5466,8 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_germination_min": 10,
     "days_to_germination_max": 21,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Artichoke_J1.jpg/330px-Artichoke_J1.jpg",
-    "emoji": "🟢",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Artichoke_J1.jpg/1280px-Artichoke_J1.jpg",
+    "emoji": "\ud83d\udfe2",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Artichoke",
     "common_pests": [
       {
@@ -5542,7 +5542,7 @@
     ],
     "rotation_family": "Apiaceae",
     "growing_tips": [
-      "Plant away from most other vegetables—inhibits their growth",
+      "Plant away from most other vegetables\u2014inhibits their growth",
       "Hill soil around bulb to blanch"
     ],
     "transplant_weeks_after_last_frost": 1,
@@ -5550,8 +5550,8 @@
     "outdoor_sow_weeks_after_frost": 0,
     "days_to_germination_min": 7,
     "days_to_germination_max": 14,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Foeniculum_July_2011-1a.jpg/330px-Foeniculum_July_2011-1a.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Foeniculum_July_2011-1a.jpg/1280px-Foeniculum_July_2011-1a.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Fennel",
     "common_pests": [
       {
@@ -5643,8 +5643,8 @@
     ],
     "transplant_weeks_after_last_frost": 2,
     "outdoor_sow_weeks_after_frost": 2,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Ocimum_basilicum_8zz.jpg/330px-Ocimum_basilicum_8zz.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Ocimum_basilicum_8zz.jpg/1280px-Ocimum_basilicum_8zz.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Basil",
     "common_pests": [
       {
@@ -5742,14 +5742,14 @@
     "rotation_family": "Apiaceae",
     "growing_tips": [
       "Succession plant every 2-3 weeks",
-      "Bolts quickly in heat—grow in cool season",
+      "Bolts quickly in heat\u2014grow in cool season",
       "Slow-bolt varieties extend harvest"
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
     "succession_planting_interval_days": 14,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Coriandrum_sativum_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-193.jpg/330px-Coriandrum_sativum_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-193.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Coriandrum_sativum_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-193.jpg/1280px-Coriandrum_sativum_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-193.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Coriander",
     "common_pests": [
       {
@@ -5832,8 +5832,8 @@
     ],
     "transplant_weeks_after_last_frost": -2,
     "outdoor_sow_weeks_after_frost": -2,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Petroselinum.jpg/330px-Petroselinum.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Petroselinum.jpg/1280px-Petroselinum.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Parsley",
     "common_pests": [
       {
@@ -5929,8 +5929,8 @@
     "transplant_weeks_after_last_frost": 2,
     "indoor_start_weeks_before_frost": null,
     "outdoor_sow_weeks_after_frost": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Rosemary_in_bloom.JPG/330px-Rosemary_in_bloom.JPG",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Rosemary_in_bloom.JPG/1280px-Rosemary_in_bloom.JPG",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Rosemary",
     "common_pests": [
       {
@@ -6013,8 +6013,8 @@
     "transplant_weeks_after_last_frost": 0,
     "indoor_start_weeks_before_frost": null,
     "outdoor_sow_weeks_after_frost": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Thymus_vulgaris1.JPG/330px-Thymus_vulgaris1.JPG",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Thymus_vulgaris1.JPG/1280px-Thymus_vulgaris1.JPG",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Thymus_vulgaris",
     "common_pests": [
       {
@@ -6097,8 +6097,8 @@
     "transplant_weeks_after_last_frost": 0,
     "indoor_start_weeks_before_frost": null,
     "outdoor_sow_weeks_after_frost": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Salvia_officinalis0.jpg/330px-Salvia_officinalis0.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Salvia_officinalis0.jpg/1280px-Salvia_officinalis0.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Salvia_officinalis",
     "common_pests": [
       {
@@ -6166,7 +6166,7 @@
     ],
     "rotation_family": "Lamiaceae",
     "growing_tips": [
-      "ALWAYS grow in containers—extremely invasive",
+      "ALWAYS grow in containers\u2014extremely invasive",
       "Harvest frequently to encourage bushy growth"
     ],
     "transplant_weeks_after_last_frost": 0,
@@ -6174,8 +6174,8 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_germination_min": 10,
     "days_to_germination_max": 15,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Mentha_spicata-IMG_6186.jpg/330px-Mentha_spicata-IMG_6186.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Mentha_spicata-IMG_6186.jpg/1280px-Mentha_spicata-IMG_6186.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Mint",
     "common_pests": [
       {
@@ -6256,8 +6256,8 @@
     "transplant_weeks_after_last_frost": 0,
     "indoor_start_weeks_before_frost": null,
     "outdoor_sow_weeks_after_frost": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Origanum_vulgare_-_harilik_pune.jpg/330px-Origanum_vulgare_-_harilik_pune.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Origanum_vulgare_-_harilik_pune.jpg/1280px-Origanum_vulgare_-_harilik_pune.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Oregano",
     "common_pests": [
       {
@@ -6349,8 +6349,8 @@
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
     "succession_planting_interval_days": 21,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Illustration_Anethum_graveolens_clean.jpg/330px-Illustration_Anethum_graveolens_clean.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Illustration_Anethum_graveolens_clean.jpg/1280px-Illustration_Anethum_graveolens_clean.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Dill",
     "common_pests": [
       {
@@ -6441,8 +6441,8 @@
     "transplant_weeks_after_last_frost": -2,
     "indoor_start_weeks_before_frost": null,
     "outdoor_sow_weeks_after_frost": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Allium_schoenoprasum_-_Bombus_lapidarius_-_Tootsi.jpg/330px-Allium_schoenoprasum_-_Bombus_lapidarius_-_Tootsi.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Allium_schoenoprasum_-_Bombus_lapidarius_-_Tootsi.jpg/1280px-Allium_schoenoprasum_-_Bombus_lapidarius_-_Tootsi.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Chives",
     "common_pests": [
       {
@@ -6508,14 +6508,14 @@
     "antagonists": [],
     "rotation_family": "Lamiaceae",
     "growing_tips": [
-      "Needs excellent drainage—amend clay soils with gravel",
+      "Needs excellent drainage\u2014amend clay soils with gravel",
       "Prune after flowering to maintain shape"
     ],
     "transplant_weeks_after_last_frost": 2,
     "indoor_start_weeks_before_frost": null,
     "outdoor_sow_weeks_after_frost": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Lavandula_angustifolia_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-087.jpg/330px-Lavandula_angustifolia_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-087.jpg",
-    "emoji": "💜",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Lavandula_angustifolia_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-087.jpg/1280px-Lavandula_angustifolia_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-087.jpg",
+    "emoji": "\ud83d\udc9c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Lavandula_angustifolia",
     "common_pests": [
       {
@@ -6570,7 +6570,7 @@
     "antagonists": [],
     "rotation_family": "Lamiaceae",
     "growing_tips": [
-      "Can spread aggressively—consider container growing"
+      "Can spread aggressively\u2014consider container growing"
     ],
     "transplant_weeks_after_last_frost": 0,
     "indoor_start_weeks_before_frost": null,
@@ -6578,8 +6578,8 @@
     "days_to_maturity_max": 90,
     "days_to_germination_min": 10,
     "days_to_germination_max": 14,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Lemon_balm_plant.jpg/330px-Lemon_balm_plant.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Lemon_balm_plant.jpg/1280px-Lemon_balm_plant.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Lemon_balm",
     "common_pests": [
       {
@@ -6632,7 +6632,7 @@
     "antagonists": [],
     "rotation_family": "Asteraceae",
     "growing_tips": [
-      "French tarragon must be propagated from cuttings—seeds are Russian tarragon"
+      "French tarragon must be propagated from cuttings\u2014seeds are Russian tarragon"
     ],
     "transplant_weeks_after_last_frost": 0,
     "indoor_start_weeks_before_frost": null,
@@ -6640,8 +6640,8 @@
     "days_to_maturity_max": 90,
     "days_to_germination_min": null,
     "days_to_germination_max": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Estragon_1511.jpg/330px-Estragon_1511.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Estragon_1511.jpg/1280px-Estragon_1511.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Tarragon",
     "common_pests": [
       {
@@ -6712,8 +6712,8 @@
     "transplant_weeks_after_last_frost": 0,
     "indoor_start_weeks_before_frost": 6,
     "outdoor_sow_weeks_after_frost": -2,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Matricaria_February_2008-1.jpg/330px-Matricaria_February_2008-1.jpg",
-    "emoji": "🌼",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Matricaria_February_2008-1.jpg/1280px-Matricaria_February_2008-1.jpg",
+    "emoji": "\ud83c\udf3c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Matricaria_chamomilla",
     "common_pests": [
       {
@@ -6770,8 +6770,8 @@
     "days_to_maturity_max": 90,
     "days_to_germination_min": 7,
     "days_to_germination_max": 21,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Stevia_rebaudiana_flowers.jpg/330px-Stevia_rebaudiana_flowers.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Stevia_rebaudiana_flowers.jpg/1280px-Stevia_rebaudiana_flowers.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Stevia_rebaudiana",
     "common_pests": [
       {
@@ -6832,8 +6832,8 @@
     "days_to_maturity_max": 90,
     "days_to_germination_min": 7,
     "days_to_germination_max": 14,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Origanum_majorana_002.JPG/330px-Origanum_majorana_002.JPG",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Origanum_majorana_002.JPG/1280px-Origanum_majorana_002.JPG",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Marjoram",
     "common_pests": [
       {
@@ -6906,8 +6906,8 @@
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
     "outdoor_sow_weeks_after_frost": 0,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Borago_officinalis_%282025%29.jpg/330px-Borago_officinalis_%282025%29.jpg",
-    "emoji": "💙",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Borago_officinalis_%282025%29.jpg/1280px-Borago_officinalis_%282025%29.jpg",
+    "emoji": "\ud83d\udc99",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Borage",
     "common_pests": [
       {
@@ -6964,8 +6964,8 @@
     "days_to_maturity_max": 120,
     "days_to_germination_min": null,
     "days_to_germination_max": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Gardenology.org-IMG_2892_rbgs11jan.jpg/330px-Gardenology.org-IMG_2892_rbgs11jan.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Gardenology.org-IMG_2892_rbgs11jan.jpg/1280px-Gardenology.org-IMG_2892_rbgs11jan.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Cymbopogon_citratus",
     "common_pests": [
       {
@@ -7021,8 +7021,8 @@
     "days_to_maturity_max": 730,
     "days_to_germination_min": null,
     "days_to_germination_max": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Starr-071024-0195-Laurus_nobilis-leaves-Enchanting_Floral_Gardens_of_Kula-Maui_%2824867859296%29.jpg/330px-Starr-071024-0195-Laurus_nobilis-leaves-Enchanting_Floral_Gardens_of_Kula-Maui_%2824867859296%29.jpg",
-    "emoji": "🍃",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Starr-071024-0195-Laurus_nobilis-leaves-Enchanting_Floral_Gardens_of_Kula-Maui_%2824867859296%29.jpg/1280px-Starr-071024-0195-Laurus_nobilis-leaves-Enchanting_Floral_Gardens_of_Kula-Maui_%2824867859296%29.jpg",
+    "emoji": "\ud83c\udf43",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Laurus_nobilis",
     "common_pests": [
       {
@@ -7085,8 +7085,8 @@
     "days_to_maturity_max": 90,
     "days_to_germination_min": 7,
     "days_to_germination_max": 14,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/%28MHNT%29_Rumex_acetosa_-_Habit.jpg/330px-%28MHNT%29_Rumex_acetosa_-_Habit.jpg",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/%28MHNT%29_Rumex_acetosa_-_Habit.jpg/1280px-%28MHNT%29_Rumex_acetosa_-_Habit.jpg",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Sorrel",
     "common_pests": [
       {
@@ -7116,7 +7116,7 @@
   },
   {
     "common_name": "Strawberry",
-    "scientific_name": "Fragaria × ananassa",
+    "scientific_name": "Fragaria \u00d7 ananassa",
     "family": "Rosaceae",
     "plant_type": "fruit",
     "lifecycle": "perennial",
@@ -7177,8 +7177,8 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_germination_min": null,
     "days_to_germination_max": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Garden_strawberry_%28Fragaria_%C3%97_ananassa%29_single2.jpg/330px-Garden_strawberry_%28Fragaria_%C3%97_ananassa%29_single2.jpg",
-    "emoji": "🍓",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Garden_strawberry_%28Fragaria_%C3%97_ananassa%29_single2.jpg/1280px-Garden_strawberry_%28Fragaria_%C3%97_ananassa%29_single2.jpg",
+    "emoji": "\ud83c\udf53",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Strawberry",
     "common_pests": [
       {
@@ -7345,8 +7345,8 @@
     "days_to_maturity_max": 1095,
     "days_to_germination_min": null,
     "days_to_germination_max": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Vaccinium_corymbosum%2801%29.jpg/330px-Vaccinium_corymbosum%2801%29.jpg",
-    "emoji": "🫐",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Vaccinium_corymbosum%2801%29.jpg/1280px-Vaccinium_corymbosum%2801%29.jpg",
+    "emoji": "\ud83e\uded0",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Vaccinium_corymbosum",
     "common_pests": [
       {
@@ -7458,8 +7458,8 @@
     "days_to_maturity_max": 730,
     "days_to_germination_min": null,
     "days_to_germination_max": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Fert%C5%91di_k%C3%A1rmin_m%C3%A1lna.JPG/330px-Fert%C5%91di_k%C3%A1rmin_m%C3%A1lna.JPG",
-    "emoji": "🫐",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Fert%C5%91di_k%C3%A1rmin_m%C3%A1lna.JPG/1280px-Fert%C5%91di_k%C3%A1rmin_m%C3%A1lna.JPG",
+    "emoji": "\ud83e\uded0",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Rubus_idaeus",
     "common_pests": [
       {
@@ -7570,8 +7570,8 @@
     "days_to_maturity_max": 730,
     "days_to_germination_min": null,
     "days_to_germination_max": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Blackberry_%28Rubus_fruticosus%29.jpg/330px-Blackberry_%28Rubus_fruticosus%29.jpg",
-    "emoji": "🫐",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Blackberry_%28Rubus_fruticosus%29.jpg/1280px-Blackberry_%28Rubus_fruticosus%29.jpg",
+    "emoji": "\ud83e\uded0",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Rubus_fruticosus",
     "common_pests": [
       {
@@ -7660,8 +7660,8 @@
     "days_to_maturity_max": 1460,
     "days_to_germination_min": null,
     "days_to_germination_max": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Cabernet_Sauvignon_Gaillac.jpg/330px-Cabernet_Sauvignon_Gaillac.jpg",
-    "emoji": "🍇",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Cabernet_Sauvignon_Gaillac.jpg/1280px-Cabernet_Sauvignon_Gaillac.jpg",
+    "emoji": "\ud83c\udf47",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Vitis_vinifera",
     "common_pests": [
       {
@@ -7788,13 +7788,13 @@
     ],
     "rotation_family": "Cucurbitaceae",
     "growing_tips": [
-      "Needs warm soil—use black plastic mulch",
+      "Needs warm soil\u2014use black plastic mulch",
       "Reduce watering as fruit ripens for sweeter flavor"
     ],
     "transplant_weeks_after_last_frost": 2,
     "indoor_start_weeks_before_frost": 4,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Taiwan_2009_Tainan_City_Organic_Farm_Watermelon_FRD_7962.jpg/330px-Taiwan_2009_Tainan_City_Organic_Farm_Watermelon_FRD_7962.jpg",
-    "emoji": "🍉",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Taiwan_2009_Tainan_City_Organic_Farm_Watermelon_FRD_7962.jpg/1280px-Taiwan_2009_Tainan_City_Organic_Farm_Watermelon_FRD_7962.jpg",
+    "emoji": "\ud83c\udf49",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Watermelon",
     "common_pests": [
       {
@@ -7941,8 +7941,8 @@
     ],
     "transplant_weeks_after_last_frost": 2,
     "indoor_start_weeks_before_frost": 4,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Muskmelon.jpg/330px-Muskmelon.jpg",
-    "emoji": "🍈",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Muskmelon.jpg/1280px-Muskmelon.jpg",
+    "emoji": "\ud83c\udf48",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Cucumis_melo",
     "common_pests": [
       {
@@ -8033,8 +8033,8 @@
     "days_to_maturity_max": 1095,
     "days_to_germination_min": null,
     "days_to_germination_max": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Ficus_carica_L%2C_1771.jpg/330px-Ficus_carica_L%2C_1771.jpg",
-    "emoji": "🟤",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Ficus_carica_L%2C_1771.jpg/1280px-Ficus_carica_L%2C_1771.jpg",
+    "emoji": "\ud83d\udfe4",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Fig",
     "common_pests": [
       {
@@ -8108,8 +8108,8 @@
     "days_to_maturity_max": 1460,
     "days_to_germination_min": null,
     "days_to_germination_max": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Kiwis_006eue.jpg/330px-Kiwis_006eue.jpg",
-    "emoji": "🥝",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Kiwis_006eue.jpg/1280px-Kiwis_006eue.jpg",
+    "emoji": "\ud83e\udd5d",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Actinidia_chinensis_var._deliciosa",
     "common_pests": [
       {
@@ -8162,8 +8162,8 @@
     "days_to_maturity_max": 540,
     "days_to_germination_min": null,
     "days_to_germination_max": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Passiflora_edulis_forma_flavicarpa.jpg/330px-Passiflora_edulis_forma_flavicarpa.jpg",
-    "emoji": "🟣",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Passiflora_edulis_forma_flavicarpa.jpg/1280px-Passiflora_edulis_forma_flavicarpa.jpg",
+    "emoji": "\ud83d\udfe3",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Passiflora_edulis",
     "common_pests": [
       {
@@ -8218,8 +8218,8 @@
     "days_to_maturity_max": 730,
     "days_to_germination_min": null,
     "days_to_germination_max": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Ribes_uva-crispa_kz04.jpg/330px-Ribes_uva-crispa_kz04.jpg",
-    "emoji": "🟢",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Ribes_uva-crispa_kz04.jpg/1280px-Ribes_uva-crispa_kz04.jpg",
+    "emoji": "\ud83d\udfe2",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Ribes_uva-crispa",
     "common_pests": [
       {
@@ -8274,8 +8274,8 @@
     "days_to_maturity_max": 730,
     "days_to_germination_min": null,
     "days_to_germination_max": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Ribes_rubrum_1.jpg/330px-Ribes_rubrum_1.jpg",
-    "emoji": "🔴",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Ribes_rubrum_1.jpg/1280px-Ribes_rubrum_1.jpg",
+    "emoji": "\ud83d\udd34",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Redcurrant",
     "common_pests": [
       {
@@ -8336,8 +8336,8 @@
     "days_to_maturity_max": 730,
     "days_to_germination_min": null,
     "days_to_germination_max": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Lonicera_coerulea_a3.jpg/330px-Lonicera_coerulea_a3.jpg",
-    "emoji": "🫐",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Lonicera_coerulea_a3.jpg/1280px-Lonicera_coerulea_a3.jpg",
+    "emoji": "\ud83e\uded0",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Lonicera_caerulea",
     "common_pests": [
       {
@@ -8418,8 +8418,8 @@
       "Attracts pollinators and birds"
     ],
     "transplant_weeks_after_last_frost": 1,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Sunflower_sky_backdrop.jpg/330px-Sunflower_sky_backdrop.jpg",
-    "emoji": "🌻",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Sunflower_sky_backdrop.jpg/1280px-Sunflower_sky_backdrop.jpg",
+    "emoji": "\ud83c\udf3b",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Common_sunflower",
     "common_pests": [
       {
@@ -8508,8 +8508,8 @@
     ],
     "transplant_weeks_after_last_frost": 1,
     "outdoor_sow_weeks_after_frost": 1,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Tagetes_erecta_chendumalli_chedi.jpg/330px-Tagetes_erecta_chendumalli_chedi.jpg",
-    "emoji": "🌼",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Tagetes_erecta_chendumalli_chedi.jpg/1280px-Tagetes_erecta_chendumalli_chedi.jpg",
+    "emoji": "\ud83c\udf3c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Marigold",
     "common_pests": [
       {
@@ -8589,13 +8589,13 @@
     "antagonists": [],
     "rotation_family": "Asteraceae",
     "growing_tips": [
-      "Cut flowers for bouquets—promotes more blooms",
+      "Cut flowers for bouquets\u2014promotes more blooms",
       "Good air circulation prevents powdery mildew"
     ],
     "transplant_weeks_after_last_frost": 1,
     "indoor_start_weeks_before_frost": 4,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Zinnienbl%C3%BCte_Zinnia_elegans_stack15_20190722-RM-7222254.jpg/330px-Zinnienbl%C3%BCte_Zinnia_elegans_stack15_20190722-RM-7222254.jpg",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Zinnienbl%C3%BCte_Zinnia_elegans_stack15_20190722-RM-7222254.jpg/1280px-Zinnienbl%C3%BCte_Zinnia_elegans_stack15_20190722-RM-7222254.jpg",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Zinnia_elegans",
     "common_pests": [
       {
@@ -8668,12 +8668,12 @@
     "antagonists": [],
     "rotation_family": "Asteraceae",
     "growing_tips": [
-      "Thrives in poor soil—rich soil produces more foliage than flowers"
+      "Thrives in poor soil\u2014rich soil produces more foliage than flowers"
     ],
     "transplant_weeks_after_last_frost": 1,
     "indoor_start_weeks_before_frost": 4,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Cosmos_bipinnatus_pink%2C_Burdwan%2C_West_Bengal%2C_India_10_01_2013.jpg/330px-Cosmos_bipinnatus_pink%2C_Burdwan%2C_West_Bengal%2C_India_10_01_2013.jpg",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Cosmos_bipinnatus_pink%2C_Burdwan%2C_West_Bengal%2C_India_10_01_2013.jpg/1280px-Cosmos_bipinnatus_pink%2C_Burdwan%2C_West_Bengal%2C_India_10_01_2013.jpg",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Cosmos_bipinnatus",
     "common_pests": [
       {
@@ -8752,8 +8752,8 @@
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Tropaeolum_majus_2005_G1.jpg/330px-Tropaeolum_majus_2005_G1.jpg",
-    "emoji": "🌺",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Tropaeolum_majus_2005_G1.jpg/1280px-Tropaeolum_majus_2005_G1.jpg",
+    "emoji": "\ud83c\udf3a",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Tropaeolum_majus",
     "common_pests": [
       {
@@ -8824,8 +8824,8 @@
     "transplant_weeks_after_last_frost": 0,
     "indoor_start_weeks_before_frost": 8,
     "outdoor_sow_weeks_after_frost": 0,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Echinacea_purpurea_Grandview_Prairie.jpg/330px-Echinacea_purpurea_Grandview_Prairie.jpg",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Echinacea_purpurea_Grandview_Prairie.jpg/1280px-Echinacea_purpurea_Grandview_Prairie.jpg",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Echinacea_purpurea",
     "common_pests": [
       {
@@ -8855,7 +8855,7 @@
   },
   {
     "common_name": "Petunia",
-    "scientific_name": "Petunia × hybrida",
+    "scientific_name": "Petunia \u00d7 hybrida",
     "family": "Solanaceae",
     "plant_type": "flower",
     "lifecycle": "annual",
@@ -8890,8 +8890,8 @@
       "Trail from hanging baskets"
     ],
     "transplant_weeks_after_last_frost": 1,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/PetuniaFlower.JPG/330px-PetuniaFlower.JPG",
-    "emoji": "🌺",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/PetuniaFlower.JPG/1280px-PetuniaFlower.JPG",
+    "emoji": "\ud83c\udf3a",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Petunia_%C3%97_atkinsiana",
     "common_pests": [
       {
@@ -8984,8 +8984,8 @@
     "outdoor_sow_weeks_after_frost": null,
     "days_to_germination_min": null,
     "days_to_germination_max": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Dahlia_x_hybrida.jpg/330px-Dahlia_x_hybrida.jpg",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Dahlia_x_hybrida.jpg/1280px-Dahlia_x_hybrida.jpg",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Dahlia",
     "common_pests": [
       {
@@ -9083,8 +9083,8 @@
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": 6,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Sweet_Pea-7.jpg/330px-Sweet_Pea-7.jpg",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Sweet_Pea-7.jpg/1280px-Sweet_Pea-7.jpg",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Sweet_pea",
     "common_pests": [
       {
@@ -9160,8 +9160,8 @@
     "outdoor_sow_weeks_after_frost": 0,
     "days_to_germination_min": 7,
     "days_to_germination_max": 21,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Rudbeckia_hirta_kz03.jpg/330px-Rudbeckia_hirta_kz03.jpg",
-    "emoji": "🌻",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Rudbeckia_hirta_kz03.jpg/1280px-Rudbeckia_hirta_kz03.jpg",
+    "emoji": "\ud83c\udf3b",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Rudbeckia_hirta",
     "common_pests": [
       {
@@ -9214,12 +9214,12 @@
     "rotation_family": "Convolvulaceae",
     "growing_tips": [
       "Nick seed coat before planting for better germination",
-      "Can become invasive—deadhead to prevent self-seeding"
+      "Can become invasive\u2014deadhead to prevent self-seeding"
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": null,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Ipomoea_purpurea%2C_2021-08-31%2C_Beechview%2C_05.jpg/330px-Ipomoea_purpurea%2C_2021-08-31%2C_Beechview%2C_05.jpg",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Ipomoea_purpurea%2C_2021-08-31%2C_Beechview%2C_05.jpg/1280px-Ipomoea_purpurea%2C_2021-08-31%2C_Beechview%2C_05.jpg",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Ipomoea_purpurea",
     "common_pests": [
       {
@@ -9285,8 +9285,8 @@
     "days_to_maturity_max": 150,
     "days_to_germination_min": 10,
     "days_to_germination_max": 21,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Monarda_didyma_inflorescence_and_upper_cauline_leaves.jpg/330px-Monarda_didyma_inflorescence_and_upper_cauline_leaves.jpg",
-    "emoji": "🌺",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Monarda_didyma_inflorescence_and_upper_cauline_leaves.jpg/1280px-Monarda_didyma_inflorescence_and_upper_cauline_leaves.jpg",
+    "emoji": "\ud83c\udf3a",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Monarda_didyma",
     "common_pests": [
       {
@@ -9357,8 +9357,8 @@
     ],
     "transplant_weeks_after_last_frost": null,
     "indoor_start_weeks_before_frost": 6,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Calendula_officinalis%2C_pot_marigold.JPG/330px-Calendula_officinalis%2C_pot_marigold.JPG",
-    "emoji": "🌼",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Calendula_officinalis%2C_pot_marigold.JPG/1280px-Calendula_officinalis%2C_pot_marigold.JPG",
+    "emoji": "\ud83c\udf3c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Calendula_officinalis",
     "common_pests": [
       {
@@ -9420,8 +9420,8 @@
     ],
     "transplant_weeks_after_last_frost": -2,
     "outdoor_sow_weeks_after_frost": -4,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Antirrhinum_majus_BCBG_%2802%29.jpg/330px-Antirrhinum_majus_BCBG_%2802%29.jpg",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Antirrhinum_majus_BCBG_%2802%29.jpg/1280px-Antirrhinum_majus_BCBG_%2802%29.jpg",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Antirrhinum_majus",
     "common_pests": [
       {
@@ -9461,7 +9461,7 @@
   },
   {
     "common_name": "Pansy",
-    "scientific_name": "Viola × wittrockiana",
+    "scientific_name": "Viola \u00d7 wittrockiana",
     "family": "Violaceae",
     "plant_type": "flower",
     "lifecycle": "annual",
@@ -9487,8 +9487,8 @@
     "outdoor_sow_weeks_after_frost": -6,
     "days_to_germination_min": 7,
     "days_to_germination_max": 14,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/PansyScan_%28cropped%29.jpg/330px-PansyScan_%28cropped%29.jpg",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/PansyScan_%28cropped%29.jpg/1280px-PansyScan_%28cropped%29.jpg",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Pansy",
     "common_pests": [
       {
@@ -9549,8 +9549,8 @@
     "days_to_maturity_max": 90,
     "days_to_germination_min": 10,
     "days_to_germination_max": 21,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Impatienswalleriana.jpg/330px-Impatienswalleriana.jpg",
-    "emoji": "🌺",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Impatienswalleriana.jpg/1280px-Impatienswalleriana.jpg",
+    "emoji": "\ud83c\udf3a",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Impatiens_walleriana",
     "common_pests": [
       {
@@ -9600,7 +9600,7 @@
   },
   {
     "common_name": "Geranium",
-    "scientific_name": "Pelargonium × hortorum",
+    "scientific_name": "Pelargonium \u00d7 hortorum",
     "family": "Geraniaceae",
     "plant_type": "flower",
     "lifecycle": "annual",
@@ -9635,8 +9635,8 @@
     "days_to_maturity_max": 90,
     "days_to_germination_min": 7,
     "days_to_germination_max": 14,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Pelargonium_flower.jpg/330px-Pelargonium_flower.jpg",
-    "emoji": "🌺",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Pelargonium_flower.jpg/1280px-Pelargonium_flower.jpg",
+    "emoji": "\ud83c\udf3a",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Pelargonium_%C3%97_hortorum",
     "common_pests": [
       {
@@ -9712,8 +9712,8 @@
     "transplant_weeks_after_last_frost": -2,
     "indoor_start_weeks_before_frost": 6,
     "outdoor_sow_weeks_after_frost": -2,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Smagliczka_nadmorska_1.jpg/330px-Smagliczka_nadmorska_1.jpg",
-    "emoji": "🤍",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Smagliczka_nadmorska_1.jpg/1280px-Smagliczka_nadmorska_1.jpg",
+    "emoji": "\ud83e\udd0d",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Lobularia_maritima",
     "common_pests": [
       {
@@ -9768,8 +9768,8 @@
     "days_to_maturity_max": 90,
     "days_to_germination_min": 7,
     "days_to_germination_max": 14,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Mudas_de_alegrias-de-jardim%2C_ou_s%C3%A1lvia_01.jpg/330px-Mudas_de_alegrias-de-jardim%2C_ou_s%C3%A1lvia_01.jpg",
-    "emoji": "🔵",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Mudas_de_alegrias-de-jardim%2C_ou_s%C3%A1lvia_01.jpg/1280px-Mudas_de_alegrias-de-jardim%2C_ou_s%C3%A1lvia_01.jpg",
+    "emoji": "\ud83d\udd35",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Salvia_splendens",
     "common_pests": [
       {
@@ -9836,8 +9836,8 @@
     "days_to_maturity_max": 540,
     "days_to_germination_min": 10,
     "days_to_germination_max": 21,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Achillea_millefolium_%28bright%29.jpg/330px-Achillea_millefolium_%28bright%29.jpg",
-    "emoji": "🌼",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Achillea_millefolium_%28bright%29.jpg/1280px-Achillea_millefolium_%28bright%29.jpg",
+    "emoji": "\ud83c\udf3c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Achillea_millefolium",
     "common_pests": [
       {
@@ -9895,8 +9895,8 @@
     "days_to_maturity_max": 730,
     "days_to_germination_min": 21,
     "days_to_germination_max": 42,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Wald-Akelei.JPG/330px-Wald-Akelei.JPG",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Wald-Akelei.JPG/1280px-Wald-Akelei.JPG",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Columbine",
     "common_pests": [
       {
@@ -9952,8 +9952,8 @@
     "days_to_maturity_max": 120,
     "days_to_germination_min": 7,
     "days_to_germination_max": 14,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Dianthus_caryophyllus_L_%28Clove_pink%29.JPG/330px-Dianthus_caryophyllus_L_%28Clove_pink%29.JPG",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Dianthus_caryophyllus_L_%28Clove_pink%29.JPG/1280px-Dianthus_caryophyllus_L_%28Clove_pink%29.JPG",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Dianthus",
     "common_pests": [
       {
@@ -10019,8 +10019,8 @@
     "days_to_maturity_max": 730,
     "days_to_germination_min": 10,
     "days_to_germination_max": 14,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Alcea_rosea_purple.jpg/330px-Alcea_rosea_purple.jpg",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Alcea_rosea_purple.jpg/1280px-Alcea_rosea_purple.jpg",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Alcea",
     "common_pests": [
       {
@@ -10086,8 +10086,8 @@
     "days_to_maturity_max": 730,
     "days_to_germination_min": 14,
     "days_to_germination_max": 28,
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Delphinium_elatum_var._palmatifidum_as_Delphinium_intermedium_var._palmatifidum_by_S._A._Drake._Edwards%27s_Botanical_Register_vol._24%2C_t._38_%281838%29.tif/lossless-page1-330px-Delphinium_elatum_var._palmatifidum_as_Delphinium_intermedium_var._palmatifidum_by_S._A._Drake._Edwards%27s_Botanical_Register_vol._24%2C_t._38_%281838%29.tif.png",
-    "emoji": "💙",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Delphinium_elatum_var._palmatifidum_as_Delphinium_intermedium_var._palmatifidum_by_S._A._Drake._Edwards%27s_Botanical_Register_vol._24%2C_t._38_%281838%29.tif/lossless-page1-1280px-Delphinium_elatum_var._palmatifidum_as_Delphinium_intermedium_var._palmatifidum_by_S._A._Drake._Edwards%27s_Botanical_Register_vol._24%2C_t._38_%281838%29.tif.png",
+    "emoji": "\ud83d\udc99",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Delphinium",
     "common_pests": [
       {
@@ -10187,8 +10187,8 @@
       "Stake or cage plants to keep fruit off the ground",
       "Tomatillos are prolific self-seeders; harvest before fruits drop to control volunteers"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Tomatillo.jpg/330px-Tomatillo.jpg",
-    "emoji": "🟢",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Tomatillo.jpg/1280px-Tomatillo.jpg",
+    "emoji": "\ud83d\udfe2",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Tomatillo",
     "common_pests": [
       {
@@ -10286,8 +10286,8 @@
       "They self-sow readily; mulch around plants to make fallen fruit easier to find",
       "Support sprawling plants with small cages or let them spread as a ground cover"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Physalis_pruinosa_habit.jpg/330px-Physalis_pruinosa_habit.jpg",
-    "emoji": "🟡",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Physalis_pruinosa_habit.jpg/1280px-Physalis_pruinosa_habit.jpg",
+    "emoji": "\ud83d\udfe1",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Physalis_pruinosa",
     "common_pests": [
       {
@@ -10377,11 +10377,11 @@
     "rotation_family": "Brassicaceae",
     "growing_tips": [
       "Best grown as a spring or fall crop to avoid bolting in summer heat",
-      "Use shade cloth if temperatures exceed 75°F",
+      "Use shade cloth if temperatures exceed 75\u00b0F",
       "Baby bok choy varieties mature faster and are ideal for small gardens"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Bok_Choy_%2849553125456%29.jpg/330px-Bok_Choy_%2849553125456%29.jpg",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Bok_Choy_%2849553125456%29.jpg/1280px-Bok_Choy_%2849553125456%29.jpg",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Bok_choy",
     "common_pests": [
       {
@@ -10476,8 +10476,8 @@
       "Grows best in cool weather; plant in early spring or late summer for fall harvest",
       "Consistent moisture prevents bolting and excessive bitterness"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Cichorium_endivia_field.jpg/330px-Cichorium_endivia_field.jpg",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Cichorium_endivia_field.jpg/1280px-Cichorium_endivia_field.jpg",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Cichorium_endivia",
     "common_pests": [
       {
@@ -10557,8 +10557,8 @@
       "Light frosts sweeten the flavor and intensify the red color",
       "Some varieties can be cut and will regrow a smaller second head"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Radicchio%2C_halbiert.jpg/330px-Radicchio%2C_halbiert.jpg",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Radicchio%2C_halbiert.jpg/1280px-Radicchio%2C_halbiert.jpg",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Radicchio",
     "common_pests": [
       {
@@ -10647,8 +10647,8 @@
       "Bolts quickly in warm weather; grow in spring and fall",
       "Extremely cold-hardy and can be grown under row cover well into winter"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Brassica_juncea_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-168.jpg/330px-Brassica_juncea_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-168.jpg",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Brassica_juncea_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-168.jpg/1280px-Brassica_juncea_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-168.jpg",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Brassica_juncea",
     "common_pests": [
       {
@@ -10744,12 +10744,12 @@
     ],
     "rotation_family": "Brassicaceae",
     "growing_tips": [
-      "Very cold-hardy; can survive temperatures down to 15°F with protection",
+      "Very cold-hardy; can survive temperatures down to 15\u00b0F with protection",
       "Ideal for spring, fall, and even winter production under cover",
       "Compact rosette habit makes it excellent for containers and small spaces"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Tatsoi_a_few_days_after_a_big_harvest.jpg/330px-Tatsoi_a_few_days_after_a_big_harvest.jpg",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Tatsoi_a_few_days_after_a_big_harvest.jpg/1280px-Tatsoi_a_few_days_after_a_big_harvest.jpg",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Tatsoi",
     "common_pests": [
       {
@@ -10829,8 +10829,8 @@
       "Excellent for cut-and-come-again harvesting over several weeks",
       "Grows well in containers and as an interplanting between slower crops"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Mizuna_001.jpg/330px-Mizuna_001.jpg",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Mizuna_001.jpg/1280px-Mizuna_001.jpg",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Mizuna",
     "common_pests": [
       {
@@ -10897,8 +10897,8 @@
       "Prefers cool, running water but adapts to consistently moist garden soil",
       "Thrives in partial shade and cool temperatures; bolts in heat"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Watercress_%282%29.JPG/330px-Watercress_%282%29.JPG",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Watercress_%282%29.JPG/1280px-Watercress_%282%29.JPG",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Watercress",
     "common_pests": [
       {
@@ -10973,8 +10973,8 @@
       "Sow in late summer or early fall for winter and early spring harvests",
       "Slow to germinate in warm soil; refrigerate seeds before summer sowing"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Ackersalat02.jpg/330px-Ackersalat02.jpg",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Ackersalat02.jpg/1280px-Ackersalat02.jpg",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Valeriana_locusta",
     "common_pests": [
       {
@@ -11058,8 +11058,8 @@
       "Requires a longer season than turnips; plan accordingly",
       "Thin seedlings early to prevent crowding and encourage large root development"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Rutabaga%2C_variety_nadmorska.JPG/330px-Rutabaga%2C_variety_nadmorska.JPG",
-    "emoji": "🟠",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Rutabaga%2C_variety_nadmorska.JPG/1280px-Rutabaga%2C_variety_nadmorska.JPG",
+    "emoji": "\ud83d\udfe0",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Rutabaga",
     "common_pests": [
       {
@@ -11144,8 +11144,8 @@
       "Deep, loose soil is essential for long, straight roots",
       "Also used as a 'tillage radish' cover crop to break up compacted subsoil"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Different_kinds_of_White_Radish.png/330px-Different_kinds_of_White_Radish.png",
-    "emoji": "🤍",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Different_kinds_of_White_Radish.png/1280px-Different_kinds_of_White_Radish.png",
+    "emoji": "\ud83e\udd0d",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Daikon",
     "common_pests": [
       {
@@ -11233,8 +11233,8 @@
       "Seeds need light to germinate; press onto soil surface and keep moist",
       "Remove lower side shoots throughout the season to encourage a single, large root"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/C%C3%A9leri-rave-fendu.jpg/330px-C%C3%A9leri-rave-fendu.jpg",
-    "emoji": "🟤",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/C%C3%A9leri-rave-fendu.jpg/1280px-C%C3%A9leri-rave-fendu.jpg",
+    "emoji": "\ud83d\udfe4",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Celeriac",
     "common_pests": [
       {
@@ -11311,8 +11311,8 @@
       "Extremely vigorous and can become invasive; consider planting in a buried container",
       "Harvest all roots annually to control spread, or dedicate a permanent bed"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Armoracia_rusticana.jpg/330px-Armoracia_rusticana.jpg",
-    "emoji": "🟫",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Armoracia_rusticana.jpg/1280px-Armoracia_rusticana.jpg",
+    "emoji": "\ud83d\udfeb",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Horseradish",
     "common_pests": [
       {
@@ -11392,8 +11392,8 @@
       "Use fresh seed each year as viability drops quickly",
       "Flavor improves after frost; many gardeners overwinter roots in the ground for spring harvest"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Purple_Salsify_-_Stierch.jpg/330px-Purple_Salsify_-_Stierch.jpg",
-    "emoji": "🟤",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Purple_Salsify_-_Stierch.jpg/1280px-Purple_Salsify_-_Stierch.jpg",
+    "emoji": "\ud83d\udfe4",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Tragopogon_porrifolius",
     "common_pests": [
       {
@@ -11464,8 +11464,8 @@
       "Pinch off flowers to redirect energy into tuber growth",
       "All parts except the tuber are toxic; handle with care and do not eat seeds or leaves"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Pachyrhizus_erosus_Blanco2.249.png/330px-Pachyrhizus_erosus_Blanco2.249.png",
-    "emoji": "🟫",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Pachyrhizus_erosus_Blanco2.249.png/1280px-Pachyrhizus_erosus_Blanco2.249.png",
+    "emoji": "\ud83d\udfeb",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Pachyrhizus_erosus",
     "common_pests": [
       {
@@ -11536,8 +11536,8 @@
       "Thrives in rich, well-drained soil with consistent moisture and humidity",
       "Excellent container plant in cold climates; bring indoors before frost"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Koeh-146-no_text.jpg/330px-Koeh-146-no_text.jpg",
-    "emoji": "🫚",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Koeh-146-no_text.jpg/1280px-Koeh-146-no_text.jpg",
+    "emoji": "\ud83e\udeda",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Ginger",
     "common_pests": [
       {
@@ -11605,11 +11605,11 @@
     "rotation_family": "Other",
     "growing_tips": [
       "Start rhizome pieces indoors in early spring in zones below 9",
-      "Needs warm temperatures consistently above 65°F to grow well",
+      "Needs warm temperatures consistently above 65\u00b0F to grow well",
       "Excellent container plant for northern gardeners; bring indoors in fall"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Turmeric_inflorescence.jpg/330px-Turmeric_inflorescence.jpg",
-    "emoji": "🟡",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Turmeric_inflorescence.jpg/1280px-Turmeric_inflorescence.jpg",
+    "emoji": "\ud83d\udfe1",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Turmeric",
     "common_pests": [
       {
@@ -11700,8 +11700,8 @@
       "Pinch off growing tips when plants begin to flower to reduce aphid problems and direct energy to pods",
       "Inoculate seeds with rhizobia bacteria for best nitrogen fixation"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Illustration_Vicia_faba1.jpg/330px-Illustration_Vicia_faba1.jpg",
-    "emoji": "🫘",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Illustration_Vicia_faba1.jpg/1280px-Illustration_Vicia_faba1.jpg",
+    "emoji": "\ud83e\uded8",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Vicia_faba",
     "common_pests": [
       {
@@ -11955,12 +11955,12 @@
     ],
     "rotation_family": "Fabaceae",
     "growing_tips": [
-      "Requires warm soil above 65°F for good germination; do not plant too early",
+      "Requires warm soil above 65\u00b0F for good germination; do not plant too early",
       "Pole varieties need sturdy support and produce over a longer season",
       "Avoid overhead watering during flowering to improve pod set"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Phaseoulus_lunatus.jpg/330px-Phaseoulus_lunatus.jpg",
-    "emoji": "🫘",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Phaseoulus_lunatus.jpg/1280px-Phaseoulus_lunatus.jpg",
+    "emoji": "\ud83e\uded8",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Lima_bean",
     "common_pests": [
       {
@@ -12208,8 +12208,8 @@
       "Inoculate with soybean-specific rhizobia for best nitrogen fixation",
       "Does not transplant well; direct sow for best results"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Soybean.USDA.jpg/330px-Soybean.USDA.jpg",
-    "emoji": "🫛",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Soybean.USDA.jpg/1280px-Soybean.USDA.jpg",
+    "emoji": "\ud83e\udedb",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Soybean",
     "common_pests": [
       {
@@ -12448,8 +12448,8 @@
       "Plants are short and wispy; interplant with a grain like oats for support",
       "Drought-tolerant once established; reduce watering after flowering"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/3_types_of_lentil.png/330px-3_types_of_lentil.png",
-    "emoji": "🫘",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/3_types_of_lentil.png/1280px-3_types_of_lentil.png",
+    "emoji": "\ud83e\uded8",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Lentil",
     "common_pests": [
       {
@@ -12533,8 +12533,8 @@
       "Sensitive to high humidity which can promote blight; provide good air circulation",
       "Each pod contains only 1-2 beans, so plant generously for a worthwhile harvest"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Chickpea_BNC.jpg/330px-Chickpea_BNC.jpg",
-    "emoji": "🫘",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Chickpea_BNC.jpg/1280px-Chickpea_BNC.jpg",
+    "emoji": "\ud83e\uded8",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Chickpea",
     "common_pests": [
       {
@@ -12615,11 +12615,11 @@
     "rotation_family": "Fabaceae",
     "growing_tips": [
       "Thrives in heat and poor soil where many other crops fail",
-      "Wait until soil is thoroughly warm (70°F+) before planting",
+      "Wait until soil is thoroughly warm (70\u00b0F+) before planting",
       "Excellent cover crop for building soil fertility through nitrogen fixation"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Lobia.jpg/330px-Lobia.jpg",
-    "emoji": "🫘",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Lobia.jpg/1280px-Lobia.jpg",
+    "emoji": "\ud83e\uded8",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Cowpea",
     "common_pests": [
       {
@@ -12705,8 +12705,8 @@
       "Loose, sandy soil is ideal; peanut pegs must be able to penetrate the ground",
       "Hill soil around plants as they grow, similar to potatoes, to cover developing pegs"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Arachis_hypogaea_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-163.jpg/330px-Arachis_hypogaea_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-163.jpg",
-    "emoji": "🥜",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Arachis_hypogaea_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-163.jpg/1280px-Arachis_hypogaea_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-163.jpg",
+    "emoji": "\ud83e\udd5c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Peanut",
     "common_pests": [
       {
@@ -12804,8 +12804,8 @@
       "Succession plant every two weeks in spring and again in late summer for fall",
       "Harvest promptly as the window between budding and flowering is short"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Rapini.jpg/330px-Rapini.jpg",
-    "emoji": "🥦",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Rapini.jpg/1280px-Rapini.jpg",
+    "emoji": "\ud83e\udd66",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Rapini",
     "common_pests": [
       {
@@ -12893,8 +12893,8 @@
       "Direct sow in midsummer for fall harvest rather than transplanting",
       "Use row cover to protect from flea beetles, which heavily target napa cabbage"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Brassica_rapa_plant.jpg/330px-Brassica_rapa_plant.jpg",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Brassica_rapa_plant.jpg/1280px-Brassica_rapa_plant.jpg",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Brassica_rapa",
     "common_pests": [
       {
@@ -12986,8 +12986,8 @@
       "Crinkled leaves are less attractive to cabbage worms than smooth-leaved varieties",
       "Excellent for stuffed cabbage rolls due to pliable, tender leaves"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Savoy_Cabbage.jpg/330px-Savoy_Cabbage.jpg",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Savoy_Cabbage.jpg/1280px-Savoy_Cabbage.jpg",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Savoy_cabbage",
     "common_pests": [
       {
@@ -13079,8 +13079,8 @@
       "Fall planting often produces better results than spring",
       "Ensure steady, even watering and avoid any stress to prevent buttoning or misshapen heads"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Romanesco_broccoli_%28Brassica_oleracea%29.jpg/330px-Romanesco_broccoli_%28Brassica_oleracea%29.jpg",
-    "emoji": "🥦",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Romanesco_broccoli_%28Brassica_oleracea%29.jpg/1280px-Romanesco_broccoli_%28Brassica_oleracea%29.jpg",
+    "emoji": "\ud83e\udd66",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Romanesco",
     "common_pests": [
       {
@@ -13172,8 +13172,8 @@
       "Mulch fall-planted shallots well in zones 5 and below",
       "Stop watering when tops begin to yellow to promote curing"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Shallots_-_sliced_and_whole.jpg/330px-Shallots_-_sliced_and_whole.jpg",
-    "emoji": "🧅",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Shallots_-_sliced_and_whole.jpg/1280px-Shallots_-_sliced_and_whole.jpg",
+    "emoji": "\ud83e\uddc5",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Shallot",
     "common_pests": [
       {
@@ -13265,8 +13265,8 @@
       "Succession plant every 2 weeks for a continuous supply",
       "Perennial bunching types like Evergreen Hardy White return year after year"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Welsh_onion.jpg/330px-Welsh_onion.jpg",
-    "emoji": "🧅",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Welsh_onion.jpg/1280px-Welsh_onion.jpg",
+    "emoji": "\ud83e\uddc5",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Allium_fistulosum",
     "common_pests": [
       {
@@ -13350,8 +13350,8 @@
       "Divide clumps every 3-4 years to maintain vigor",
       "Both leaves and flowers are edible with a mild garlic flavor"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Allium_tuberosum_kz01.jpg/330px-Allium_tuberosum_kz01.jpg",
-    "emoji": "🧄",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Allium_tuberosum_kz01.jpg/1280px-Allium_tuberosum_kz01.jpg",
+    "emoji": "\ud83e\uddc4",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Allium_tuberosum",
     "common_pests": [
       {
@@ -13435,8 +13435,8 @@
       "Extremely cold-hardy and virtually indestructible once established",
       "Manage spread by harvesting bulbils before stalks fall over and self-plant"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Allium_fistulosum_bulbifera0.jpg/330px-Allium_fistulosum_bulbifera0.jpg",
-    "emoji": "🧅",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Allium_fistulosum_bulbifera0.jpg/1280px-Allium_fistulosum_bulbifera0.jpg",
+    "emoji": "\ud83e\uddc5",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Tree_onion",
     "common_pests": [
       {
@@ -13517,8 +13517,8 @@
       "Provide a very strong trellis or arbor for the heavy vines",
       "Soak seeds overnight before planting to improve germination"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Luffa_aegyptiaca_compose.jpg/330px-Luffa_aegyptiaca_compose.jpg",
-    "emoji": "🧽",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Luffa_aegyptiaca_compose.jpg/1280px-Luffa_aegyptiaca_compose.jpg",
+    "emoji": "\ud83e\uddfd",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Luffa_aegyptiaca",
     "common_pests": [
       {
@@ -13619,8 +13619,8 @@
       "Provide a sturdy trellis for climbing; fruits hang straight when trellised",
       "Soak or scarify seeds before planting to speed germination"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Momordica_charantia_Blanco2.357.png/330px-Momordica_charantia_Blanco2.357.png",
-    "emoji": "🥒",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Momordica_charantia_Blanco2.357.png/1280px-Momordica_charantia_Blanco2.357.png",
+    "emoji": "\ud83e\udd52",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Momordica_charantia",
     "common_pests": [
       {
@@ -13696,8 +13696,8 @@
       "Needs a very sturdy support structure; a single vine can cover a large arbor",
       "In zones 7-8, mulch the crown heavily in winter; perennial root may survive mild winters"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Chayote_BNC.jpg/330px-Chayote_BNC.jpg",
-    "emoji": "🍐",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Chayote_BNC.jpg/1280px-Chayote_BNC.jpg",
+    "emoji": "\ud83c\udf50",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Chayote",
     "common_pests": [
       {
@@ -13786,8 +13786,8 @@
       "More heat-tolerant than regular cucumbers and never turns bitter",
       "Technically a melon, so avoid planting near other melons to prevent cross-pollination if saving seeds"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Cucumis_melo_flexuosus.jpg/330px-Cucumis_melo_flexuosus.jpg",
-    "emoji": "🥒",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Cucumis_melo_flexuosus.jpg/1280px-Cucumis_melo_flexuosus.jpg",
+    "emoji": "\ud83e\udd52",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Armenian_cucumber",
     "common_pests": [
       {
@@ -13875,12 +13875,12 @@
     ],
     "rotation_family": "Fabaceae",
     "growing_tips": [
-      "Needs warm soil (70°F+) to germinate well; do not plant too early",
+      "Needs warm soil (70\u00b0F+) to germinate well; do not plant too early",
       "Provide a tall trellis or pole at least 8 feet high",
       "Produces best in high heat when standard green beans often struggle"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Vigna_unguiculata_Blanco2.286-cropped.jpg/330px-Vigna_unguiculata_Blanco2.286-cropped.jpg",
-    "emoji": "🫘",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Vigna_unguiculata_Blanco2.286-cropped.jpg/1280px-Vigna_unguiculata_Blanco2.286-cropped.jpg",
+    "emoji": "\ud83e\uded8",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Asparagus_bean",
     "common_pests": [
       {
@@ -14113,12 +14113,12 @@
     ],
     "rotation_family": "Fabaceae",
     "growing_tips": [
-      "Requires consistently warm temperatures above 75°F; best in tropical or subtropical zones",
+      "Requires consistently warm temperatures above 75\u00b0F; best in tropical or subtropical zones",
       "Short day length triggers flowering; supplemental lighting may be needed in northern areas",
       "Soak seeds for 24 hours before planting to improve germination"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Psophocarpus_tetragonolobus_Blanco2.293.png/330px-Psophocarpus_tetragonolobus_Blanco2.293.png",
-    "emoji": "🫘",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Psophocarpus_tetragonolobus_Blanco2.293.png/1280px-Psophocarpus_tetragonolobus_Blanco2.293.png",
+    "emoji": "\ud83e\uded8",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Winged_bean",
     "common_pests": [
       {
@@ -14348,8 +14348,8 @@
       "Provide a trellis for the twining vine, or let it sprawl as a ground cover",
       "Soak or scarify seeds before planting as the hard seed coat slows germination"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Basella_alba-2.JPG/330px-Basella_alba-2.JPG",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Basella_alba-2.JPG/1280px-Basella_alba-2.JPG",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Basella_alba",
     "common_pests": [
       {
@@ -14424,8 +14424,8 @@
       "Excellent ground cover that suppresses weeds once established",
       "Not related to true spinach but makes a good warm-weather substitute"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Tetragonia_tetragonioides.jpg/330px-Tetragonia_tetragonioides.jpg",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Tetragonia_tetragonioides.jpg/1280px-Tetragonia_tetragonioides.jpg",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Tetragonia_tetragonioides",
     "common_pests": [
       {
@@ -14496,8 +14496,8 @@
       "Cultivated varieties are bushier and more upright than wild purslane",
       "Extremely drought-tolerant due to succulent leaves; avoid overwatering"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Portulaca_oleracea.jpg/330px-Portulaca_oleracea.jpg",
-    "emoji": "🥬",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Portulaca_oleracea.jpg/1280px-Portulaca_oleracea.jpg",
+    "emoji": "\ud83e\udd6c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Portulaca_oleracea",
     "common_pests": [
       {
@@ -14572,8 +14572,8 @@
       "Thrives in poor soil and requires very little care once established",
       "Use sparingly in cooking; large quantities can be toxic"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Dysphania_ambrosioides_NRCS-1_%28cropped%29.jpg/330px-Dysphania_ambrosioides_NRCS-1_%28cropped%29.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Dysphania_ambrosioides_NRCS-1_%28cropped%29.jpg/1280px-Dysphania_ambrosioides_NRCS-1_%28cropped%29.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Dysphania_ambrosioides",
     "common_pests": [
       {
@@ -14648,8 +14648,8 @@
       "Self-seeds readily; can become weedy if flowers are not removed",
       "Purple varieties make a beautiful ornamental addition to borders and containers"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Perilla_frutescens_in_Gimpo.jpg/330px-Perilla_frutescens_in_Gimpo.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Perilla_frutescens_in_Gimpo.jpg/1280px-Perilla_frutescens_in_Gimpo.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Perilla_frutescens",
     "common_pests": [
       {
@@ -14733,8 +14733,8 @@
       "Pinch off flower buds regularly, though the purple blooms are attractive and edible",
       "Pairs beautifully with other Southeast Asian garden crops like lemongrass and hot peppers"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Thai_basil.jpg/330px-Thai_basil.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Thai_basil.jpg/1280px-Thai_basil.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Thai_basil",
     "common_pests": [
       {
@@ -14805,8 +14805,8 @@
       "Prune regularly to prevent legginess and encourage bushy growth",
       "Dried leaves retain more fragrance than almost any other herb"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Aloysia_citriodora_002.jpg/330px-Aloysia_citriodora_002.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Aloysia_citriodora_002.jpg/1280px-Aloysia_citriodora_002.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Aloysia_citrodora",
     "common_pests": [
       {
@@ -14886,8 +14886,8 @@
       "Prefers well-drained, alkaline soil and tolerates drought once established",
       "Cut back by one-third in late winter to maintain a compact, productive form"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Illustration_Hyssopus_officinalis0.jpg/330px-Illustration_Hyssopus_officinalis0.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Illustration_Hyssopus_officinalis0.jpg/1280px-Illustration_Hyssopus_officinalis0.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Hyssopus_officinalis",
     "common_pests": [
       {
@@ -14962,8 +14962,8 @@
       "Cut back flower stalks if you want to promote continued leaf production",
       "Mature plants can be divided in spring or fall to propagate"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Liebst%C3%B6ckel.JPG/330px-Liebst%C3%B6ckel.JPG",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Liebst%C3%B6ckel.JPG/1280px-Liebst%C3%B6ckel.JPG",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Lovage",
     "common_pests": [
       {
@@ -15042,8 +15042,8 @@
       "Does not transplant well; direct sow and thin",
       "Sow in fall for an early spring harvest; seeds need cold to germinate well"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Illustration_Anthriscus_cerefolium0.jpg/330px-Illustration_Anthriscus_cerefolium0.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Illustration_Anthriscus_cerefolium0.jpg/1280px-Illustration_Anthriscus_cerefolium0.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Chervil",
     "common_pests": [
       {
@@ -15118,8 +15118,8 @@
       "Plants can become leggy; pinch growing tips to encourage bushiness",
       "Prefers lean, well-drained soil; rich soil produces less flavorful leaves"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Satureja_hortensis_bgiu.jpg/330px-Satureja_hortensis_bgiu.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Satureja_hortensis_bgiu.jpg/1280px-Satureja_hortensis_bgiu.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Summer_savory",
     "common_pests": [
       {
@@ -15198,8 +15198,8 @@
       "Excellent as a low, evergreen border or edging plant",
       "Well-drained soil is essential; crown rot occurs in wet winter soil"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Satureja_montana2.jpg/330px-Satureja_montana2.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Satureja_montana2.jpg/1280px-Satureja_montana2.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Winter_savory",
     "common_pests": [
       {
@@ -15274,8 +15274,8 @@
       "Spreads readily by self-seeding; deadhead to control spread",
       "Contains nepetalactone, a natural insect repellent effective against mosquitoes and aphids"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Catnip_flowers.jpg/330px-Catnip_flowers.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Catnip_flowers.jpg/1280px-Catnip_flowers.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Catnip",
     "common_pests": [
       {
@@ -15350,8 +15350,8 @@
       "Divide clumps every 3 years as the centers die out",
       "Seeds need light to germinate; surface sow and do not cover"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Monarda_didyma_inflorescence_and_upper_cauline_leaves.jpg/330px-Monarda_didyma_inflorescence_and_upper_cauline_leaves.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Monarda_didyma_inflorescence_and_upper_cauline_leaves.jpg/1280px-Monarda_didyma_inflorescence_and_upper_cauline_leaves.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Monarda_didyma",
     "common_pests": [
       {
@@ -15422,8 +15422,8 @@
       "Prefers cool, moist, partly shaded conditions; mimick its native woodland edge habitat",
       "Dies after flowering in the second year but self-seeds if allowed to go to seed"
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Koehler1887-GardenAngelica.jpg/330px-Koehler1887-GardenAngelica.jpg",
-    "emoji": "🌿",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Koehler1887-GardenAngelica.jpg/1280px-Koehler1887-GardenAngelica.jpg",
+    "emoji": "\ud83c\udf3f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Angelica_archangelica",
     "common_pests": [
       {
@@ -15503,8 +15503,8 @@
       "Divide mature clumps every 3-4 years in spring to maintain vigor.",
       "Avoid overwatering; coneflowers are native prairie plants that thrive in lean, well-drained soils."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Echinacea_purpurea_Grandview_Prairie.jpg/330px-Echinacea_purpurea_Grandview_Prairie.jpg",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Echinacea_purpurea_Grandview_Prairie.jpg/1280px-Echinacea_purpurea_Grandview_Prairie.jpg",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Coneflower",
     "common_pests": [
       {
@@ -15584,8 +15584,8 @@
       "Leave spent flower heads through winter for bird food and architectural interest.",
       "Seeds need light to germinate; do not cover with soil when sowing."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Rudbeckia_fulgida.JPG/330px-Rudbeckia_fulgida.JPG",
-    "emoji": "🌻",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Rudbeckia_fulgida.JPG/1280px-Rudbeckia_fulgida.JPG",
+    "emoji": "\ud83c\udf3b",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Rudbeckia",
     "common_pests": [
       {
@@ -15661,8 +15661,8 @@
       "Prefers humus-rich, moist, well-drained soil in partial shade, mimicking woodland edge conditions.",
       "All plant parts are highly toxic if ingested. Keep away from children and pets."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Digitalis_purpurea_LC0101.jpg/330px-Digitalis_purpurea_LC0101.jpg",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Digitalis_purpurea_LC0101.jpg/1280px-Digitalis_purpurea_LC0101.jpg",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Digitalis",
     "common_pests": [
       {
@@ -15738,8 +15738,8 @@
       "Lupines fix nitrogen through root nodules, making them excellent companions for nutrient-hungry plants.",
       "Provide well-drained, slightly acidic soil; avoid lime and alkaline conditions."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Lupinus_polyphyllus.JPG/330px-Lupinus_polyphyllus.JPG",
-    "emoji": "💜",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Lupinus_polyphyllus.JPG/1280px-Lupinus_polyphyllus.JPG",
+    "emoji": "\ud83d\udc9c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Lupine",
     "common_pests": [
       {
@@ -15819,8 +15819,8 @@
       "Seeds need cold stratification for 4-6 weeks to germinate; fall sowing outdoors works well.",
       "Provide good air circulation to reduce susceptibility to powdery mildew."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Symphyotrichum_novae-angliae3.jpg/330px-Symphyotrichum_novae-angliae3.jpg",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Symphyotrichum_novae-angliae3.jpg/1280px-Symphyotrichum_novae-angliae3.jpg",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Symphyotrichum_novae-angliae",
     "common_pests": [
       {
@@ -15901,8 +15901,8 @@
       "Apply winter mulch after the ground freezes to prevent heaving in cold climates.",
       "Avoid overhead watering to reduce foliar disease; water at the base of the plant."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Chrysanthemum.JPG/330px-Chrysanthemum.JPG",
-    "emoji": "🌼",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Chrysanthemum.JPG/1280px-Chrysanthemum.JPG",
+    "emoji": "\ud83c\udf3c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Chrysanthemum_%C3%97_morifolium",
     "common_pests": [
       {
@@ -15978,8 +15978,8 @@
       "Disbud side shoots to produce larger individual blooms for cutting.",
       "Stake tall varieties to prevent stems from snapping in wind or rain."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/W_carnation4051.jpg/330px-W_carnation4051.jpg",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/W_carnation4051.jpg/1280px-W_carnation4051.jpg",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Dianthus_caryophyllus",
     "common_pests": [
       {
@@ -16055,8 +16055,8 @@
       "Mulch over bulbs to keep roots cool and retain moisture during summer heat.",
       "The red lily beetle is a serious pest; inspect plants regularly and remove beetles and larvae by hand."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Lilium_candidum_1.jpg/330px-Lilium_candidum_1.jpg",
-    "emoji": "🌷",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Lilium_candidum_1.jpg/1280px-Lilium_candidum_1.jpg",
+    "emoji": "\ud83c\udf37",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Lilium",
     "common_pests": [
       {
@@ -16136,8 +16136,8 @@
       "Allow foliage to die back naturally after blooming; the leaves recharge the bulb for the following year.",
       "In zones 8+, pre-chill bulbs in the refrigerator for 12-14 weeks before planting to simulate winter."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/%D7%A6%D7%91%D7%A2%D7%95%D7%A0%D7%99%D7%9D.JPG/330px-%D7%A6%D7%91%D7%A2%D7%95%D7%A0%D7%99%D7%9D.JPG",
-    "emoji": "🌷",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/%D7%A6%D7%91%D7%A2%D7%95%D7%A0%D7%99%D7%9D.JPG/1280px-%D7%A6%D7%91%D7%A2%D7%95%D7%A0%D7%99%D7%9D.JPG",
+    "emoji": "\ud83c\udf37",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Tulip",
     "common_pests": [
       {
@@ -16227,8 +16227,8 @@
       "Do not braid, tie, or mow foliage after blooming; allow leaves to yellow naturally over 6 weeks.",
       "All parts are toxic if ingested; the alkaloids also make them completely deer- and vole-proof."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Narcissus_poeticus_subsp._radiiflorus.1658.jpg/330px-Narcissus_poeticus_subsp._radiiflorus.1658.jpg",
-    "emoji": "🌼",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Narcissus_poeticus_subsp._radiiflorus.1658.jpg/1280px-Narcissus_poeticus_subsp._radiiflorus.1658.jpg",
+    "emoji": "\ud83c\udf3c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Narcissus_(plant)",
     "common_pests": [
       {
@@ -16304,8 +16304,8 @@
       "Plant in clusters of 10-25 for the best visual impact rather than single rows.",
       "Squirrels may dig corms; cover newly planted areas with wire mesh until settled."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Crocus_vernus_with_bee.jpg/330px-Crocus_vernus_with_bee.jpg",
-    "emoji": "💜",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Crocus_vernus_with_bee.jpg/1280px-Crocus_vernus_with_bee.jpg",
+    "emoji": "\ud83d\udc9c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Crocus",
     "common_pests": [
       {
@@ -16386,8 +16386,8 @@
       "Wear gloves when handling bulbs as they contain compounds that cause contact dermatitis.",
       "In zones 8+, pre-chill bulbs in the refrigerator for 10-12 weeks before planting."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Hyacinth_flower.jpg/330px-Hyacinth_flower.jpg",
-    "emoji": "💜",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Hyacinth_flower.jpg/1280px-Hyacinth_flower.jpg",
+    "emoji": "\ud83d\udc9c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Hyacinthus_orientalis",
     "common_pests": [
       {
@@ -16463,8 +16463,8 @@
       "Good air circulation and avoiding mulch directly over rhizomes helps prevent iris borer and bacterial soft rot.",
       "Remove and destroy any leaves showing iris borer tunneling damage to break the pest cycle."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Iris_sanguinea_cultivar%2C_Wakehurst_Place%2C_UK_-_Diliff.jpg/330px-Iris_sanguinea_cultivar%2C_Wakehurst_Place%2C_UK_-_Diliff.jpg",
-    "emoji": "💜",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Iris_sanguinea_cultivar%2C_Wakehurst_Place%2C_UK_-_Diliff.jpg/1280px-Iris_sanguinea_cultivar%2C_Wakehurst_Place%2C_UK_-_Diliff.jpg",
+    "emoji": "\ud83d\udc9c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Iris_%C3%97_germanica",
     "common_pests": [
       {
@@ -16545,8 +16545,8 @@
       "Deer, rabbits, and rodents avoid alliums due to their onion scent and taste.",
       "Leave dried seed heads standing for architectural winter interest and self-seeding."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/PurpleBallFlower.JPG/330px-PurpleBallFlower.JPG",
-    "emoji": "💜",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/PurpleBallFlower.JPG/1280px-PurpleBallFlower.JPG",
+    "emoji": "\ud83d\udc9c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Allium_giganteum",
     "common_pests": [
       {
@@ -16622,8 +16622,8 @@
       "Seeds need light to germinate; press onto soil surface but do not cover.",
       "Allow seed pods to dry on the plant and shake seeds for next year's self-sown display."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Papaver_April_2010-3.jpg/330px-Papaver_April_2010-3.jpg",
-    "emoji": "🌺",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Papaver_April_2010-3.jpg/1280px-Papaver_April_2010-3.jpg",
+    "emoji": "\ud83c\udf3a",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Poppy",
     "common_pests": [
       {
@@ -16699,8 +16699,8 @@
       "Does not transplant well due to a taproot; direct sowing is strongly preferred.",
       "All parts are toxic if ingested; wear gloves when handling."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Consolida_ajacis_habito.jpg/330px-Consolida_ajacis_habito.jpg",
-    "emoji": "💙",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Consolida_ajacis_habito.jpg/1280px-Consolida_ajacis_habito.jpg",
+    "emoji": "\ud83d\udc99",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Consolida_ajacis",
     "common_pests": [
       {
@@ -16776,8 +16776,8 @@
       "Excellent powdery mildew resistance compared to older varieties; ensure good air circulation nonetheless.",
       "Thrives in heat and tolerates drought once established, making it a good choice for hot, dry locations."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Eisenkraut%2C_Passau.JPG/330px-Eisenkraut%2C_Passau.JPG",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Eisenkraut%2C_Passau.JPG/1280px-Eisenkraut%2C_Passau.JPG",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Verbena",
     "common_pests": [
       {
@@ -16854,8 +16854,8 @@
       "Thrives in hot weather when many other annuals falter; an excellent choice for southern and tropical gardens.",
       "Seeds need light to germinate; sow on the surface of moist potting mix."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Celosia_argentea_flowering_q1.jpg/330px-Celosia_argentea_flowering_q1.jpg",
-    "emoji": "🔴",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Celosia_argentea_flowering_q1.jpg/1280px-Celosia_argentea_flowering_q1.jpg",
+    "emoji": "\ud83d\udd34",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Celosia_argentea",
     "common_pests": [
       {
@@ -16931,8 +16931,8 @@
       "Young leaves are edible and nutritious, similar to spinach; harvest before plants flower for the best flavor.",
       "Can become weedy through self-seeding; remove spent flower heads if self-sowing is not desired."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Amaranthus_tricolor0.jpg/330px-Amaranthus_tricolor0.jpg",
-    "emoji": "🌾",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Amaranthus_tricolor0.jpg/1280px-Amaranthus_tricolor0.jpg",
+    "emoji": "\ud83c\udf3e",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Amaranth",
     "common_pests": [
       {
@@ -17008,8 +17008,8 @@
       "Deadhead spent blooms regularly to extend the flowering period well into summer.",
       "Self-sows readily; allow some flowers to go to seed for a naturalized meadow effect."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Centaurea_cyanus_flower_001.jpg/330px-Centaurea_cyanus_flower_001.jpg",
-    "emoji": "💙",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Centaurea_cyanus_flower_001.jpg/1280px-Centaurea_cyanus_flower_001.jpg",
+    "emoji": "\ud83d\udc99",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Centaurea_cyanus",
     "common_pests": [
       {
@@ -17085,8 +17085,8 @@
       "Tolerates heat, drought, and poor soil once established.",
       "Stems have small thorns; wear gloves when working around plants."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Cleome_hassleriana.jpg/330px-Cleome_hassleriana.jpg",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Cleome_hassleriana.jpg/1280px-Cleome_hassleriana.jpg",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Cleome",
     "common_pests": [
       {
@@ -17162,8 +17162,8 @@
       "Attracts sphinx moths and other nocturnal pollinators with its evening fragrance.",
       "All parts of the plant are toxic if ingested; keep away from children and pets."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Gul-Abas-4-O%27clock_plant.JPG/330px-Gul-Abas-4-O%27clock_plant.JPG",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Gul-Abas-4-O%27clock_plant.JPG/1280px-Gul-Abas-4-O%27clock_plant.JPG",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Mirabilis_jalapa",
     "common_pests": [
       {
@@ -17252,8 +17252,8 @@
       "As a member of the Solanaceae family, avoid planting where tomatoes, peppers, or eggplant grew previously.",
       "All parts are toxic if ingested; handle with care."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Nicotiana_alata1By_Carl_E_Lewis.jpg/330px-Nicotiana_alata1By_Carl_E_Lewis.jpg",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Nicotiana_alata1By_Carl_E_Lewis.jpg/1280px-Nicotiana_alata1By_Carl_E_Lewis.jpg",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Nicotiana_alata",
     "common_pests": [
       {
@@ -17334,8 +17334,8 @@
       "Pinch young plants to promote bushy growth and more flower clusters.",
       "All parts are toxic if ingested; keep away from children and pets."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Heliotropium_arborescens_%27Mini_Marine%27_Heliotrope_Flower_2500px.jpg/330px-Heliotropium_arborescens_%27Mini_Marine%27_Heliotrope_Flower_2500px.jpg",
-    "emoji": "💜",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Heliotropium_arborescens_%27Mini_Marine%27_Heliotrope_Flower_2500px.jpg/1280px-Heliotropium_arborescens_%27Mini_Marine%27_Heliotrope_Flower_2500px.jpg",
+    "emoji": "\ud83d\udc9c",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Heliotropium_arborescens",
     "common_pests": [
       {
@@ -17411,8 +17411,8 @@
       "As a Brassicaceae family member, susceptible to clubroot; rotate planting locations annually.",
       "Chill seeds at 40F for one week before sowing to improve double-flower percentage."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Vereinigte_Ostindische_Compagnie_bond_-_Middelburg_-_Amsterdam_-_1622.jpg/330px-Vereinigte_Ostindische_Compagnie_bond_-_Middelburg_-_Amsterdam_-_1622.jpg",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Vereinigte_Ostindische_Compagnie_bond_-_Middelburg_-_Amsterdam_-_1622.jpg/1280px-Vereinigte_Ostindische_Compagnie_bond_-_Middelburg_-_Amsterdam_-_1622.jpg",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Matthiola_incana",
     "common_pests": [
       {
@@ -17491,8 +17491,8 @@
       "Mow or till in at peak bloom before seed set to prevent it from becoming a weed in subsequent crops.",
       "Excellent bee forage; one of the most pollinator-friendly cover crops available."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Kals_am_Grossglockner_flowers_256.jpg/330px-Kals_am_Grossglockner_flowers_256.jpg",
-    "emoji": "☘️",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Kals_am_Grossglockner_flowers_256.jpg/1280px-Kals_am_Grossglockner_flowers_256.jpg",
+    "emoji": "\u2618\ufe0f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Trifolium_incarnatum",
     "common_pests": [
       {
@@ -17581,8 +17581,8 @@
       "Excellent living mulch for orchards and perennial beds; spreads by stolons to form a dense, weed-suppressing mat.",
       "Tolerates foot traffic and mowing; ideal for garden pathways between beds."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Trifolium_repens_-_white_clover_on_way_from_Govindghat_to_Gangria_at_Valley_of_Flowers_National_Park_-_during_LGFC_-_VOF_2019_%281%29.jpg/330px-Trifolium_repens_-_white_clover_on_way_from_Govindghat_to_Gangria_at_Valley_of_Flowers_National_Park_-_during_LGFC_-_VOF_2019_%281%29.jpg",
-    "emoji": "☘️",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Trifolium_repens_-_white_clover_on_way_from_Govindghat_to_Gangria_at_Valley_of_Flowers_National_Park_-_during_LGFC_-_VOF_2019_%281%29.jpg/1280px-Trifolium_repens_-_white_clover_on_way_from_Govindghat_to_Gangria_at_Valley_of_Flowers_National_Park_-_during_LGFC_-_VOF_2019_%281%29.jpg",
+    "emoji": "\u2618\ufe0f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Trifolium_repens",
     "common_pests": [
       {
@@ -17671,8 +17671,8 @@
       "Terminate at least 2-3 weeks before planting spring crops; decomposing rye residue can temporarily inhibit germination of small-seeded crops.",
       "Combines well with hairy vetch or crimson clover for a nitrogen-fixing grass-legume cover crop mix."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Ear_of_rye.jpg/330px-Ear_of_rye.jpg",
-    "emoji": "🌾",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Ear_of_rye.jpg/1280px-Ear_of_rye.jpg",
+    "emoji": "\ud83c\udf3e",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Rye",
     "common_pests": [
       {
@@ -17746,8 +17746,8 @@
       "Attracts hoverflies, parasitic wasps, and other beneficial insects that prey on garden pests.",
       "Excellent phosphorus scavenger; roots solubilize bound phosphorus and make it available for subsequent crops."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Japanese_Buckwheat_Flower.JPG/330px-Japanese_Buckwheat_Flower.JPG",
-    "emoji": "🌾",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Japanese_Buckwheat_Flower.JPG/1280px-Japanese_Buckwheat_Flower.JPG",
+    "emoji": "\ud83c\udf3e",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Buckwheat",
     "common_pests": [
       {
@@ -17826,8 +17826,8 @@
       "Combine with winter rye for a balanced cover crop mix: rye provides structure for vetch to climb.",
       "Can self-seed aggressively if allowed to set seed; terminate before seed maturity to prevent volunteer issues."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Vicia_villosa.jpeg/330px-Vicia_villosa.jpeg",
-    "emoji": "☘️",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Vicia_villosa.jpeg/1280px-Vicia_villosa.jpeg",
+    "emoji": "\u2618\ufe0f",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Vicia_villosa",
     "common_pests": [
       {
@@ -17903,8 +17903,8 @@
       "Fixes 50-150 lbs of nitrogen per acre; inoculate with pea/vetch-group Rhizobium for best results.",
       "Excellent companion with oats or rye; the grain provides physical support for the vining peas."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Peas_in_pods_-_Studio.jpg/330px-Peas_in_pods_-_Studio.jpg",
-    "emoji": "🫛",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Peas_in_pods_-_Studio.jpg/1280px-Peas_in_pods_-_Studio.jpg",
+    "emoji": "\ud83e\udedb",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Pea",
     "common_pests": [
       {
@@ -18033,8 +18033,8 @@
       "Be cautious: can become difficult to terminate in spring if allowed to mature; mow or till before seed set.",
       "Excellent for improving soil structure through its dense, fibrous root system."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Lolium_multiflorum_detail.jpeg/330px-Lolium_multiflorum_detail.jpeg",
-    "emoji": "🌾",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Lolium_multiflorum_detail.jpeg/1280px-Lolium_multiflorum_detail.jpeg",
+    "emoji": "\ud83c\udf3e",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Lolium_multiflorum",
     "common_pests": [
       {
@@ -18110,8 +18110,8 @@
       "Scavenges excess nitrogen from the soil, preventing it from leaching into groundwater over winter.",
       "The winter-killed residue creates a natural mulch that protects soil and suppresses early spring weeds."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/AvenaSativa3.jpg/330px-AvenaSativa3.jpg",
-    "emoji": "🌾",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/AvenaSativa3.jpg/1280px-AvenaSativa3.jpg",
+    "emoji": "\ud83c\udf3e",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Oat",
     "common_pests": [
       {
@@ -18184,8 +18184,8 @@
       "Deep roots penetrate hardpan and compacted subsoil, improving drainage and soil structure for future crops.",
       "Young shoots can contain toxic levels of prussic acid (hydrogen cyanide); do not graze or harvest for livestock feed when plants are under 18 inches tall."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Sorghum_bicolor03.jpg/330px-Sorghum_bicolor03.jpg",
-    "emoji": "🌾",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Sorghum_bicolor03.jpg/1280px-Sorghum_bicolor03.jpg",
+    "emoji": "\ud83c\udf3e",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Sorghum",
     "common_pests": [
       {
@@ -18263,8 +18263,8 @@
       "Frost-sensitive; use as a spring or summer cover crop. Winter-kills in zones 7 and below.",
       "Seeds need darkness to germinate; cover lightly with soil after sowing."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Phacelia_tanacetifolia_7735.JPG/330px-Phacelia_tanacetifolia_7735.JPG",
-    "emoji": "🌸",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Phacelia_tanacetifolia_7735.JPG/1280px-Phacelia_tanacetifolia_7735.JPG",
+    "emoji": "\ud83c\udf38",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Phacelia_tanacetifolia",
     "common_pests": [
       {
@@ -18340,8 +18340,8 @@
       "Raw berries, leaves, and stems contain cyanogenic glycosides and must be cooked before consumption.",
       "Thrives in moist, rich soil; tolerates poorly drained conditions better than most fruit crops."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Sambucus-berries.jpg/330px-Sambucus-berries.jpg",
-    "emoji": "🫐",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Sambucus-berries.jpg/1280px-Sambucus-berries.jpg",
+    "emoji": "\ud83e\uded0",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Sambucus_nigra",
     "common_pests": [
       {
@@ -18418,8 +18418,8 @@
       "Prune in late winter to maintain a manageable size and improve air circulation.",
       "One of the lowest-maintenance fruit-producing trees; rarely troubled by serious pests or diseases."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/MorusRubra9.jpg/330px-MorusRubra9.jpg",
-    "emoji": "🫐",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/MorusRubra9.jpg/1280px-MorusRubra9.jpg",
+    "emoji": "\ud83e\uded0",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Morus_rubra",
     "common_pests": [
       {
@@ -18495,8 +18495,8 @@
       "Minimal pruning required; remove dead, crossing, or crowded branches in late winter.",
       "Offers four-season interest: spring flowers, summer fruit, fall color, and attractive winter bark and form."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Amelanchier_alnifolia_var._semiintegrifolia_4.jpg/330px-Amelanchier_alnifolia_var._semiintegrifolia_4.jpg",
-    "emoji": "🫐",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Amelanchier_alnifolia_var._semiintegrifolia_4.jpg/1280px-Amelanchier_alnifolia_var._semiintegrifolia_4.jpg",
+    "emoji": "\ud83e\uded0",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Amelanchier",
     "common_pests": [
       {
@@ -18572,8 +18572,8 @@
       "Very slow to establish; expect 3-5 years before significant fruiting begins.",
       "Mulch heavily with acidic materials such as pine needles, wood chips, or composted bark."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Vacciniumovatum.jpg/330px-Vacciniumovatum.jpg",
-    "emoji": "🫐",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Vacciniumovatum.jpg/1280px-Vacciniumovatum.jpg",
+    "emoji": "\ud83e\uded0",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Vaccinium_ovatum",
     "common_pests": [
       {
@@ -18649,8 +18649,8 @@
       "Extremely cold-hardy; one of the few fruit crops that thrive in zones 2-3.",
       "Mulch with pine needles or acidic wood chips to maintain soil acidity and moisture."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Vaccinium_vitis-idaea_20060824_003.jpg/330px-Vaccinium_vitis-idaea_20060824_003.jpg",
-    "emoji": "🫐",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Vaccinium_vitis-idaea_20060824_003.jpg/1280px-Vaccinium_vitis-idaea_20060824_003.jpg",
+    "emoji": "\ud83e\uded0",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Vaccinium_vitis-idaea",
     "common_pests": [
       {
@@ -18722,8 +18722,8 @@
       "Vines spread by runners and form a dense mat; established beds may produce for decades.",
       "Top-dress beds with a thin layer of sand every 2-3 years to promote new root and stem growth."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cranberry_bog.jpg/330px-Cranberry_bog.jpg",
-    "emoji": "🔴",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cranberry_bog.jpg/1280px-Cranberry_bog.jpg",
+    "emoji": "\ud83d\udd34",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Vaccinium_macrocarpon",
     "common_pests": [
       {
@@ -18799,8 +18799,8 @@
       "Fruit must be completely ripe and soft to eat; unripe fruit is intensely astringent.",
       "Extremely low-maintenance once established; virtually free of serious pest and disease problems."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Diospyros_virginiana_BB-1913.png/330px-Diospyros_virginiana_BB-1913.png",
-    "emoji": "🟠",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Diospyros_virginiana_BB-1913.png/1280px-Diospyros_virginiana_BB-1913.png",
+    "emoji": "\ud83d\udfe0",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Diospyros_virginiana",
     "common_pests": [
       {
@@ -18876,8 +18876,8 @@
       "Flowers are pollinated by flies and beetles, not bees; hand pollination dramatically improves fruit set.",
       "Spreads by root suckers to form patches; remove suckers if a single-trunk tree is desired."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Asimina_triloba3.jpg/330px-Asimina_triloba3.jpg",
-    "emoji": "🟡",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Asimina_triloba3.jpg/1280px-Asimina_triloba3.jpg",
+    "emoji": "\ud83d\udfe1",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Asimina_triloba",
     "common_pests": [
       {
@@ -18953,8 +18953,8 @@
       "The high pectin content makes quince ideal for jelly, paste (membrillo), and adding body to other fruit preserves.",
       "Susceptible to fire blight; prune out any blackened, wilted shoots immediately and sterilize tools between cuts."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Pancrace_Bessa00.jpg/330px-Pancrace_Bessa00.jpg",
-    "emoji": "🍐",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Pancrace_Bessa00.jpg/1280px-Pancrace_Bessa00.jpg",
+    "emoji": "\ud83c\udf50",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Quince",
     "common_pests": [
       {
@@ -19040,8 +19040,8 @@
       "The bletting process is not rotting; it is an enzymatic softening that converts starches to sugars.",
       "Makes an attractive ornamental with showy white spring flowers and beautiful fall foliage."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Medlar_pomes_and_leaves.jpg/330px-Medlar_pomes_and_leaves.jpg",
-    "emoji": "🟤",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Medlar_pomes_and_leaves.jpg/1280px-Medlar_pomes_and_leaves.jpg",
+    "emoji": "\ud83d\udfe4",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Mespilus_germanica",
     "common_pests": [
       {
@@ -19130,8 +19130,8 @@
       "Train onto a trellis or stake the main stem for easier harvesting and better air circulation.",
       "As a member of Solanaceae, it is susceptible to the same diseases as tomatoes and peppers; rotate accordingly."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Lycium_barbarum_-_Wolfberries_China_7-05.jpg/330px-Lycium_barbarum_-_Wolfberries_China_7-05.jpg",
-    "emoji": "🔴",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Lycium_barbarum_-_Wolfberries_China_7-05.jpg/1280px-Lycium_barbarum_-_Wolfberries_China_7-05.jpg",
+    "emoji": "\ud83d\udd34",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Lycium_barbarum",
     "common_pests": [
       {
@@ -19207,8 +19207,8 @@
       "Beautiful fall foliage in brilliant red and orange adds ornamental value.",
       "Virtually free of pest and disease problems; deer typically avoid browsing the foliage."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Aronia_melanocarpa_cv_Rubina_P1020524.JPG/330px-Aronia_melanocarpa_cv_Rubina_P1020524.JPG",
-    "emoji": "🫐",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Aronia_melanocarpa_cv_Rubina_P1020524.JPG/1280px-Aronia_melanocarpa_cv_Rubina_P1020524.JPG",
+    "emoji": "\ud83e\uded0",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Aronia_melanocarpa",
     "common_pests": [
       {
@@ -19284,8 +19284,8 @@
       "Spreads aggressively by root suckers; install a root barrier or mow around plantings regularly.",
       "Extremely thorny; wear heavy gloves and long sleeves when harvesting."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Hippophae_rhamnoides-01_%28xndr%29.JPG/330px-Hippophae_rhamnoides-01_%28xndr%29.JPG",
-    "emoji": "🟠",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Hippophae_rhamnoides-01_%28xndr%29.JPG/1280px-Hippophae_rhamnoides-01_%28xndr%29.JPG",
+    "emoji": "\ud83d\udfe0",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Sea_buckthorn",
     "common_pests": [
       {
@@ -19361,8 +19361,8 @@
       "Vulnerable to late spring frosts that damage new growth; avoid frost pockets and south-facing walls that promote early bud break.",
       "Prune vines in late winter while dormant; summer-prune vigorous new growth to maintain manageable size."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Weiki01.jpg/330px-Weiki01.jpg",
-    "emoji": "🥝",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Weiki01.jpg/1280px-Weiki01.jpg",
+    "emoji": "\ud83e\udd5d",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Actinidia_arguta",
     "common_pests": [
       {
@@ -19438,8 +19438,8 @@
       "Highly resistant to powdery mildew, white pine blister rust, and most other Ribes diseases.",
       "Prune out branches older than 4 years in late winter to maintain vigorous, productive bushes."
     ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Ribes_nidigrolaria.jpg/330px-Ribes_nidigrolaria.jpg",
-    "emoji": "🫐",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Ribes_nidigrolaria.jpg/1280px-Ribes_nidigrolaria.jpg",
+    "emoji": "\ud83e\uded0",
     "wikipedia_url": "https://en.wikipedia.org/wiki/Jostaberry",
     "common_pests": [
       {
@@ -19491,11 +19491,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🍎",
+    "emoji": "\ud83c\udf4e",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Pink_lady_and_cross_section.jpg/330px-Pink_lady_and_cross_section.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Pink_lady_and_cross_section.jpg/1280px-Pink_lady_and_cross_section.jpg"
   },
   {
     "common_name": "Peach",
@@ -19521,11 +19521,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🍑",
+    "emoji": "\ud83c\udf51",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Illustration_Prunus_persica_clean_no_descr.jpg/330px-Illustration_Prunus_persica_clean_no_descr.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Illustration_Prunus_persica_clean_no_descr.jpg/1280px-Illustration_Prunus_persica_clean_no_descr.jpg"
   },
   {
     "common_name": "Cherry",
@@ -19551,11 +19551,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🍒",
+    "emoji": "\ud83c\udf52",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Prunus_avium_fruit.jpg/330px-Prunus_avium_fruit.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Prunus_avium_fruit.jpg/1280px-Prunus_avium_fruit.jpg"
   },
   {
     "common_name": "Pear",
@@ -19581,11 +19581,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🍐",
+    "emoji": "\ud83c\udf50",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Pears.jpg/330px-Pears.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Pears.jpg/1280px-Pears.jpg"
   },
   {
     "common_name": "Plum",
@@ -19611,11 +19611,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🟣",
+    "emoji": "\ud83d\udfe3",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Fruits_Prunus_domestica.jpg/330px-Fruits_Prunus_domestica.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Fruits_Prunus_domestica.jpg/1280px-Fruits_Prunus_domestica.jpg"
   },
   {
     "common_name": "Apricot",
@@ -19641,11 +19641,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🟠",
+    "emoji": "\ud83d\udfe0",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Apricots.jpg/330px-Apricots.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Apricots.jpg/1280px-Apricots.jpg"
   },
   {
     "common_name": "Nectarine",
@@ -19671,11 +19671,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🍑",
+    "emoji": "\ud83c\udf51",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Illustration_Prunus_persica_clean_no_descr.jpg/330px-Illustration_Prunus_persica_clean_no_descr.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Illustration_Prunus_persica_clean_no_descr.jpg/1280px-Illustration_Prunus_persica_clean_no_descr.jpg"
   },
   {
     "common_name": "Almond",
@@ -19701,11 +19701,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌰",
+    "emoji": "\ud83c\udf30",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Almonds_-_in_shell%2C_shell_cracked_open%2C_shelled%2C_blanched.jpg/330px-Almonds_-_in_shell%2C_shell_cracked_open%2C_shelled%2C_blanched.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Almonds_-_in_shell%2C_shell_cracked_open%2C_shelled%2C_blanched.jpg/1280px-Almonds_-_in_shell%2C_shell_cracked_open%2C_shelled%2C_blanched.jpg"
   },
   {
     "common_name": "Pecan",
@@ -19731,11 +19731,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🥜",
+    "emoji": "\ud83e\udd5c",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Carya_illinoinensis.jpg/330px-Carya_illinoinensis.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Carya_illinoinensis.jpg/1280px-Carya_illinoinensis.jpg"
   },
   {
     "common_name": "Walnut",
@@ -19761,11 +19761,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌰",
+    "emoji": "\ud83c\udf30",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Noyer_centenaire_en_automne.JPG/330px-Noyer_centenaire_en_automne.JPG"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Noyer_centenaire_en_automne.JPG/1280px-Noyer_centenaire_en_automne.JPG"
   },
   {
     "common_name": "Pomegranate",
@@ -19791,11 +19791,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🔴",
+    "emoji": "\ud83d\udd34",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Pomegranate_Juice_%282019%29.jpg/330px-Pomegranate_Juice_%282019%29.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Pomegranate_Juice_%282019%29.jpg/1280px-Pomegranate_Juice_%282019%29.jpg"
   },
   {
     "common_name": "Citrus",
@@ -19821,11 +19821,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🍊",
+    "emoji": "\ud83c\udf4a",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/OrangeBloss_wb.jpg/330px-OrangeBloss_wb.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/OrangeBloss_wb.jpg/1280px-OrangeBloss_wb.jpg"
   },
   {
     "common_name": "Banana",
@@ -19851,11 +19851,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🍌",
+    "emoji": "\ud83c\udf4c",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Starr_050826-4195_Musa_sp..jpg/330px-Starr_050826-4195_Musa_sp..jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Starr_050826-4195_Musa_sp..jpg/1280px-Starr_050826-4195_Musa_sp..jpg"
   },
   {
     "common_name": "Crabapple",
@@ -19881,11 +19881,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🍎",
+    "emoji": "\ud83c\udf4e",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Malus_sylvestris_005.JPG/330px-Malus_sylvestris_005.JPG"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Malus_sylvestris_005.JPG/1280px-Malus_sylvestris_005.JPG"
   },
   {
     "common_name": "Rose",
@@ -19911,11 +19911,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌹",
+    "emoji": "\ud83c\udf39",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Rosa_rubiginosa_1.jpg/330px-Rosa_rubiginosa_1.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Rosa_rubiginosa_1.jpg/1280px-Rosa_rubiginosa_1.jpg"
   },
   {
     "common_name": "Hibiscus",
@@ -19941,11 +19941,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌺",
+    "emoji": "\ud83c\udf3a",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Hibiscus_Brilliant.jpg/330px-Hibiscus_Brilliant.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Hibiscus_Brilliant.jpg/1280px-Hibiscus_Brilliant.jpg"
   },
   {
     "common_name": "Gardenia",
@@ -19971,11 +19971,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🤍",
+    "emoji": "\ud83e\udd0d",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Gardenia_jasminoides_flower_Argentina.jpg/330px-Gardenia_jasminoides_flower_Argentina.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Gardenia_jasminoides_flower_Argentina.jpg/1280px-Gardenia_jasminoides_flower_Argentina.jpg"
   },
   {
     "common_name": "Camellia",
@@ -20001,11 +20001,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌸",
+    "emoji": "\ud83c\udf38",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Camellia_japonica_NBG.jpg/330px-Camellia_japonica_NBG.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Camellia_japonica_NBG.jpg/1280px-Camellia_japonica_NBG.jpg"
   },
   {
     "common_name": "Begonia",
@@ -20031,11 +20031,11 @@
     "outdoor_sow_weeks_after_frost": 2,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌺",
+    "emoji": "\ud83c\udf3a",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Begonia_obliqua00.jpg/330px-Begonia_obliqua00.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Begonia_obliqua00.jpg/1280px-Begonia_obliqua00.jpg"
   },
   {
     "common_name": "Fuchsia",
@@ -20061,11 +20061,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "💜",
+    "emoji": "\ud83d\udc9c",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Brincos_De_Princesa.jpg/330px-Brincos_De_Princesa.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Brincos_De_Princesa.jpg/1280px-Brincos_De_Princesa.jpg"
   },
   {
     "common_name": "Cyclamen",
@@ -20091,11 +20091,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌸",
+    "emoji": "\ud83c\udf38",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Yagur_%E2%80%93_Nesher%2C_the_Green_Path_%E2%80%93_Mount_Carmel_016.JPG/330px-Yagur_%E2%80%93_Nesher%2C_the_Green_Path_%E2%80%93_Mount_Carmel_016.JPG"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Yagur_%E2%80%93_Nesher%2C_the_Green_Path_%E2%80%93_Mount_Carmel_016.JPG/1280px-Yagur_%E2%80%93_Nesher%2C_the_Green_Path_%E2%80%93_Mount_Carmel_016.JPG"
   },
   {
     "common_name": "Coleus",
@@ -20121,11 +20121,11 @@
     "outdoor_sow_weeks_after_frost": 2,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌿",
+    "emoji": "\ud83c\udf3f",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Plectranthus_scutellarioides_-_El_Yunque_nat_park_PR_IMG_2120.JPG/330px-Plectranthus_scutellarioides_-_El_Yunque_nat_park_PR_IMG_2120.JPG"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Plectranthus_scutellarioides_-_El_Yunque_nat_park_PR_IMG_2120.JPG/1280px-Plectranthus_scutellarioides_-_El_Yunque_nat_park_PR_IMG_2120.JPG"
   },
   {
     "common_name": "Orchid",
@@ -20151,11 +20151,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌺",
+    "emoji": "\ud83c\udf3a",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Plant_Orchid_Cymbidium_aloifolium_P1110661_05_-_cropped.jpg/330px-Plant_Orchid_Cymbidium_aloifolium_P1110661_05_-_cropped.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Plant_Orchid_Cymbidium_aloifolium_P1110661_05_-_cropped.jpg/1280px-Plant_Orchid_Cymbidium_aloifolium_P1110661_05_-_cropped.jpg"
   },
   {
     "common_name": "Hosta",
@@ -20181,11 +20181,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌿",
+    "emoji": "\ud83c\udf3f",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Hosta_Bressingham_Blue.JPG/330px-Hosta_Bressingham_Blue.JPG"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Hosta_Bressingham_Blue.JPG/1280px-Hosta_Bressingham_Blue.JPG"
   },
   {
     "common_name": "Fern",
@@ -20211,11 +20211,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌿",
+    "emoji": "\ud83c\udf3f",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/The_ferns_of_Great_Britain%2C_and_their_allies_the_club-mosses%2C_pepperworts%2C_and_horsetails_%28Pl._2%29_%288515393495%29.jpg/330px-The_ferns_of_Great_Britain%2C_and_their_allies_the_club-mosses%2C_pepperworts%2C_and_horsetails_%28Pl._2%29_%288515393495%29.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/The_ferns_of_Great_Britain%2C_and_their_allies_the_club-mosses%2C_pepperworts%2C_and_horsetails_%28Pl._2%29_%288515393495%29.jpg/1280px-The_ferns_of_Great_Britain%2C_and_their_allies_the_club-mosses%2C_pepperworts%2C_and_horsetails_%28Pl._2%29_%288515393495%29.jpg"
   },
   {
     "common_name": "Holly",
@@ -20241,11 +20241,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🎄",
+    "emoji": "\ud83c\udf84",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Ilex-aquifolium_%28Europaeische_Stechpalme-1%29.jpg/330px-Ilex-aquifolium_%28Europaeische_Stechpalme-1%29.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Ilex-aquifolium_%28Europaeische_Stechpalme-1%29.jpg/1280px-Ilex-aquifolium_%28Europaeische_Stechpalme-1%29.jpg"
   },
   {
     "common_name": "Maple",
@@ -20271,11 +20271,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🍁",
+    "emoji": "\ud83c\udf41",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Acer_pseudoplatanus_002.jpg/330px-Acer_pseudoplatanus_002.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Acer_pseudoplatanus_002.jpg/1280px-Acer_pseudoplatanus_002.jpg"
   },
   {
     "common_name": "Pine",
@@ -20301,11 +20301,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌲",
+    "emoji": "\ud83c\udf32",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Pinus_jeffreyi_at_Lassen_Volcanic_National_Park.jpg/330px-Pinus_jeffreyi_at_Lassen_Volcanic_National_Park.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Pinus_jeffreyi_at_Lassen_Volcanic_National_Park.jpg/1280px-Pinus_jeffreyi_at_Lassen_Volcanic_National_Park.jpg"
   },
   {
     "common_name": "Spruce",
@@ -20331,11 +20331,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌲",
+    "emoji": "\ud83c\udf32",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Picea_abies.jpg/330px-Picea_abies.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Picea_abies.jpg/1280px-Picea_abies.jpg"
   },
   {
     "common_name": "Cedar",
@@ -20361,11 +20361,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌲",
+    "emoji": "\ud83c\udf32",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/View_from_the_Barouk_Forest_1.JPG/330px-View_from_the_Barouk_Forest_1.JPG"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/View_from_the_Barouk_Forest_1.JPG/1280px-View_from_the_Barouk_Forest_1.JPG"
   },
   {
     "common_name": "Eastern Red Cedar",
@@ -20391,11 +20391,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌲",
+    "emoji": "\ud83c\udf32",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/2014-05-13_08_32_55_Eastern_Red_Cedar_at_South_Riding_Golf_Club_in_South_Riding%2C_Virginia.JPG/330px-2014-05-13_08_32_55_Eastern_Red_Cedar_at_South_Riding_Golf_Club_in_South_Riding%2C_Virginia.JPG"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/2014-05-13_08_32_55_Eastern_Red_Cedar_at_South_Riding_Golf_Club_in_South_Riding%2C_Virginia.JPG/1280px-2014-05-13_08_32_55_Eastern_Red_Cedar_at_South_Riding_Golf_Club_in_South_Riding%2C_Virginia.JPG"
   },
   {
     "common_name": "Juniper",
@@ -20421,11 +20421,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌲",
+    "emoji": "\ud83c\udf32",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Juniperus_osteosperma_1.jpg/330px-Juniperus_osteosperma_1.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Juniperus_osteosperma_1.jpg/1280px-Juniperus_osteosperma_1.jpg"
   },
   {
     "common_name": "Arborvitae",
@@ -20451,11 +20451,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌲",
+    "emoji": "\ud83c\udf32",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Thuja_standishii.jpg/330px-Thuja_standishii.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Thuja_standishii.jpg/1280px-Thuja_standishii.jpg"
   },
   {
     "common_name": "Elm",
@@ -20481,11 +20481,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌳",
+    "emoji": "\ud83c\udf33",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/East_Coker_elm%2C_2.jpg/330px-East_Coker_elm%2C_2.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/East_Coker_elm%2C_2.jpg/1280px-East_Coker_elm%2C_2.jpg"
   },
   {
     "common_name": "Willow",
@@ -20511,11 +20511,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌳",
+    "emoji": "\ud83c\udf33",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Salix_alba_Morton.jpg/330px-Salix_alba_Morton.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Salix_alba_Morton.jpg/1280px-Salix_alba_Morton.jpg"
   },
   {
     "common_name": "Sycamore",
@@ -20541,11 +20541,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌳",
+    "emoji": "\ud83c\udf33",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Buttonball_Sycamore_in_Sunderland%2C_MA_%28March_2019%29.jpg/330px-Buttonball_Sycamore_in_Sunderland%2C_MA_%28March_2019%29.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Buttonball_Sycamore_in_Sunderland%2C_MA_%28March_2019%29.jpg/1280px-Buttonball_Sycamore_in_Sunderland%2C_MA_%28March_2019%29.jpg"
   },
   {
     "common_name": "Linden",
@@ -20571,11 +20571,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌳",
+    "emoji": "\ud83c\udf33",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Kristinas_lind_2013.jpg/330px-Kristinas_lind_2013.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Kristinas_lind_2013.jpg/1280px-Kristinas_lind_2013.jpg"
   },
   {
     "common_name": "Mountain Ash",
@@ -20601,11 +20601,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌳",
+    "emoji": "\ud83c\udf33",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Rowan_tree_20081002b.jpg/330px-Rowan_tree_20081002b.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Rowan_tree_20081002b.jpg/1280px-Rowan_tree_20081002b.jpg"
   },
   {
     "common_name": "Hawthorn",
@@ -20631,11 +20631,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌳",
+    "emoji": "\ud83c\udf33",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Crataegus%2C_various_species%2C_fruit.jpg/330px-Crataegus%2C_various_species%2C_fruit.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Crataegus%2C_various_species%2C_fruit.jpg/1280px-Crataegus%2C_various_species%2C_fruit.jpg"
   },
   {
     "common_name": "Cotoneaster",
@@ -20661,11 +20661,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌿",
+    "emoji": "\ud83c\udf3f",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Cotoneaster_frigidus.jpg/330px-Cotoneaster_frigidus.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Cotoneaster_frigidus.jpg/1280px-Cotoneaster_frigidus.jpg"
   },
   {
     "common_name": "Crape Myrtle",
@@ -20691,11 +20691,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌸",
+    "emoji": "\ud83c\udf38",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Extremosa_%28Lagerstroemia_indica%29_em_um_fim_de_tarde_em_Bag%C3%A9-RS_-_55013179934.jpg/330px-Extremosa_%28Lagerstroemia_indica%29_em_um_fim_de_tarde_em_Bag%C3%A9-RS_-_55013179934.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Extremosa_%28Lagerstroemia_indica%29_em_um_fim_de_tarde_em_Bag%C3%A9-RS_-_55013179934.jpg/1280px-Extremosa_%28Lagerstroemia_indica%29_em_um_fim_de_tarde_em_Bag%C3%A9-RS_-_55013179934.jpg"
   },
   {
     "common_name": "Heliotrope",
@@ -20721,11 +20721,11 @@
     "outdoor_sow_weeks_after_frost": 2,
     "companions": [],
     "antagonists": [],
-    "emoji": "💜",
+    "emoji": "\ud83d\udc9c",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Heliotropium_arborescens_%27Mini_Marine%27_Heliotrope_Flower_2500px.jpg/330px-Heliotropium_arborescens_%27Mini_Marine%27_Heliotrope_Flower_2500px.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Heliotropium_arborescens_%27Mini_Marine%27_Heliotrope_Flower_2500px.jpg/1280px-Heliotropium_arborescens_%27Mini_Marine%27_Heliotrope_Flower_2500px.jpg"
   },
   {
     "common_name": "Grass",
@@ -20751,11 +20751,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌾",
+    "emoji": "\ud83c\udf3e",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Poa_annua.jpg/330px-Poa_annua.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Poa_annua.jpg/1280px-Poa_annua.jpg"
   },
   {
     "common_name": "Alfalfa",
@@ -20781,11 +20781,11 @@
     "outdoor_sow_weeks_after_frost": 0,
     "companions": [],
     "antagonists": [],
-    "emoji": "☘️",
+    "emoji": "\u2618\ufe0f",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/75_Medicago_sativa_L.jpg/330px-75_Medicago_sativa_L.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/75_Medicago_sativa_L.jpg/1280px-75_Medicago_sativa_L.jpg"
   },
   {
     "common_name": "Cotton",
@@ -20811,11 +20811,11 @@
     "outdoor_sow_weeks_after_frost": 2,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌱",
+    "emoji": "\ud83c\udf31",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/CottonPlant.JPG/330px-CottonPlant.JPG"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/CottonPlant.JPG/1280px-CottonPlant.JPG"
   },
   {
     "common_name": "Rice",
@@ -20841,11 +20841,11 @@
     "outdoor_sow_weeks_after_frost": 4,
     "companions": [],
     "antagonists": [],
-    "emoji": "🍚",
+    "emoji": "\ud83c\udf5a",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Mature_Rice_%28India%29_by_Augustus_Binu.jpg/330px-Mature_Rice_%28India%29_by_Augustus_Binu.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Mature_Rice_%28India%29_by_Augustus_Binu.jpg/1280px-Mature_Rice_%28India%29_by_Augustus_Binu.jpg"
   },
   {
     "common_name": "Wheat",
@@ -20871,11 +20871,11 @@
     "outdoor_sow_weeks_after_frost": null,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌾",
+    "emoji": "\ud83c\udf3e",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Bl%C3%A9_tendre_%28GRAPELLI%29_AO-5-cliche_Jean_Weber_%285%29_%2823975019962%29.jpg/330px-Bl%C3%A9_tendre_%28GRAPELLI%29_AO-5-cliche_Jean_Weber_%285%29_%2823975019962%29.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Bl%C3%A9_tendre_%28GRAPELLI%29_AO-5-cliche_Jean_Weber_%285%29_%2823975019962%29.jpg/1280px-Bl%C3%A9_tendre_%28GRAPELLI%29_AO-5-cliche_Jean_Weber_%285%29_%2823975019962%29.jpg"
   },
   {
     "common_name": "Soybean",
@@ -20901,11 +20901,11 @@
     "outdoor_sow_weeks_after_frost": 2,
     "companions": [],
     "antagonists": [],
-    "emoji": "🫘",
+    "emoji": "\ud83e\uded8",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Soybean.USDA.jpg/330px-Soybean.USDA.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Soybean.USDA.jpg/1280px-Soybean.USDA.jpg"
   },
   {
     "common_name": "Tobacco",
@@ -20931,11 +20931,11 @@
     "outdoor_sow_weeks_after_frost": 2,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌱",
+    "emoji": "\ud83c\udf31",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Tabak_P9290021.JPG/330px-Tabak_P9290021.JPG"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Tabak_P9290021.JPG/1280px-Tabak_P9290021.JPG"
   },
   {
     "common_name": "Runner Bean",
@@ -20961,11 +20961,11 @@
     "outdoor_sow_weeks_after_frost": 1,
     "companions": [],
     "antagonists": [],
-    "emoji": "🫘",
+    "emoji": "\ud83e\uded8",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Illustration_Phaseolus_coccineus0.jpg/330px-Illustration_Phaseolus_coccineus0.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Illustration_Phaseolus_coccineus0.jpg/1280px-Illustration_Phaseolus_coccineus0.jpg"
   },
   {
     "common_name": "Teosinte",
@@ -20991,10 +20991,10 @@
     "outdoor_sow_weeks_after_frost": 2,
     "companions": [],
     "antagonists": [],
-    "emoji": "🌾",
+    "emoji": "\ud83c\udf3e",
     "common_pests": [],
     "common_diseases": [],
     "disease_resistance": {},
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Zea_mays_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-283.jpg/330px-Zea_mays_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-283.jpg"
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Zea_mays_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-283.jpg/1280px-Zea_mays_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-283.jpg"
   }
 ]

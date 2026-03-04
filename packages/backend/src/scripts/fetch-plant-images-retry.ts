@@ -62,7 +62,7 @@ async function fetchImage(title: string): Promise<string | null> {
     });
     if (!res.ok) return null;
     const data = await res.json();
-    return data.thumbnail?.source ?? data.originalimage?.source ?? null;
+    return data.originalimage?.source ?? data.thumbnail?.source ?? null;
   } catch {
     return null;
   }

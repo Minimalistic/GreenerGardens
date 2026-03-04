@@ -61,13 +61,13 @@ export function Header({ title }: HeaderProps) {
                   <Settings className="w-4 h-4 mr-2" />
                   Manage Gardens...
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSettingsOpen(true)}>
-                  <Wrench className="w-4 h-4 mr-2" />
-                  Settings...
-                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           )}
+          <Button variant="ghost" size="icon" onClick={() => setSettingsOpen(true)}>
+            <Wrench className="w-4 h-4" />
+            <span className="sr-only">Settings</span>
+          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
