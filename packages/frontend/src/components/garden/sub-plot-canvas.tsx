@@ -362,7 +362,7 @@ export function SubPlotCanvas({
         {/* Grid layer */}
         <Layer listening={false}>
           {/* Background */}
-          <Rect x={0} y={0} width={canvasWidth} height={canvasHeight} fill="#f5f0e8" />
+          <Rect x={0} y={0} width={canvasWidth} height={canvasHeight} fill="#8B7355" opacity={0.85} />
 
           {/* Grid lines every 1 ft */}
           {Array.from({ length: colCount + 1 }).map((_, i) => (

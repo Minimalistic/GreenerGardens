@@ -24,6 +24,7 @@ import { plantCatalogRoutes } from '../plant-catalog.routes.js';
 import { plantInstanceRoutes } from '../plant-instance.routes.js';
 import { harvestRoutes } from '../harvest.routes.js';
 import { settingsRoutes } from '../settings.routes.js';
+import { zoneLookupRoutes } from '../zone-lookup.routes.js';
 
 export function registerCoreRoutes(fastify: FastifyInstance, db: Database.Database, history: HistoryLogger) {
   const gardenRepo = new GardenRepository(db);
@@ -48,6 +49,7 @@ export function registerCoreRoutes(fastify: FastifyInstance, db: Database.Databa
   plantInstanceRoutes(fastify, instanceService);
   harvestRoutes(fastify, harvestService);
   settingsRoutes(fastify, gardenService);
+  zoneLookupRoutes(fastify);
 
   return { gardenRepo, instanceService };
 }

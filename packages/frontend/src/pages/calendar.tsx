@@ -1,12 +1,23 @@
 import { useState, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Sprout, Leaf, Scissors, ListChecks, Snowflake, Sun } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Sprout, Leaf, Scissors, ListChecks, Snowflake, Sun, CloudSun, Droplets } from 'lucide-react';
 import { useCalendarEvents, usePlantingSuggestions } from '@/hooks/use-calendar';
+import { useWeatherDailySummary, useForecast } from '@/hooks/use-weather';
 import { DayNotes } from '@/components/notes/day-notes';
 import type { CalendarEvent, PlantingSuggestion } from '@/hooks/use-calendar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+
+const WEATHER_STORAGE_KEY = 'gardenvault_calendar_weather';
+
+interface DayWeather {
+  high: number;
+  low: number;
+  frost?: boolean;
+  precip?: number;
+  conditions?: string;
+}
 
 const EVENT_STYLES: Record<string, { color: string; icon: typeof Sprout; label: string }> = {
   indoor_start: { color: 'bg-purple-500', icon: Sprout, label: 'Indoor Start' },
@@ -97,6 +108,70 @@ function getFirstDayOfWeek(year: number, month: number): number {
   return new Date(year, month - 1, 1).getDay();
 }
 
+function WeatherDayOverlay({ weather }: { weather: DayWeather }) {
+  return (
+    <div className="flex items-center gap-0.5 mt-0.5">
+      <span className="text-[0.6rem] leading-none text-muted-foreground">
+        {Math.round(weather.high)}/{Math.round(weather.low)}
+      </span>
+      {weather.frost && <Snowflake className="w-2.5 h-2.5 text-blue-500" />}
+      {(weather.precip ?? 0) > 0 && <Droplets className="w-2.5 h-2.5 text-sky-400" />}
+    </div>
+  );
+}
+
+function WeatherDetail({ weather, dateStr }: { weather: DayWeather; dateStr: string }) {
+  const today = new Date().toISOString().split('T')[0];
+  const isPast = dateStr < today;
+
+  return (
+    <Card>
+      <CardContent className="py-3">
+        <div className="flex items-center gap-2 mb-2">
+          <CloudSun className="w-4 h-4 text-muted-foreground" />
+          <span className="text-xs font-medium text-muted-foreground">
+            {isPast ? 'Recorded Weather' : 'Forecast'}
+          </span>
+        </div>
+        <div className="grid grid-cols-2 gap-2 text-sm">
+          <div>
+            <span className="text-muted-foreground text-xs">High</span>
+            <p className="font-medium">{Math.round(weather.high)}°F</p>
+          </div>
+          <div>
+            <span className="text-muted-foreground text-xs">Low</span>
+            <p className="font-medium">{Math.round(weather.low)}°F</p>
+          </div>
+          {(weather.precip ?? 0) > 0 && (
+            <div>
+              <span className="text-muted-foreground text-xs">Precipitation</span>
+              <p className="font-medium flex items-center gap-1">
+                <Droplets className="w-3 h-3 text-sky-400" />
+                {weather.precip!.toFixed(2)}"
+              </p>
+            </div>
+          )}
+          {weather.frost && (
+            <div>
+              <span className="text-muted-foreground text-xs">Frost</span>
+              <p className="font-medium flex items-center gap-1">
+                <Snowflake className="w-3 h-3 text-blue-500" />
+                {weather.low <= 32 ? 'Freeze' : 'Frost risk'}
+              </p>
+            </div>
+          )}
+          {weather.conditions && (
+            <div className="col-span-2">
+              <span className="text-muted-foreground text-xs">Conditions</span>
+              <p className="font-medium capitalize">{weather.conditions}</p>
+            </div>
+          )}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 export function CalendarPage() {
   const [searchParams] = useSearchParams();
   const dateParam = searchParams.get('date');
@@ -105,9 +180,22 @@ export function CalendarPage() {
   const [year, setYear] = useState(initDate ? initDate.getFullYear() : now.getFullYear());
   const [month, setMonth] = useState(initDate ? initDate.getMonth() + 1 : now.getMonth() + 1);
   const [selectedDate, setSelectedDate] = useState<string | null>(dateParam ?? null);
+  const [showWeather, setShowWeather] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return localStorage.getItem(WEATHER_STORAGE_KEY) === 'true';
+  });
 
   const { data: eventsData, isLoading } = useCalendarEvents(month, year);
   const { data: suggestionsData } = usePlantingSuggestions();
+
+  // Weather data — only fetch when overlay is enabled
+  const monthStart = `${year}-${String(month).padStart(2, '0')}-01`;
+  const monthEnd = `${year}-${String(month).padStart(2, '0')}-${String(getDaysInMonth(year, month)).padStart(2, '0')}`;
+  const { data: dailySummaryData } = useWeatherDailySummary(
+    showWeather ? monthStart : '',
+    showWeather ? monthEnd : '',
+  );
+  const { data: forecastData } = useForecast();
 
   const events = eventsData?.data ?? [];
   const suggestions = suggestionsData?.data ?? [];
@@ -122,7 +210,70 @@ export function CalendarPage() {
     return map;
   }, [events]);
 
+  // Build weather map merging daily summaries (past) and forecast (future)
+  const weatherByDate = useMemo(() => {
+    if (!showWeather) return new Map<string, DayWeather>();
+
+    const map = new Map<string, DayWeather>();
+    const todayStr = new Date().toISOString().split('T')[0];
+
+    // Past/current days from daily summaries
+    const summaries = dailySummaryData?.data ?? [];
+    for (const s of summaries) {
+      if (s.high_f != null && s.low_f != null) {
+        map.set(s.date, {
+          high: s.high_f,
+          low: s.low_f,
+          frost: s.frost_occurred || s.freeze_occurred,
+          precip: s.precipitation_total_inches ?? undefined,
+        });
+      }
+    }
+
+    // Future days from forecast — group by date
+    const forecastItems = forecastData?.data ?? [];
+    const forecastByDate = new Map<string, { min: number; max: number; precip: number; conditions: string }>();
+    for (const item of forecastItems) {
+      const date = item.dt_txt.split(' ')[0];
+      const existing = forecastByDate.get(date);
+      if (existing) {
+        existing.min = Math.min(existing.min, item.temp_min_f);
+        existing.max = Math.max(existing.max, item.temp_max_f);
+        existing.precip += item.precipitation_inches ?? 0;
+        // Use the most common non-trivial description
+        if (item.weather_description && item.weather_description !== 'clear sky') {
+          existing.conditions = item.weather_description;
+        }
+      } else {
+        forecastByDate.set(date, {
+          min: item.temp_min_f,
+          max: item.temp_max_f,
+          precip: item.precipitation_inches ?? 0,
+          conditions: item.weather_description ?? '',
+        });
+      }
+    }
+
+    for (const [date, stats] of forecastByDate) {
+      // For today: prefer daily summary if available
+      if (date === todayStr && map.has(date)) continue;
+      // Only use forecast for today and future
+      if (date >= todayStr) {
+        map.set(date, {
+          high: stats.max,
+          low: stats.min,
+          frost: stats.min <= 32,
+          precip: stats.precip > 0 ? stats.precip : undefined,
+          conditions: stats.conditions || undefined,
+        });
+      }
+    }
+
+    return map;
+  }, [showWeather, dailySummaryData, forecastData]);
+
   const selectedEvents = selectedDate ? (eventsByDate.get(selectedDate) ?? []) : [];
+  const selectedWeather = selectedDate ? weatherByDate.get(selectedDate) : undefined;
 
   const daysInMonth = getDaysInMonth(year, month);
   const firstDay = getFirstDayOfWeek(year, month);
@@ -156,6 +307,14 @@ export function CalendarPage() {
     setSelectedDate(todayStr);
   }
 
+  function toggleWeather() {
+    setShowWeather(prev => {
+      const next = !prev;
+      localStorage.setItem(WEATHER_STORAGE_KEY, String(next));
+      return next;
+    });
+  }
+
   // Build calendar grid cells
   const cells: Array<{ day: number | null; dateStr: string | null }> = [];
   for (let i = 0; i < firstDay; i++) {
@@ -171,9 +330,19 @@ export function CalendarPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">Calendar</h2>
-        <Button variant="outline" size="sm" onClick={goToday}>
-          Today
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant={showWeather ? 'default' : 'outline'}
+            size="sm"
+            onClick={toggleWeather}
+            title={showWeather ? 'Hide weather overlay' : 'Show weather overlay'}
+          >
+            <CloudSun className="w-4 h-4" />
+          </Button>
+          <Button variant="outline" size="sm" onClick={goToday}>
+            Today
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -212,8 +381,10 @@ export function CalendarPage() {
                       return <div key={i} className="bg-background min-h-[3.5rem]" />;
                     }
                     const dayEvents = eventsByDate.get(cell.dateStr) ?? [];
+                    const dayWeather = showWeather ? weatherByDate.get(cell.dateStr) : undefined;
                     const isToday = cell.dateStr === todayStr;
                     const isSelected = cell.dateStr === selectedDate;
+                    const isFrost = dayWeather?.frost;
 
                     return (
                       <button
@@ -221,7 +392,7 @@ export function CalendarPage() {
                         onClick={() => setSelectedDate(cell.dateStr)}
                         className={`bg-background min-h-[3.5rem] p-1 text-left transition-colors hover:bg-muted/50 ${
                           isSelected ? 'ring-2 ring-primary ring-inset' : ''
-                        }`}
+                        } ${isFrost ? 'bg-blue-50/50 dark:bg-blue-950/30' : ''}`}
                       >
                         <div className={`text-xs font-medium mb-0.5 ${
                           isToday ? 'bg-primary text-primary-foreground w-5 h-5 rounded-full flex items-center justify-center' : 'text-foreground'
@@ -238,6 +409,7 @@ export function CalendarPage() {
                             )}
                           </div>
                         )}
+                        {dayWeather && <WeatherDayOverlay weather={dayWeather} />}
                       </button>
                     );
                   })}
@@ -251,6 +423,18 @@ export function CalendarPage() {
                       {label}
                     </div>
                   ))}
+                  {showWeather && (
+                    <>
+                      <div className="flex items-center gap-1">
+                        <Snowflake className="w-2.5 h-2.5 text-blue-500" />
+                        Frost
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Droplets className="w-2.5 h-2.5 text-sky-400" />
+                        Rain
+                      </div>
+                    </>
+                  )}
                 </div>
               </>
             )}
@@ -269,6 +453,13 @@ export function CalendarPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
+              {/* Weather details for selected day */}
+              {selectedDate && selectedWeather && showWeather && (
+                <div className="mb-3">
+                  <WeatherDetail weather={selectedWeather} dateStr={selectedDate} />
+                </div>
+              )}
+
               {!selectedDate ? (
                 <p className="text-sm text-muted-foreground">Click a day on the calendar to see its events.</p>
               ) : selectedEvents.length === 0 ? (

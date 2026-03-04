@@ -1,14 +1,8 @@
 import type { WeatherService } from '../services/weather.service.js';
 import type { GardenRepository } from '../db/repositories/garden.repository.js';
-import type { AlertService } from '../services/alert.service.js';
 import type { PushService } from '../services/push.service.js';
 
-let alertServiceRef: AlertService | null = null;
 let pushServiceRef: PushService | null = null;
-
-export function setAlertService(alertService: AlertService) {
-  alertServiceRef = alertService;
-}
 
 export function setPushService(pushService: PushService) {
   pushServiceRef = pushService;
@@ -55,23 +49,24 @@ async function fetchForAllGardens(
 
         console.log(`[WeatherJob] Garden ${garden.id}: ${result.cached ? 'using cached data' : 'fresh weather data fetched'}`);
 
-        // Run alert checks on every cycle (cached or fresh) so alerts
-        // survive server restarts and aren't lost when data is cached
-        if (alertServiceRef) {
+        // Send push notification for frost conditions (only on fresh data to avoid re-notifying)
+        if (!result.cached && pushServiceRef) {
           try {
-            const frostAlert = await alertServiceRef.checkFrostAlert(garden.id);
-            await alertServiceRef.checkHeatAlert(garden.id);
-
-            // Send push notification for NEW frost alerts (only on fresh data to avoid re-notifying)
-            if (!result.cached && frostAlert && frostAlert.length > 0 && pushServiceRef) {
-              pushServiceRef.broadcastByPreference('frost', {
-                title: 'Frost Alert',
-                body: `Frost warning for ${garden.name || 'your garden'}. Protect tender plants!`,
-                url: '/weather',
-              }).catch(err => console.error(`[WeatherJob] Push notification failed: ${err.message}`));
+            const forecastResult = await weatherService.fetchForecast(garden.id);
+            const forecastItems = forecastResult.data;
+            if (forecastItems && forecastItems.length > 0) {
+              const frostThreshold = 36; // °F
+              const hasFrost = forecastItems.some(item => item.temp_min_f <= frostThreshold);
+              if (hasFrost) {
+                pushServiceRef.broadcastByPreference('frost', {
+                  title: 'Frost Alert',
+                  body: `Frost warning for ${garden.name || 'your garden'}. Protect tender plants!`,
+                  url: '/weather',
+                }).catch(err => console.error(`[WeatherJob] Push notification failed: ${err.message}`));
+              }
             }
-          } catch (alertErr: any) {
-            console.error(`[WeatherJob] Alert check failed for garden ${garden.id}: ${alertErr.message}`);
+          } catch (frostErr: any) {
+            console.error(`[WeatherJob] Frost check failed for garden ${garden.id}: ${frostErr.message}`);
           }
         }
       } catch (err: any) {

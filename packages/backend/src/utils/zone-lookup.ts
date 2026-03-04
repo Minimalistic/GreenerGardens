@@ -25,6 +25,57 @@ export function lookupZone(latitude: number): string | null {
   return null;
 }
 
+/**
+ * Look up USDA hardiness zone using phzmapi.org (accurate, zip-code based).
+ * Reverse-geocodes lat/lng → zip via Nominatim, then queries phzmapi.org.
+ * Falls back to the latitude-based estimate on failure.
+ */
+export async function lookupZoneAccurate(
+  latitude: number,
+  longitude: number,
+): Promise<{ zone: string; source: 'usda' | 'estimate' }> {
+  try {
+    // Step 1: Reverse geocode to get zip code via OpenStreetMap Nominatim
+    const geoUrl = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1&zoom=18`;
+    const geoResp = await fetch(geoUrl, {
+      headers: { 'User-Agent': 'GardenVault/1.0 (garden zone lookup)' },
+      signal: AbortSignal.timeout(5000),
+    });
+
+    if (!geoResp.ok) throw new Error(`Nominatim returned ${geoResp.status}`);
+    const geoData = await geoResp.json() as {
+      address?: { postcode?: string; country_code?: string };
+    };
+
+    const zipCode = geoData.address?.postcode?.split('-')[0]; // handle ZIP+4
+    const country = geoData.address?.country_code;
+
+    if (!zipCode || country !== 'us') {
+      // phzmapi.org only covers US zip codes
+      const fallback = lookupZone(latitude);
+      return { zone: fallback ?? '6a', source: 'estimate' };
+    }
+
+    // Step 2: Query phzmapi.org for accurate zone data
+    const zoneResp = await fetch(`https://phzmapi.org/${zipCode}.json`, {
+      signal: AbortSignal.timeout(5000),
+    });
+
+    if (!zoneResp.ok) throw new Error(`phzmapi returned ${zoneResp.status}`);
+    const zoneData = await zoneResp.json() as { zone?: string };
+
+    if (zoneData.zone) {
+      return { zone: zoneData.zone, source: 'usda' };
+    }
+
+    throw new Error('No zone in response');
+  } catch {
+    // Fallback to latitude-based estimate
+    const fallback = lookupZone(latitude);
+    return { zone: fallback ?? '6a', source: 'estimate' };
+  }
+}
+
 // Approximate frost dates by zone
 const FROST_DATES: Record<string, { lastFrost: string; firstFrost: string }> = {
   '4a': { lastFrost: '05-15', firstFrost: '09-15' },

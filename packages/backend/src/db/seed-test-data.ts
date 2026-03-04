@@ -512,27 +512,6 @@ export function seedTestData(db: Database.Database) {
 
     taskInsert.run(uuid(), 'garden', garden1Id, 'other', 'Order garlic bulbs for fall planting', 'Need hardneck varieties for Zone 7b. Plant in October. Check Territorial Seed, Southern Exposure, or Filaree Farm.', daysFromNow(30), null, 'low', 'pending', 0, daysAgo(5) + ' 08:00:00', now);
 
-    // ─── Auto-generated weather alerts (these show in the AlertBanner on the dashboard) ───
-    const alertInsert = db.prepare(`INSERT INTO tasks (id, entity_type, entity_id, task_type, title, description, due_date, completed_date, priority, status, auto_generated, source_reason, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
-
-    alertInsert.run(uuid(), 'garden', garden1Id, 'frost_alert',
-      `Freeze Warning: 28°F expected on ${daysFromNow(1)}`,
-      'Low temperature of 28°F forecasted. Cover or bring in frost-sensitive plants.',
-      daysFromNow(1), null, 'urgent', 'pending', 1, 'weather_forecast',
-      daysAgo(0) + ' 06:00:00', now);
-
-    alertInsert.run(uuid(), 'garden', garden1Id, 'frost_alert',
-      `Frost Advisory: 34°F expected on ${daysFromNow(2)}`,
-      'Low temperature of 34°F forecasted. Cover or bring in frost-sensitive plants.',
-      daysFromNow(2), null, 'high', 'pending', 1, 'weather_forecast',
-      daysAgo(0) + ' 06:00:00', now);
-
-    alertInsert.run(uuid(), 'garden', garden2Id, 'frost_alert',
-      `Freeze Warning: 29°F expected on ${daysFromNow(1)}`,
-      'Low temperature of 29°F forecasted. Cover or bring in frost-sensitive plants.',
-      daysFromNow(1), null, 'urgent', 'pending', 1, 'weather_forecast',
-      daysAgo(0) + ' 06:00:00', now);
-
     // Completed tasks
     taskInsert.run(uuid(), 'plot', plot1Id, 'planting', 'Thin carrot seedlings', 'Thin to 2 inch spacing. Use scissors to avoid disturbing roots.', daysAgo(10), daysAgo(10), 'medium', 'completed', 0, daysAgo(15) + ' 08:00:00', daysAgo(10) + ' 16:00:00');
 

@@ -514,15 +514,15 @@ export function GardenCanvas({
                 onMouseEnter={handleMouseEnterPlot}
                 onMouseLeave={handleMouseLeavePlot}
               >
-                {/* Plot background — outline only when sub-plots exist, solid fill otherwise */}
+                {/* Plot background — always dirt-colored fill, sub-plots overlay on top */}
                 <Rect
                   width={g.width}
                   height={g.height}
-                  fill={hasSubPlots ? undefined : color}
-                  opacity={hasSubPlots ? 1 : 0.75}
+                  fill="#8B7355"
+                  opacity={0.85}
                   cornerRadius={4}
-                  stroke={isSelected ? '#F4D03F' : (hasSubPlots ? color : '#333')}
-                  strokeWidth={isSelected ? 3 : (hasSubPlots ? 2 : 1)}
+                  stroke={isSelected ? '#F4D03F' : '#5C4A32'}
+                  strokeWidth={isSelected ? 3 : 1.5}
                   shadowColor="rgba(0,0,0,0.15)"
                   shadowBlur={isSelected ? 8 : 2}
                 />

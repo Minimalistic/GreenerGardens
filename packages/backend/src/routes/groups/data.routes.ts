@@ -1,7 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 import type Database from 'better-sqlite3';
 import type { HistoryLogger } from '../../services/history.middleware.js';
-import type { AlertService } from '../../services/alert.service.js';
 import type { GardenRepository } from '../../db/repositories/garden.repository.js';
 
 import { SeedInventoryRepository } from '../../db/repositories/seed-inventory.repository.js';
@@ -23,7 +22,7 @@ import { timelineRoutes } from '../timeline.routes.js';
 import { pushRoutes } from '../push.routes.js';
 import { adminRoutes } from '../admin.routes.js';
 
-export function registerDataRoutes(fastify: FastifyInstance, db: Database.Database, history: HistoryLogger, alertService: AlertService, gardenRepo: GardenRepository) {
+export function registerDataRoutes(fastify: FastifyInstance, db: Database.Database, history: HistoryLogger, gardenRepo: GardenRepository) {
   const seedInventoryRepo = new SeedInventoryRepository(db);
   const costEntryRepo = new CostEntryRepository(db);
 
@@ -41,7 +40,7 @@ export function registerDataRoutes(fastify: FastifyInstance, db: Database.Databa
   backupRoutes(fastify, backupService);
   timelineRoutes(fastify, timelineService);
   pushRoutes(fastify, pushService);
-  adminRoutes(fastify, db, alertService, gardenRepo);
+  adminRoutes(fastify, db, gardenRepo);
 
   return { pushService };
 }

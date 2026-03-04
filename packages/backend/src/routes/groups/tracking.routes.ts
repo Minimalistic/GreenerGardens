@@ -13,14 +13,11 @@ import { HistoryLogService } from '../../services/history-log.service.js';
 import { WeatherService } from '../../services/weather.service.js';
 import { TaskService } from '../../services/task.service.js';
 import { CalendarService } from '../../services/calendar.service.js';
-import { AlertService } from '../../services/alert.service.js';
-
 import { historyRoutes } from '../history.routes.js';
 import { weatherRoutes } from '../weather.routes.js';
 import { weatherCompareRoutes } from '../weather-compare.routes.js';
 import { taskRoutes } from '../task.routes.js';
 import { calendarRoutes } from '../calendar.routes.js';
-import { alertRoutes } from '../alert.routes.js';
 
 export function registerTrackingRoutes(fastify: FastifyInstance, db: Database.Database, history: HistoryLogger) {
   const gardenRepo = new GardenRepository(db);
@@ -35,14 +32,11 @@ export function registerTrackingRoutes(fastify: FastifyInstance, db: Database.Da
   const weatherService = new WeatherService(db, weatherReadingRepo, weatherSummaryRepo, gardenRepo);
   const taskService = new TaskService(db, taskRepo, history);
   const calendarService = new CalendarService(db, gardenRepo, catalogRepo, instanceRepo, taskRepo);
-  const alertService = new AlertService(db, weatherService, taskRepo, gardenRepo);
-
   historyRoutes(fastify, historyService);
   weatherRoutes(fastify, weatherService);
   weatherCompareRoutes(fastify, db);
   taskRoutes(fastify, taskService);
   calendarRoutes(fastify, calendarService);
-  alertRoutes(fastify, alertService);
 
-  return { weatherService, taskService, calendarService, alertService, gardenRepo };
+  return { weatherService, taskService, calendarService, gardenRepo };
 }

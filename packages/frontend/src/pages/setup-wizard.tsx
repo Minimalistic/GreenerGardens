@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { lookupZoneClient, lookupFrostDatesClient } from '@/lib/zone-utils';
+import { lookupZoneClient, lookupFrostDatesClient, lookupZoneAccurate } from '@/lib/zone-utils';
 import { Sprout, MapPin, Thermometer, Check } from 'lucide-react';
 
 type Step = 'welcome' | 'name' | 'location' | 'zone' | 'summary';
@@ -52,18 +52,17 @@ export function SetupWizard() {
     }
     setDetecting(true);
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
+      async (pos) => {
         const lat = pos.coords.latitude;
         const lon = pos.coords.longitude;
-        const zone = lookupZoneClient(lat);
-        const frost = zone ? lookupFrostDatesClient(zone) : null;
+        const result = await lookupZoneAccurate(lat, lon);
         setData(d => ({
           ...d,
           latitude: lat,
           longitude: lon,
-          usda_zone: zone ?? '',
-          last_frost_date: frost?.lastFrost ?? '',
-          first_frost_date: frost?.firstFrost ?? '',
+          usda_zone: result.zone,
+          last_frost_date: result.lastFrost ?? '',
+          first_frost_date: result.firstFrost ?? '',
         }));
         setDetecting(false);
         setStep('zone');
@@ -216,8 +215,18 @@ export function SetupWizard() {
               </div>
               <div className="flex gap-2">
                 <Button variant="outline" onClick={() => setStep('name')}>Back</Button>
-                <Button className="flex-1" onClick={() => {
-                  if (data.latitude != null) {
+                <Button className="flex-1" onClick={async () => {
+                  if (data.latitude != null && data.longitude != null) {
+                    setDetecting(true);
+                    const result = await lookupZoneAccurate(data.latitude, data.longitude);
+                    setData(d => ({
+                      ...d,
+                      usda_zone: result.zone || d.usda_zone,
+                      last_frost_date: result.lastFrost ?? d.last_frost_date,
+                      first_frost_date: result.firstFrost ?? d.first_frost_date,
+                    }));
+                    setDetecting(false);
+                  } else if (data.latitude != null) {
                     const zone = lookupZoneClient(data.latitude);
                     const frost = zone ? lookupFrostDatesClient(zone) : null;
                     setData(d => ({

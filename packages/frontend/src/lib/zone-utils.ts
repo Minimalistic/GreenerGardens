@@ -1,3 +1,5 @@
+import { api } from '@/lib/api';
+
 const ZONE_BANDS: Array<{ minLat: number; maxLat: number; zone: string }> = [
   { minLat: 25, maxLat: 27, zone: '10a' },
   { minLat: 27, maxLat: 29, zone: '9b' },
@@ -20,6 +22,45 @@ export function lookupZoneClient(latitude: number): string | null {
   if (latitude < 25) return '11a';
   if (latitude >= 49) return '4a';
   return null;
+}
+
+interface ZoneLookupResponse {
+  success: boolean;
+  data: {
+    zone: string;
+    source: 'usda' | 'estimate';
+    lastFrost: string | null;
+    firstFrost: string | null;
+  };
+}
+
+/**
+ * Look up accurate USDA zone via backend API (reverse geocodes → phzmapi.org).
+ * Falls back to client-side latitude estimate on failure.
+ */
+export async function lookupZoneAccurate(
+  latitude: number,
+  longitude: number,
+): Promise<{ zone: string; lastFrost: string | null; firstFrost: string | null; source: 'usda' | 'estimate' }> {
+  try {
+    const resp = await api.get<ZoneLookupResponse>(
+      `/zone-lookup?lat=${latitude}&lng=${longitude}`,
+    );
+    if (resp.success && resp.data.zone) {
+      return resp.data;
+    }
+  } catch {
+    // Fall through to client-side estimate
+  }
+
+  const zone = lookupZoneClient(latitude);
+  const frost = zone ? lookupFrostDatesClient(zone) : null;
+  return {
+    zone: zone ?? '',
+    lastFrost: frost?.lastFrost ?? null,
+    firstFrost: frost?.firstFrost ?? null,
+    source: 'estimate',
+  };
 }
 
 const FROST_DATES: Record<string, { lastFrost: string; firstFrost: string }> = {
