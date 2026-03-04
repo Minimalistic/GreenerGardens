@@ -13,9 +13,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft, Clock, Pencil, Map } from 'lucide-react';
+import { ArrowLeft, Clock, Pencil, Map, Plus } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { useState } from 'react';
+import { CreateTaskDialog } from '@/components/garden/create-task-dialog';
 
 const STATUS_ORDER = [
   'planned', 'seed_started', 'germinated', 'seedling', 'hardening_off',
@@ -37,6 +38,7 @@ export function PlantInstanceDetail() {
   const updateTask = useUpdateTask();
   const { toast } = useToast();
   const [harvestOpen, setHarvestOpen] = useState(false);
+  const [taskDialogOpen, setTaskDialogOpen] = useState(false);
   const [editingHarvestDate, setEditingHarvestDate] = useState(false);
 
   if (isLoading) {
@@ -241,6 +243,10 @@ export function PlantInstanceDetail() {
         <Button className="flex-1" onClick={() => setHarvestOpen(true)}>
           Log Harvest
         </Button>
+        <Button variant="outline" className="flex-1" onClick={() => setTaskDialogOpen(true)}>
+          <Plus className="w-4 h-4 mr-1" />
+          New Task
+        </Button>
         {plant.plot_id && (
           <Button variant="outline" className="flex-1" onClick={() => navigate(`/garden/plots/${plant.plot_id}`)}>
             <Map className="w-4 h-4 mr-1" />
@@ -282,6 +288,14 @@ export function PlantInstanceDetail() {
         onOpenChange={setHarvestOpen}
         plantInstanceId={instanceId!}
         plotId={plant.plot_id}
+      />
+
+      <CreateTaskDialog
+        open={taskDialogOpen}
+        onOpenChange={setTaskDialogOpen}
+        entityType="plant_instance"
+        entityId={instanceId!}
+        entityName={plant.variety_name ? `${plant.common_name} '${plant.variety_name}'` : plant.common_name}
       />
     </div>
   );

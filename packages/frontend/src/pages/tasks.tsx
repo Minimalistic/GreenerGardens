@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, CheckCircle2, Clock, SkipForward, Calendar, AlertTriangle, LayoutGrid, TableIcon, ExternalLink } from 'lucide-react';
-import { useOverdueTasks, useTodayTasks, useWeekTasks, useTasks, useCreateTask, useCompleteTask, useSkipTask, useUpdateTask } from '@/hooks/use-tasks';
-import type { Task, TaskCreate } from '@/hooks/use-tasks';
+import { useOverdueTasks, useTodayTasks, useWeekTasks, useTasks, useCompleteTask, useSkipTask, useUpdateTask } from '@/hooks/use-tasks';
+import type { Task } from '@/hooks/use-tasks';
 import { useUpdatePlantInstance } from '@/hooks/use-plant-instances';
 import { DataTable, type Column } from '@/components/data-table';
+import { CreateTaskDialog } from '@/components/garden/create-task-dialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,7 +16,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   Select,
@@ -182,109 +182,6 @@ function TaskCard({ task, onComplete, onSkip, onReschedule }: {
   );
 }
 
-function CreateTaskDialog() {
-  const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [dueDate, setDueDate] = useState('');
-  const [priority, setPriority] = useState('medium');
-  const [taskType, setTaskType] = useState('other');
-  const createTask = useCreateTask();
-  const { toast } = useToast();
-
-  const handleCreate = () => {
-    if (!title.trim()) return;
-
-    const data: TaskCreate = {
-      title: title.trim(),
-      priority,
-      task_type: taskType,
-    };
-    if (description.trim()) data.description = description.trim();
-    if (dueDate) data.due_date = dueDate;
-
-    createTask.mutate(data, {
-      onSuccess: () => {
-        toast({ title: 'Task created' });
-        setTitle('');
-        setDescription('');
-        setDueDate('');
-        setPriority('medium');
-        setTaskType('other');
-        setOpen(false);
-      },
-      onError: () => {
-        toast({ title: 'Failed to create task', variant: 'destructive' });
-      },
-    });
-  };
-
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button size="sm">
-          <Plus className="w-4 h-4 mr-1" />
-          New Task
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Create Task</DialogTitle>
-        </DialogHeader>
-        <div className="space-y-4">
-          <div>
-            <Label htmlFor="title">Title</Label>
-            <Input id="title" value={title} onChange={e => setTitle(e.target.value)} placeholder="What needs to be done?" />
-          </div>
-          <div>
-            <Label htmlFor="description">Description (optional)</Label>
-            <Input id="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Additional details..." />
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="due_date">Due Date</Label>
-              <Input id="due_date" type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} />
-            </div>
-            <div>
-              <Label>Priority</Label>
-              <Select value={priority} onValueChange={setPriority}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="low">Low</SelectItem>
-                  <SelectItem value="medium">Medium</SelectItem>
-                  <SelectItem value="high">High</SelectItem>
-                  <SelectItem value="urgent">Urgent</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-          <div>
-            <Label>Type</Label>
-            <Select value={taskType} onValueChange={setTaskType}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="watering">Watering</SelectItem>
-                <SelectItem value="fertilizing">Fertilizing</SelectItem>
-                <SelectItem value="pruning">Pruning</SelectItem>
-                <SelectItem value="harvesting">Harvesting</SelectItem>
-                <SelectItem value="planting">Planting</SelectItem>
-                <SelectItem value="transplanting">Transplanting</SelectItem>
-                <SelectItem value="pest_control">Pest Control</SelectItem>
-                <SelectItem value="weeding">Weeding</SelectItem>
-                <SelectItem value="soil_prep">Soil Prep</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <Button onClick={handleCreate} disabled={!title.trim() || createTask.isPending} className="w-full">
-            {createTask.isPending ? 'Creating...' : 'Create Task'}
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
 function RescheduleDialog({ task, open, onOpenChange }: {
   task: Task | null;
   open: boolean;
@@ -364,6 +261,7 @@ export function TasksPage() {
   const [view, setView] = useState<'card' | 'table'>(() =>
     (localStorage.getItem('tasks-view') as 'card' | 'table') ?? 'card'
   );
+  const [createOpen, setCreateOpen] = useState(false);
   const [rescheduleTask, setRescheduleTask] = useState<Task | null>(null);
   const toggleView = (v: 'card' | 'table') => {
     setView(v);
@@ -441,7 +339,10 @@ export function TasksPage() {
               <TableIcon className="w-4 h-4" />
             </Button>
           </div>
-          <CreateTaskDialog />
+          <Button size="sm" onClick={() => setCreateOpen(true)}>
+            <Plus className="w-4 h-4 mr-1" />
+            New Task
+          </Button>
         </div>
       </div>
 
@@ -462,6 +363,8 @@ export function TasksPage() {
           <TaskSection title="Later" icon={Clock} tasks={later} onComplete={handleComplete} onSkip={handleSkip} onReschedule={handleReschedule} />
         </>
       )}
+
+      <CreateTaskDialog open={createOpen} onOpenChange={setCreateOpen} />
 
       <RescheduleDialog
         task={rescheduleTask}

@@ -28,8 +28,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { SuccessionPlantingDialog } from '@/components/garden/succession-planting-dialog';
-import { ArrowLeft, Layers, Sprout, Plus, Trash2, X, Copy, ChevronDown, ExternalLink, Pencil } from 'lucide-react';
+import { ArrowLeft, Layers, Sprout, Plus, Trash2, X, Copy, ChevronDown, ExternalLink, Pencil, ClipboardList } from 'lucide-react';
 import { PlantTypeBadge } from '@/components/garden/plant-type-badge';
+import { CreateTaskDialog } from '@/components/garden/create-task-dialog';
 
 const STATUS_ORDER = [
   'planned', 'seed_started', 'germinated', 'seedling', 'hardening_off',
@@ -94,6 +95,7 @@ export function PlotDetail() {
   const [source, setSource] = useState('');
   const [plantNotes, setPlantNotes] = useState('');
   const [editingHarvestDate, setEditingHarvestDate] = useState(false);
+  const [taskDialogOpen, setTaskDialogOpen] = useState(false);
   const { data: catalogData } = usePlantCatalogSearch({ search, limit: 10 });
   const createInstance = useCreatePlantInstance();
   const updateStatus = useUpdatePlantStatus();
@@ -267,6 +269,10 @@ export function PlotDetail() {
             {dims && ` - ${dims.length_ft}' x ${dims.width_ft}'`}
           </p>
         </div>
+        <Button variant="outline" size="sm" onClick={() => setTaskDialogOpen(true)}>
+          <ClipboardList className="w-4 h-4 mr-1" />
+          New Task
+        </Button>
         <Button variant="outline" size="sm" onClick={() => setSuccessionOpen(true)}>
           <Layers className="w-4 h-4 mr-1" />
           Succession
@@ -692,6 +698,14 @@ export function PlotDetail() {
         open={successionOpen}
         onOpenChange={setSuccessionOpen}
         plotId={plotId!}
+      />
+
+      <CreateTaskDialog
+        open={taskDialogOpen}
+        onOpenChange={setTaskDialogOpen}
+        entityType="plot"
+        entityId={plotId!}
+        entityName={(plot as any).name}
       />
     </div>
   );
