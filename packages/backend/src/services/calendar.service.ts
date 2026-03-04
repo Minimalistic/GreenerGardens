@@ -417,19 +417,21 @@ export class CalendarService {
 
   private addActualPlantEvents(gardenId: string, startDate: string, endDate: string, events: CalendarEvent[]) {
     const instances = this.db.prepare(`
+      WITH params(start_dt, end_dt) AS (VALUES (?, ?))
       SELECT pi.id, pi.date_planted, pi.date_germinated, pi.date_transplanted, pi.date_finished,
              pc.common_name
       FROM plant_instances pi
       JOIN plant_catalog pc ON pi.plant_catalog_id = pc.id
       JOIN plots p ON pi.plot_id = p.id
+      CROSS JOIN params
       WHERE p.garden_id = ?
         AND (
-          pi.date_planted BETWEEN ? AND ?
-          OR pi.date_germinated BETWEEN ? AND ?
-          OR pi.date_transplanted BETWEEN ? AND ?
-          OR pi.date_finished BETWEEN ? AND ?
+          pi.date_planted BETWEEN params.start_dt AND params.end_dt
+          OR pi.date_germinated BETWEEN params.start_dt AND params.end_dt
+          OR pi.date_transplanted BETWEEN params.start_dt AND params.end_dt
+          OR pi.date_finished BETWEEN params.start_dt AND params.end_dt
         )
-    `).all(gardenId, startDate, endDate, startDate, endDate, startDate, endDate, startDate, endDate) as Array<{
+    `).all(startDate, endDate, gardenId) as Array<{
       id: string;
       date_planted: string | null;
       date_germinated: string | null;

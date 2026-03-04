@@ -6,10 +6,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
+import type { HarvestUnit, HarvestQuality, HarvestDestination } from '@gardenvault/shared';
 
-const UNITS = ['lb', 'oz', 'kg', 'g', 'count', 'bunch', 'basket', 'pint', 'quart', 'gallon'];
-const QUALITY = ['excellent', 'good', 'fair', 'poor'];
-const DESTINATIONS = ['eaten_fresh', 'cooked', 'preserved', 'shared', 'sold', 'composted'];
+const UNITS: HarvestUnit[] = ['lb', 'oz', 'kg', 'g', 'count', 'bunch', 'basket', 'pint', 'quart', 'gallon'];
+const QUALITY: HarvestQuality[] = ['excellent', 'good', 'fair', 'poor'];
+const DESTINATIONS: HarvestDestination[] = ['eaten_fresh', 'cooked', 'preserved', 'shared', 'sold', 'composted'];
 
 interface Props {
   open: boolean;
@@ -33,16 +34,16 @@ export function HarvestQuickLog({ open, onOpenChange, plantInstanceId, plotId }:
     },
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: { quantity: number; unit: string; quality: string; destination: string; date_harvested: string; notes: string }) => {
     try {
       await createHarvest.mutateAsync({
         plant_instance_id: plantInstanceId,
         plot_id: plotId,
         date_harvested: data.date_harvested,
         quantity: Number(data.quantity),
-        unit: data.unit as any,
-        quality: data.quality as any,
-        destination: data.destination as any,
+        unit: data.unit as HarvestUnit,
+        quality: data.quality as HarvestQuality,
+        destination: data.destination as HarvestDestination,
         notes: data.notes || undefined,
       });
       toast({ title: 'Harvest logged!' });

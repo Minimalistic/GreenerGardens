@@ -21,7 +21,7 @@ interface DataTableProps<T> {
   exportFilename?: string;
 }
 
-export function DataTable<T extends Record<string, any>>({
+export function DataTable<T extends Record<string, unknown>>({
   data,
   columns,
   searchable = true,
@@ -145,7 +145,7 @@ export function DataTable<T extends Record<string, any>>({
               </TableRow>
             ) : (
               sorted.map((row, i) => (
-                <TableRow key={(row as any).id ?? i}>
+                <TableRow key={(row as Record<string, unknown>).id as string ?? i}>
                   {columns.map((col) => (
                     <TableCell key={col.key}>
                       {col.render ? col.render(row) : String(row[col.key] ?? '')}

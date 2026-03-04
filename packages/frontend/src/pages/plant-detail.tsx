@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { usePlantCatalogEntry, usePlantCatalogSearch } from '@/hooks/use-plant-catalog';
+import { usePlantCatalogEntry } from '@/hooks/use-plant-catalog';
 import { usePestCatalogSearch } from '@/hooks/use-pest-catalog';
 import { useWikipediaSummary } from '@/hooks/use-wikipedia';
+import { usePlantNameToId } from '@/hooks/use-plant-name-to-id';
 import { PlantFormDialog } from '@/components/plant-form-dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,37 +15,26 @@ import { ArrowLeft, Sun, Droplets, Ruler, Clock, Pencil, ExternalLink, ShieldAle
 import { EntityNotes } from '@/components/notes/entity-notes';
 import { PlantActivityTab } from '@/components/garden/plant-activity-tab';
 import { plantTypeEmoji } from '@/lib/plant-type-emoji';
+import type { PlantCatalog, PestCatalog } from '@gardenvault/shared';
+import type { LucideIcon } from 'lucide-react';
+
+/** Extended plant catalog type including pest/disease JSON fields from the API. */
+interface PlantCatalogDetail extends PlantCatalog {
+  common_pests?: Array<{ name: string; susceptibility: string; notes?: string }>;
+  common_diseases?: Array<{ name: string; susceptibility: string; notes?: string }>;
+  disease_resistance?: Record<string, string>;
+}
 
 export function PlantDetail() {
   const { plantId } = useParams<{ plantId: string }>();
   const navigate = useNavigate();
   const { data, isLoading } = usePlantCatalogEntry(plantId ?? null);
   const { data: wikiResponse, isLoading: wikiLoading } = useWikipediaSummary(plantId ?? null);
-  const { data: catalogData } = usePlantCatalogSearch({ limit: 500 });
-  const catalogEntries = (catalogData as any)?.data ?? [];
-  const plantNameToId = useMemo(() => {
-    const exact = new Map<string, string>();
-    for (const entry of catalogEntries) {
-      exact.set(entry.common_name.toLowerCase(), entry.id);
-    }
-    return (name: string): string | undefined => {
-      const lower = name.toLowerCase();
-      // Exact match first
-      if (exact.has(lower)) return exact.get(lower);
-      // Try to find a catalog entry that contains the companion name or vice versa
-      for (const entry of catalogEntries) {
-        const entryName = entry.common_name.toLowerCase();
-        if (entryName.includes(lower) || lower.includes(entryName)) {
-          return entry.id;
-        }
-      }
-      return undefined;
-    };
-  }, [catalogEntries]);
+  const plantNameToId = usePlantNameToId(true);
   const [formOpen, setFormOpen] = useState(false);
   const { data: pestCatalogData } = usePestCatalogSearch({ limit: 200 });
   const pestNameToId = useMemo(() => {
-    const entries = (pestCatalogData as any)?.data ?? [];
+    const entries: PestCatalog[] = pestCatalogData?.data ?? [];
     const map = new Map<string, string>();
     for (const entry of entries) {
       map.set(entry.common_name.toLowerCase(), entry.id);
@@ -61,10 +51,10 @@ export function PlantDetail() {
     );
   }
 
-  const plant = data?.data;
+  const plant = data?.data as PlantCatalogDetail | undefined;
   if (!plant) return <p>Plant not found</p>;
 
-  const p = plant as any;
+  const p = plant;
   const isCustom = p.is_custom === 1;
 
   return (
@@ -345,7 +335,7 @@ export function PlantDetail() {
   );
 }
 
-function InfoCard({ icon: Icon, label, value }: { icon: any; label: string; value: string }) {
+function InfoCard({ icon: Icon, label, value }: { icon: LucideIcon; label: string; value: string }) {
   return (
     <div className="rounded-lg border p-3 text-center">
       <Icon className="w-4 h-4 mx-auto mb-1 text-muted-foreground" />
@@ -377,9 +367,9 @@ const RESISTANCE_COLORS: Record<string, string> = {
   immune: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
 };
 
-function PestsDiseasesTab({ plant, pestNameToId }: { plant: any; pestNameToId: (name: string) => string | undefined }) {
-  const commonPests: any[] = plant.common_pests ?? [];
-  const commonDiseases: any[] = plant.common_diseases ?? [];
+function PestsDiseasesTab({ plant, pestNameToId }: { plant: PlantCatalogDetail; pestNameToId: (name: string) => string | undefined }) {
+  const commonPests = plant.common_pests ?? [];
+  const commonDiseases = plant.common_diseases ?? [];
   const diseaseResistance: Record<string, string> = plant.disease_resistance ?? {};
   const hasContent = commonPests.length > 0 || commonDiseases.length > 0 || Object.keys(diseaseResistance).length > 0;
 
@@ -401,7 +391,7 @@ function PestsDiseasesTab({ plant, pestNameToId }: { plant: any; pestNameToId: (
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
-            {commonPests.map((entry: any, i: number) => {
+            {commonPests.map((entry, i) => {
               const linkedId = pestNameToId(entry.name);
               return (
                 <div key={i} className="flex items-start gap-2">
@@ -433,7 +423,7 @@ function PestsDiseasesTab({ plant, pestNameToId }: { plant: any; pestNameToId: (
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
-            {commonDiseases.map((entry: any, i: number) => {
+            {commonDiseases.map((entry, i) => {
               const linkedId = pestNameToId(entry.name);
               return (
                 <div key={i} className="flex items-start gap-2">

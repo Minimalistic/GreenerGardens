@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { usePlot } from '@/hooks/use-plots';
 import {
@@ -31,41 +31,15 @@ import { SuccessionPlantingDialog } from '@/components/garden/succession-plantin
 import { ArrowLeft, Layers, Sprout, Plus, Trash2, X, Copy, ChevronDown, ExternalLink, Pencil, ClipboardList } from 'lucide-react';
 import { PlantTypeBadge } from '@/components/garden/plant-type-badge';
 import { CreateTaskDialog } from '@/components/garden/create-task-dialog';
-
-const STATUS_ORDER = [
-  'planned', 'seed_started', 'germinated', 'seedling', 'hardening_off',
-  'transplanted', 'vegetative', 'flowering', 'fruiting', 'harvesting',
-  'finished', 'failed', 'removed',
-];
-
-const HEALTH_OPTIONS = ['excellent', 'good', 'fair', 'poor', 'critical', 'dead'];
-
-const PLANTING_METHODS = ['direct_seed', 'transplant', 'cutting', 'division', 'layering', 'grafting'];
-
-const STATUSES_BY_METHOD: Record<string, string[]> = {
-  direct_seed: ['planned', 'seed_started', 'germinated', 'seedling'],
-  transplant: ['planned', 'seedling', 'hardening_off', 'transplanted', 'vegetative', 'flowering', 'fruiting'],
-  cutting: ['planned', 'vegetative'],
-  division: ['planned', 'vegetative'],
-  layering: ['planned', 'vegetative'],
-  grafting: ['planned', 'vegetative'],
-};
-
-const DEFAULT_STATUS_FOR_METHOD: Record<string, string> = {
-  direct_seed: 'seed_started',
-  transplant: 'transplanted',
-  cutting: 'vegetative',
-  division: 'vegetative',
-  layering: 'vegetative',
-  grafting: 'vegetative',
-};
-
-const METHOD_FOR_STATUS: Record<string, string> = {
-  seed_started: 'direct_seed',
-  germinated: 'direct_seed',
-  hardening_off: 'transplant',
-  transplanted: 'transplant',
-};
+import type { Plot } from '@gardenvault/shared';
+import {
+  PLANT_PLANT_STATUS_ORDER,
+  PLANT_PLANT_HEALTH_OPTIONS,
+  PLANTING_METHODS,
+  STATUSES_BY_METHOD,
+  DEFAULT_STATUS_FOR_METHOD,
+  METHOD_FOR_STATUS,
+} from '@gardenvault/shared';
 
 export function PlotDetail() {
   const { plotId } = useParams<{ plotId: string }>();
@@ -117,7 +91,7 @@ export function PlotDetail() {
 
   if (!plot) return <p>Plot not found</p>;
 
-  const dims = (plot as any).dimensions;
+  const dims = plot.dimensions;
   const widthFt = dims?.width_ft ?? 4;
   const lengthFt = dims?.length_ft ?? 4;
 
@@ -263,9 +237,9 @@ export function PlotDetail() {
           <ArrowLeft className="w-5 h-5" />
         </Button>
         <div className="flex-1">
-          <h2 className="text-xl font-semibold">{(plot as any).name}</h2>
+          <h2 className="text-xl font-semibold">{plot.name}</h2>
           <p className="text-sm text-muted-foreground capitalize">
-            {(plot as any).plot_type?.replace('_', ' ')}
+            {plot.plot_type?.replace('_', ' ')}
             {dims && ` - ${dims.length_ft}' x ${dims.width_ft}'`}
           </p>
         </div>
@@ -343,7 +317,7 @@ export function PlotDetail() {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          {STATUS_ORDER.map(s => (
+                          {PLANT_STATUS_ORDER.map(s => (
                             <SelectItem key={s} value={s} className="capitalize text-xs">
                               {s.replace(/_/g, ' ')}
                             </SelectItem>
@@ -370,7 +344,7 @@ export function PlotDetail() {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          {HEALTH_OPTIONS.map(h => (
+                          {PLANT_HEALTH_OPTIONS.map(h => (
                             <SelectItem key={h} value={h} className="capitalize text-xs">{h}</SelectItem>
                           ))}
                         </SelectContent>
@@ -600,7 +574,7 @@ export function PlotDetail() {
               <Label>Planting Method</Label>
               <Select value={plantingMethod} onValueChange={(method) => {
                 setPlantingMethod(method);
-                const allowed = STATUSES_BY_METHOD[method] ?? STATUS_ORDER;
+                const allowed = STATUSES_BY_METHOD[method] ?? PLANT_STATUS_ORDER;
                 if (!allowed.includes(plantStatus)) {
                   setPlantStatus(DEFAULT_STATUS_FOR_METHOD[method] ?? 'planned');
                 }
@@ -632,7 +606,7 @@ export function PlotDetail() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {(STATUSES_BY_METHOD[plantingMethod] ?? STATUS_ORDER).map(s => (
+                  {(STATUSES_BY_METHOD[plantingMethod] ?? PLANT_STATUS_ORDER).map(s => (
                     <SelectItem key={s} value={s} className="capitalize">
                       {s.replace(/_/g, ' ')}
                     </SelectItem>
@@ -705,7 +679,7 @@ export function PlotDetail() {
         onOpenChange={setTaskDialogOpen}
         entityType="plot"
         entityId={plotId!}
-        entityName={(plot as any).name}
+        entityName={plot.name}
       />
     </div>
   );

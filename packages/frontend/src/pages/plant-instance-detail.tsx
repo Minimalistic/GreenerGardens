@@ -2,7 +2,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { usePlantInstance, useUpdatePlantStatus, useUpdatePlantHealth, useUpdatePlantInstance } from '@/hooks/use-plant-instances';
 import { useTasks, useUpdateTask } from '@/hooks/use-tasks';
 import { useEntityHistory } from '@/hooks/use-history';
-import { useHarvestsByPlant, useCreateHarvest } from '@/hooks/use-harvests';
 import { PlantStatusBadge } from '@/components/garden/plant-status-badge';
 import { SeedStartingTracker } from '@/components/garden/seed-starting-tracker';
 import { EntityNotes } from '@/components/notes/entity-notes';
@@ -17,14 +16,15 @@ import { ArrowLeft, Clock, Pencil, Map, Plus } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { useState } from 'react';
 import { CreateTaskDialog } from '@/components/garden/create-task-dialog';
+import { PLANT_PLANT_STATUS_ORDER, PLANT_PLANT_HEALTH_OPTIONS } from '@gardenvault/shared';
+import type { PlantInstance } from '@gardenvault/shared';
 
-const STATUS_ORDER = [
-  'planned', 'seed_started', 'germinated', 'seedling', 'hardening_off',
-  'transplanted', 'vegetative', 'flowering', 'fruiting', 'harvesting',
-  'finished', 'failed', 'removed',
-];
-
-const HEALTH_OPTIONS = ['excellent', 'good', 'fair', 'poor', 'critical', 'dead'];
+/** Extended plant instance type including joined catalog fields from the API. */
+interface PlantInstanceDetail extends PlantInstance {
+  common_name: string;
+  plant_type?: string;
+  plot_name?: string;
+}
 
 export function PlantInstanceDetail() {
   const { instanceId } = useParams<{ instanceId: string }>();
@@ -50,7 +50,7 @@ export function PlantInstanceDetail() {
     );
   }
 
-  const plant = data?.data as any;
+  const plant = data?.data as PlantInstanceDetail | undefined;
   if (!plant) return <p>Plant not found</p>;
 
   const handleStatusChange = async (status: string) => {
@@ -116,7 +116,7 @@ export function PlantInstanceDetail() {
             <Select value={plant.status} onValueChange={handleStatusChange}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
-                {STATUS_ORDER.map(s => (
+                {PLANT_STATUS_ORDER.map(s => (
                   <SelectItem key={s} value={s} className="capitalize">
                     {s.replace('_', ' ')}
                   </SelectItem>
@@ -134,7 +134,7 @@ export function PlantInstanceDetail() {
             <Select value={plant.health} onValueChange={handleHealthChange}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
-                {HEALTH_OPTIONS.map(h => (
+                {PLANT_HEALTH_OPTIONS.map(h => (
                   <SelectItem key={h} value={h} className="capitalize">{h}</SelectItem>
                 ))}
               </SelectContent>

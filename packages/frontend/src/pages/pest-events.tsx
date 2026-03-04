@@ -13,8 +13,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import type { PestEvent, Plot } from '@gardenvault/shared';
 
-const pestEventColumns: Column<any>[] = [
+const pestEventColumns: Column<PestEvent>[] = [
   { key: 'pest_name', label: 'Pest Name' },
   { key: 'pest_type', label: 'Type', render: (row) => (
     <span className="capitalize">{row.pest_type?.replace(/_/g, ' ') ?? '-'}</span>
@@ -49,7 +50,7 @@ const outcomeIcons: Record<string, typeof Clock> = {
 function useAffectedAreaOptions() {
   const { currentGardenId, garden } = useGardenContext();
   const { data: plotsData } = usePlotsByGarden(currentGardenId);
-  const plots = (plotsData?.data ?? []) as any[];
+  const plots: Plot[] = plotsData?.data ?? [];
   return { currentGardenId, garden, plots };
 }
 
@@ -64,7 +65,7 @@ function AffectedAreaSelect({ value, onChange }: { value: string; onChange: (v: 
             {garden?.name ?? 'Whole Garden'}
           </SelectItem>
         )}
-        {plots.map((p: any) => (
+        {plots.map((p) => (
           <SelectItem key={p.id} value={`plot:${p.id}`}>{p.name}</SelectItem>
         ))}
       </SelectContent>
@@ -179,7 +180,7 @@ function CreatePestEventDialog() {
   );
 }
 
-function EditPestEventDialog({ event, open, onOpenChange }: { event: any; open: boolean; onOpenChange: (v: boolean) => void }) {
+function EditPestEventDialog({ event, open, onOpenChange }: { event: PestEvent; open: boolean; onOpenChange: (v: boolean) => void }) {
   const updatePestEvent = useUpdatePestEvent();
   const deletePestEvent = useDeletePestEvent();
   const { toast } = useToast();
@@ -270,7 +271,7 @@ export function PestEventsPage() {
   const updatePestEvent = useUpdatePestEvent();
   const { toast } = useToast();
 
-  const [editEvent, setEditEvent] = useState<any>(null);
+  const [editEvent, setEditEvent] = useState<PestEvent | null>(null);
 
   const events = data?.data ?? [];
 
@@ -353,7 +354,7 @@ export function PestEventsPage() {
         <DataTable data={events} columns={pestEventColumns} exportFilename="pest-events" />
       ) : (
         <div className="space-y-3">
-          {events.map((event: any) => {
+          {events.map((event) => {
             const OutcomeIcon = outcomeIcons[event.outcome] || Clock;
             return (
               <Card

@@ -1,13 +1,14 @@
-import { useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { usePestCatalogEntry } from '@/hooks/use-pest-catalog';
-import { usePlantCatalogSearch } from '@/hooks/use-plant-catalog';
+import { usePlantNameToId } from '@/hooks/use-plant-name-to-id';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ArrowLeft, AlertTriangle, Zap, Target, Calendar, MapPin, Shield, Leaf, FlaskConical, Bug as BugIcon, Shovel } from 'lucide-react';
+import type { PestCatalog, TreatmentEntry } from '@gardenvault/shared';
+import type { LucideIcon } from 'lucide-react';
 
 const SEVERITY_COLORS: Record<string, string> = {
   low: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
@@ -33,16 +34,7 @@ export function PestCatalogDetail() {
   const { pestId } = useParams<{ pestId: string }>();
   const navigate = useNavigate();
   const { data, isLoading } = usePestCatalogEntry(pestId ?? null);
-  const { data: catalogData } = usePlantCatalogSearch({ limit: 500 });
-
-  const plantNameToId = useMemo(() => {
-    const entries = (catalogData as any)?.data ?? [];
-    const map = new Map<string, string>();
-    for (const entry of entries) {
-      map.set(entry.common_name.toLowerCase(), entry.id);
-    }
-    return (name: string): string | undefined => map.get(name.toLowerCase());
-  }, [catalogData]);
+  const plantNameToId = usePlantNameToId();
 
   if (isLoading) {
     return (
@@ -53,7 +45,7 @@ export function PestCatalogDetail() {
     );
   }
 
-  const pest = data?.data as any;
+  const pest = data?.data;
   if (!pest) return <p>Pest not found</p>;
 
   const affectedPlants: string[] = pest.affected_plants ?? [];
@@ -61,10 +53,10 @@ export function PestCatalogDetail() {
   const symptoms: string[] = pest.symptoms ?? [];
   const favorableConditions: string[] = pest.favorable_conditions ?? [];
   const prevention: string[] = pest.prevention ?? [];
-  const organicTreatments: any[] = pest.organic_treatments ?? [];
-  const chemicalTreatments: any[] = pest.chemical_treatments ?? [];
-  const biologicalTreatments: any[] = pest.biological_treatments ?? [];
-  const culturalTreatments: any[] = pest.cultural_treatments ?? [];
+  const organicTreatments: (string | TreatmentEntry)[] = pest.organic_treatments ?? [];
+  const chemicalTreatments: (string | TreatmentEntry)[] = pest.chemical_treatments ?? [];
+  const biologicalTreatments: (string | TreatmentEntry)[] = pest.biological_treatments ?? [];
+  const culturalTreatments: (string | TreatmentEntry)[] = pest.cultural_treatments ?? [];
 
   return (
     <div className="space-y-4 max-w-3xl mx-auto">
@@ -248,7 +240,7 @@ export function PestCatalogDetail() {
   );
 }
 
-function FactCard({ icon: Icon, label, value }: { icon: any; label: string; value: string }) {
+function FactCard({ icon: Icon, label, value }: { icon: LucideIcon; label: string; value: string }) {
   return (
     <div className="rounded-lg border p-3 text-center">
       <Icon className="w-4 h-4 mx-auto mb-1 text-muted-foreground" />
@@ -260,9 +252,9 @@ function FactCard({ icon: Icon, label, value }: { icon: any; label: string; valu
 
 function TreatmentSection({ title, icon: Icon, iconColor, treatments }: {
   title: string;
-  icon: any;
+  icon: LucideIcon;
   iconColor: string;
-  treatments: any[];
+  treatments: (string | TreatmentEntry)[];
 }) {
   return (
     <Card>
