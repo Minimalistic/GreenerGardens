@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Sprout, Plus, AlertTriangle, Package, Trash2, LayoutGrid, TableIcon, X } from 'lucide-react';
+import { Sprout, Plus, AlertTriangle, Package, Trash2, X } from 'lucide-react';
+import { ViewToggleButtons } from '@/components/ui/view-toggle-buttons';
 import { useViewToggle } from '@/hooks/use-view-toggle';
 import { useSeedInventory, useCreateSeedInventory, useUpdateSeedInventory, useDeleteSeedInventory } from '@/hooks/use-seed-inventory';
 import { usePlantCatalogSearch } from '@/hooks/use-plant-catalog';
@@ -188,14 +189,7 @@ export function SeedInventoryPage() {
           Seed Inventory
         </h2>
         <div className="flex items-center gap-2">
-          <div className="flex gap-1">
-            <Button variant={view === 'card' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('card')}>
-              <LayoutGrid className="w-4 h-4" />
-            </Button>
-            <Button variant={view === 'table' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('table')}>
-              <TableIcon className="w-4 h-4" />
-            </Button>
-          </div>
+          <ViewToggleButtons view={view} onToggle={toggleView} primaryView="card" tableView="table" />
           <Button onClick={openCreate} size="sm">
             <Plus className="w-4 h-4 mr-1" />
             Add Seeds

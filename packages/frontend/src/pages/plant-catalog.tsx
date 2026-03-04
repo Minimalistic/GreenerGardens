@@ -9,7 +9,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { PlantTypeBadge } from '@/components/garden/plant-type-badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Search, LayoutGrid, TableIcon, Plus } from 'lucide-react';
+import { Search, Plus } from 'lucide-react';
+import { ViewToggleButtons } from '@/components/ui/view-toggle-buttons';
 import { useViewToggle } from '@/hooks/use-view-toggle';
 import { plantTypeEmoji } from '@/lib/plant-type-emoji';
 const TYPE_FILTERS = [
@@ -128,14 +129,7 @@ export function PlantCatalogPage() {
             ))}
           </SelectContent>
         </Select>
-        <div className="flex gap-1">
-          <Button variant={view === 'card' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('card')}>
-            <LayoutGrid className="w-4 h-4" />
-          </Button>
-          <Button variant={view === 'table' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('table')}>
-            <TableIcon className="w-4 h-4" />
-          </Button>
-        </div>
+        <ViewToggleButtons view={view} onToggle={toggleView} primaryView="card" tableView="table" />
         <Button size="sm" onClick={() => setAddOpen(true)}>
           <Plus className="w-4 h-4 mr-1" />
           Add Plant

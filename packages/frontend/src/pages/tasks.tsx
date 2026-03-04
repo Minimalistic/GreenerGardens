@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, CheckCircle2, Clock, SkipForward, Calendar, AlertTriangle, LayoutGrid, TableIcon, ExternalLink } from 'lucide-react';
+import { Plus, CheckCircle2, Clock, SkipForward, Calendar, AlertTriangle, ExternalLink } from 'lucide-react';
+import { ViewToggleButtons } from '@/components/ui/view-toggle-buttons';
 import { useViewToggle } from '@/hooks/use-view-toggle';
 import { formatFullDate, formatShortDate } from '@/lib/format-date';
 import { useOverdueTasks, useTodayTasks, useWeekTasks, useTasks, useCompleteTask, useSkipTask, useUpdateTask } from '@/hooks/use-tasks';
@@ -327,14 +328,7 @@ export function TasksPage() {
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">Tasks</h2>
         <div className="flex items-center gap-2">
-          <div className="flex gap-1">
-            <Button variant={view === 'card' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('card')}>
-              <LayoutGrid className="w-4 h-4" />
-            </Button>
-            <Button variant={view === 'table' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('table')}>
-              <TableIcon className="w-4 h-4" />
-            </Button>
-          </div>
+          <ViewToggleButtons view={view} onToggle={toggleView} primaryView="card" tableView="table" />
           <Button size="sm" onClick={() => setCreateOpen(true)}>
             <Plus className="w-4 h-4 mr-1" />
             New Task

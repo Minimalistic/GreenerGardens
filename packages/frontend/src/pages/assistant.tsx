@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGardenContext } from '@/contexts/garden-context';
 import { useAssistantContext } from '@/contexts/assistant-context';
@@ -11,8 +11,8 @@ import {
   useSendMessage,
 } from '@/hooks/use-assistant';
 import type { Message } from '@/hooks/use-assistant';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { useChatScroll } from '@/hooks/use-chat-scroll';
+import { ChatMessageList, buildDisplayMessages } from '@/components/chat/chat-message-list';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -29,7 +29,6 @@ import {
   CalendarDays,
   Droplets,
   PanelRightOpen,
-  ChevronDown,
 } from 'lucide-react';
 
 const QUICK_PROMPTS = [
@@ -62,64 +61,8 @@ export function AssistantPage() {
   const deleteConv = useDeleteConversation();
   const { send, isStreaming, streamedContent } = useSendMessage();
 
-  const [showScrollDown, setShowScrollDown] = useState(false);
-
-  const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const scrollRafRef = useRef(0);
-
-  // Track scroll position to show/hide scroll-to-bottom button
-  useEffect(() => {
-    const root = scrollAreaRef.current;
-    const viewport = root?.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement | null;
-    if (!viewport) return;
-
-    const onScroll = () => {
-      const distFromBottom = viewport.scrollHeight - viewport.clientHeight - viewport.scrollTop;
-      setShowScrollDown(distFromBottom > 100);
-    };
-
-    viewport.addEventListener('scroll', onScroll, { passive: true });
-    return () => viewport.removeEventListener('scroll', onScroll);
-  }, []);
-
-  const scrollToBottom = useCallback(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, []);
-
-  // Smooth lerp-based scroll chase during streaming
-  useEffect(() => {
-    const root = scrollAreaRef.current;
-    const viewport = root?.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement | null;
-    if (!viewport || !isStreaming) return;
-
-    const LERP = 0.12;
-
-    const chase = () => {
-      const maxScroll = viewport.scrollHeight - viewport.clientHeight;
-      const dist = maxScroll - viewport.scrollTop;
-      if (dist > 1) {
-        viewport.scrollTop += dist * LERP;
-      } else {
-        viewport.scrollTop = maxScroll;
-      }
-      scrollRafRef.current = requestAnimationFrame(chase);
-    };
-
-    scrollRafRef.current = requestAnimationFrame(chase);
-    return () => {
-      cancelAnimationFrame(scrollRafRef.current);
-      scrollRafRef.current = 0;
-      // Snap to exact bottom so there's no gap when chase stops
-      viewport.scrollTop = viewport.scrollHeight - viewport.clientHeight;
-    };
-  }, [isStreaming]);
-
-  // Scroll to bottom when stored messages change (conversation switch, refetch after streaming)
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  const { messagesEndRef, scrollAreaRef, showScrollDown, scrollToBottom } = useChatScroll(isStreaming);
 
   // Auto-select first conversation
   useEffect(() => {
@@ -179,14 +122,7 @@ export function AssistantPage() {
     );
   }
 
-  // Build display messages: stored messages + live streaming / pending refetch
-  const displayMessages: Array<{ role: string; content: string; id?: string }> = [...messages];
-  if (streamedContent) {
-    const last = messages[messages.length - 1];
-    if (!last || last.role !== 'assistant' || last.content !== streamedContent) {
-      displayMessages.push({ role: 'assistant', content: streamedContent });
-    }
-  }
+  const displayMessages = buildDisplayMessages(messages, streamedContent);
 
   return (
     <div className="flex h-[calc(100vh-8rem)] gap-4">
@@ -276,9 +212,16 @@ export function AssistantPage() {
         </div>
 
         {/* Messages */}
-        <div className="flex-1 relative min-h-0">
-        <ScrollArea ref={scrollAreaRef} className="h-full p-4">
-          {displayMessages.length === 0 ? (
+        <ChatMessageList
+          messages={displayMessages}
+          isStreaming={isStreaming}
+          streamedContent={streamedContent}
+          scrollAreaRef={scrollAreaRef}
+          messagesEndRef={messagesEndRef}
+          showScrollDown={showScrollDown}
+          scrollToBottom={scrollToBottom}
+          className="p-4"
+          emptyState={
             <div className="flex flex-col items-center justify-center h-full gap-6 py-12">
               <div className="text-center space-y-2">
                 <Sprout className="w-10 h-10 text-primary mx-auto" />
@@ -301,54 +244,8 @@ export function AssistantPage() {
                 ))}
               </div>
             </div>
-          ) : (
-            <div className="space-y-4 max-w-3xl mx-auto">
-              {displayMessages.map((msg, i) => (
-                <div
-                  key={msg.id ?? `streaming-${i}`}
-                  className={cn('flex', msg.role === 'user' ? 'justify-end' : 'justify-start')}
-                >
-                  <div
-                    className={cn(
-                      'max-w-[85%] rounded-lg px-4 py-3 text-sm',
-                      msg.role === 'user'
-                        ? 'bg-primary text-primary-foreground'
-                        : 'bg-muted',
-                    )}
-                  >
-                    {msg.role === 'assistant' ? (
-                      <div className="prose prose-sm dark:prose-invert max-w-none">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
-                      </div>
-                    ) : (
-                      <p className="whitespace-pre-wrap">{msg.content}</p>
-                    )}
-                  </div>
-                </div>
-              ))}
-              {isStreaming && !streamedContent && (
-                <div className="flex justify-start">
-                  <div className="bg-muted rounded-lg px-4 py-3">
-                    <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
-                  </div>
-                </div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
-          )}
-        </ScrollArea>
-
-        {/* Scroll to bottom button */}
-        {showScrollDown && !isStreaming && (
-          <button
-            onClick={scrollToBottom}
-            className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-primary text-primary-foreground rounded-full p-2 shadow-md hover:bg-primary/90 transition-opacity animate-in fade-in"
-            aria-label="Scroll to latest message"
-          >
-            <ChevronDown className="w-5 h-5" />
-          </button>
-        )}
-        </div>
+          }
+        />
 
         {/* Input area */}
         <div className="p-4 border-t">

@@ -8,7 +8,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Search, LayoutGrid, TableIcon } from 'lucide-react';
+import { Search } from 'lucide-react';
+import { ViewToggleButtons } from '@/components/ui/view-toggle-buttons';
 import { SEVERITY_COLORS, CATEGORY_COLORS } from '@/lib/pest-colors';
 import { useViewToggle } from '@/hooks/use-view-toggle';
 
@@ -146,14 +147,7 @@ export function PestCatalogPage() {
             ))}
           </SelectContent>
         </Select>
-        <div className="flex gap-1">
-          <Button variant={view === 'card' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('card')}>
-            <LayoutGrid className="w-4 h-4" />
-          </Button>
-          <Button variant={view === 'table' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('table')}>
-            <TableIcon className="w-4 h-4" />
-          </Button>
-        </div>
+        <ViewToggleButtons view={view} onToggle={toggleView} primaryView="card" tableView="table" />
       </div>
 
       {isLoading && (

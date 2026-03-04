@@ -2,6 +2,7 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import { Stage, Layer, Rect, Text, Group, Transformer } from 'react-konva';
 import type Konva from 'konva';
 import type { SubPlot } from '@gardenvault/shared';
+import { PLOT_COLORS, snapTo, clampScale } from '@/lib/canvas-utils';
 
 export const PX_PER_FT = 40;
 
@@ -9,16 +10,6 @@ const MIN_SCALE = 0.1;
 const MAX_SCALE = 3;
 const ZOOM_SPEED = 1.08;
 const FIT_PADDING = 40; // px padding when fitting to content
-
-const PLOT_COLORS: Record<string, string> = {
-  raised_bed: '#4A7C59',
-  in_ground: '#8B6914',
-  container: '#D4956A',
-  greenhouse: '#87CEEB',
-  vertical: '#3D5A3E',
-  hydroponic: '#6CB4EE',
-  other: '#999',
-};
 
 interface ContextMenuEvent {
   x: number;
@@ -34,14 +25,6 @@ interface Props {
   onContextMenu?: (e: ContextMenuEvent) => void;
   onPlotDoubleClick?: (id: string) => void;
   subPlotsByPlot?: Map<string, SubPlot[]>;
-}
-
-function snapTo(value: number, grid: number) {
-  return Math.round(value / grid) * grid;
-}
-
-function clampScale(s: number) {
-  return Math.min(MAX_SCALE, Math.max(MIN_SCALE, s));
 }
 
 export function GardenCanvas({
@@ -84,7 +67,7 @@ export function GardenCanvas({
     const bounds = getContentBounds();
     const scaleX = (size.width - FIT_PADDING * 2) / bounds.width;
     const scaleY = (size.height - FIT_PADDING * 2) / bounds.height;
-    const newScale = clampScale(Math.min(scaleX, scaleY, 1.5));
+    const newScale = clampScale(MIN_SCALE, MAX_SCALE,Math.min(scaleX, scaleY, 1.5));
     const newX = (size.width - bounds.width * newScale) / 2 - bounds.x * newScale;
     const newY = (size.height - bounds.height * newScale) / 2 - bounds.y * newScale;
     setStageScale(newScale);
@@ -120,7 +103,7 @@ export function GardenCanvas({
     if (!pointer) return;
 
     const direction = e.evt.deltaY < 0 ? 1 : -1;
-    const newScale = clampScale(direction > 0 ? oldScale * ZOOM_SPEED : oldScale / ZOOM_SPEED);
+    const newScale = clampScale(MIN_SCALE, MAX_SCALE,direction > 0 ? oldScale * ZOOM_SPEED : oldScale / ZOOM_SPEED);
 
     const mousePointTo = {
       x: (pointer.x - stage.x()) / oldScale,
@@ -162,7 +145,7 @@ export function GardenCanvas({
     if (lastPinchDist.current != null && lastPinchCenter.current != null) {
       const oldScale = stage.scaleX();
       const scaleFactor = dist / lastPinchDist.current;
-      const newScale = clampScale(oldScale * scaleFactor);
+      const newScale = clampScale(MIN_SCALE, MAX_SCALE,oldScale * scaleFactor);
 
       const mousePointTo = {
         x: (stageCenter.x - stage.x()) / oldScale,

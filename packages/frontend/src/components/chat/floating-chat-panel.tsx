@@ -10,11 +10,10 @@ import {
   useSendMessage,
 } from '@/hooks/use-assistant';
 import type { Message } from '@/hooks/use-assistant';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { useChatScroll } from '@/hooks/use-chat-scroll';
+import { ChatMessageList, buildDisplayMessages } from '@/components/chat/chat-message-list';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import {
   MessageSquare,
@@ -59,12 +58,8 @@ export function FloatingChatPanel() {
   const [showConvList, setShowConvList] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
 
-  const [showScrollDown, setShowScrollDown] = useState(false);
-
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const scrollRafRef = useRef(0);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const { messagesEndRef, scrollAreaRef, showScrollDown, scrollToBottom } = useChatScroll(isStreaming);
 
   // Auto-select first conversation
   useEffect(() => {
@@ -73,65 +68,14 @@ export function FloatingChatPanel() {
     }
   }, [conversations, activeConvId, setActiveConvId]);
 
-  // Track scroll position to show/hide scroll-to-bottom button
-  useEffect(() => {
-    const root = scrollAreaRef.current;
-    const viewport = root?.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement | null;
-    if (!viewport) return;
-
-    const onScroll = () => {
-      const distFromBottom = viewport.scrollHeight - viewport.clientHeight - viewport.scrollTop;
-      setShowScrollDown(distFromBottom > 100);
-    };
-
-    viewport.addEventListener('scroll', onScroll, { passive: true });
-    return () => viewport.removeEventListener('scroll', onScroll);
-  }, []);
-
-  const scrollToBottom = useCallback(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, []);
-
-  // Smooth lerp-based scroll chase during streaming
-  useEffect(() => {
-    const root = scrollAreaRef.current;
-    const viewport = root?.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement | null;
-    if (!viewport || !isStreaming) return;
-
-    const LERP = 0.12;
-    const chase = () => {
-      const maxScroll = viewport.scrollHeight - viewport.clientHeight;
-      const dist = maxScroll - viewport.scrollTop;
-      if (dist > 1) {
-        viewport.scrollTop += dist * LERP;
-      } else {
-        viewport.scrollTop = maxScroll;
-      }
-      scrollRafRef.current = requestAnimationFrame(chase);
-    };
-
-    scrollRafRef.current = requestAnimationFrame(chase);
-    return () => {
-      cancelAnimationFrame(scrollRafRef.current);
-      scrollRafRef.current = 0;
-      viewport.scrollTop = viewport.scrollHeight - viewport.clientHeight;
-    };
-  }, [isStreaming]);
-
-  // Scroll to bottom when stored messages change
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
-
   // Scroll to bottom when chat panel is opened / activated
   useEffect(() => {
     if (!isOpen) return;
-    // rAF waits for Radix ScrollArea viewport to be fully laid out after mount
     const id = requestAnimationFrame(() => {
       messagesEndRef.current?.scrollIntoView({ behavior: 'instant' });
     });
     return () => cancelAnimationFrame(id);
-  }, [isOpen]);
+  }, [isOpen, messagesEndRef]);
 
   // Resize drag handler
   const handleDragStart = useCallback(
@@ -197,15 +141,7 @@ export function FloatingChatPanel() {
   if (!isOpen) return null;
 
   const activeConv = conversations.find((c) => c.id === activeConvId);
-
-  // Build display messages: stored messages + live streaming / pending refetch
-  const displayMessages: Array<{ role: string; content: string; id?: string }> = [...messages];
-  if (streamedContent) {
-    const last = messages[messages.length - 1];
-    if (!last || last.role !== 'assistant' || last.content !== streamedContent) {
-      displayMessages.push({ role: 'assistant', content: streamedContent });
-    }
-  }
+  const displayMessages = buildDisplayMessages(messages, streamedContent);
 
   return (
     <div
@@ -288,65 +224,25 @@ export function FloatingChatPanel() {
           </p>
         </div>
       ) : (
-        <div className="flex-1 min-h-0 relative">
-        <ScrollArea ref={scrollAreaRef} className="h-full">
-          <div className="p-3 min-h-full flex flex-col justify-end">
-            {displayMessages.length === 0 ? (
-              <div className="flex flex-col items-center justify-center gap-3 py-8">
-                <Sprout className="w-8 h-8 text-primary" />
-                <p className="text-sm text-muted-foreground text-center max-w-[280px]">
-                  Ask me anything about your garden.
-                </p>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                {displayMessages.map((msg, i) => (
-                  <div
-                    key={msg.id ?? `streaming-${i}`}
-                    className={cn('flex', msg.role === 'user' ? 'justify-end' : 'justify-start')}
-                  >
-                    <div
-                      className={cn(
-                        'max-w-[85%] rounded-lg px-3 py-2 text-sm',
-                        msg.role === 'user'
-                          ? 'bg-primary text-primary-foreground'
-                          : 'bg-muted',
-                      )}
-                    >
-                      {msg.role === 'assistant' ? (
-                        <div className="prose prose-sm dark:prose-invert max-w-none">
-                          <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
-                        </div>
-                      ) : (
-                        <p className="whitespace-pre-wrap">{msg.content}</p>
-                      )}
-                    </div>
-                  </div>
-                ))}
-                {isStreaming && !streamedContent && (
-                  <div className="flex justify-start">
-                    <div className="bg-muted rounded-lg px-3 py-2">
-                      <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
-                    </div>
-                  </div>
-                )}
-                <div ref={messagesEndRef} />
-              </div>
-            )}
-          </div>
-        </ScrollArea>
-
-        {/* Scroll to bottom button */}
-        {showScrollDown && !isStreaming && (
-          <button
-            onClick={scrollToBottom}
-            className="absolute bottom-2 left-1/2 -translate-x-1/2 z-10 bg-primary text-primary-foreground rounded-full p-1.5 shadow-md hover:bg-primary/90 transition-opacity animate-in fade-in"
-            aria-label="Scroll to latest message"
-          >
-            <ChevronDown className="w-4 h-4" />
-          </button>
-        )}
-        </div>
+        <ChatMessageList
+          messages={displayMessages}
+          isStreaming={isStreaming}
+          streamedContent={streamedContent}
+          scrollAreaRef={scrollAreaRef}
+          messagesEndRef={messagesEndRef}
+          showScrollDown={showScrollDown}
+          scrollToBottom={scrollToBottom}
+          flexEnd
+          className="p-3"
+          emptyState={
+            <div className="flex flex-col items-center justify-center gap-3 py-8">
+              <Sprout className="w-8 h-8 text-primary" />
+              <p className="text-sm text-muted-foreground text-center max-w-[280px]">
+                Ask me anything about your garden.
+              </p>
+            </div>
+          }
+        />
       )}
 
       {/* Input area */}

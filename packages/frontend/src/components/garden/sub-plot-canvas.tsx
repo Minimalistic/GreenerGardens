@@ -2,6 +2,7 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import { Stage, Layer, Rect, Text, Group, Transformer, Line } from 'react-konva';
 import type Konva from 'konva';
 import { PX_PER_FT } from './garden-canvas';
+import { PLOT_COLORS, snapTo, clampScale } from '@/lib/canvas-utils';
 import type { SubPlotWithPlant } from '@/hooks/use-sub-plots';
 
 const MIN_SCALE = 0.2;
@@ -9,14 +10,6 @@ const MAX_SCALE = 5;
 const ZOOM_SPEED = 1.08;
 const FIT_PADDING = 20;
 const BUTTON_ZOOM = 1.3;
-
-function snapTo(value: number, grid: number) {
-  return Math.round(value / grid) * grid;
-}
-
-function clampScale(s: number) {
-  return Math.min(MAX_SCALE, Math.max(MIN_SCALE, s));
-}
 
 interface Props {
   widthFt: number;
@@ -77,7 +70,7 @@ export function SubPlotCanvas({
     const stage = stageRef.current;
     if (!stage) return;
     const oldScale = scale;
-    const newUserScale = clampScale((oldScale * factor) / baseScale);
+    const newUserScale = clampScale(MIN_SCALE, MAX_SCALE, (oldScale * factor) / baseScale);
     const newScale = baseScale * newUserScale;
     const cx = containerWidth / 2;
     const cy = containerHeight / 2;
@@ -131,7 +124,7 @@ export function SubPlotCanvas({
 
     const oldScale = scale;
     const direction = e.evt.deltaY < 0 ? 1 : -1;
-    const newUserScale = clampScale(
+    const newUserScale = clampScale(MIN_SCALE, MAX_SCALE,
       (direction > 0 ? oldScale * ZOOM_SPEED : oldScale / ZOOM_SPEED) / baseScale
     );
     const newScale = baseScale * newUserScale;
@@ -175,7 +168,7 @@ export function SubPlotCanvas({
     if (lastPinchDist.current != null && lastPinchCenter.current != null) {
       const oldScale = scale;
       const scaleFactor = dist / lastPinchDist.current;
-      const newScale = clampScale(oldScale * scaleFactor / baseScale) * baseScale;
+      const newScale = clampScale(MIN_SCALE, MAX_SCALE, oldScale * scaleFactor / baseScale) * baseScale;
       const newUserScale = newScale / baseScale;
 
       const mousePointTo = {
@@ -407,7 +400,7 @@ export function SubPlotCanvas({
             const g = sp.geometry;
             const isSelected = sp.id === selectedSubPlotId;
             const hasPlant = !!sp.plant_instance_id;
-            const fillColor = hasPlant ? '#4A7C59' : '#d4d4d8';
+            const fillColor = hasPlant ? PLOT_COLORS.raised_bed : '#d4d4d8';
             const label = sp.plant_name || (hasPlant ? 'Planted' : 'Empty');
             const widthLabel = (g.width / PX_PER_FT).toFixed(1).replace(/\.0$/, '');
             const heightLabel = (g.height / PX_PER_FT).toFixed(1).replace(/\.0$/, '');

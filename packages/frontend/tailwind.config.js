@@ -15,13 +15,6 @@ export default {
     },
     extend: {
       colors: {
-        leaf: "#4A7C59",
-        soil: "#8B6914",
-        bloom: "#D4956A",
-        sky: "#87CEEB",
-        sun: "#F4D03F",
-        parchment: "#FDF6E3",
-        moss: "#3D5A3E",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

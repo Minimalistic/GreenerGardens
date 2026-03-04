@@ -6,9 +6,9 @@ import { EmptyState } from '@/components/garden/empty-state';
 import { DataTable, type Column } from '@/components/data-table';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Scissors, Scale, Sprout, LayoutGrid, TableIcon } from 'lucide-react';
+import { ViewToggleButtons } from '@/components/ui/view-toggle-buttons';
+import { Scissors, Scale, Sprout } from 'lucide-react';
 
 const QUALITY_COLORS: Record<string, string> = {
   excellent: 'bg-green-50 text-green-700 dark:bg-green-900 dark:text-green-200',
@@ -72,13 +72,8 @@ export function HarvestLog() {
         />
       ) : (
         <>
-          <div className="flex justify-end gap-1">
-            <Button variant={view === 'card' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('card')}>
-              <LayoutGrid className="w-4 h-4" />
-            </Button>
-            <Button variant={view === 'table' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('table')}>
-              <TableIcon className="w-4 h-4" />
-            </Button>
+          <div className="flex justify-end">
+            <ViewToggleButtons view={view} onToggle={toggleView} primaryView="card" tableView="table" />
           </div>
 
           {view === 'table' ? (

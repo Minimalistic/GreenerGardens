@@ -10,13 +10,14 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select';
 import {
-  History, LayoutGrid, TableIcon, ChevronLeft, ChevronRight, ChevronDown, ChevronUp,
+  History, ChevronLeft, ChevronRight, ChevronDown, ChevronUp,
   Flower2, Map, Grid3X3, Sprout, Scissors, CheckSquare, StickyNote,
   Bug, DollarSign, FlaskConical, type LucideIcon,
 } from 'lucide-react';
 import type { HistoryLog } from '@gardenvault/shared';
 import { cn } from '@/lib/utils';
 import { useViewToggle } from '@/hooks/use-view-toggle';
+import { ViewToggleButtons } from '@/components/ui/view-toggle-buttons';
 import { formatDateTime } from '@/lib/format-date';
 
 const ENTITY_TYPES = [
@@ -213,14 +214,7 @@ export function HistoryPage() {
           <History className="w-5 h-5" />
           History Log
         </h2>
-        <div className="flex gap-1">
-          <Button variant={view === 'timeline' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('timeline')}>
-            <LayoutGrid className="w-4 h-4" />
-          </Button>
-          <Button variant={view === 'table' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('table')}>
-            <TableIcon className="w-4 h-4" />
-          </Button>
-        </div>
+        <ViewToggleButtons view={view} onToggle={toggleView} primaryView="timeline" tableView="table" />
       </div>
 
       {/* Filters */}

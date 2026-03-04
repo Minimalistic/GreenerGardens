@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Plus, FlaskConical, TrendingUp, LayoutGrid, TableIcon } from 'lucide-react';
+import { Plus, FlaskConical, TrendingUp } from 'lucide-react';
+import { ViewToggleButtons } from '@/components/ui/view-toggle-buttons';
 import { useViewToggle } from '@/hooks/use-view-toggle';
 import { useSoilTests, useCreateSoilTest, useDeleteSoilTest } from '@/hooks/use-soil-tests';
 import { usePlotsByGarden } from '@/hooks/use-plots';
@@ -182,14 +183,7 @@ export function SoilTestsPage() {
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">Soil Tests</h2>
         <div className="flex items-center gap-2">
-          <div className="flex gap-1">
-            <Button variant={view === 'card' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('card')}>
-              <LayoutGrid className="w-4 h-4" />
-            </Button>
-            <Button variant={view === 'table' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('table')}>
-              <TableIcon className="w-4 h-4" />
-            </Button>
-          </div>
+          <ViewToggleButtons view={view} onToggle={toggleView} primaryView="card" tableView="table" />
           <CreateSoilTestDialog plots={plots} />
         </div>
       </div>
