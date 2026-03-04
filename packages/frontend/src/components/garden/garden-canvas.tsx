@@ -1,7 +1,8 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { Stage, Layer, Rect, Text, Group, Transformer } from 'react-konva';
 import type Konva from 'konva';
-import type { SubPlot } from '@gardenvault/shared';
+import type { SubPlotWithPlant } from '@/hooks/use-sub-plots';
+import { plantTypeEmoji } from '@/lib/plant-type-emoji';
 
 export const PX_PER_FT = 40;
 
@@ -33,7 +34,7 @@ interface Props {
   onPlotDragEnd: (id: string, geometry: any) => void;
   onContextMenu?: (e: ContextMenuEvent) => void;
   onPlotDoubleClick?: (id: string) => void;
-  subPlotsByPlot?: Map<string, SubPlot[]>;
+  subPlotsByPlot?: Map<string, SubPlotWithPlant[]>;
 }
 
 function snapTo(value: number, grid: number) {
@@ -57,6 +58,8 @@ export function GardenCanvas({
   const stageRef = useRef<Konva.Stage>(null);
   const transformerRef = useRef<Konva.Transformer>(null);
   const plotRefs = useRef<Map<string, Konva.Group>>(new Map());
+  // Track the known-good grid-aligned edges when a transform starts
+  const transformAnchor = useRef<{ left: number; top: number; right: number; bottom: number; width: number; height: number } | null>(null);
   const [size, setSize] = useState({ width: 800, height: 600 });
   const [snapEnabled, setSnapEnabled] = useState(true);
   const [stagePos, setStagePos] = useState({ x: 0, y: 0 });
@@ -260,6 +263,75 @@ export function GardenCanvas({
     };
   }, [subPlotsByPlot]);
 
+  // Record the known-good edges from state when a transform begins
+  const handleTransformStart = useCallback((geometry: any) => {
+    transformAnchor.current = {
+      left: geometry.x,
+      top: geometry.y,
+      right: geometry.x + geometry.width,
+      bottom: geometry.y + geometry.height,
+      width: geometry.width,
+      height: geometry.height,
+    };
+  }, []);
+
+  // Snap in real-time during transform using the known anchor edges
+  const handleTransform = useCallback((plotId: string, geometry: any) => {
+    if (!snapEnabled || !transformAnchor.current) return;
+    const node = plotRefs.current.get(plotId);
+    if (!node) return;
+
+    const anchor = transformAnchor.current;
+    const { minW, minH } = getMinPlotSize(plotId);
+
+    // Current position and visual dimensions from Konva
+    const currentX = node.x();
+    const currentY = node.y();
+    const actualWidth = geometry.width * node.scaleX();
+    const actualHeight = geometry.height * node.scaleY();
+    const currentRight = currentX + actualWidth;
+    const currentBottom = currentY + actualHeight;
+
+    // Detect which edges are moving vs anchored
+    const leftMoved = Math.abs(currentX - anchor.left) > 0.5;
+    const topMoved = Math.abs(currentY - anchor.top) > 0.5;
+    const rightMoved = Math.abs(currentRight - anchor.right) > 0.5;
+    const bottomMoved = Math.abs(currentBottom - anchor.bottom) > 0.5;
+
+    let newLeft: number, newRight: number, newTop: number, newBottom: number;
+
+    if (leftMoved && !rightMoved) {
+      newRight = anchor.right;
+      newLeft = snapTo(currentX, PX_PER_FT);
+    } else if (rightMoved && !leftMoved) {
+      newLeft = anchor.left;
+      newRight = snapTo(currentRight, PX_PER_FT);
+    } else {
+      newLeft = snapTo(currentX, PX_PER_FT);
+      newRight = snapTo(currentRight, PX_PER_FT);
+    }
+
+    if (topMoved && !bottomMoved) {
+      newBottom = anchor.bottom;
+      newTop = snapTo(currentY, PX_PER_FT);
+    } else if (bottomMoved && !topMoved) {
+      newTop = anchor.top;
+      newBottom = snapTo(currentBottom, PX_PER_FT);
+    } else {
+      newTop = snapTo(currentY, PX_PER_FT);
+      newBottom = snapTo(currentBottom, PX_PER_FT);
+    }
+
+    const newWidth = Math.max(minW, newRight - newLeft);
+    const newHeight = Math.max(minH, newBottom - newTop);
+
+    // Apply snapped values back to the node
+    node.x(newLeft);
+    node.y(newTop);
+    node.scaleX(newWidth / geometry.width);
+    node.scaleY(newHeight / geometry.height);
+  }, [snapEnabled, getMinPlotSize]);
+
   const handleTransformEnd = useCallback((plotId: string, geometry: any) => {
     const node = plotRefs.current.get(plotId);
     if (!node) return;
@@ -272,17 +344,21 @@ export function GardenCanvas({
 
     const { minW, minH } = getMinPlotSize(plotId);
 
-    let newWidth = Math.max(minW, Math.round(geometry.width * scaleX));
-    let newHeight = Math.max(minH, Math.round(geometry.height * scaleY));
     let newX = node.x();
     let newY = node.y();
+    let newWidth = Math.max(minW, Math.round(geometry.width * scaleX));
+    let newHeight = Math.max(minH, Math.round(geometry.height * scaleY));
 
     if (snapEnabled) {
-      newWidth = Math.max(minW, snapTo(newWidth, PX_PER_FT));
-      newHeight = Math.max(minH, snapTo(newHeight, PX_PER_FT));
       newX = snapTo(newX, PX_PER_FT);
       newY = snapTo(newY, PX_PER_FT);
+      const farX = snapTo(newX + newWidth, PX_PER_FT);
+      const farY = snapTo(newY + newHeight, PX_PER_FT);
+      newWidth = Math.max(minW, farX - newX);
+      newHeight = Math.max(minH, farY - newY);
     }
+
+    transformAnchor.current = null;
 
     onPlotDragEnd(plotId, {
       x: newX,
@@ -510,6 +586,8 @@ export function GardenCanvas({
                   const y = snapEnabled ? snapTo(e.target.y(), PX_PER_FT) : e.target.y();
                   onPlotDragEnd(plot.id, { ...g, x, y });
                 }}
+                onTransformStart={() => handleTransformStart(g)}
+                onTransform={() => handleTransform(plot.id, g)}
                 onTransformEnd={() => handleTransformEnd(plot.id, g)}
                 onMouseEnter={handleMouseEnterPlot}
                 onMouseLeave={handleMouseLeavePlot}
@@ -532,20 +610,31 @@ export function GardenCanvas({
                   const spg = sp.geometry;
                   if (!spg) return null;
                   const hasPlant = !!sp.plant_instance_id;
+                  const emoji = hasPlant ? plantTypeEmoji(sp.plant_type) : '';
+                  const emojiSize = Math.min(spg.width, spg.height) * 0.55;
                   return (
-                    <Rect
-                      key={sp.id}
-                      x={spg.x}
-                      y={spg.y}
-                      width={spg.width}
-                      height={spg.height}
-                      fill={hasPlant ? '#4ade80' : color}
-                      opacity={hasPlant ? 0.8 : 0.55}
-                      stroke="rgba(255,255,255,0.8)"
-                      strokeWidth={1.5}
-                      cornerRadius={2}
-                      listening={false}
-                    />
+                    <Group key={sp.id} x={spg.x} y={spg.y} listening={false}>
+                      <Rect
+                        width={spg.width}
+                        height={spg.height}
+                        fill={hasPlant ? '#4ade80' : color}
+                        opacity={hasPlant ? 0.8 : 0.55}
+                        stroke="rgba(255,255,255,0.8)"
+                        strokeWidth={1.5}
+                        cornerRadius={2}
+                      />
+                      {emoji && (
+                        <Text
+                          text={emoji}
+                          x={0}
+                          y={(spg.height - emojiSize) / 2}
+                          width={spg.width}
+                          height={emojiSize}
+                          fontSize={emojiSize}
+                          align="center"
+                        />
+                      )}
+                    </Group>
                   );
                 })}
 
@@ -580,6 +669,7 @@ export function GardenCanvas({
             ref={transformerRef}
             rotateEnabled={false}
             keepRatio={false}
+            ignoreStroke
             enabledAnchors={[
               'top-left', 'top-right', 'bottom-left', 'bottom-right',
               'middle-left', 'middle-right', 'top-center', 'bottom-center',
@@ -589,22 +679,13 @@ export function GardenCanvas({
             anchorStroke="#F4D03F"
             anchorFill="#fff"
             anchorSize={14}
-            boundBoxFunc={(_oldBox, newBox) => {
-              // Enforce minimum 1ft and sub-plot extent
+            boundBoxFunc={(oldBox, newBox) => {
+              // Only enforce minimum size — snapping is handled by onTransform
               const { minW, minH } = selectedPlotId
                 ? getMinPlotSize(selectedPlotId)
                 : { minW: PX_PER_FT, minH: PX_PER_FT };
               if (newBox.width < minW || newBox.height < minH) {
-                return _oldBox;
-              }
-              if (snapEnabled) {
-                return {
-                  ...newBox,
-                  x: snapTo(newBox.x, PX_PER_FT),
-                  y: snapTo(newBox.y, PX_PER_FT),
-                  width: Math.max(minW, snapTo(newBox.width, PX_PER_FT)),
-                  height: Math.max(minH, snapTo(newBox.height, PX_PER_FT)),
-                };
+                return oldBox;
               }
               return newBox;
             }}

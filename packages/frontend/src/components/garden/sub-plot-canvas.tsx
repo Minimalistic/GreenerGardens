@@ -3,6 +3,7 @@ import { Stage, Layer, Rect, Text, Group, Transformer, Line } from 'react-konva'
 import type Konva from 'konva';
 import { PX_PER_FT } from './garden-canvas';
 import type { SubPlotWithPlant } from '@/hooks/use-sub-plots';
+import { plantTypeEmoji } from '@/lib/plant-type-emoji';
 
 const MIN_SCALE = 0.2;
 const MAX_SCALE = 5;
@@ -41,6 +42,7 @@ export function SubPlotCanvas({
   const stageRef = useRef<Konva.Stage>(null);
   const transformerRef = useRef<Konva.Transformer>(null);
   const subPlotRefs = useRef<Map<string, Konva.Group>>(new Map());
+  const transformAnchor = useRef<{ left: number; top: number; right: number; bottom: number; width: number; height: number } | null>(null);
   const [containerWidth, setContainerWidth] = useState(0);
   const [containerHeight, setContainerHeight] = useState(0);
   const [snapEnabled, setSnapEnabled] = useState(true);
@@ -250,6 +252,69 @@ export function SubPlotCanvas({
     node.y(snapTo(node.y(), PX_PER_FT));
   }, [snapEnabled]);
 
+  const handleTransformStart = useCallback((geometry: { x: number; y: number; width: number; height: number; rotation: number }) => {
+    transformAnchor.current = {
+      left: geometry.x,
+      top: geometry.y,
+      right: geometry.x + geometry.width,
+      bottom: geometry.y + geometry.height,
+      width: geometry.width,
+      height: geometry.height,
+    };
+  }, []);
+
+  const handleTransform = useCallback((spId: string, geometry: { x: number; y: number; width: number; height: number; rotation: number }) => {
+    if (!snapEnabled || !transformAnchor.current) return;
+    const node = subPlotRefs.current.get(spId);
+    if (!node) return;
+
+    const anchor = transformAnchor.current;
+
+    const currentX = node.x();
+    const currentY = node.y();
+    const actualWidth = geometry.width * node.scaleX();
+    const actualHeight = geometry.height * node.scaleY();
+    const currentRight = currentX + actualWidth;
+    const currentBottom = currentY + actualHeight;
+
+    const leftMoved = Math.abs(currentX - anchor.left) > 0.5;
+    const topMoved = Math.abs(currentY - anchor.top) > 0.5;
+    const rightMoved = Math.abs(currentRight - anchor.right) > 0.5;
+    const bottomMoved = Math.abs(currentBottom - anchor.bottom) > 0.5;
+
+    let newLeft: number, newRight: number, newTop: number, newBottom: number;
+
+    if (leftMoved && !rightMoved) {
+      newRight = anchor.right;
+      newLeft = snapTo(currentX, PX_PER_FT);
+    } else if (rightMoved && !leftMoved) {
+      newLeft = anchor.left;
+      newRight = snapTo(currentRight, PX_PER_FT);
+    } else {
+      newLeft = snapTo(currentX, PX_PER_FT);
+      newRight = snapTo(currentRight, PX_PER_FT);
+    }
+
+    if (topMoved && !bottomMoved) {
+      newBottom = anchor.bottom;
+      newTop = snapTo(currentY, PX_PER_FT);
+    } else if (bottomMoved && !topMoved) {
+      newTop = anchor.top;
+      newBottom = snapTo(currentBottom, PX_PER_FT);
+    } else {
+      newTop = snapTo(currentY, PX_PER_FT);
+      newBottom = snapTo(currentBottom, PX_PER_FT);
+    }
+
+    const newWidth = Math.max(PX_PER_FT, newRight - newLeft);
+    const newHeight = Math.max(PX_PER_FT, newBottom - newTop);
+
+    node.x(newLeft);
+    node.y(newTop);
+    node.scaleX(newWidth / geometry.width);
+    node.scaleY(newHeight / geometry.height);
+  }, [snapEnabled]);
+
   const handleTransformEnd = useCallback((spId: string, geometry: { x: number; y: number; width: number; height: number; rotation: number }) => {
     const node = subPlotRefs.current.get(spId);
     if (!node) return;
@@ -260,17 +325,21 @@ export function SubPlotCanvas({
     node.scaleX(1);
     node.scaleY(1);
 
-    let newWidth = Math.max(PX_PER_FT, Math.round(geometry.width * scaleX));
-    let newHeight = Math.max(PX_PER_FT, Math.round(geometry.height * scaleY));
     let newX = node.x();
     let newY = node.y();
+    let newWidth = Math.max(PX_PER_FT, Math.round(geometry.width * scaleX));
+    let newHeight = Math.max(PX_PER_FT, Math.round(geometry.height * scaleY));
 
     if (snapEnabled) {
-      newWidth = Math.max(PX_PER_FT, snapTo(newWidth, PX_PER_FT));
-      newHeight = Math.max(PX_PER_FT, snapTo(newHeight, PX_PER_FT));
       newX = snapTo(newX, PX_PER_FT);
       newY = snapTo(newY, PX_PER_FT);
+      const farX = snapTo(newX + newWidth, PX_PER_FT);
+      const farY = snapTo(newY + newHeight, PX_PER_FT);
+      newWidth = Math.max(PX_PER_FT, farX - newX);
+      newHeight = Math.max(PX_PER_FT, farY - newY);
     }
+
+    transformAnchor.current = null;
 
     onSubPlotDragEnd(spId, {
       x: newX,
@@ -408,6 +477,7 @@ export function SubPlotCanvas({
             const isSelected = sp.id === selectedSubPlotId;
             const hasPlant = !!sp.plant_instance_id;
             const fillColor = hasPlant ? '#4A7C59' : '#d4d4d8';
+            const emoji = hasPlant ? plantTypeEmoji(sp.plant_type) : '';
             const label = sp.plant_name || (hasPlant ? 'Planted' : 'Empty');
             const widthLabel = (g.width / PX_PER_FT).toFixed(1).replace(/\.0$/, '');
             const heightLabel = (g.height / PX_PER_FT).toFixed(1).replace(/\.0$/, '');
@@ -433,6 +503,8 @@ export function SubPlotCanvas({
                   const y = snapEnabled ? snapTo(e.target.y(), PX_PER_FT) : e.target.y();
                   onSubPlotDragEnd(sp.id, { ...g, x, y });
                 }}
+                onTransformStart={() => handleTransformStart(g)}
+                onTransform={() => handleTransform(sp.id, g)}
                 onTransformEnd={() => handleTransformEnd(sp.id, g)}
               >
                 <Rect
@@ -458,6 +530,17 @@ export function SubPlotCanvas({
                   wrap="none"
                   listening={false}
                 />
+                {emoji && g.height > labelFontSize + dimFontSize + textPad * 4 && (
+                  <Text
+                    text={emoji}
+                    x={0}
+                    y={labelFontSize + textPad * 2}
+                    width={g.width}
+                    fontSize={Math.min(g.width, g.height - labelFontSize - dimFontSize - textPad * 4) * 0.6}
+                    align="center"
+                    listening={false}
+                  />
+                )}
                 {g.height > labelFontSize + dimFontSize + textPad * 3 && (
                   <Text
                     text={`${widthLabel}' x ${heightLabel}'`}
@@ -479,6 +562,7 @@ export function SubPlotCanvas({
             ref={transformerRef}
             rotateEnabled={false}
             keepRatio={false}
+            ignoreStroke
             enabledAnchors={[
               'top-left', 'top-right', 'bottom-left', 'bottom-right',
               'middle-left', 'middle-right', 'top-center', 'bottom-center',
@@ -488,18 +572,10 @@ export function SubPlotCanvas({
             anchorStroke="#F4D03F"
             anchorFill="#fff"
             anchorSize={Math.max(8, 14 / scale)}
-            boundBoxFunc={(_oldBox, newBox) => {
+            boundBoxFunc={(oldBox, newBox) => {
+              // Only enforce minimum size — snapping is handled by onTransform
               if (newBox.width < PX_PER_FT || newBox.height < PX_PER_FT) {
-                return _oldBox;
-              }
-              if (snapEnabled) {
-                return {
-                  ...newBox,
-                  x: snapTo(newBox.x, PX_PER_FT),
-                  y: snapTo(newBox.y, PX_PER_FT),
-                  width: Math.max(PX_PER_FT, snapTo(newBox.width, PX_PER_FT)),
-                  height: Math.max(PX_PER_FT, snapTo(newBox.height, PX_PER_FT)),
-                };
+                return oldBox;
               }
               return newBox;
             }}

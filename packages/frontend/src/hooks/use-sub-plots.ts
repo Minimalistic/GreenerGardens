@@ -5,6 +5,7 @@ import type { ApiResponse, SubPlot, SubPlotCreate, SubPlotUpdate } from '@garden
 export interface SubPlotWithPlant extends SubPlot {
   plant_name: string | null;
   plant_catalog_id: string | null;
+  plant_type: string | null;
   variety_name: string | null;
   status: string | null;
   health: string | null;
@@ -29,12 +30,12 @@ export function useSubPlotsWithPlants(plotId: string | null) {
   });
 }
 
-/** Batch-fetch sub-plots for multiple plots at once (for canvas overlay). */
+/** Batch-fetch sub-plots with plant info for multiple plots at once (for canvas overlay). */
 export function useSubPlotsForPlots(plotIds: string[]) {
   return useQueries({
     queries: plotIds.map((id) => ({
-      queryKey: ['sub-plots', id],
-      queryFn: () => api.get<ApiResponse<SubPlot[]>>(`/plots/${id}/sub-plots`),
+      queryKey: ['sub-plots-with-plants', id],
+      queryFn: () => api.get<ApiResponse<SubPlotWithPlant[]>>(`/plots/${id}/sub-plots-with-plants`),
       staleTime: 30_000,
     })),
   });

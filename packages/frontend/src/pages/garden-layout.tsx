@@ -102,7 +102,7 @@ export function GardenLayout() {
   const plotIds = useMemo(() => plots.map((p: any) => p.id as string), [plots]);
   const subPlotQueries = useSubPlotsForPlots(plotIds);
   const subPlotsByPlot = useMemo(() => {
-    const map = new Map<string, SubPlot[]>();
+    const map = new Map<string, SubPlotWithPlant[]>();
     subPlotQueries.forEach((q, i) => {
       if (q.data?.data) {
         map.set(plotIds[i], q.data.data);
