@@ -22,7 +22,7 @@ export function registerRoutes(fastify: FastifyInstance, db: Database.Database) 
   const tracking = registerTrackingRoutes(fastify, db, history);
   registerKnowledgeRoutes(fastify, db, history);
   registerManagementRoutes(fastify, db, history);
-  const data = registerDataRoutes(fastify, db, history, tracking.gardenRepo);
+  const data = registerDataRoutes(fastify, db, history, tracking.alertService, tracking.gardenRepo);
 
   // Wire cross-service dependencies
   core.instanceService.setCalendarService(tracking.calendarService);

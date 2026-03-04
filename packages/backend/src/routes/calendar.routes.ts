@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 import type { CalendarService } from '../services/calendar.service.js';
-import { replyError } from '../utils/reply-error.js';
+import { ValidationError } from '../utils/errors.js';
 import { safeParseInt } from '../utils/parse.js';
 
 export function calendarRoutes(fastify: FastifyInstance, calendarService: CalendarService) {
@@ -10,7 +10,7 @@ export function calendarRoutes(fastify: FastifyInstance, calendarService: Calend
     async (request, reply) => {
       const { garden_id, month, year } = request.query;
       if (!garden_id) {
-        return replyError(reply, 400, 'VALIDATION_ERROR', 'garden_id query parameter required');
+        throw new ValidationError('garden_id query parameter required');
       }
 
       const now = new Date();
@@ -28,7 +28,7 @@ export function calendarRoutes(fastify: FastifyInstance, calendarService: Calend
     async (request, reply) => {
       const gardenId = request.query.garden_id;
       if (!gardenId) {
-        return replyError(reply, 400, 'VALIDATION_ERROR', 'garden_id query parameter required');
+        throw new ValidationError('garden_id query parameter required');
       }
 
       const events = calendarService.getWeekEvents(gardenId);
@@ -42,7 +42,7 @@ export function calendarRoutes(fastify: FastifyInstance, calendarService: Calend
     async (request, reply) => {
       const gardenId = request.query.garden_id;
       if (!gardenId) {
-        return replyError(reply, 400, 'VALIDATION_ERROR', 'garden_id query parameter required');
+        throw new ValidationError('garden_id query parameter required');
       }
 
       const suggestions = calendarService.getPlantingSuggestions(gardenId);

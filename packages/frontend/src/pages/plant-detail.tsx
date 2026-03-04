@@ -256,62 +256,24 @@ export function PlantDetail() {
 
         <TabsContent value="companions" className="space-y-4">
           {p.companions?.length > 0 && (
-            <Card>
-              <CardHeader><CardTitle className="text-sm text-green-700 dark:text-green-400">Good Companions</CardTitle></CardHeader>
-              <CardContent className="space-y-2">
-                {p.companions.map((c: any, i: number) => {
-                  const name = typeof c === 'string' ? c : c.name;
-                  const notes = typeof c === 'string' ? null : c.notes;
-                  const rel = typeof c === 'string' ? null : c.relationship;
-                  const linkedId = plantNameToId(name);
-                  return (
-                    <div key={i} className="flex items-start gap-2">
-                      {linkedId ? (
-                        <Link to={`/catalog/${linkedId}`}>
-                          <Badge variant="outline" className="bg-green-50 dark:bg-green-950 shrink-0 hover:bg-green-100 dark:hover:bg-green-900 cursor-pointer transition-colors">{name}</Badge>
-                        </Link>
-                      ) : (
-                        <Badge variant="outline" className="bg-green-50 dark:bg-green-950 shrink-0">{name}</Badge>
-                      )}
-                      <div className="text-xs text-muted-foreground">
-                        {rel && <span className="capitalize">{rel.replace(/_/g, ' ')}</span>}
-                        {rel && notes && <span> &mdash; </span>}
-                        {notes && <span>{notes}</span>}
-                      </div>
-                    </div>
-                  );
-                })}
-              </CardContent>
-            </Card>
+            <CompanionList
+              title="Good Companions"
+              titleClassName="text-green-700 dark:text-green-400"
+              badgeClassName="bg-green-50 dark:bg-green-950"
+              hoverClassName="hover:bg-green-100 dark:hover:bg-green-900"
+              items={p.companions}
+              plantNameToId={plantNameToId}
+            />
           )}
           {p.antagonists?.length > 0 && (
-            <Card>
-              <CardHeader><CardTitle className="text-sm text-red-700 dark:text-red-400">Avoid Planting Near</CardTitle></CardHeader>
-              <CardContent className="space-y-2">
-                {p.antagonists.map((a: any, i: number) => {
-                  const name = typeof a === 'string' ? a : a.name;
-                  const notes = typeof a === 'string' ? null : a.notes;
-                  const rel = typeof a === 'string' ? null : a.relationship;
-                  const linkedId = plantNameToId(name);
-                  return (
-                    <div key={i} className="flex items-start gap-2">
-                      {linkedId ? (
-                        <Link to={`/catalog/${linkedId}`}>
-                          <Badge variant="outline" className="bg-red-50 dark:bg-red-950 shrink-0 hover:bg-red-100 dark:hover:bg-red-900 cursor-pointer transition-colors">{name}</Badge>
-                        </Link>
-                      ) : (
-                        <Badge variant="outline" className="bg-red-50 dark:bg-red-950 shrink-0">{name}</Badge>
-                      )}
-                      <div className="text-xs text-muted-foreground">
-                        {rel && <span className="capitalize">{rel.replace(/_/g, ' ')}</span>}
-                        {rel && notes && <span> &mdash; </span>}
-                        {notes && <span>{notes}</span>}
-                      </div>
-                    </div>
-                  );
-                })}
-              </CardContent>
-            </Card>
+            <CompanionList
+              title="Avoid Planting Near"
+              titleClassName="text-red-700 dark:text-red-400"
+              badgeClassName="bg-red-50 dark:bg-red-950"
+              hoverClassName="hover:bg-red-100 dark:hover:bg-red-900"
+              items={p.antagonists}
+              plantNameToId={plantNameToId}
+            />
           )}
           {p.rotation_family && (
             <Card>
@@ -377,6 +339,84 @@ const RESISTANCE_COLORS: Record<string, string> = {
   immune: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
 };
 
+function CompanionList({ title, titleClassName, badgeClassName, hoverClassName, items, plantNameToId }: {
+  title: string;
+  titleClassName: string;
+  badgeClassName: string;
+  hoverClassName: string;
+  items: any[];
+  plantNameToId: (name: string) => string | undefined;
+}) {
+  return (
+    <Card>
+      <CardHeader><CardTitle className={`text-sm ${titleClassName}`}>{title}</CardTitle></CardHeader>
+      <CardContent className="space-y-2">
+        {items.map((c: any, i: number) => {
+          const name = typeof c === 'string' ? c : c.name;
+          const notes = typeof c === 'string' ? null : c.notes;
+          const rel = typeof c === 'string' ? null : c.relationship;
+          const linkedId = plantNameToId(name);
+          return (
+            <div key={i} className="flex items-start gap-2">
+              {linkedId ? (
+                <Link to={`/catalog/${linkedId}`}>
+                  <Badge variant="outline" className={`${badgeClassName} shrink-0 ${hoverClassName} cursor-pointer transition-colors`}>{name}</Badge>
+                </Link>
+              ) : (
+                <Badge variant="outline" className={`${badgeClassName} shrink-0`}>{name}</Badge>
+              )}
+              <div className="text-xs text-muted-foreground">
+                {rel && <span className="capitalize">{rel.replace(/_/g, ' ')}</span>}
+                {rel && notes && <span> &mdash; </span>}
+                {notes && <span>{notes}</span>}
+              </div>
+            </div>
+          );
+        })}
+      </CardContent>
+    </Card>
+  );
+}
+
+function SusceptibilityList({ title, iconColor, entries, pestNameToId }: {
+  title: string;
+  iconColor: string;
+  entries: any[];
+  pestNameToId: (name: string) => string | undefined;
+}) {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-sm flex items-center gap-2">
+          <ShieldAlert className={`w-4 h-4 ${iconColor}`} /> {title}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-2">
+        {entries.map((entry: any, i: number) => {
+          const linkedId = pestNameToId(entry.name);
+          return (
+            <div key={i} className="flex items-start gap-2">
+              {linkedId ? (
+                <Link to={`/pests/${linkedId}`}>
+                  <Badge variant="outline" className="shrink-0 hover:bg-muted cursor-pointer transition-colors">
+                    {entry.name}
+                  </Badge>
+                </Link>
+              ) : (
+                <Badge variant="outline" className="shrink-0">{entry.name}</Badge>
+              )}
+              <Badge className={`${SUSCEPTIBILITY_COLORS[entry.susceptibility] ?? ''} capitalize text-xs shrink-0`} variant="outline">
+                {entry.susceptibility}
+              </Badge>
+              {entry.notes && <span className="text-xs text-muted-foreground">{entry.notes}</span>}
+            </div>
+          );
+        })}
+      </CardContent>
+    </Card>
+  );
+}
+
 function PestsDiseasesTab({ plant, pestNameToId }: { plant: any; pestNameToId: (name: string) => string | undefined }) {
   const commonPests: any[] = plant.common_pests ?? [];
   const commonDiseases: any[] = plant.common_diseases ?? [];
@@ -394,69 +434,11 @@ function PestsDiseasesTab({ plant, pestNameToId }: { plant: any; pestNameToId: (
   return (
     <>
       {commonPests.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm flex items-center gap-2">
-              <ShieldAlert className="w-4 h-4 text-orange-500" /> Common Pests
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            {commonPests.map((entry: any, i: number) => {
-              const linkedId = pestNameToId(entry.name);
-              return (
-                <div key={i} className="flex items-start gap-2">
-                  {linkedId ? (
-                    <Link to={`/pests/${linkedId}`}>
-                      <Badge variant="outline" className="shrink-0 hover:bg-muted cursor-pointer transition-colors">
-                        {entry.name}
-                      </Badge>
-                    </Link>
-                  ) : (
-                    <Badge variant="outline" className="shrink-0">{entry.name}</Badge>
-                  )}
-                  <Badge className={`${SUSCEPTIBILITY_COLORS[entry.susceptibility] ?? ''} capitalize text-xs shrink-0`} variant="outline">
-                    {entry.susceptibility}
-                  </Badge>
-                  {entry.notes && <span className="text-xs text-muted-foreground">{entry.notes}</span>}
-                </div>
-              );
-            })}
-          </CardContent>
-        </Card>
+        <SusceptibilityList title="Common Pests" iconColor="text-orange-500" entries={commonPests} pestNameToId={pestNameToId} />
       )}
-
       {commonDiseases.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm flex items-center gap-2">
-              <ShieldAlert className="w-4 h-4 text-purple-500" /> Common Diseases
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            {commonDiseases.map((entry: any, i: number) => {
-              const linkedId = pestNameToId(entry.name);
-              return (
-                <div key={i} className="flex items-start gap-2">
-                  {linkedId ? (
-                    <Link to={`/pests/${linkedId}`}>
-                      <Badge variant="outline" className="shrink-0 hover:bg-muted cursor-pointer transition-colors">
-                        {entry.name}
-                      </Badge>
-                    </Link>
-                  ) : (
-                    <Badge variant="outline" className="shrink-0">{entry.name}</Badge>
-                  )}
-                  <Badge className={`${SUSCEPTIBILITY_COLORS[entry.susceptibility] ?? ''} capitalize text-xs shrink-0`} variant="outline">
-                    {entry.susceptibility}
-                  </Badge>
-                  {entry.notes && <span className="text-xs text-muted-foreground">{entry.notes}</span>}
-                </div>
-              );
-            })}
-          </CardContent>
-        </Card>
+        <SusceptibilityList title="Common Diseases" iconColor="text-purple-500" entries={commonDiseases} pestNameToId={pestNameToId} />
       )}
-
       {Object.keys(diseaseResistance).length > 0 && (
         <Card>
           <CardHeader>

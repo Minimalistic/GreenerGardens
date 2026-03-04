@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 import type { PlantInstanceService } from '../services/plant-instance.service.js';
-import { replyError } from '../utils/reply-error.js';
+import { ValidationError } from '../utils/errors.js';
 import { safeParseInt } from '../utils/parse.js';
 
 export function plantInstanceRoutes(fastify: FastifyInstance, instanceService: PlantInstanceService) {
@@ -57,11 +57,11 @@ export function plantInstanceRoutes(fastify: FastifyInstance, instanceService: P
     };
 
     if (!body.plant_catalog_id || !body.plot_id || !body.start_date || !body.interval_days || !body.count) {
-      return replyError(reply, 400, 'VALIDATION_ERROR', 'plant_catalog_id, plot_id, start_date, interval_days, and count are required');
+      throw new ValidationError('plant_catalog_id, plot_id, start_date, interval_days, and count are required');
     }
 
     if (body.count < 1 || body.count > 20) {
-      return replyError(reply, 400, 'VALIDATION_ERROR', 'count must be between 1 and 20');
+      throw new ValidationError('count must be between 1 and 20');
     }
 
     const instances = instanceService.createSuccession(body);

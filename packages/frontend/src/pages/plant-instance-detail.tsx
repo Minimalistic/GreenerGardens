@@ -8,23 +8,16 @@ import { SeedStartingTracker } from '@/components/garden/seed-starting-tracker';
 import { EntityNotes } from '@/components/notes/entity-notes';
 import { HarvestQuickLog } from '@/components/garden/harvest-quick-log';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
+import { EditableDateField } from '@/components/garden/editable-date-field';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft, Clock, Pencil, Map, Plus } from 'lucide-react';
+import { ArrowLeft, Clock, Map, Plus } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { useState } from 'react';
 import { CreateTaskDialog } from '@/components/garden/create-task-dialog';
-
-const STATUS_ORDER = [
-  'planned', 'seed_started', 'germinated', 'seedling', 'hardening_off',
-  'transplanted', 'vegetative', 'flowering', 'fruiting', 'harvesting',
-  'finished', 'failed', 'removed',
-];
-
-const HEALTH_OPTIONS = ['excellent', 'good', 'fair', 'poor', 'critical', 'dead'];
+import { STATUS_ORDER, HEALTH_OPTIONS } from '@/lib/plant-constants';
 
 export function PlantInstanceDetail() {
   const { instanceId } = useParams<{ instanceId: string }>();
@@ -39,7 +32,6 @@ export function PlantInstanceDetail() {
   const { toast } = useToast();
   const [harvestOpen, setHarvestOpen] = useState(false);
   const [taskDialogOpen, setTaskDialogOpen] = useState(false);
-  const [editingHarvestDate, setEditingHarvestDate] = useState(false);
 
   if (isLoading) {
     return (
@@ -178,43 +170,12 @@ export function PlantInstanceDetail() {
           )}
           <div className="flex justify-between items-center">
             <span className="text-muted-foreground">Expected Harvest</span>
-            {editingHarvestDate ? (
-              <Input
-                type="date"
-                defaultValue={plant.expected_harvest_date ?? ''}
-                className="w-auto h-7 text-sm"
-                autoFocus
-                onBlur={(e) => {
-                  if (e.target.value && e.target.value !== plant.expected_harvest_date) {
-                    handleHarvestDateChange(e.target.value);
-                  } else {
-                    setEditingHarvestDate(false);
-                  }
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    const val = (e.target as HTMLInputElement).value;
-                    if (val && val !== plant.expected_harvest_date) {
-                      handleHarvestDateChange(val);
-                    } else {
-                      setEditingHarvestDate(false);
-                    }
-                  } else if (e.key === 'Escape') {
-                    setEditingHarvestDate(false);
-                  }
-                }}
-              />
-            ) : (
-              <span className="flex items-center gap-1">
-                {plant.expected_harvest_date
-                  ? new Date(plant.expected_harvest_date + 'T12:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric', year: 'numeric' })
-                  : <span className="text-muted-foreground italic">Not set</span>
-                }
-                <button onClick={() => setEditingHarvestDate(true)} className="text-muted-foreground hover:text-foreground">
-                  <Pencil className="w-3 h-3" />
-                </button>
-              </span>
-            )}
+            <EditableDateField
+              value={plant.expected_harvest_date}
+              onSave={handleHarvestDateChange}
+              label="Expected Harvest"
+              className="w-auto h-7 text-sm"
+            />
           </div>
           {plant.quantity > 1 && (
             <div className="flex justify-between">

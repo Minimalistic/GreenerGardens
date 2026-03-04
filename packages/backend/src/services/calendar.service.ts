@@ -57,43 +57,22 @@ export class CalendarService {
   ) {}
 
   getMonthEvents(gardenId: string, year: number, month: number): CalendarEvent[] {
-    const garden = this.gardenRepo.findById(gardenId);
-    if (!garden) return [];
-
-    // Month is 1-indexed
     const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
     const lastDay = new Date(year, month, 0).getDate();
     const endDate = `${year}-${String(month).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`;
-
-    const events: CalendarEvent[] = [];
-
-    // Frost date markers
-    this.addFrostEvents(garden, startDate, endDate, events);
-
-    // Plant instance events (computed from catalog data + frost dates)
-    this.addPlantEvents(garden, startDate, endDate, events);
-
-    // Task events
-    this.addTaskEvents(startDate, endDate, events);
-
-    // Actual lifecycle events
-    this.addActualPlantEvents(gardenId, startDate, endDate, events);
-    this.addHarvestEvents(gardenId, startDate, endDate, events);
-
-    events.sort((a, b) => a.date.localeCompare(b.date));
-    return events;
+    return this.getEventsInRange(gardenId, startDate, endDate);
   }
 
   getWeekEvents(gardenId: string): CalendarEvent[] {
-    const garden = this.gardenRepo.findById(gardenId);
-    if (!garden) return [];
-
     const today = new Date();
     const weekEnd = new Date(today);
     weekEnd.setDate(weekEnd.getDate() + 7);
+    return this.getEventsInRange(gardenId, today.toISOString().split('T')[0], weekEnd.toISOString().split('T')[0]);
+  }
 
-    const startDate = today.toISOString().split('T')[0];
-    const endDate = weekEnd.toISOString().split('T')[0];
+  private getEventsInRange(gardenId: string, startDate: string, endDate: string): CalendarEvent[] {
+    const garden = this.gardenRepo.findById(gardenId);
+    if (!garden) return [];
 
     const events: CalendarEvent[] = [];
     this.addFrostEvents(garden, startDate, endDate, events);
