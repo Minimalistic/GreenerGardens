@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, CheckCircle2, Clock, SkipForward, Calendar, AlertTriangle, LayoutGrid, TableIcon, ExternalLink } from 'lucide-react';
+import { useViewToggle } from '@/hooks/use-view-toggle';
+import { formatFullDate, formatShortDate } from '@/lib/format-date';
 import { useOverdueTasks, useTodayTasks, useWeekTasks, useTasks, useCompleteTask, useSkipTask, useUpdateTask } from '@/hooks/use-tasks';
 import type { Task } from '@/hooks/use-tasks';
 import { useUpdatePlantInstance } from '@/hooks/use-plant-instances';
@@ -86,7 +88,7 @@ const taskColumns: Column<Task>[] = [
     <span className="capitalize">{row.status}</span>
   )},
   { key: 'due_date', label: 'Due Date', render: (row) => row.due_date
-    ? new Date(row.due_date + 'T12:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric', year: 'numeric' })
+    ? formatFullDate(row.due_date)
     : '-'
   },
   { key: 'entity_name', label: 'Source', render: (row) => {
@@ -155,7 +157,7 @@ function TaskCard({ task, onComplete, onSkip, onReschedule }: {
           {task.due_date && (
             <div className="flex items-center gap-1 text-xs text-muted-foreground">
               <Calendar className="w-3 h-3" />
-              {new Date(task.due_date + 'T12:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric' })}
+              {formatShortDate(task.due_date)}
             </div>
           )}
           <SourceLink task={task} />
@@ -202,7 +204,7 @@ function RescheduleDialog({ task, open, onOpenChange }: {
         if (task.task_type === 'harvesting' && task.entity_type === 'plant_instance' && task.entity_id) {
           updatePlantInstance.mutate({ id: task.entity_id, data: { expected_harvest_date: date } });
         }
-        toast({ title: `Rescheduled to ${new Date(date + 'T12:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric' })}` });
+        toast({ title: `Rescheduled to ${formatShortDate(date)}` });
         onOpenChange(false);
       },
     });
@@ -258,15 +260,9 @@ function TaskSection({ title, icon: Icon, tasks, variant, onComplete, onSkip, on
 }
 
 export function TasksPage() {
-  const [view, setView] = useState<'card' | 'table'>(() =>
-    (localStorage.getItem('tasks-view') as 'card' | 'table') ?? 'card'
-  );
+  const [view, toggleView] = useViewToggle<'card' | 'table'>('tasks-view', 'card');
   const [createOpen, setCreateOpen] = useState(false);
   const [rescheduleTask, setRescheduleTask] = useState<Task | null>(null);
-  const toggleView = (v: 'card' | 'table') => {
-    setView(v);
-    localStorage.setItem('tasks-view', v);
-  };
 
   const { data: overdueData, isLoading: overdueLoading } = useOverdueTasks();
   const { data: todayData, isLoading: todayLoading } = useTodayTasks();

@@ -7,6 +7,7 @@ import type { CalendarEvent, PlantingSuggestion } from '@/hooks/use-calendar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { formatShortDate } from '@/lib/format-date';
 
 const EVENT_STYLES: Record<string, { color: string; icon: typeof Sprout; label: string }> = {
   indoor_start: { color: 'bg-purple-500', icon: Sprout, label: 'Indoor Start' },
@@ -83,7 +84,7 @@ function SuggestionCard({ suggestion }: { suggestion: PlantingSuggestion }) {
         <div className="text-xs text-muted-foreground">{suggestion.reason}</div>
       </div>
       <div className="text-xs text-muted-foreground shrink-0">
-        {new Date(suggestion.suggested_date + 'T12:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric' })}
+        {formatShortDate(suggestion.suggested_date)}
       </div>
     </div>
   );

@@ -9,6 +9,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Search, LayoutGrid, TableIcon } from 'lucide-react';
+import { SEVERITY_COLORS, CATEGORY_COLORS } from '@/lib/pest-colors';
+import { useViewToggle } from '@/hooks/use-view-toggle';
 
 const CATEGORY_FILTERS = [
   { value: '', label: 'All Categories' },
@@ -32,35 +34,14 @@ const SEVERITY_FILTERS = [
   { value: 'critical', label: 'Critical' },
 ];
 
-const SEVERITY_COLORS: Record<string, string> = {
-  low: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-  medium: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-  high: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
-  critical: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
-};
-
-const CATEGORY_COLORS: Record<string, string> = {
-  insect: 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200',
-  mite: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
-  fungal: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
-  bacterial: 'bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-200',
-  viral: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
-  nematode: 'bg-stone-100 text-stone-800 dark:bg-stone-900 dark:text-stone-200',
-  mollusk: 'bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200',
-  mammal: 'bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-200',
-  nutritional: 'bg-lime-100 text-lime-800 dark:bg-lime-900 dark:text-lime-200',
-  environmental: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200',
-};
-
 export function PestCatalogPage() {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
   const [severity, setSeverity] = useState('');
   const [page, setPage] = useState(1);
-  const [view, setView] = useState<'card' | 'table'>(() =>
-    (localStorage.getItem('pest-catalog-view') as 'card' | 'table') ?? 'card'
-  );
+  const [view, baseToggleView] = useViewToggle<'card' | 'table'>('pest-catalog-view', 'card');
+  const toggleView = (v: 'card' | 'table') => { baseToggleView(v); setPage(1); };
 
   const limit = view === 'table' ? 200 : 24;
 
@@ -74,12 +55,6 @@ export function PestCatalogPage() {
 
   const pests = data?.data ?? [];
   const pagination = data?.pagination;
-
-  const toggleView = (v: 'card' | 'table') => {
-    setView(v);
-    localStorage.setItem('pest-catalog-view', v);
-    setPage(1);
-  };
 
   const tableColumns: Column<any>[] = [
     {

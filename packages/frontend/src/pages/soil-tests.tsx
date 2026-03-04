@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Plus, FlaskConical, TrendingUp, LayoutGrid, TableIcon } from 'lucide-react';
+import { useViewToggle } from '@/hooks/use-view-toggle';
 import { useSoilTests, useCreateSoilTest, useDeleteSoilTest } from '@/hooks/use-soil-tests';
 import { usePlotsByGarden } from '@/hooks/use-plots';
 import { useGardenContext } from '@/contexts/garden-context';
@@ -164,13 +165,7 @@ function CreateSoilTestDialog({ plots }: { plots: any[] }) {
 }
 
 export function SoilTestsPage() {
-  const [view, setView] = useState<'card' | 'table'>(() =>
-    (localStorage.getItem('soil-tests-view') as 'card' | 'table') ?? 'card'
-  );
-  const toggleView = (v: 'card' | 'table') => {
-    setView(v);
-    localStorage.setItem('soil-tests-view', v);
-  };
+  const [view, toggleView] = useViewToggle<'card' | 'table'>('soil-tests-view', 'card');
 
   const { currentGardenId } = useGardenContext();
   const { data: plotsData } = usePlotsByGarden(currentGardenId);

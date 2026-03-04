@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useViewToggle } from '@/hooks/use-view-toggle';
 import { useHarvests, useHarvestStats } from '@/hooks/use-harvests';
 import { StatCard } from '@/components/garden/stat-card';
 import { EmptyState } from '@/components/garden/empty-state';
@@ -32,19 +32,12 @@ const harvestColumns: Column<any>[] = [
 ];
 
 export function HarvestLog() {
-  const [view, setView] = useState<'card' | 'table'>(() =>
-    (localStorage.getItem('harvest-view') as 'card' | 'table') ?? 'card'
-  );
+  const [view, toggleView] = useViewToggle<'card' | 'table'>('harvest-view', 'card');
   const navigate = useNavigate();
   const { data: harvestsData, isLoading } = useHarvests();
   const { data: statsData } = useHarvestStats();
   const harvests = harvestsData?.data ?? [];
   const stats = statsData?.data;
-
-  const toggleView = (v: 'card' | 'table') => {
-    setView(v);
-    localStorage.setItem('harvest-view', v);
-  };
 
   if (isLoading) {
     return (

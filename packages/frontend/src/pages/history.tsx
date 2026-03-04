@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import type { HistoryLog } from '@gardenvault/shared';
 import { cn } from '@/lib/utils';
+import { useViewToggle } from '@/hooks/use-view-toggle';
+import { formatDateTime } from '@/lib/format-date';
 
 const ENTITY_TYPES = [
   'garden', 'plot', 'sub_plot', 'plant_instance', 'harvest',
@@ -134,10 +136,7 @@ function TimelineEntry({ entry }: { entry: HistoryLog }) {
               </div>
               <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
                 <span>
-                  {new Date(entry.timestamp).toLocaleString('en', {
-                    month: 'short', day: 'numeric', year: 'numeric',
-                    hour: 'numeric', minute: '2-digit',
-                  })}
+                  {formatDateTime(entry.timestamp)}
                 </span>
                 {entry.changed_by !== 'system' && (
                   <span>by {entry.changed_by}</span>
@@ -167,10 +166,7 @@ const historyColumns: Column<HistoryLog>[] = [
   {
     key: 'timestamp',
     label: 'Time',
-    render: (row) => new Date(row.timestamp).toLocaleString('en', {
-      month: 'short', day: 'numeric', year: 'numeric',
-      hour: 'numeric', minute: '2-digit',
-    }),
+    render: (row) => formatDateTime(row.timestamp),
   },
   {
     key: 'entity_type',
@@ -198,13 +194,7 @@ const historyColumns: Column<HistoryLog>[] = [
 const ALL_VALUE = '__all__';
 
 export function HistoryPage() {
-  const [view, setView] = useState<'timeline' | 'table'>(() =>
-    (localStorage.getItem('history-view') as 'timeline' | 'table') ?? 'timeline'
-  );
-  const toggleView = (v: 'timeline' | 'table') => {
-    setView(v);
-    localStorage.setItem('history-view', v);
-  };
+  const [view, toggleView] = useViewToggle<'timeline' | 'table'>('history-view', 'timeline');
 
   const [filters, setFilters] = useState<HistoryFilters>({ page: 1, limit: 50 });
   const { data, isLoading } = useFilteredHistory(filters);

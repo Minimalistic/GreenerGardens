@@ -31,6 +31,7 @@ import { SuccessionPlantingDialog } from '@/components/garden/succession-plantin
 import { ArrowLeft, Layers, Sprout, Plus, Trash2, X, Copy, ChevronDown, ExternalLink, Pencil, ClipboardList } from 'lucide-react';
 import { PlantTypeBadge } from '@/components/garden/plant-type-badge';
 import { CreateTaskDialog } from '@/components/garden/create-task-dialog';
+import { formatFullDate } from '@/lib/format-date';
 
 const STATUS_ORDER = [
   'planned', 'seed_started', 'germinated', 'seedling', 'hardening_off',
@@ -381,7 +382,7 @@ export function PlotDetail() {
                     {selectedSubPlot.date_planted && (
                       <div className="flex justify-between text-xs">
                         <span className="text-muted-foreground">Planted</span>
-                        <span>{new Date(selectedSubPlot.date_planted + 'T12:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                        <span>{formatFullDate(selectedSubPlot.date_planted)}</span>
                       </div>
                     )}
 
@@ -433,7 +434,7 @@ export function PlotDetail() {
                       ) : (
                         <p className="text-xs">
                           {selectedSubPlot.expected_harvest_date
-                            ? new Date(selectedSubPlot.expected_harvest_date + 'T12:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric', year: 'numeric' })
+                            ? formatFullDate(selectedSubPlot.expected_harvest_date)
                             : <span className="text-muted-foreground italic">Not set</span>
                           }
                         </p>

@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import { formatFullDate } from '@/lib/format-date';
 
 function CreateNoteDialog() {
   const [open, setOpen] = useState(false);
@@ -181,7 +182,7 @@ export function NotesPage() {
                               onClick={() => navigate(`/calendar?date=${note.note_date}`)}
                             >
                               <Calendar className="w-3 h-3 mr-1" />
-                              {new Date(note.note_date + 'T12:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric', year: 'numeric' })}
+                              {formatFullDate(note.note_date)}
                             </Badge>
                           )}
                           {note.entity_links?.length > 0 && note.entity_links.map((link: any) => {

@@ -10,6 +10,7 @@ import { PlantTypeBadge } from '@/components/garden/plant-type-badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Search, LayoutGrid, TableIcon, Plus } from 'lucide-react';
+import { useViewToggle } from '@/hooks/use-view-toggle';
 import { plantTypeEmoji } from '@/lib/plant-type-emoji';
 const TYPE_FILTERS = [
   { value: '', label: 'All Types' },
@@ -31,9 +32,8 @@ export function PlantCatalogPage() {
   const [search, setSearch] = useState('');
   const [plantType, setPlantType] = useState('');
   const [page, setPage] = useState(1);
-  const [view, setView] = useState<'card' | 'table'>(() =>
-    (localStorage.getItem('catalog-view') as 'card' | 'table') ?? 'card'
-  );
+  const [view, baseToggleView] = useViewToggle<'card' | 'table'>('catalog-view', 'card');
+  const toggleView = (v: 'card' | 'table') => { baseToggleView(v); setPage(1); };
   const [addOpen, setAddOpen] = useState(false);
 
   const limit = view === 'table' ? 200 : 24;
@@ -47,12 +47,6 @@ export function PlantCatalogPage() {
 
   const plants = data?.data ?? [];
   const pagination = data?.pagination;
-
-  const toggleView = (v: 'card' | 'table') => {
-    setView(v);
-    localStorage.setItem('catalog-view', v);
-    setPage(1);
-  };
 
   const catalogColumns: Column<any>[] = [
     {

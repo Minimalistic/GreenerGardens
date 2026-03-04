@@ -17,6 +17,7 @@ import { ArrowLeft, Clock, Pencil, Map, Plus } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { useState } from 'react';
 import { CreateTaskDialog } from '@/components/garden/create-task-dialog';
+import { formatFullDate } from '@/lib/format-date';
 
 const STATUS_ORDER = [
   'planned', 'seed_started', 'germinated', 'seedling', 'hardening_off',
@@ -207,7 +208,7 @@ export function PlantInstanceDetail() {
             ) : (
               <span className="flex items-center gap-1">
                 {plant.expected_harvest_date
-                  ? new Date(plant.expected_harvest_date + 'T12:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric', year: 'numeric' })
+                  ? formatFullDate(plant.expected_harvest_date)
                   : <span className="text-muted-foreground italic">Not set</span>
                 }
                 <button onClick={() => setEditingHarvestDate(true)} className="text-muted-foreground hover:text-foreground">

@@ -13,6 +13,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import { SEVERITY_COLORS } from '@/lib/pest-colors';
+import { useViewToggle } from '@/hooks/use-view-toggle';
 
 const pestEventColumns: Column<any>[] = [
   { key: 'pest_name', label: 'Pest Name' },
@@ -20,7 +22,7 @@ const pestEventColumns: Column<any>[] = [
     <span className="capitalize">{row.pest_type?.replace(/_/g, ' ') ?? '-'}</span>
   )},
   { key: 'severity', label: 'Severity', render: (row) => (
-    <Badge variant="outline" className={severityColors[row.severity] ?? ''}>{row.severity}</Badge>
+    <Badge variant="outline" className={SEVERITY_COLORS[row.severity] ?? ''}>{row.severity}</Badge>
   )},
   { key: 'detected_date', label: 'Detected' },
   { key: 'treatment_applied', label: 'Treatment', render: (row) => row.treatment_applied || '-' },
@@ -32,12 +34,6 @@ const pestEventColumns: Column<any>[] = [
 const PEST_TYPES = ['insect', 'disease', 'fungal', 'bacterial', 'viral', 'animal', 'weed', 'nutrient_deficiency', 'other'];
 const SEVERITIES = ['low', 'medium', 'high', 'critical'];
 
-const severityColors: Record<string, string> = {
-  low: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-  medium: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-  high: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
-  critical: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
-};
 
 const outcomeIcons: Record<string, typeof Clock> = {
   ongoing: Clock,
@@ -255,13 +251,7 @@ function EditPestEventDialog({ event, open, onOpenChange }: { event: any; open: 
 }
 
 export function PestEventsPage() {
-  const [view, setView] = useState<'card' | 'table'>(() =>
-    (localStorage.getItem('pest-events-view') as 'card' | 'table') ?? 'card'
-  );
-  const toggleView = (v: 'card' | 'table') => {
-    setView(v);
-    localStorage.setItem('pest-events-view', v);
-  };
+  const [view, toggleView] = useViewToggle<'card' | 'table'>('pest-events-view', 'card');
 
   const [outcomeFilter, setOutcomeFilter] = useState<string | undefined>();
   const [pestTypeFilter, setPestTypeFilter] = useState<string | undefined>();
@@ -370,7 +360,7 @@ export function PestEventsPage() {
                           <span className="font-medium">{event.pest_name}</span>
                           <Badge
                             variant="outline"
-                            className={`cursor-pointer hover:ring-1 hover:ring-ring ${severityColors[event.severity]}`}
+                            className={`cursor-pointer hover:ring-1 hover:ring-ring ${SEVERITY_COLORS[event.severity]}`}
                             onClick={(e) => { e.stopPropagation(); setSeverityFilter(severityFilter === event.severity ? undefined : event.severity); }}
                           >
                             {event.severity}

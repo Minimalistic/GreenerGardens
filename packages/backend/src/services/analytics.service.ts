@@ -67,7 +67,7 @@ export class AnalyticsService {
         SUM(h.quantity) as total_quantity
       FROM harvests h
       ${yearFilter}
-      GROUP BY destination
+      GROUP BY COALESCE(h.destination, 'unspecified')
       ORDER BY total_quantity DESC
     `).all(...params);
   }

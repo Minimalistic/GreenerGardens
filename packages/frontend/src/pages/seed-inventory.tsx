@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Sprout, Plus, AlertTriangle, Package, Trash2, LayoutGrid, TableIcon, X } from 'lucide-react';
+import { useViewToggle } from '@/hooks/use-view-toggle';
 import { useSeedInventory, useCreateSeedInventory, useUpdateSeedInventory, useDeleteSeedInventory } from '@/hooks/use-seed-inventory';
 import { usePlantCatalogSearch } from '@/hooks/use-plant-catalog';
 import { DataTable, type Column } from '@/components/data-table';
@@ -73,13 +74,7 @@ const seedColumns: Column<any>[] = [
 ];
 
 export function SeedInventoryPage() {
-  const [view, setView] = useState<'card' | 'table'>(() =>
-    (localStorage.getItem('seeds-view') as 'card' | 'table') ?? 'card'
-  );
-  const toggleView = (v: 'card' | 'table') => {
-    setView(v);
-    localStorage.setItem('seeds-view', v);
-  };
+  const [view, toggleView] = useViewToggle<'card' | 'table'>('seeds-view', 'card');
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);

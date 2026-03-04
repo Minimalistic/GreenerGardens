@@ -26,6 +26,7 @@ import {
 } from '@/hooks/use-weather';
 import type { ForecastItem } from '@/hooks/use-weather';
 import { formatDistanceToNow, format, subDays } from 'date-fns';
+import { formatWeekdayDate, formatShortWeekdayDate } from '@/lib/format-date';
 
 function getWeatherIcon(main: string, className: string = 'w-5 h-5') {
   switch (main.toLowerCase()) {
@@ -64,11 +65,7 @@ function groupForecastByDay(items: ForecastItem[]): DayForecast[] {
 
   return Array.from(days.entries()).map(([date, { temps, main, entries }]) => ({
     date,
-    dayLabel: new Date(date + 'T12:00:00').toLocaleDateString('en', {
-      weekday: 'long',
-      month: 'short',
-      day: 'numeric',
-    }),
+    dayLabel: formatWeekdayDate(date),
     high: Math.round(Math.max(...temps)),
     low: Math.round(Math.min(...temps)),
     main,
@@ -320,11 +317,7 @@ export function WeatherPage() {
                   className="flex items-center justify-between py-2 border-b last:border-0 text-sm"
                 >
                   <span className="text-muted-foreground w-28">
-                    {new Date(day.date + 'T12:00:00').toLocaleDateString('en', {
-                      weekday: 'short',
-                      month: 'short',
-                      day: 'numeric',
-                    })}
+                    {formatShortWeekdayDate(day.date)}
                   </span>
                   <div className="flex items-center gap-4">
                     {day.high_f != null && day.low_f != null && (

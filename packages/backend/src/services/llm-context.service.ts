@@ -76,14 +76,24 @@ export class LlmContextService {
       }
     }
 
-    // Pending tasks
-    const tasks = this.db.prepare(`
-      SELECT title, task_type, due_date, priority
-      FROM tasks
-      WHERE status IN ('pending', 'in_progress')
-      ORDER BY due_date ASC
-      LIMIT 10
-    `).all() as any[];
+    // Pending tasks (scoped to this garden via entity relationships)
+    const plotIds = plots.map((p: any) => p.id);
+    const plantInstanceIds = plotIds.length > 0
+      ? (this.db.prepare(
+          `SELECT id FROM plant_instances WHERE plot_id IN (${plotIds.map(() => '?').join(',')})`
+        ).all(...plotIds) as any[]).map((r: any) => r.id)
+      : [];
+    const entityIds = [gardenId, ...plotIds, ...plantInstanceIds];
+    const tasks = entityIds.length > 0
+      ? this.db.prepare(`
+          SELECT title, task_type, due_date, priority
+          FROM tasks
+          WHERE status IN ('pending', 'in_progress')
+            AND entity_id IN (${entityIds.map(() => '?').join(',')})
+          ORDER BY due_date ASC
+          LIMIT 10
+        `).all(...entityIds) as any[]
+      : [];
     if (tasks.length > 0) {
       sections.push(`\n## Pending Tasks`);
       for (const t of tasks) {
