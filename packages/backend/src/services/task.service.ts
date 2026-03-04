@@ -21,7 +21,7 @@ export class TaskService {
     limit?: number;
     offset?: number;
   }) {
-    return this.taskRepo.findFiltered(filters ?? {});
+    return this.taskRepo.findFiltered(filters ?? {}).map(t => this.deserialize(t));
   }
 
   findById(id: string) {

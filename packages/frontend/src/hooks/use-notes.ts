@@ -79,8 +79,9 @@ export function useUpdateNote() {
   return useMutation({
     mutationFn: ({ id, ...data }: { id: string } & Partial<NoteCreate>) =>
       api.patch<{ data: Note }>(`/notes/${id}`, data),
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['notes'] });
+      queryClient.invalidateQueries({ queryKey: ['note', variables.id] });
     },
   });
 }
@@ -89,8 +90,9 @@ export function useDeleteNote() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => api.delete(`/notes/${id}`),
-    onSuccess: () => {
+    onSuccess: (_data, id) => {
       queryClient.invalidateQueries({ queryKey: ['notes'] });
+      queryClient.invalidateQueries({ queryKey: ['note', id] });
     },
   });
 }

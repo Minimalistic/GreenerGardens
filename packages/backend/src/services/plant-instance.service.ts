@@ -55,7 +55,6 @@ export class PlantInstanceService {
     const id = uuid();
 
     const row: Record<string, any> = { id, ...parsed };
-    delete row.sub_plot_id; // Handle separately
     row.sub_plot_id = parsed.sub_plot_id ?? null;
     row.tags = JSON.stringify(parsed.tags ?? []);
 
@@ -187,7 +186,7 @@ export class PlantInstanceService {
         sub_plot_id: params.sub_plot_id,
         planting_method: params.planting_method ?? 'direct_seed',
         date_planted: datePlanted,
-        status: i === 0 ? 'planned' : 'planned',
+        status: 'planned',
         notes: `Succession planting ${i + 1} of ${params.count}`,
       });
       instances.push(instance);

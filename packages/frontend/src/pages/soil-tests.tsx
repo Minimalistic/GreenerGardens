@@ -144,7 +144,7 @@ function CreateSoilTestDialog({ plots }: { plots: any[] }) {
                 <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
                 <SelectContent>
                   {['dry', 'slightly_moist', 'moist', 'wet', 'saturated'].map(m => (
-                    <SelectItem key={m} value={m}>{m.replace('_', ' ')}</SelectItem>
+                    <SelectItem key={m} value={m}>{m.replaceAll('_', ' ')}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>

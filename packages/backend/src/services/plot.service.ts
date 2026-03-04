@@ -141,12 +141,13 @@ export class PlotService {
   }
 
   private deserializePlot(row: PlotRow): any {
+    const { dimensions_json, geometry_json, ...rest } = row;
     return {
-      ...row,
-      dimensions: JSON.parse(row.dimensions_json),
-      geometry: JSON.parse(row.geometry_json),
-      is_covered: Boolean(row.is_covered),
-      tags: JSON.parse(row.tags || '[]'),
+      ...rest,
+      dimensions: JSON.parse(dimensions_json),
+      geometry: JSON.parse(geometry_json),
+      is_covered: Boolean(rest.is_covered),
+      tags: JSON.parse(rest.tags || '[]'),
     };
   }
 }

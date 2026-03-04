@@ -2,7 +2,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { usePlantInstance, useUpdatePlantStatus, useUpdatePlantHealth, useUpdatePlantInstance } from '@/hooks/use-plant-instances';
 import { useTasks, useUpdateTask } from '@/hooks/use-tasks';
 import { useEntityHistory } from '@/hooks/use-history';
-import { useHarvestsByPlant, useCreateHarvest } from '@/hooks/use-harvests';
 import { PlantStatusBadge } from '@/components/garden/plant-status-badge';
 import { SeedStartingTracker } from '@/components/garden/seed-starting-tracker';
 import { EntityNotes } from '@/components/notes/entity-notes';
@@ -56,7 +55,7 @@ export function PlantInstanceDetail() {
   const handleStatusChange = async (status: string) => {
     try {
       await updateStatus.mutateAsync({ id: instanceId!, status });
-      toast({ title: `Status updated to ${status.replace('_', ' ')}` });
+      toast({ title: `Status updated to ${status.replaceAll('_', ' ')}` });
     } catch {
       toast({ title: 'Failed to update status', variant: 'destructive' });
     }
@@ -118,7 +117,7 @@ export function PlantInstanceDetail() {
               <SelectContent>
                 {STATUS_ORDER.map(s => (
                   <SelectItem key={s} value={s} className="capitalize">
-                    {s.replace('_', ' ')}
+                    {s.replaceAll('_', ' ')}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -167,7 +166,7 @@ export function PlantInstanceDetail() {
           {plant.planting_method && (
             <div className="flex justify-between">
               <span className="text-muted-foreground">Method</span>
-              <span className="capitalize">{plant.planting_method.replace('_', ' ')}</span>
+              <span className="capitalize">{plant.planting_method.replaceAll('_', ' ')}</span>
             </div>
           )}
           {plant.date_planted && (

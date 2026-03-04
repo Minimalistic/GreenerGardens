@@ -30,7 +30,7 @@ export class LlmContextService {
     if (plots.length > 0) {
       sections.push(`\n## Plots (${plots.length})`);
       for (const p of plots) {
-        sections.push(`- ${p.name} (${p.plot_type?.replace('_', ' ')}${p.sun_exposure ? ', ' + p.sun_exposure.replace('_', ' ') : ''})`);
+        sections.push(`- ${p.name} (${p.plot_type?.replaceAll('_', ' ')}${p.sun_exposure ? ', ' + p.sun_exposure.replaceAll('_', ' ') : ''})`);
       }
     }
 
@@ -49,7 +49,7 @@ export class LlmContextService {
     if (plants.length > 0) {
       sections.push(`\n## Active Plants (${plants.length})`);
       for (const pl of plants.slice(0, 30)) {
-        let line = `- ${pl.common_name} in ${pl.plot_name}: ${pl.status.replace('_', ' ')}`;
+        let line = `- ${pl.common_name} in ${pl.plot_name}: ${pl.status.replaceAll('_', ' ')}`;
         if (pl.health && pl.health !== 'good') line += `, health: ${pl.health}`;
         if (pl.date_planted) line += `, planted ${pl.date_planted}`;
         sections.push(line);
@@ -76,14 +76,19 @@ export class LlmContextService {
       }
     }
 
-    // Pending tasks
+    // Pending tasks (scoped to this garden's entities)
     const tasks = this.db.prepare(`
-      SELECT title, task_type, due_date, priority
-      FROM tasks
-      WHERE status IN ('pending', 'in_progress')
-      ORDER BY due_date ASC
+      SELECT t.title, t.task_type, t.due_date, t.priority
+      FROM tasks t
+      WHERE t.status IN ('pending', 'in_progress')
+        AND (
+          (t.entity_type = 'garden' AND t.entity_id = ?)
+          OR (t.entity_type = 'plot' AND t.entity_id IN (SELECT id FROM plots WHERE garden_id = ?))
+          OR (t.entity_type = 'plant_instance' AND t.entity_id IN (SELECT pi.id FROM plant_instances pi JOIN plots p ON pi.plot_id = p.id WHERE p.garden_id = ?))
+        )
+      ORDER BY t.due_date ASC
       LIMIT 10
-    `).all() as any[];
+    `).all(gardenId, gardenId, gardenId) as any[];
     if (tasks.length > 0) {
       sections.push(`\n## Pending Tasks`);
       for (const t of tasks) {
@@ -94,7 +99,7 @@ export class LlmContextService {
     // Recent weather
     try {
       const weather = this.db.prepare(`
-        SELECT date, temp_high_f, temp_low_f, conditions, precipitation_in
+        SELECT date, high_f, low_f, precipitation_total_inches
         FROM weather_daily_summaries
         WHERE garden_id = ?
         ORDER BY date DESC
@@ -103,11 +108,14 @@ export class LlmContextService {
       if (weather.length > 0) {
         sections.push(`\n## Recent Weather`);
         for (const w of weather) {
-          sections.push(`- ${w.date}: ${w.temp_low_f}°F - ${w.temp_high_f}°F, ${w.conditions}${w.precipitation_in ? ', ' + w.precipitation_in + '" rain' : ''}`);
+          sections.push(`- ${w.date}: ${w.low_f}°F - ${w.high_f}°F${w.precipitation_total_inches ? ', ' + w.precipitation_total_inches + '" rain' : ''}`);
         }
       }
-    } catch {
-      // Weather tables may not exist yet
+    } catch (err) {
+      // Weather tables may not exist yet — only ignore missing table errors
+      if (err instanceof Error && !err.message.includes('no such table')) {
+        throw err;
+      }
     }
 
     return sections.join('\n');

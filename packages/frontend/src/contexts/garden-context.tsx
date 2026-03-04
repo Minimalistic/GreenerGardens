@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect, useMemo, type ReactNode } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api, ApiError } from '@/lib/api';
 import type { ApiResponse, Garden } from '@gardenvault/shared';
@@ -64,16 +64,18 @@ export function GardenProvider({ children }: { children: ReactNode }) {
     }
   }, [error, currentGardenId, gardensData, clearCurrentGardenId, setCurrentGardenId]);
 
+  const garden = data?.data ?? null;
+
+  const value = useMemo(() => ({
+    currentGardenId,
+    setCurrentGardenId,
+    clearCurrentGardenId,
+    garden,
+    isLoading,
+  }), [currentGardenId, setCurrentGardenId, clearCurrentGardenId, garden, isLoading]);
+
   return (
-    <GardenContext.Provider
-      value={{
-        currentGardenId,
-        setCurrentGardenId,
-        clearCurrentGardenId,
-        garden: data?.data ?? null,
-        isLoading,
-      }}
-    >
+    <GardenContext.Provider value={value}>
       {children}
     </GardenContext.Provider>
   );

@@ -61,7 +61,7 @@ export function SearchPage() {
         const Icon = entityIcons[type] || FileText;
         return (
           <div key={type}>
-            <h3 className="text-sm font-medium text-muted-foreground mb-2 capitalize">{type.replace('_', ' ')}s</h3>
+            <h3 className="text-sm font-medium text-muted-foreground mb-2 capitalize">{type.replaceAll('_', ' ')}s</h3>
             <div className="space-y-2">
               {items.map((item: any) => (
                 <Card

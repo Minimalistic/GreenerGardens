@@ -15,12 +15,14 @@ export class SearchService {
 
   search(query: string, limit = 50): SearchResult[] {
     const results: SearchResult[] = [];
-    const pattern = `%${query}%`;
+    // Escape LIKE wildcard characters in user input
+    const escaped = query.replace(/%/g, '\\%').replace(/_/g, '\\_');
+    const pattern = `%${escaped}%`;
 
     // Search plant catalog
     const plants = this.db.prepare(
       `SELECT id, common_name, scientific_name, family, emoji, plant_type FROM plant_catalog
-       WHERE common_name LIKE ? OR scientific_name LIKE ? OR family LIKE ?
+       WHERE common_name LIKE ? ESCAPE '\' OR scientific_name LIKE ? ESCAPE '\' OR family LIKE ? ESCAPE '\'
        LIMIT ?`
     ).all(pattern, pattern, pattern, limit) as any[];
 
@@ -38,7 +40,7 @@ export class SearchService {
 
     // Search plots
     const plots = this.db.prepare(
-      `SELECT id, name, notes FROM plots WHERE name LIKE ? OR notes LIKE ? LIMIT ?`
+      `SELECT id, name, notes FROM plots WHERE name LIKE ? ESCAPE '\' OR notes LIKE ? ESCAPE '\' LIMIT ?`
     ).all(pattern, pattern, limit) as any[];
 
     for (const p of plots) {
@@ -53,7 +55,7 @@ export class SearchService {
 
     // Search notes
     const notes = this.db.prepare(
-      `SELECT id, content FROM notes WHERE content LIKE ? LIMIT ?`
+      `SELECT id, content FROM notes WHERE content LIKE ? ESCAPE '\' LIMIT ?`
     ).all(pattern, limit) as any[];
 
     for (const n of notes) {
@@ -68,7 +70,7 @@ export class SearchService {
 
     // Search tasks
     const tasks = this.db.prepare(
-      `SELECT id, title, description FROM tasks WHERE title LIKE ? OR description LIKE ? LIMIT ?`
+      `SELECT id, title, description FROM tasks WHERE title LIKE ? ESCAPE '\' OR description LIKE ? ESCAPE '\' LIMIT ?`
     ).all(pattern, pattern, limit) as any[];
 
     for (const t of tasks) {
@@ -83,7 +85,7 @@ export class SearchService {
 
     // Search pest events
     const pests = this.db.prepare(
-      `SELECT id, pest_name, notes FROM pest_events WHERE pest_name LIKE ? OR notes LIKE ? LIMIT ?`
+      `SELECT id, pest_name, notes FROM pest_events WHERE pest_name LIKE ? ESCAPE '\' OR notes LIKE ? ESCAPE '\' LIMIT ?`
     ).all(pattern, pattern, limit) as any[];
 
     for (const pe of pests) {
@@ -98,7 +100,7 @@ export class SearchService {
 
     // Search tags
     const tags = this.db.prepare(
-      `SELECT id, name FROM tags WHERE name LIKE ? LIMIT ?`
+      `SELECT id, name FROM tags WHERE name LIKE ? ESCAPE '\' LIMIT ?`
     ).all(pattern, limit) as any[];
 
     for (const tag of tags) {

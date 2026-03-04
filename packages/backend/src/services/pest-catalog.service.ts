@@ -130,17 +130,18 @@ export class PestCatalogService {
   }
 
   private deserialize(row: PestCatalogRow) {
+    const { appearance_json, symptoms_json, affected_plants_json, favorable_conditions_json, prevention_json, organic_treatments_json, chemical_treatments_json, biological_treatments_json, cultural_treatments_json, ...rest } = row;
     return {
-      ...row,
-      appearance: JSON.parse(row.appearance_json || '[]'),
-      symptoms: JSON.parse(row.symptoms_json || '[]'),
-      affected_plants: JSON.parse(row.affected_plants_json || '[]'),
-      favorable_conditions: JSON.parse(row.favorable_conditions_json || '[]'),
-      prevention: JSON.parse(row.prevention_json || '[]'),
-      organic_treatments: JSON.parse(row.organic_treatments_json || '[]'),
-      chemical_treatments: JSON.parse(row.chemical_treatments_json || '[]'),
-      biological_treatments: JSON.parse(row.biological_treatments_json || '[]'),
-      cultural_treatments: JSON.parse(row.cultural_treatments_json || '[]'),
+      ...rest,
+      appearance: JSON.parse(appearance_json || '[]'),
+      symptoms: JSON.parse(symptoms_json || '[]'),
+      affected_plants: JSON.parse(affected_plants_json || '[]'),
+      favorable_conditions: JSON.parse(favorable_conditions_json || '[]'),
+      prevention: JSON.parse(prevention_json || '[]'),
+      organic_treatments: JSON.parse(organic_treatments_json || '[]'),
+      chemical_treatments: JSON.parse(chemical_treatments_json || '[]'),
+      biological_treatments: JSON.parse(biological_treatments_json || '[]'),
+      cultural_treatments: JSON.parse(cultural_treatments_json || '[]'),
     };
   }
 }

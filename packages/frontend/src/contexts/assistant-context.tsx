@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, useMemo, type ReactNode } from 'react';
 
 const DEFAULT_SIDEBAR_WIDTH = 400;
 const MIN_SIDEBAR_WIDTH = 280;
@@ -65,21 +65,21 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const value = useMemo(() => ({
+    isOpen,
+    sidebarWidth,
+    activeConvId,
+    toggle,
+    open,
+    close,
+    setSidebarWidth,
+    setActiveConvId,
+    minSidebarWidth: MIN_SIDEBAR_WIDTH,
+    maxSidebarWidth: MAX_SIDEBAR_WIDTH,
+  }), [isOpen, sidebarWidth, activeConvId, toggle, open, close, setSidebarWidth, setActiveConvId]);
+
   return (
-    <AssistantContext.Provider
-      value={{
-        isOpen,
-        sidebarWidth,
-        activeConvId,
-        toggle,
-        open,
-        close,
-        setSidebarWidth,
-        setActiveConvId,
-        minSidebarWidth: MIN_SIDEBAR_WIDTH,
-        maxSidebarWidth: MAX_SIDEBAR_WIDTH,
-      }}
-    >
+    <AssistantContext.Provider value={value}>
       {children}
     </AssistantContext.Provider>
   );

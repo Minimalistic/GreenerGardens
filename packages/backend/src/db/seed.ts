@@ -7,6 +7,14 @@ import type Database from 'better-sqlite3';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SEED_FILE = path.resolve(__dirname, '../../../../seed_data/plant_catalog.json');
 
+let _cachedPlants: any[] | null = null;
+function loadSeedData(): any[] {
+  if (_cachedPlants) return _cachedPlants;
+  if (!fs.existsSync(SEED_FILE)) return [];
+  _cachedPlants = JSON.parse(fs.readFileSync(SEED_FILE, 'utf-8'));
+  return _cachedPlants!;
+}
+
 export function seedPlantCatalog(db: Database.Database): void {
   // Check if already seeded
   const count = (db.prepare('SELECT COUNT(*) as count FROM plant_catalog').get() as any).count;
@@ -15,12 +23,11 @@ export function seedPlantCatalog(db: Database.Database): void {
     return;
   }
 
-  if (!fs.existsSync(SEED_FILE)) {
+  const plants = loadSeedData();
+  if (plants.length === 0) {
     console.log('No seed data file found at', SEED_FILE);
     return;
   }
-
-  const plants = JSON.parse(fs.readFileSync(SEED_FILE, 'utf-8'));
 
   const stmt = db.prepare(`
     INSERT INTO plant_catalog (
@@ -86,9 +93,8 @@ export function seedPlantCatalog(db: Database.Database): void {
 }
 
 export function updatePlantImages(db: Database.Database): void {
-  if (!fs.existsSync(SEED_FILE)) return;
-
-  const plants = JSON.parse(fs.readFileSync(SEED_FILE, 'utf-8'));
+  const plants = loadSeedData();
+  if (plants.length === 0) return;
   const plantsWithImages = plants.filter((p: any) => p.image_url);
   if (plantsWithImages.length === 0) return;
 
@@ -111,9 +117,8 @@ export function updatePlantImages(db: Database.Database): void {
 }
 
 export function updatePlantEmojis(db: Database.Database): void {
-  if (!fs.existsSync(SEED_FILE)) return;
-
-  const plants = JSON.parse(fs.readFileSync(SEED_FILE, 'utf-8'));
+  const plants = loadSeedData();
+  if (plants.length === 0) return;
   const plantsWithEmojis = plants.filter((p: any) => p.emoji);
   if (plantsWithEmojis.length === 0) return;
 
@@ -136,9 +141,8 @@ export function updatePlantEmojis(db: Database.Database): void {
 }
 
 export function updatePlantCompanions(db: Database.Database): void {
-  if (!fs.existsSync(SEED_FILE)) return;
-
-  const plants = JSON.parse(fs.readFileSync(SEED_FILE, 'utf-8'));
+  const plants = loadSeedData();
+  if (plants.length === 0) return;
 
   const stmt = db.prepare(
     `UPDATE plant_catalog SET companions_json = ?, antagonists_json = ? WHERE common_name = ?`
@@ -164,9 +168,8 @@ export function updatePlantCompanions(db: Database.Database): void {
 }
 
 export function updatePlantWikipediaUrls(db: Database.Database): void {
-  if (!fs.existsSync(SEED_FILE)) return;
-
-  const plants = JSON.parse(fs.readFileSync(SEED_FILE, 'utf-8'));
+  const plants = loadSeedData();
+  if (plants.length === 0) return;
   const plantsWithUrls = plants.filter((p: any) => p.wikipedia_url);
   if (plantsWithUrls.length === 0) return;
 
@@ -189,9 +192,8 @@ export function updatePlantWikipediaUrls(db: Database.Database): void {
 }
 
 export function updatePlantPestData(db: Database.Database): void {
-  if (!fs.existsSync(SEED_FILE)) return;
-
-  const plants = JSON.parse(fs.readFileSync(SEED_FILE, 'utf-8'));
+  const plants = loadSeedData();
+  if (plants.length === 0) return;
   const plantsWithPestData = plants.filter(
     (p: any) => p.common_pests || p.common_diseases || p.disease_resistance,
   );

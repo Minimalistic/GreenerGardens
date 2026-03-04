@@ -92,7 +92,7 @@ function PestEventFormFields({
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>
               {PEST_TYPES.map(t => (
-                <SelectItem key={t} value={t}>{t.replace('_', ' ')}</SelectItem>
+                <SelectItem key={t} value={t}>{t.replaceAll('_', ' ')}</SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -331,7 +331,7 @@ export function PestEventsPage() {
         <div className="flex flex-wrap gap-1">
           {pestTypeFilter && (
             <Badge variant="secondary" className="cursor-pointer" onClick={() => setPestTypeFilter(undefined)}>
-              Type: {pestTypeFilter.replace('_', ' ')} <X className="w-3 h-3 ml-1" />
+              Type: {pestTypeFilter.replaceAll('_', ' ')} <X className="w-3 h-3 ml-1" />
             </Badge>
           )}
           {severityFilter && (
@@ -380,7 +380,7 @@ export function PestEventsPage() {
                             className="capitalize cursor-pointer hover:ring-1 hover:ring-ring"
                             onClick={(e) => { e.stopPropagation(); setPestTypeFilter(pestTypeFilter === event.pest_type ? undefined : event.pest_type); }}
                           >
-                            {event.pest_type.replace('_', ' ')}
+                            {event.pest_type.replaceAll('_', ' ')}
                           </Badge>
                         </div>
                         <p className="text-sm text-muted-foreground mt-1">Detected: {event.detected_date}</p>

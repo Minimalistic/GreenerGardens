@@ -27,7 +27,7 @@ const harvestColumns: Column<any>[] = [
     <Badge variant="outline" className={QUALITY_COLORS[row.quality] ?? ''}>{row.quality}</Badge>
   )},
   { key: 'destination', label: 'Destination', render: (row) => (
-    <span className="capitalize">{row.destination?.replace('_', ' ') ?? '-'}</span>
+    <span className="capitalize">{row.destination?.replaceAll('_', ' ') ?? '-'}</span>
   )},
 ];
 
@@ -112,7 +112,7 @@ export function HarvestLog() {
                       {h.quality}
                     </Badge>
                     <Badge variant="outline" className="capitalize text-xs">
-                      {h.destination?.replace('_', ' ')}
+                      {h.destination?.replaceAll('_', ' ')}
                     </Badge>
                   </CardContent>
                 </Card>

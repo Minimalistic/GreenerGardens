@@ -35,7 +35,7 @@ export class LlmService {
   }
 
   isConfigured(): boolean {
-    return !!process.env.ANTHROPIC_API_KEY;
+    return !!this.client;
   }
 
   listConversations() {
@@ -122,7 +122,7 @@ export class LlmService {
       context_summary: `Context included: garden info, ${context.split('\n').length} lines`,
     });
 
-    // Update conversation timestamp
-    this.convRepo.update(conversationId, {});
+    // Touch conversation timestamp
+    this.convRepo.update(conversationId, { updated_at: new Date().toISOString() });
   }
 }

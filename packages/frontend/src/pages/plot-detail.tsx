@@ -265,7 +265,7 @@ export function PlotDetail() {
         <div className="flex-1">
           <h2 className="text-xl font-semibold">{(plot as any).name}</h2>
           <p className="text-sm text-muted-foreground capitalize">
-            {(plot as any).plot_type?.replace('_', ' ')}
+            {(plot as any).plot_type?.replaceAll('_', ' ')}
             {dims && ` - ${dims.length_ft}' x ${dims.width_ft}'`}
           </p>
         </div>
@@ -333,7 +333,7 @@ export function PlotDetail() {
                         onValueChange={async (status) => {
                           try {
                             await updateStatus.mutateAsync({ id: selectedSubPlot.plant_instance_id!, status });
-                            toast({ title: `Status updated to ${status.replace('_', ' ')}` });
+                            toast({ title: `Status updated to ${status.replaceAll('_', ' ')}` });
                           } catch {
                             toast({ title: 'Failed to update status', variant: 'destructive' });
                           }

@@ -49,7 +49,7 @@ export class SeedInventoryService {
   update(id: string, data: unknown) {
     const parsed = SeedInventoryUpdateSchema.parse(data);
     const updateData: Record<string, any> = { ...parsed };
-    if (updateData.tags) updateData.tags = JSON.stringify(updateData.tags);
+    if (updateData.tags !== undefined) updateData.tags = JSON.stringify(updateData.tags);
 
     return this.db.transaction(() => {
       const old = this.seedRepo.findById(id);

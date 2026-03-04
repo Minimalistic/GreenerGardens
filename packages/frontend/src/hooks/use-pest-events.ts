@@ -71,8 +71,9 @@ export function useUpdatePestEvent() {
   return useMutation({
     mutationFn: ({ id, ...data }: { id: string } & Partial<PestEventCreate>) =>
       api.patch<{ data: PestEvent }>(`/pest-events/${id}`, data),
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['pest-events'] });
+      queryClient.invalidateQueries({ queryKey: ['pest-event', variables.id] });
     },
   });
 }
@@ -81,8 +82,9 @@ export function useDeletePestEvent() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => api.delete(`/pest-events/${id}`),
-    onSuccess: () => {
+    onSuccess: (_data, id) => {
       queryClient.invalidateQueries({ queryKey: ['pest-events'] });
+      queryClient.invalidateQueries({ queryKey: ['pest-event', id] });
     },
   });
 }

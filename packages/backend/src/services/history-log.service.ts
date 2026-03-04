@@ -5,13 +5,14 @@ export class HistoryLogService {
 
   getRecent(limit: number = 20, offset: number = 0) {
     const data = this.historyRepo.findRecent(limit, offset);
+    const total = this.historyRepo.count();
     return {
       data: data.map(row => this.deserialize(row)),
       pagination: {
-        total: this.historyRepo.count(),
+        total,
         page: Math.floor(offset / limit) + 1,
         limit,
-        total_pages: Math.ceil(this.historyRepo.count() / limit),
+        total_pages: Math.ceil(total / limit),
       },
     };
   }

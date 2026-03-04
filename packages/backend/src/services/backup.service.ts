@@ -43,9 +43,9 @@ export class BackupService {
 
   getBackupPath(filename: string): string | null {
     const backupPath = path.join(this.backupDir, filename);
-    if (!fs.existsSync(backupPath)) return null;
-    // Prevent path traversal
+    // Prevent path traversal — check BEFORE any filesystem access
     if (!backupPath.startsWith(this.backupDir)) return null;
+    if (!fs.existsSync(backupPath)) return null;
     return backupPath;
   }
 

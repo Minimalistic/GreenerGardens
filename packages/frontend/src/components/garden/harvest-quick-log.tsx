@@ -103,7 +103,7 @@ export function HarvestQuickLog({ open, onOpenChange, plantInstanceId, plotId }:
               <SelectContent>
                 {DESTINATIONS.map(d => (
                   <SelectItem key={d} value={d} className="capitalize">
-                    {d.replace('_', ' ')}
+                    {d.replaceAll('_', ' ')}
                   </SelectItem>
                 ))}
               </SelectContent>

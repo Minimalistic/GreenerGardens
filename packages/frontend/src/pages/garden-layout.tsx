@@ -478,7 +478,7 @@ export function GardenLayout() {
             </CardHeader>
             <CardContent className="space-y-2">
               <p className="text-sm text-muted-foreground capitalize">
-                {(selectedPlot as any).plot_type?.replace('_', ' ')}
+                {(selectedPlot as any).plot_type?.replaceAll('_', ' ')}
               </p>
               <div className="flex gap-2">
                 <Button
