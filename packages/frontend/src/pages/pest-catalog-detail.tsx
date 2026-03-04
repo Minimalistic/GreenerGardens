@@ -8,6 +8,9 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ArrowLeft, AlertTriangle, Zap, Target, Calendar, MapPin, Shield, Leaf, FlaskConical, Bug as BugIcon, Shovel } from 'lucide-react';
+import { plantTypeEmoji } from '@/lib/plant-type-emoji';
+import { PLANT_TYPE_COLORS } from '@/lib/plant-type-colors';
+import { cn } from '@/lib/utils';
 
 const SEVERITY_COLORS: Record<string, string> = {
   low: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
@@ -35,13 +38,13 @@ export function PestCatalogDetail() {
   const { data, isLoading } = usePestCatalogEntry(pestId ?? null);
   const { data: catalogData } = usePlantCatalogSearch({ limit: 500 });
 
-  const plantNameToId = useMemo(() => {
+  const plantLookup = useMemo(() => {
     const entries = (catalogData as any)?.data ?? [];
-    const map = new Map<string, string>();
+    const map = new Map<string, { id: string; emoji?: string; plant_type?: string }>();
     for (const entry of entries) {
-      map.set(entry.common_name.toLowerCase(), entry.id);
+      map.set(entry.common_name.toLowerCase(), { id: entry.id, emoji: entry.emoji, plant_type: entry.plant_type });
     }
-    return (name: string): string | undefined => map.get(name.toLowerCase());
+    return (name: string) => map.get(name.toLowerCase());
   }, [catalogData]);
 
   if (isLoading) {
@@ -225,20 +228,23 @@ export function PestCatalogDetail() {
           {affectedPlants.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {affectedPlants.map((name, i) => {
-                const plantId = plantNameToId(name);
-                if (plantId) {
-                  return (
-                    <Link key={i} to={`/catalog/${plantId}`}>
-                      <Badge
-                        variant="outline"
-                        className="cursor-pointer hover:bg-muted transition-colors"
-                      >
-                        {name}
-                      </Badge>
-                    </Link>
-                  );
-                }
-                return <Badge key={i} variant="outline">{name}</Badge>;
+                const plant = plantLookup(name);
+                const emoji = plant?.emoji || plantTypeEmoji(plant?.plant_type);
+                const colorClass = plant?.plant_type ? PLANT_TYPE_COLORS[plant.plant_type] ?? PLANT_TYPE_COLORS.other : '';
+                const badge = (
+                  <Badge
+                    key={i}
+                    variant="outline"
+                    className={cn(
+                      plant?.id && 'cursor-pointer hover:ring-1 hover:ring-ring',
+                      colorClass,
+                    )}
+                  >
+                    <span className="mr-0.5 plant-emoji">{emoji}</span>
+                    {name}
+                  </Badge>
+                );
+                return plant?.id ? <Link key={i} to={`/catalog/${plant.id}`}>{badge}</Link> : badge;
               })}
             </div>
           )}
