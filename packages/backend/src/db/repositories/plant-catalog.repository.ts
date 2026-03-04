@@ -36,6 +36,9 @@ export interface PlantCatalogRow {
   antagonists_json: string;
   rotation_family: string | null;
   growing_tips_json: string;
+  common_pests: string;
+  common_diseases: string;
+  disease_resistance: string;
   wikipedia_url: string | null;
   is_custom: number;
   created_at: string;

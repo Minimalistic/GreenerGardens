@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Map, BookOpen, Scissors, CheckSquare, CalendarDays, MessageSquare, Settings, Bug, FlaskConical, StickyNote, Search, BarChart3, Sprout, History, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
+import { LayoutDashboard, Map, BookOpen, Scissors, CheckSquare, CalendarDays, MessageSquare, Settings, Bug, FlaskConical, StickyNote, Search, BarChart3, Sprout, History, PanelLeftClose, PanelLeftOpen, CloudSun, ShieldAlert } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
@@ -23,6 +23,7 @@ const sections: NavSection[] = [
     title: 'Plants',
     items: [
       { to: '/catalog', label: 'Plant Catalog', icon: BookOpen },
+      { to: '/pests', label: 'Pest Guide', icon: ShieldAlert },
       { to: '/seeds', label: 'Seed Inventory', icon: Sprout },
       { to: '/harvests', label: 'Harvests', icon: Scissors },
     ],
@@ -34,6 +35,7 @@ const sections: NavSection[] = [
       { to: '/soil-tests', label: 'Soil Tests', icon: FlaskConical },
       { to: '/notes', label: 'Notes', icon: StickyNote },
       { to: '/history', label: 'History', icon: History },
+      { to: '/weather', label: 'Weather', icon: CloudSun },
     ],
   },
   {
@@ -71,17 +73,17 @@ export function Sidebar({ mobile, onNavigate }: { mobile?: boolean; onNavigate?:
         className={cn(
           mobile
             ? 'flex flex-col'
-            : 'hidden lg:flex flex-col border-r bg-card min-h-screen p-4 transition-[width] duration-200 ease-in-out',
-          !mobile && (isCollapsed ? 'w-[4.5rem]' : 'w-60'),
+            : 'hidden lg:flex flex-col border-r bg-card min-h-screen p-2 transition-[width] duration-200 ease-in-out',
+          !mobile && (isCollapsed ? 'w-12' : 'w-40'),
         )}
       >
         {/* Brand */}
-        <div className={cn('flex items-center mb-6', isCollapsed ? 'justify-center px-0' : 'gap-2 px-2')}>
-          <div className="w-8 h-8 rounded-lg garden-gradient flex items-center justify-center shrink-0">
-            <span className="text-white font-bold text-sm">GV</span>
+        <div className={cn('flex items-center mb-4', isCollapsed ? 'justify-center px-0' : 'gap-1.5 px-1')}>
+          <div className="w-5 h-5 rounded garden-gradient flex items-center justify-center shrink-0">
+            <span className="text-white font-bold text-[9px]">GV</span>
           </div>
           {!isCollapsed && (
-            <span className="font-semibold text-lg text-foreground whitespace-nowrap overflow-hidden">
+            <span className="font-semibold text-xs text-foreground whitespace-nowrap overflow-hidden">
               GardenVault
             </span>
           )}
@@ -90,13 +92,13 @@ export function Sidebar({ mobile, onNavigate }: { mobile?: boolean; onNavigate?:
         {/* Nav sections */}
         <nav className="flex flex-col flex-1 overflow-y-auto">
           {sections.map((section, sectionIdx) => (
-            <div key={section.title} className={cn(sectionIdx > 0 && 'mt-4')}>
+            <div key={section.title} className={cn(sectionIdx > 0 && 'mt-2')}>
               {/* Section header — skip for first section */}
               {sectionIdx > 0 && (
                 isCollapsed ? (
-                  <div className="mx-auto my-1 w-6 border-t border-muted-foreground/25" />
+                  <div className="mx-auto my-0.5 w-4 border-t border-muted-foreground/25" />
                 ) : (
-                  <span className="px-3 mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60">
+                  <span className="px-2 mb-0.5 block text-[8px] font-semibold uppercase tracking-wider text-muted-foreground/60">
                     {section.title}
                   </span>
                 )
@@ -112,15 +114,15 @@ export function Sidebar({ mobile, onNavigate }: { mobile?: boolean; onNavigate?:
                       onClick={onNavigate}
                       className={({ isActive }) =>
                         cn(
-                          'flex items-center rounded-lg text-sm font-medium transition-colors',
-                          isCollapsed ? 'justify-center px-0 py-2' : 'gap-3 px-3 py-2',
+                          'flex items-center rounded text-xs font-medium transition-colors',
+                          isCollapsed ? 'justify-center px-0 py-1' : 'gap-2 px-2 py-1',
                           isActive
                             ? 'bg-primary text-primary-foreground'
                             : 'text-muted-foreground hover:bg-muted hover:text-foreground',
                         )
                       }
                     >
-                      <Icon className="w-8 h-8 shrink-0" />
+                      <Icon className="w-4 h-4 shrink-0" />
                       {!isCollapsed && <span className="whitespace-nowrap overflow-hidden">{label}</span>}
                     </NavLink>
                   );
@@ -146,20 +148,20 @@ export function Sidebar({ mobile, onNavigate }: { mobile?: boolean; onNavigate?:
           <button
             onClick={() => setCollapsed((c) => !c)}
             className={cn(
-              'flex items-center rounded-lg text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors mt-2',
-              isCollapsed ? 'justify-center py-2.5' : 'gap-3 px-3 py-2.5',
+              'flex items-center rounded text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors mt-2',
+              isCollapsed ? 'justify-center py-1' : 'gap-2 px-2 py-1',
             )}
           >
             {isCollapsed ? (
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <PanelLeftOpen className="w-8 h-8 shrink-0" />
+                  <PanelLeftOpen className="w-4 h-4 shrink-0" />
                 </TooltipTrigger>
                 <TooltipContent side="right">Expand sidebar</TooltipContent>
               </Tooltip>
             ) : (
               <>
-                <PanelLeftClose className="w-8 h-8 shrink-0" />
+                <PanelLeftClose className="w-4 h-4 shrink-0" />
                 <span className="whitespace-nowrap overflow-hidden">Collapse</span>
               </>
             )}

@@ -255,3 +255,34 @@ export const NoteContentTypeEnum = z.enum([
   'markdown',
 ]);
 export type NoteContentType = z.infer<typeof NoteContentTypeEnum>;
+
+// Pest catalog enums
+
+export const PestCategoryEnum = z.enum([
+  'insect',
+  'mite',
+  'fungal',
+  'bacterial',
+  'viral',
+  'nematode',
+  'mollusk',
+  'mammal',
+  'nutritional',
+  'environmental',
+  'other',
+]);
+export type PestCategory = z.infer<typeof PestCategoryEnum>;
+
+export const SpreadRateEnum = z.enum([
+  'slow',
+  'moderate',
+  'fast',
+]);
+export type SpreadRate = z.infer<typeof SpreadRateEnum>;
+
+export const DamageTypeEnum = z.enum([
+  'cosmetic',
+  'yield_reducing',
+  'plant_killing',
+]);
+export type DamageType = z.infer<typeof DamageTypeEnum>;

@@ -214,6 +214,9 @@ export class PlantCatalogService {
       companions: JSON.parse(row.companions_json || '[]'),
       antagonists: JSON.parse(row.antagonists_json || '[]'),
       growing_tips: JSON.parse(row.growing_tips_json || '[]'),
+      common_pests: JSON.parse(row.common_pests || '[]'),
+      common_diseases: JSON.parse(row.common_diseases || '[]'),
+      disease_resistance: JSON.parse(row.disease_resistance || '{}'),
     };
   }
 }

@@ -18,6 +18,7 @@ export * from './schemas/note.schema.js';
 export * from './schemas/tag.schema.js';
 export * from './schemas/seed-inventory.schema.js';
 export * from './schemas/cost-entry.schema.js';
+export * from './schemas/pest-catalog.schema.js';
 
 // API types
 export * from './api/responses.js';

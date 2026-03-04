@@ -187,3 +187,36 @@ export function updatePlantWikipediaUrls(db: Database.Database): void {
     console.log(`Updated ${updated} plant Wikipedia URLs from seed data`);
   }
 }
+
+export function updatePlantPestData(db: Database.Database): void {
+  if (!fs.existsSync(SEED_FILE)) return;
+
+  const plants = JSON.parse(fs.readFileSync(SEED_FILE, 'utf-8'));
+  const plantsWithPestData = plants.filter(
+    (p: any) => p.common_pests || p.common_diseases || p.disease_resistance,
+  );
+  if (plantsWithPestData.length === 0) return;
+
+  const stmt = db.prepare(
+    `UPDATE plant_catalog SET common_pests = ?, common_diseases = ?, disease_resistance = ?
+     WHERE common_name = ? AND common_pests = '[]' AND common_diseases = '[]' AND disease_resistance = '{}'`
+  );
+
+  let updated = 0;
+  const updateAll = db.transaction((items: any[]) => {
+    for (const p of items) {
+      const result = stmt.run(
+        JSON.stringify(p.common_pests ?? []),
+        JSON.stringify(p.common_diseases ?? []),
+        JSON.stringify(p.disease_resistance ?? {}),
+        p.common_name,
+      );
+      if (result.changes > 0) updated++;
+    }
+  });
+
+  updateAll(plantsWithPestData);
+  if (updated > 0) {
+    console.log(`Updated ${updated} plant pest/disease data from seed data`);
+  }
+}

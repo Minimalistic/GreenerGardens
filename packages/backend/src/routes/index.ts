@@ -10,7 +10,7 @@ import { registerKnowledgeRoutes } from './groups/knowledge.routes.js';
 import { registerManagementRoutes } from './groups/management.routes.js';
 import { registerDataRoutes } from './groups/data.routes.js';
 
-import { startWeatherFetchJob, setAlertService, setPushService } from '../jobs/weather-fetch.job.js';
+import { startWeatherFetchJob, setPushService } from '../jobs/weather-fetch.job.js';
 
 export function registerRoutes(fastify: FastifyInstance, db: Database.Database) {
   // Shared history logger
@@ -20,16 +20,15 @@ export function registerRoutes(fastify: FastifyInstance, db: Database.Database) 
   // Register route groups
   const core = registerCoreRoutes(fastify, db, history);
   const tracking = registerTrackingRoutes(fastify, db, history);
-  registerKnowledgeRoutes(fastify, db);
+  registerKnowledgeRoutes(fastify, db, history);
   registerManagementRoutes(fastify, db, history);
-  const data = registerDataRoutes(fastify, db, history, tracking.alertService, tracking.gardenRepo);
+  const data = registerDataRoutes(fastify, db, history, tracking.gardenRepo);
 
   // Wire cross-service dependencies
   core.instanceService.setCalendarService(tracking.calendarService);
   core.instanceService.setTaskService(tracking.taskService);
 
   // Start background jobs
-  setAlertService(tracking.alertService);
   setPushService(data.pushService);
   startWeatherFetchJob(tracking.weatherService, tracking.gardenRepo);
 }

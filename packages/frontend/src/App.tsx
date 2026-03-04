@@ -31,6 +31,8 @@ const AnalyticsPage = lazy(() => import('@/pages/analytics').then(m => ({ defaul
 const SeedInventoryPage = lazy(() => import('@/pages/seed-inventory').then(m => ({ default: m.SeedInventoryPage })));
 const HistoryPage = lazy(() => import('@/pages/history').then(m => ({ default: m.HistoryPage })));
 const WeatherPage = lazy(() => import('@/pages/weather').then(m => ({ default: m.WeatherPage })));
+const PestCatalogPage = lazy(() => import('@/pages/pest-catalog').then(m => ({ default: m.PestCatalogPage })));
+const PestCatalogDetail = lazy(() => import('@/pages/pest-catalog-detail').then(m => ({ default: m.PestCatalogDetail })));
 
 export default function App() {
   return (
@@ -55,6 +57,8 @@ export default function App() {
                 <Route path="/tasks" element={<TasksPage />} />
                 <Route path="/calendar" element={<CalendarPage />} />
                 <Route path="/assistant" element={<AssistantPage />} />
+                <Route path="/pests" element={<PestCatalogPage />} />
+                <Route path="/pests/:pestId" element={<PestCatalogDetail />} />
                 <Route path="/pest-events" element={<PestEventsPage />} />
                 <Route path="/soil-tests" element={<SoilTestsPage />} />
                 <Route path="/notes" element={<NotesPage />} />
