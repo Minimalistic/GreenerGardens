@@ -17,6 +17,7 @@ export interface SubPlotWithPlantRow extends SubPlotRow {
   plant_name: string | null;
   plant_catalog_id: string | null;
   plant_type: string | null;
+  emoji: string | null;
   variety_name: string | null;
   status: string | null;
   health: string | null;
@@ -38,7 +39,7 @@ export class SubPlotRepository extends BaseRepository<SubPlotRow> {
 
   findByPlotIdWithPlantInfo(plotId: string): SubPlotWithPlantRow[] {
     return this.db.prepare(`
-      SELECT sp.*, pc.common_name as plant_name, pi.plant_catalog_id, pc.plant_type, pi.variety_name,
+      SELECT sp.*, pc.common_name as plant_name, pi.plant_catalog_id, pc.plant_type, pc.emoji, pi.variety_name,
              pi.status, pi.health, pi.date_planted, pi.expected_harvest_date, pi.planting_method
       FROM sub_plots sp
       LEFT JOIN plant_instances pi ON sp.plant_instance_id = pi.id

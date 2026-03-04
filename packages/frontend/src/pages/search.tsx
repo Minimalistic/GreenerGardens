@@ -74,7 +74,7 @@ export function SearchPage() {
                 >
                   <CardContent className="py-3 flex items-center gap-3">
                     {item.entity_type === 'plant_catalog' ? (
-                      <span className="text-lg plant-emoji">{plantTypeEmoji(item.plant_type)}</span>
+                      <span className="text-lg plant-emoji">{item.emoji || plantTypeEmoji(item.plant_type)}</span>
                     ) : (
                       <Icon className="w-4 h-4 text-muted-foreground" />
                     )}

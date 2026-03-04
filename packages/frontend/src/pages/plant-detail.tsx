@@ -75,7 +75,7 @@ export function PlantDetail() {
         </Button>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-2xl plant-emoji">{plantTypeEmoji(p.plant_type)}</span>
+            <span className="text-2xl plant-emoji">{p.emoji || plantTypeEmoji(p.plant_type)}</span>
             <h2 className="text-xl font-semibold truncate">{p.common_name}</h2>
             {isCustom && <Badge variant="secondary">Custom</Badge>}
           </div>

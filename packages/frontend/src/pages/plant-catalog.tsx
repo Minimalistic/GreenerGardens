@@ -69,7 +69,7 @@ export function PlantCatalogPage() {
             />
           ) : (
             <div className="w-full h-full bg-muted flex items-center justify-center">
-              <span className="text-sm plant-emoji">{plantTypeEmoji(row.plant_type)}</span>
+              <span className="text-sm plant-emoji">{row.emoji || plantTypeEmoji(row.plant_type)}</span>
             </div>
           )}
         </div>
@@ -83,7 +83,7 @@ export function PlantCatalogPage() {
           className="text-left font-medium hover:underline"
           onClick={() => navigate(`/catalog/${row.id}`)}
         >
-          <span className="mr-1 plant-emoji">{plantTypeEmoji(row.plant_type)}</span>
+          <span className="mr-1 plant-emoji">{row.emoji || plantTypeEmoji(row.plant_type)}</span>
           {row.common_name}
         </button>
       ),
@@ -192,7 +192,7 @@ export function PlantCatalogPage() {
                 <CardContent className="p-4 space-y-2 relative">
                   <div className="flex items-start justify-between">
                     <h3 className="font-semibold text-sm">
-                      <span className="mr-1 plant-emoji">{plantTypeEmoji(plant.plant_type)}</span>
+                      <span className="mr-1 plant-emoji">{plant.emoji || plantTypeEmoji(plant.plant_type)}</span>
                       {plant.common_name}
                     </h3>
                     <PlantTypeBadge

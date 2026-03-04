@@ -477,7 +477,7 @@ export function SubPlotCanvas({
             const isSelected = sp.id === selectedSubPlotId;
             const hasPlant = !!sp.plant_instance_id;
             const fillColor = hasPlant ? '#4A7C59' : '#d4d4d8';
-            const emoji = hasPlant ? plantTypeEmoji(sp.plant_type) : '';
+            const emoji = hasPlant ? (sp.emoji || plantTypeEmoji(sp.plant_type)) : '';
             const label = sp.plant_name || (hasPlant ? 'Planted' : 'Empty');
             const widthLabel = (g.width / PX_PER_FT).toFixed(1).replace(/\.0$/, '');
             const heightLabel = (g.height / PX_PER_FT).toFixed(1).replace(/\.0$/, '');
@@ -530,17 +530,23 @@ export function SubPlotCanvas({
                   wrap="none"
                   listening={false}
                 />
-                {emoji && g.height > labelFontSize + dimFontSize + textPad * 4 && (
-                  <Text
-                    text={emoji}
-                    x={0}
-                    y={labelFontSize + textPad * 2}
-                    width={g.width}
-                    fontSize={Math.min(g.width, g.height - labelFontSize - dimFontSize - textPad * 4) * 0.6}
-                    align="center"
-                    listening={false}
-                  />
-                )}
+                {emoji && g.height > labelFontSize + dimFontSize + textPad * 4 && (() => {
+                  const topZone = labelFontSize + textPad * 2;
+                  const bottomZone = dimFontSize + textPad * 2;
+                  const availH = g.height - topZone - bottomZone;
+                  const emojiSize = Math.min(g.width * 0.6, availH * 0.7);
+                  return (
+                    <Text
+                      text={emoji}
+                      x={0}
+                      y={topZone + (availH - emojiSize) / 2}
+                      width={g.width}
+                      fontSize={emojiSize}
+                      align="center"
+                      listening={false}
+                    />
+                  );
+                })()}
                 {g.height > labelFontSize + dimFontSize + textPad * 3 && (
                   <Text
                     text={`${widthLabel}' x ${heightLabel}'`}

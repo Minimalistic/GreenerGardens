@@ -610,7 +610,7 @@ export function GardenCanvas({
                   const spg = sp.geometry;
                   if (!spg) return null;
                   const hasPlant = !!sp.plant_instance_id;
-                  const emoji = hasPlant ? plantTypeEmoji(sp.plant_type) : '';
+                  const emoji = hasPlant ? (sp.emoji || plantTypeEmoji(sp.plant_type)) : '';
                   const emojiSize = Math.min(spg.width, spg.height) * 0.55;
                   return (
                     <Group key={sp.id} x={spg.x} y={spg.y} listening={false}>

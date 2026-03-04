@@ -6,6 +6,7 @@ export interface SubPlotWithPlant extends SubPlot {
   plant_name: string | null;
   plant_catalog_id: string | null;
   plant_type: string | null;
+  emoji: string | null;
   variety_name: string | null;
   status: string | null;
   health: string | null;
