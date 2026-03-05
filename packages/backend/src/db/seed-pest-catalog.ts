@@ -7,8 +7,34 @@ import type Database from 'better-sqlite3';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SEED_FILE = path.resolve(__dirname, '../../../../seed_data/pest_catalog.json');
 
+interface SeedPest {
+  common_name: string;
+  scientific_name?: string;
+  category: string;
+  subcategory?: string;
+  description?: string;
+  emoji?: string;
+  image_url?: string;
+  appearance?: string[];
+  symptoms?: string[];
+  life_cycle?: string;
+  affected_plants?: string[];
+  favorable_conditions?: string[];
+  min_zone?: number;
+  max_zone?: number;
+  seasonality?: string;
+  severity_potential?: string;
+  spread_rate?: string;
+  damage_type?: string;
+  prevention?: string[];
+  organic_treatments?: unknown[];
+  chemical_treatments?: unknown[];
+  biological_treatments?: unknown[];
+  cultural_treatments?: unknown[];
+}
+
 export function seedPestCatalog(db: Database.Database): void {
-  const count = (db.prepare('SELECT COUNT(*) as count FROM pest_catalog').get() as any).count;
+  const count = (db.prepare('SELECT COUNT(*) as count FROM pest_catalog').get() as { count: number }).count;
   if (count > 0) {
     console.log(`Pest catalog already seeded with ${count} entries`);
     return;
@@ -36,7 +62,7 @@ export function seedPestCatalog(db: Database.Database): void {
     )
   `);
 
-  const insertAll = db.transaction((items: any[]) => {
+  const insertAll = db.transaction((items: SeedPest[]) => {
     for (const p of items) {
       stmt.run(
         uuid(),

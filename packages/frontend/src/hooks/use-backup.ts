@@ -4,14 +4,14 @@ import { api } from '@/lib/api';
 export function useBackupList() {
   return useQuery({
     queryKey: ['backups'],
-    queryFn: () => api.get<{ data: any[] }>('/backup/list'),
+    queryFn: () => api.get<{ data: Record<string, unknown>[] }>('/backup/list'),
   });
 }
 
 export function useCreateBackup() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: () => api.post<{ data: any }>('/backup/create', {}),
+    mutationFn: () => api.post<{ data: Record<string, unknown> }>('/backup/create', {}),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['backups'] }); },
   });
 }

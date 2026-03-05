@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import type Database from 'better-sqlite3';
 import { PestEventCreateSchema, PestEventUpdateSchema } from '@gardenvault/shared';
-import type { PestEventRepository } from '../db/repositories/pest-event.repository.js';
+import type { PestEventRepository, PestEventRow } from '../db/repositories/pest-event.repository.js';
 import type { HistoryLogger } from './history.middleware.js';
 import { NotFoundError } from '../utils/errors.js';
 
@@ -82,7 +82,7 @@ export class PestEventService {
     })();
   }
 
-  private deserialize(row: Record<string, any>) {
+  private deserialize(row: PestEventRow) {
     return {
       ...row,
       photos: typeof row.photos === 'string' ? JSON.parse(row.photos) : row.photos,

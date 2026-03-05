@@ -145,7 +145,7 @@ export function DataTable<T extends Record<string, any>>({
               </TableRow>
             ) : (
               sorted.map((row, i) => (
-                <TableRow key={(row as any).id ?? i}>
+                <TableRow key={'id' in row ? String(row.id) : i}>
                   {columns.map((col) => (
                     <TableCell key={col.key}>
                       {col.render ? col.render(row) : String(row[col.key] ?? '')}

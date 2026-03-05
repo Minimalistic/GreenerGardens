@@ -108,7 +108,7 @@ export function SuccessionPlantingDialog({ open, onOpenChange, plotId, subPlotId
                 />
                 {search && catalogResults.length > 0 && (
                   <div className="border rounded-md max-h-40 overflow-y-auto">
-                    {catalogResults.map((plant: any) => (
+                    {catalogResults.map((plant) => (
                       <button
                         key={plant.id}
                         className="w-full text-left px-3 py-2 text-sm hover:bg-muted"

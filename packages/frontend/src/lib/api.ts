@@ -27,7 +27,7 @@ async function request<T>(method: string, path: string, body?: unknown): Promise
 
   if (res.status === 204) return undefined as T;
 
-  let json: any;
+  let json: unknown;
   try {
     json = await res.json();
   } catch {
@@ -39,15 +39,16 @@ async function request<T>(method: string, path: string, body?: unknown): Promise
   }
 
   if (!res.ok) {
+    const err = json as { error?: { message?: string; code?: string; details?: Record<string, unknown> } };
     throw new ApiError(
-      json.error?.message ?? 'Request failed',
-      json.error?.code ?? 'UNKNOWN',
+      err.error?.message ?? 'Request failed',
+      err.error?.code ?? 'UNKNOWN',
       res.status,
-      json.error?.details,
+      err.error?.details,
     );
   }
 
-  return json;
+  return json as T;
 }
 
 export class ApiError extends Error {

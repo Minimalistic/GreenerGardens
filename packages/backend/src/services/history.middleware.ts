@@ -29,7 +29,7 @@ export function createHistoryLogger(historyRepo: HistoryLogRepository): HistoryL
     },
 
     logUpdate(entityType: string, entityId: string, oldEntity: Record<string, any>, newEntity: Record<string, any>, options?: HistoryLogOptions): void {
-      const changes: Record<string, { old: any; new: any }> = {};
+      const changes: Record<string, { old: unknown; new: unknown }> = {};
 
       for (const key of Object.keys(newEntity)) {
         if (key === 'updated_at') continue;

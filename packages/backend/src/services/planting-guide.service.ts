@@ -1,6 +1,6 @@
 import type Database from 'better-sqlite3';
 import type { GardenRepository } from '../db/repositories/garden.repository.js';
-import type { PlantCatalogRepository } from '../db/repositories/plant-catalog.repository.js';
+import type { PlantCatalogRepository, PlantCatalogRow } from '../db/repositories/plant-catalog.repository.js';
 import { NotFoundError } from '../utils/errors.js';
 
 interface PlantingGuideEntry {
@@ -62,7 +62,7 @@ export class PlantingGuideService {
 
     // Get all plants appropriate for this zone
     const zone = garden.usda_zone ? parseInt(garden.usda_zone) : null;
-    const allPlants = this.catalogRepo.findAll({ limit: 500 }) as any[];
+    const allPlants = this.catalogRepo.findAll({ limit: 500 });
 
     const startIndoors: PlantingGuideEntry[] = [];
     const directSow: PlantingGuideEntry[] = [];
@@ -148,7 +148,7 @@ export class PlantingGuideService {
   }
 
   private makeEntry(
-    plant: any,
+    plant: PlantCatalogRow,
     action: string,
     currentDate: Date,
     windowStart: Date,

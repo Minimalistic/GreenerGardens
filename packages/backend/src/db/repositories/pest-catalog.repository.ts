@@ -1,5 +1,5 @@
 import type Database from 'better-sqlite3';
-import { BaseRepository, type FindAllOptions } from './base.repository.js';
+import { BaseRepository, type FindAllOptions, type SqlParam } from './base.repository.js';
 
 export interface PestCatalogRow {
   id: string;
@@ -48,7 +48,7 @@ export class PestCatalogRepository extends BaseRepository<PestCatalogRow> {
       limit = 20, offset = 0, orderBy = 'common_name', orderDir = 'ASC' } = options;
 
     const conditions: string[] = [];
-    const params: any[] = [];
+    const params: SqlParam[] = [];
 
     if (search) {
       conditions.push('(common_name LIKE ? OR scientific_name LIKE ? OR description LIKE ?)');
@@ -72,7 +72,7 @@ export class PestCatalogRepository extends BaseRepository<PestCatalogRow> {
 
     const total = (this.db.prepare(
       `SELECT COUNT(*) as count FROM pest_catalog ${where}`
-    ).get(...params) as any).count;
+    ).get(...params) as { count: number }).count;
 
     const data = this.db.prepare(
       `SELECT * FROM pest_catalog ${where} ORDER BY ${orderBy} ${orderDir} LIMIT ? OFFSET ?`
@@ -81,7 +81,7 @@ export class PestCatalogRepository extends BaseRepository<PestCatalogRow> {
     return { data, total };
   }
 
-  bulkInsert(pests: Record<string, any>[]): void {
+  bulkInsert(pests: Record<string, SqlParam>[]): void {
     if (pests.length === 0) return;
 
     const keys = Object.keys(pests[0]);
@@ -90,7 +90,7 @@ export class PestCatalogRepository extends BaseRepository<PestCatalogRow> {
       `INSERT OR IGNORE INTO pest_catalog (${keys.join(', ')}) VALUES (${placeholders})`
     );
 
-    const insertMany = this.db.transaction((items: Record<string, any>[]) => {
+    const insertMany = this.db.transaction((items: Record<string, SqlParam>[]) => {
       for (const item of items) {
         stmt.run(...keys.map(k => item[k]));
       }

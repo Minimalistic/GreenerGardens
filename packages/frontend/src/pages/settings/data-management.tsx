@@ -97,7 +97,7 @@ export function DataManagementSettings() {
           {backupsData?.data && backupsData.data.length > 0 && (
             <div className="space-y-2">
               <p className="text-sm font-medium">Available Backups</p>
-              {backupsData.data.map((b: any) => (
+              {(backupsData.data as { filename: string; size: number }[]).map((b) => (
                 <div key={b.filename} className="flex items-center justify-between text-sm p-2 rounded-md bg-muted">
                   <div>
                     <span className="font-mono text-xs">{b.filename}</span>

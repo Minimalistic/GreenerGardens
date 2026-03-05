@@ -38,12 +38,12 @@ export class CostEntryRepository extends BaseRepository<CostEntryRow> {
     const params = year ? [String(year)] : [];
     return this.db.prepare(
       `SELECT category, SUM(amount_cents) as total_cents, COUNT(*) as count FROM cost_entries ${yearFilter} GROUP BY category ORDER BY total_cents DESC`
-    ).all(...params) as any[];
+    ).all(...params) as { category: string; total_cents: number; count: number }[];
   }
 
   getTotalByYear(): { year: string; total_cents: number }[] {
     return this.db.prepare(
       `SELECT strftime('%Y', purchase_date) as year, SUM(amount_cents) as total_cents FROM cost_entries GROUP BY year ORDER BY year DESC`
-    ).all() as any[];
+    ).all() as { year: string; total_cents: number }[];
   }
 }

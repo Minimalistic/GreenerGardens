@@ -16,7 +16,10 @@ import { useToast } from '@/hooks/use-toast';
 import { ArrowLeft, Clock, Pencil, Map, Plus } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { useState } from 'react';
+import type { PlantInstance } from '@gardenvault/shared';
 import { CreateTaskDialog } from '@/components/garden/create-task-dialog';
+
+type PlantInstanceWithName = PlantInstance & { common_name?: string };
 
 const STATUS_ORDER = [
   'planned', 'seed_started', 'germinated', 'seedling', 'hardening_off',
@@ -50,7 +53,7 @@ export function PlantInstanceDetail() {
     );
   }
 
-  const plant = data?.data as any;
+  const plant = data?.data;
   if (!plant) return <p>Plant not found</p>;
 
   const handleStatusChange = async (status: string) => {
@@ -100,7 +103,7 @@ export function PlantInstanceDetail() {
         </Button>
         <div className="flex-1">
           <h2 className="text-xl font-semibold">
-            {plant.common_name}
+            {(plant as PlantInstanceWithName).common_name}
             {plant.variety_name && <span className="text-muted-foreground ml-2">'{plant.variety_name}'</span>}
           </h2>
         </div>
@@ -265,7 +268,7 @@ export function PlantInstanceDetail() {
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              {history.map((h: any) => (
+              {history.map((h) => (
                 <div key={h.id} className="flex gap-2 text-sm">
                   <span className="text-muted-foreground w-24 shrink-0">
                     {formatDistanceToNow(new Date(h.timestamp), { addSuffix: true })}
@@ -295,7 +298,7 @@ export function PlantInstanceDetail() {
         onOpenChange={setTaskDialogOpen}
         entityType="plant_instance"
         entityId={instanceId!}
-        entityName={plant.variety_name ? `${plant.common_name} '${plant.variety_name}'` : plant.common_name}
+        entityName={plant.variety_name ? `${(plant as PlantInstanceWithName).common_name} '${plant.variety_name}'` : (plant as PlantInstanceWithName).common_name ?? ''}
       />
     </div>
   );

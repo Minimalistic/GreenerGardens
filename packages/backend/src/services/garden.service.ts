@@ -122,7 +122,7 @@ export class GardenService {
     `).run(gardenId, gardenId, gardenId);
   }
 
-  private deserialize(row: GardenRow): any {
+  private deserialize(row: GardenRow) {
     return {
       ...row,
       settings: JSON.parse(row.settings || '{}'),

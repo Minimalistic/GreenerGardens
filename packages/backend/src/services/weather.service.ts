@@ -117,8 +117,9 @@ export class WeatherService {
       })();
 
       return { configured: true, data: saved, cached: false };
-    } catch (err: any) {
-      return { configured: true, data: latest ?? null, error: err.message, cached: true };
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      return { configured: true, data: latest ?? null, error: message, cached: true };
     }
   }
 
@@ -141,8 +142,9 @@ export class WeatherService {
       const forecasts = raw.list.map(item => this.mapForecastItem(gardenId, item));
 
       return { configured: true, data: forecasts };
-    } catch (err: any) {
-      return { configured: true, data: [], error: err.message };
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      return { configured: true, data: [], error: message };
     }
   }
 
@@ -187,7 +189,7 @@ export class WeatherService {
     }
   }
 
-  private mapCurrentToReading(gardenId: string, raw: OpenWeatherCurrentResponse): Record<string, any> {
+  private mapCurrentToReading(gardenId: string, raw: OpenWeatherCurrentResponse) {
     const precipInches = raw.rain?.['1h']
       ? mmToInches(raw.rain['1h'])
       : raw.snow?.['1h']

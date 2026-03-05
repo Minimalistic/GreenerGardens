@@ -46,8 +46,8 @@ interface ActivityFeedItemProps {
     entity_id: string;
     action: string;
     timestamp: string;
-    snapshot?: Record<string, any> | null;
-    field_changes?: Record<string, any> | null;
+    snapshot?: Record<string, unknown> | null;
+    field_changes?: Record<string, unknown> | null;
   };
 }
 

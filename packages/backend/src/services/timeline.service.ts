@@ -6,8 +6,8 @@ interface TimelineEvent {
   entity_id: string;
   action: string;
   timestamp: string;
-  field_changes: Record<string, any> | null;
-  snapshot: Record<string, any> | null;
+  field_changes: Record<string, unknown> | null;
+  snapshot: Record<string, unknown> | null;
   changed_by: string;
   notes: string | null;
 }
@@ -29,7 +29,7 @@ export class TimelineService {
     offset?: number;
   }): TimelineEvent[] {
     const conditions: string[] = [];
-    const params: any[] = [];
+    const params: (string | number)[] = [];
 
     if (options.start) {
       conditions.push('timestamp >= ?');
@@ -50,7 +50,7 @@ export class TimelineService {
 
     const rows = this.db.prepare(
       `SELECT * FROM history_log ${where} ORDER BY timestamp DESC LIMIT ? OFFSET ?`
-    ).all(...params, limit, offset) as any[];
+    ).all(...params, limit, offset) as (Omit<TimelineEvent, 'field_changes' | 'snapshot'> & { field_changes_json: string | null; snapshot_json: string | null })[];
 
     return rows.map(row => ({
       ...row,
@@ -87,7 +87,7 @@ export class TimelineService {
       WHERE timestamp BETWEEN ? AND ?
       GROUP BY date, entity_type
       ORDER BY date ASC
-    `).all(options.start, options.end) as any[];
+    `).all(options.start, options.end) as { date: string; entity_type: string; type_count: number }[];
 
     // Aggregate by date
     const byDate = new Map<string, TimelineMarker>();
@@ -102,14 +102,14 @@ export class TimelineService {
     return Array.from(byDate.values());
   }
 
-  getEntityState(entityType: string, entityId: string, targetDate: string): Record<string, any> | null {
+  getEntityState(entityType: string, entityId: string, targetDate: string): Record<string, unknown> | null {
     // Find the most recent snapshot at or before targetDate
     const row = this.db.prepare(`
       SELECT snapshot_json FROM history_log
       WHERE entity_type = ? AND entity_id = ? AND timestamp <= ?
       ORDER BY timestamp DESC
       LIMIT 1
-    `).get(entityType, entityId, targetDate) as any;
+    `).get(entityType, entityId, targetDate) as { snapshot_json: string | null } | undefined;
 
     if (!row || !row.snapshot_json) return null;
     return JSON.parse(row.snapshot_json);
@@ -121,14 +121,14 @@ export class TimelineService {
     last_event: string | null;
     events_by_type: Record<string, number>;
   } {
-    const total = (this.db.prepare('SELECT COUNT(*) as count FROM history_log').get() as any).count;
+    const total = (this.db.prepare('SELECT COUNT(*) as count FROM history_log').get() as { count: number }).count;
 
-    const first = this.db.prepare('SELECT MIN(timestamp) as ts FROM history_log').get() as any;
-    const last = this.db.prepare('SELECT MAX(timestamp) as ts FROM history_log').get() as any;
+    const first = this.db.prepare('SELECT MIN(timestamp) as ts FROM history_log').get() as { ts: string | null } | undefined;
+    const last = this.db.prepare('SELECT MAX(timestamp) as ts FROM history_log').get() as { ts: string | null } | undefined;
 
     const typeRows = this.db.prepare(
       'SELECT entity_type, COUNT(*) as count FROM history_log GROUP BY entity_type'
-    ).all() as any[];
+    ).all() as { entity_type: string; count: number }[];
 
     const events_by_type: Record<string, number> = {};
     for (const row of typeRows) {

@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Search, LayoutGrid, TableIcon, Plus } from 'lucide-react';
 import { plantTypeEmoji } from '@/lib/plant-type-emoji';
+import type { PlantCatalog } from '@gardenvault/shared';
 const TYPE_FILTERS = [
   { value: '', label: 'All Types' },
   { value: 'vegetable', label: 'Vegetables' },
@@ -54,7 +55,7 @@ export function PlantCatalogPage() {
     setPage(1);
   };
 
-  const catalogColumns: Column<any>[] = [
+  const catalogColumns: Column<PlantCatalog>[] = [
     {
       key: 'image_url',
       label: '',
@@ -174,7 +175,7 @@ export function PlantCatalogPage() {
       {!isLoading && plants.length > 0 && view === 'card' && (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {plants.map((plant: any) => (
+            {plants.map((plant) => (
               <Card
                 key={plant.id}
                 className="cursor-pointer hover:shadow-md transition-shadow overflow-hidden relative"

@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import type Database from 'better-sqlite3';
 import { SeedInventoryCreateSchema, SeedInventoryUpdateSchema } from '@gardenvault/shared';
-import type { SeedInventoryRepository } from '../db/repositories/seed-inventory.repository.js';
+import type { SeedInventoryRepository, SeedInventoryRow, SeedInventoryWithPlantRow } from '../db/repositories/seed-inventory.repository.js';
 import type { HistoryLogger } from './history.middleware.js';
 import { NotFoundError } from '../utils/errors.js';
 
@@ -12,7 +12,7 @@ export class SeedInventoryService {
     private history: HistoryLogger,
   ) {}
 
-  private deserialize(row: any) {
+  private deserialize(row: SeedInventoryRow | SeedInventoryWithPlantRow) {
     if (!row) return row;
     return { ...row, tags: row.tags ? JSON.parse(row.tags) : [] };
   }

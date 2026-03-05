@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import type Database from 'better-sqlite3';
 import { TaskCreateSchema, TaskUpdateSchema } from '@gardenvault/shared';
-import type { TaskRepository } from '../db/repositories/task.repository.js';
+import type { TaskRepository, TaskRow } from '../db/repositories/task.repository.js';
 import type { HistoryLogger } from './history.middleware.js';
 import { NotFoundError } from '../utils/errors.js';
 
@@ -104,7 +104,7 @@ export class TaskService {
     })();
   }
 
-  private deserialize(task: Record<string, any>) {
+  private deserialize(task: TaskRow) {
     return {
       ...task,
       is_recurring: Boolean(task.is_recurring),

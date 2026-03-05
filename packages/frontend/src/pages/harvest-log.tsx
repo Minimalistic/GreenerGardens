@@ -9,6 +9,9 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Scissors, Scale, Sprout, LayoutGrid, TableIcon } from 'lucide-react';
+import type { Harvest } from '@gardenvault/shared';
+
+type HarvestWithPlant = Harvest & { common_name?: string; variety_name?: string | null };
 
 const QUALITY_COLORS: Record<string, string> = {
   excellent: 'bg-green-50 text-green-700 dark:bg-green-900 dark:text-green-200',
@@ -17,7 +20,7 @@ const QUALITY_COLORS: Record<string, string> = {
   poor: 'bg-red-50 text-red-700 dark:bg-red-900 dark:text-red-200',
 };
 
-const harvestColumns: Column<any>[] = [
+const harvestColumns: Column<HarvestWithPlant>[] = [
   { key: 'common_name', label: 'Plant', render: (row) => (
     <span>{row.common_name}{row.variety_name && <span className="text-muted-foreground ml-1">'{row.variety_name}'</span>}</span>
   )},
@@ -38,7 +41,7 @@ export function HarvestLog() {
   const navigate = useNavigate();
   const { data: harvestsData, isLoading } = useHarvests();
   const { data: statsData } = useHarvestStats();
-  const harvests = harvestsData?.data ?? [];
+  const harvests = (harvestsData?.data ?? []) as HarvestWithPlant[];
   const stats = statsData?.data;
 
   const toggleView = (v: 'card' | 'table') => {
@@ -92,7 +95,7 @@ export function HarvestLog() {
             <DataTable data={harvests} columns={harvestColumns} exportFilename="harvests" />
           ) : (
             <div className="space-y-2">
-              {harvests.map((h: any) => (
+              {harvests.map((h) => (
                 <Card
                   key={h.id}
                   className="cursor-pointer hover:shadow-md transition-shadow"

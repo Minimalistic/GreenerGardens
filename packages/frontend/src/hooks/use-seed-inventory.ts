@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import type { SeedInventory, SeedInventoryCreate, SeedInventoryUpdate } from '@gardenvault/shared';
 
 export function useSeedInventory(options?: { expiring_soon?: boolean; low_quantity?: boolean }) {
   const params = new URLSearchParams();
@@ -8,14 +9,14 @@ export function useSeedInventory(options?: { expiring_soon?: boolean; low_quanti
   const qs = params.toString();
   return useQuery({
     queryKey: ['seed-inventory', options],
-    queryFn: () => api.get<{ data: any[] }>(`/seed-inventory${qs ? `?${qs}` : ''}`),
+    queryFn: () => api.get<{ data: SeedInventory[] }>(`/seed-inventory${qs ? `?${qs}` : ''}`),
   });
 }
 
 export function useSeedInventoryById(id: string | undefined) {
   return useQuery({
     queryKey: ['seed-inventory', id],
-    queryFn: () => api.get<{ data: any }>(`/seed-inventory/${id}`),
+    queryFn: () => api.get<{ data: SeedInventory }>(`/seed-inventory/${id}`),
     enabled: !!id,
   });
 }
@@ -23,7 +24,7 @@ export function useSeedInventoryById(id: string | undefined) {
 export function useCreateSeedInventory() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (data: any) => api.post<{ data: any }>('/seed-inventory', data),
+    mutationFn: (data: SeedInventoryCreate) => api.post<{ data: SeedInventory }>('/seed-inventory', data),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['seed-inventory'] }); },
   });
 }
@@ -31,7 +32,7 @@ export function useCreateSeedInventory() {
 export function useUpdateSeedInventory() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: any }) => api.patch<{ data: any }>(`/seed-inventory/${id}`, data),
+    mutationFn: ({ id, data }: { id: string; data: SeedInventoryUpdate }) => api.patch<{ data: SeedInventory }>(`/seed-inventory/${id}`, data),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['seed-inventory'] }); },
   });
 }
@@ -47,7 +48,7 @@ export function useDeleteSeedInventory() {
 export function useDeductSeeds() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, count }: { id: string; count: number }) => api.post<{ data: any }>(`/seed-inventory/${id}/deduct`, { count }),
+    mutationFn: ({ id, count }: { id: string; count: number }) => api.post<{ data: SeedInventory }>(`/seed-inventory/${id}/deduct`, { count }),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['seed-inventory'] }); },
   });
 }

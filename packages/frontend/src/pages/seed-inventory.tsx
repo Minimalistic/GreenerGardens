@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
+import type { SeedInventory, PlantCatalog } from '@gardenvault/shared';
 
 interface SeedFormData {
   plant_catalog_id: string | undefined;
@@ -35,7 +36,7 @@ const emptyForm: SeedFormData = {
   storage_location: '', cost_cents: undefined, notes: '',
 };
 
-function isExpiringSeed(date: string | null) {
+function isExpiringSeed(date: string | null | undefined) {
   if (!date) return false;
   const exp = new Date(date);
   const now = new Date();
@@ -43,7 +44,9 @@ function isExpiringSeed(date: string | null) {
   return diff >= 0 && diff <= 90;
 }
 
-const seedColumns: Column<any>[] = [
+type SeedRow = SeedInventory & { plant_name?: string; plant_emoji?: string };
+
+const seedColumns: Column<SeedRow>[] = [
   { key: 'variety_name', label: 'Variety', render: (row) => (
     <span className="flex items-center gap-1.5">
       {row.plant_emoji && <span>{row.plant_emoji}</span>}
@@ -57,7 +60,7 @@ const seedColumns: Column<any>[] = [
   { key: 'quantity_packets', label: 'Packets', render: (row) => (
     <span>
       {row.quantity_packets}
-      {row.quantity_packets <= 1 && <Badge variant="destructive" className="ml-1 text-xs">Low</Badge>}
+      {(row.quantity_packets ?? 0) <= 1 && <Badge variant="destructive" className="ml-1 text-xs">Low</Badge>}
     </span>
   )},
   { key: 'quantity_seeds_approx', label: 'Seeds (approx)', render: (row) => row.quantity_seeds_approx || '-' },
@@ -101,7 +104,7 @@ export function SeedInventoryPage() {
   const deleteSeed = useDeleteSeedInventory();
   const { toast } = useToast();
 
-  const seeds = data?.data ?? [];
+  const seeds = (data?.data ?? []) as SeedRow[];
 
   const openCreate = () => {
     setEditId(null);
@@ -112,7 +115,7 @@ export function SeedInventoryPage() {
     setDialogOpen(true);
   };
 
-  const openEdit = (seed: any) => {
+  const openEdit = (seed: SeedInventory & { plant_name?: string; plant_emoji?: string }) => {
     setEditId(seed.id);
     setForm({
       plant_catalog_id: seed.plant_catalog_id ?? undefined,
@@ -139,7 +142,7 @@ export function SeedInventoryPage() {
     setDialogOpen(true);
   };
 
-  const handleSelectPlant = (plant: any) => {
+  const handleSelectPlant = (plant: PlantCatalog) => {
     setForm({ ...form, plant_catalog_id: plant.id });
     setSelectedPlantLabel(`${plant.emoji ? plant.emoji + ' ' : ''}${plant.common_name}`);
     setPlantSearch('');
@@ -238,7 +241,7 @@ export function SeedInventoryPage() {
         <DataTable data={seeds} columns={seedColumns} exportFilename="seed-inventory" />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {seeds.map((seed: any) => (
+          {seeds.map((seed) => (
             <Card key={seed.id} className="cursor-pointer hover:bg-muted/50 transition-colors" onClick={() => openEdit(seed)}>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm flex items-center justify-between">
@@ -247,7 +250,7 @@ export function SeedInventoryPage() {
                     {seed.variety_name}
                   </span>
                   <div className="flex gap-1 shrink-0">
-                    {seed.quantity_packets <= 1 && (
+                    {(seed.quantity_packets ?? 0) <= 1 && (
                       <Badge variant="destructive" className="text-xs">Low</Badge>
                     )}
                     {isExpiringSeed(seed.expiration_date) && (
@@ -308,7 +311,7 @@ export function SeedInventoryPage() {
                   />
                   {plantSearchOpen && catalogResults.length > 0 && (
                     <div className="absolute z-50 top-full left-0 right-0 mt-1 border rounded-md bg-popover shadow-md max-h-40 overflow-y-auto">
-                      {catalogResults.map((plant: any) => (
+                      {catalogResults.map((plant) => (
                         <button
                           key={plant.id}
                           className="w-full text-left px-3 py-2 text-sm hover:bg-muted flex items-center gap-2"

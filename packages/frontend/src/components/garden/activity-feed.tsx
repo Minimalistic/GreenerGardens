@@ -35,7 +35,7 @@ export function ActivityFeed() {
   return (
     <ScrollArea className="h-80">
       <div className="space-y-1">
-        {items.map((item: any) => (
+        {items.map((item) => (
           <ActivityFeedItem key={item.id} item={item} />
         ))}
       </div>

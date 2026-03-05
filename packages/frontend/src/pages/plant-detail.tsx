@@ -14,6 +14,11 @@ import { ArrowLeft, Sun, Droplets, Ruler, Clock, Pencil, ExternalLink, ShieldAle
 import { EntityNotes } from '@/components/notes/entity-notes';
 import { PlantActivityTab } from '@/components/garden/plant-activity-tab';
 import { plantTypeEmoji } from '@/lib/plant-type-emoji';
+import type { PlantCatalog, PestCatalog } from '@gardenvault/shared';
+import type { LucideIcon } from 'lucide-react';
+
+type Companion = string | { name: string; relationship?: string; notes?: string };
+type PestEntry = { name: string; susceptibility?: string; notes?: string };
 
 export function PlantDetail() {
   const { plantId } = useParams<{ plantId: string }>();
@@ -21,7 +26,7 @@ export function PlantDetail() {
   const { data, isLoading } = usePlantCatalogEntry(plantId ?? null);
   const { data: wikiResponse, isLoading: wikiLoading } = useWikipediaSummary(plantId ?? null);
   const { data: catalogData } = usePlantCatalogSearch({ limit: 500 });
-  const catalogEntries = (catalogData as any)?.data ?? [];
+  const catalogEntries = catalogData?.data ?? [];
   const plantNameToId = useMemo(() => {
     const exact = new Map<string, string>();
     for (const entry of catalogEntries) {
@@ -44,7 +49,7 @@ export function PlantDetail() {
   const [formOpen, setFormOpen] = useState(false);
   const { data: pestCatalogData } = usePestCatalogSearch({ limit: 200 });
   const pestNameToId = useMemo(() => {
-    const entries = (pestCatalogData as any)?.data ?? [];
+    const entries = pestCatalogData?.data ?? [];
     const map = new Map<string, string>();
     for (const entry of entries) {
       map.set(entry.common_name.toLowerCase(), entry.id);
@@ -64,7 +69,7 @@ export function PlantDetail() {
   const plant = data?.data;
   if (!plant) return <p>Plant not found</p>;
 
-  const p = plant as any;
+  const p = plant as PlantCatalog & { common_pests?: PestEntry[]; common_diseases?: PestEntry[]; disease_resistance?: Record<string, string> };
   const isCustom = p.is_custom === 1;
 
   return (
@@ -239,12 +244,12 @@ export function PlantDetail() {
               />
             )}
           </div>
-          {p.growing_tips?.length > 0 && (
+          {(p.growing_tips?.length ?? 0) > 0 && (
             <Card>
               <CardHeader><CardTitle className="text-sm">Growing Tips</CardTitle></CardHeader>
               <CardContent>
                 <ul className="text-sm space-y-1 list-disc list-inside">
-                  {p.growing_tips.map((tip: string, i: number) => (
+                  {p.growing_tips!.map((tip: string, i: number) => (
                     <li key={i}>{tip}</li>
                   ))}
                 </ul>
@@ -304,11 +309,11 @@ export function PlantDetail() {
         </TabsContent>
 
         <TabsContent value="companions" className="space-y-4">
-          {p.companions?.length > 0 && (
+          {(p.companions?.length ?? 0) > 0 && (
             <Card>
               <CardHeader><CardTitle className="text-sm text-green-700 dark:text-green-400">Good Companions</CardTitle></CardHeader>
               <CardContent className="space-y-2">
-                {p.companions.map((c: any, i: number) => {
+                {p.companions!.map((c: Companion, i: number) => {
                   const name = typeof c === 'string' ? c : c.name;
                   const notes = typeof c === 'string' ? null : c.notes;
                   const rel = typeof c === 'string' ? null : c.relationship;
@@ -333,11 +338,11 @@ export function PlantDetail() {
               </CardContent>
             </Card>
           )}
-          {p.antagonists?.length > 0 && (
+          {(p.antagonists?.length ?? 0) > 0 && (
             <Card>
               <CardHeader><CardTitle className="text-sm text-red-700 dark:text-red-400">Avoid Planting Near</CardTitle></CardHeader>
               <CardContent className="space-y-2">
-                {p.antagonists.map((a: any, i: number) => {
+                {p.antagonists!.map((a: Companion, i: number) => {
                   const name = typeof a === 'string' ? a : a.name;
                   const notes = typeof a === 'string' ? null : a.notes;
                   const rel = typeof a === 'string' ? null : a.relationship;
@@ -394,7 +399,7 @@ export function PlantDetail() {
   );
 }
 
-function InfoCard({ icon: Icon, label, value }: { icon: any; label: string; value: string }) {
+function InfoCard({ icon: Icon, label, value }: { icon: LucideIcon; label: string; value: string }) {
   return (
     <div className="rounded-lg border p-3 text-center">
       <Icon className="w-4 h-4 mx-auto mb-1 text-muted-foreground" />
@@ -426,9 +431,9 @@ const RESISTANCE_COLORS: Record<string, string> = {
   immune: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
 };
 
-function PestsDiseasesTab({ plant, pestNameToId }: { plant: any; pestNameToId: (name: string) => string | undefined }) {
-  const commonPests: any[] = plant.common_pests ?? [];
-  const commonDiseases: any[] = plant.common_diseases ?? [];
+function PestsDiseasesTab({ plant, pestNameToId }: { plant: PlantCatalog & { common_pests?: PestEntry[]; common_diseases?: PestEntry[]; disease_resistance?: Record<string, string> }; pestNameToId: (name: string) => string | undefined }) {
+  const commonPests: PestEntry[] = plant.common_pests ?? [];
+  const commonDiseases: PestEntry[] = plant.common_diseases ?? [];
   const diseaseResistance: Record<string, string> = plant.disease_resistance ?? {};
   const hasContent = commonPests.length > 0 || commonDiseases.length > 0 || Object.keys(diseaseResistance).length > 0;
 
@@ -450,7 +455,7 @@ function PestsDiseasesTab({ plant, pestNameToId }: { plant: any; pestNameToId: (
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
-            {commonPests.map((entry: any, i: number) => {
+            {commonPests.map((entry: PestEntry, i: number) => {
               const linkedId = pestNameToId(entry.name);
               return (
                 <div key={i} className="flex items-start gap-2">
@@ -463,8 +468,8 @@ function PestsDiseasesTab({ plant, pestNameToId }: { plant: any; pestNameToId: (
                   ) : (
                     <Badge variant="outline" className="shrink-0">{entry.name}</Badge>
                   )}
-                  <Badge className={`${SUSCEPTIBILITY_COLORS[entry.susceptibility] ?? ''} capitalize text-xs shrink-0`} variant="outline">
-                    {entry.susceptibility}
+                  <Badge className={`${SUSCEPTIBILITY_COLORS[entry.susceptibility ?? ''] ?? ''} capitalize text-xs shrink-0`} variant="outline">
+                    {entry.susceptibility ?? 'unknown'}
                   </Badge>
                   {entry.notes && <span className="text-xs text-muted-foreground">{entry.notes}</span>}
                 </div>
@@ -482,7 +487,7 @@ function PestsDiseasesTab({ plant, pestNameToId }: { plant: any; pestNameToId: (
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
-            {commonDiseases.map((entry: any, i: number) => {
+            {commonDiseases.map((entry: PestEntry, i: number) => {
               const linkedId = pestNameToId(entry.name);
               return (
                 <div key={i} className="flex items-start gap-2">
@@ -495,8 +500,8 @@ function PestsDiseasesTab({ plant, pestNameToId }: { plant: any; pestNameToId: (
                   ) : (
                     <Badge variant="outline" className="shrink-0">{entry.name}</Badge>
                   )}
-                  <Badge className={`${SUSCEPTIBILITY_COLORS[entry.susceptibility] ?? ''} capitalize text-xs shrink-0`} variant="outline">
-                    {entry.susceptibility}
+                  <Badge className={`${SUSCEPTIBILITY_COLORS[entry.susceptibility ?? ''] ?? ''} capitalize text-xs shrink-0`} variant="outline">
+                    {entry.susceptibility ?? 'unknown'}
                   </Badge>
                   {entry.notes && <span className="text-xs text-muted-foreground">{entry.notes}</span>}
                 </div>

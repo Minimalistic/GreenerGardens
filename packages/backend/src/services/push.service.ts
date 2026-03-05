@@ -41,7 +41,7 @@ export class PushService {
     return process.env.VAPID_PUBLIC_KEY ?? null;
   }
 
-  subscribe(subscription: PushSubscriptionData, preferences: Record<string, boolean> = {}): any {
+  subscribe(subscription: PushSubscriptionData, preferences: Record<string, boolean> = {}) {
     const id = uuid();
     const existing = this.db.prepare(
       'SELECT id FROM push_subscriptions WHERE endpoint = ?'
@@ -70,7 +70,7 @@ export class PushService {
     return result.changes > 0;
   }
 
-  updatePreferences(endpoint: string, preferences: Record<string, boolean>): any {
+  updatePreferences(endpoint: string, preferences: Record<string, boolean>) {
     return this.db.prepare(
       `UPDATE push_subscriptions SET preferences = ?, updated_at = datetime('now')
        WHERE endpoint = ? RETURNING *`
@@ -89,12 +89,12 @@ export class PushService {
         JSON.stringify(payload),
       );
       return true;
-    } catch (err: any) {
+    } catch (err: unknown) {
       // 410 Gone = subscription expired, remove it
-      if (err.statusCode === 410) {
+      if (err instanceof Error && 'statusCode' in err && (err as { statusCode: number }).statusCode === 410) {
         this.unsubscribe(subscription.endpoint);
       }
-      console.error(`[Push] Failed to send notification: ${err.message}`);
+      console.error(`[Push] Failed to send notification: ${err instanceof Error ? err.message : String(err)}`);
       return false;
     }
   }
@@ -102,7 +102,7 @@ export class PushService {
   async broadcastByPreference(type: NotificationType, payload: NotificationPayload): Promise<number> {
     if (!this.configured) return 0;
 
-    const subs = this.db.prepare('SELECT * FROM push_subscriptions').all() as any[];
+    const subs = this.db.prepare('SELECT * FROM push_subscriptions').all() as { endpoint: string; keys_p256dh: string; keys_auth: string; preferences: string }[];
     let sent = 0;
 
     for (const sub of subs) {

@@ -110,7 +110,7 @@ export function AnalyticsPage() {
               <ResponsiveContainer width="100%" height={280}>
                 <PieChart>
                   <Pie data={destData} dataKey="total_quantity" nameKey="destination" cx="50%" cy="50%" outerRadius={100} label>
-                    {destData.map((_: any, i: number) => (
+                    {destData.map((_: Record<string, unknown>, i: number) => (
                       <Cell key={i} fill={COLORS[i % COLORS.length]} />
                     ))}
                   </Pie>

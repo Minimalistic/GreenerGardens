@@ -1,5 +1,5 @@
 import type Database from 'better-sqlite3';
-import { BaseRepository } from './base.repository.js';
+import { BaseRepository, type SqlParam } from './base.repository.js';
 
 export interface NoteRow {
   id: string;
@@ -25,7 +25,7 @@ export class NoteRepository extends BaseRepository<NoteRow> {
     offset?: number;
   }): NoteRow[] {
     const conditions: string[] = [];
-    const params: any[] = [];
+    const params: SqlParam[] = [];
 
     if (filters.pinned !== undefined) {
       conditions.push('pinned = ?');

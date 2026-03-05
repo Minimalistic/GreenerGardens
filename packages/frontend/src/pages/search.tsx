@@ -6,6 +6,15 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { plantTypeEmoji } from '@/lib/plant-type-emoji';
 
+interface SearchResultItem {
+  entity_id: string;
+  entity_type: string;
+  title: string;
+  subtitle?: string | null;
+  emoji?: string | null;
+  plant_type?: string | null;
+}
+
 const entityIcons: Record<string, typeof SearchIcon> = {
   plant_catalog: Sprout,
   plot: Map,
@@ -32,10 +41,10 @@ export function SearchPage() {
   const results = data?.data ?? [];
 
   // Group by entity type
-  const grouped = results.reduce((acc: Record<string, any[]>, r: any) => {
+  const grouped = results.reduce((acc: Record<string, SearchResultItem[]>, r: SearchResultItem) => {
     (acc[r.entity_type] = acc[r.entity_type] || []).push(r);
     return acc;
-  }, {} as Record<string, any[]>);
+  }, {} as Record<string, SearchResultItem[]>);
 
   return (
     <div className="space-y-4 max-w-3xl mx-auto">
@@ -63,7 +72,7 @@ export function SearchPage() {
           <div key={type}>
             <h3 className="text-sm font-medium text-muted-foreground mb-2 capitalize">{type.replace('_', ' ')}s</h3>
             <div className="space-y-2">
-              {items.map((item: any) => (
+              {items.map((item) => (
                 <Card
                   key={item.entity_id}
                   className="cursor-pointer hover:bg-muted/50 transition-colors"

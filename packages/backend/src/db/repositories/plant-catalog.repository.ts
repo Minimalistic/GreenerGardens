@@ -1,5 +1,5 @@
 import type Database from 'better-sqlite3';
-import { BaseRepository, type FindAllOptions } from './base.repository.js';
+import { BaseRepository, type FindAllOptions, type SqlParam } from './base.repository.js';
 
 export interface PlantCatalogRow {
   id: string;
@@ -65,7 +65,7 @@ export class PlantCatalogRepository extends BaseRepository<PlantCatalogRow> {
       limit = 20, offset = 0, orderBy = 'common_name', orderDir = 'ASC' } = options;
 
     const conditions: string[] = [];
-    const params: any[] = [];
+    const params: SqlParam[] = [];
 
     if (search) {
       conditions.push('(common_name LIKE ? OR scientific_name LIKE ? OR family LIKE ?)');
@@ -101,7 +101,7 @@ export class PlantCatalogRepository extends BaseRepository<PlantCatalogRow> {
 
     const total = (this.db.prepare(
       `SELECT COUNT(*) as count FROM plant_catalog ${where}`
-    ).get(...params) as any).count;
+    ).get(...params) as { count: number }).count;
 
     const data = this.db.prepare(
       `SELECT * FROM plant_catalog ${where} ORDER BY ${orderBy} ${orderDir} LIMIT ? OFFSET ?`
@@ -110,7 +110,7 @@ export class PlantCatalogRepository extends BaseRepository<PlantCatalogRow> {
     return { data, total };
   }
 
-  bulkInsert(plants: Record<string, any>[]): void {
+  bulkInsert(plants: Record<string, SqlParam>[]): void {
     if (plants.length === 0) return;
 
     const keys = Object.keys(plants[0]);
@@ -119,7 +119,7 @@ export class PlantCatalogRepository extends BaseRepository<PlantCatalogRow> {
       `INSERT OR IGNORE INTO plant_catalog (${keys.join(', ')}) VALUES (${placeholders})`
     );
 
-    const insertMany = this.db.transaction((items: Record<string, any>[]) => {
+    const insertMany = this.db.transaction((items: Record<string, SqlParam>[]) => {
       for (const item of items) {
         stmt.run(...keys.map(k => item[k]));
       }

@@ -47,7 +47,7 @@ export function DayNotes({ date }: DayNotesProps) {
     );
   };
 
-  const startEdit = (note: any) => {
+  const startEdit = (note: { id: string; content: string }) => {
     setEditingId(note.id);
     setEditContent(note.content);
   };
@@ -103,7 +103,7 @@ export function DayNotes({ date }: DayNotesProps) {
 
         {notes.length > 0 && (
           <div className="space-y-2 border-t pt-3">
-            {notes.map((note: any) => (
+            {notes.map((note) => (
               <div
                 key={note.id}
                 className={`text-sm rounded-md border p-2 ${note.pinned ? 'border-primary' : ''}`}

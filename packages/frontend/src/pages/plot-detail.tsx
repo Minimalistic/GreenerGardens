@@ -31,6 +31,7 @@ import { SuccessionPlantingDialog } from '@/components/garden/succession-plantin
 import { ArrowLeft, Layers, Sprout, Plus, Trash2, X, Copy, ChevronDown, ExternalLink, Pencil, ClipboardList } from 'lucide-react';
 import { PlantTypeBadge } from '@/components/garden/plant-type-badge';
 import { CreateTaskDialog } from '@/components/garden/create-task-dialog';
+import type { PlantInstanceCreate } from '@gardenvault/shared';
 
 const STATUS_ORDER = [
   'planned', 'seed_started', 'germinated', 'seedling', 'hardening_off',
@@ -117,7 +118,7 @@ export function PlotDetail() {
 
   if (!plot) return <p>Plot not found</p>;
 
-  const dims = (plot as any).dimensions;
+  const dims = plot.dimensions;
   const widthFt = dims?.width_ft ?? 4;
   const lengthFt = dims?.length_ft ?? 4;
 
@@ -170,10 +171,10 @@ export function PlotDetail() {
         plot_id: plotId,
         sub_plot_id: plantDialog.subPlotId,
         variety_name: varietyName || undefined,
-        status: plantStatus,
+        status: plantStatus as PlantInstanceCreate['status'],
         health: 'good',
         date_planted: datePlanted || undefined,
-        planting_method: plantingMethod || undefined,
+        planting_method: (plantingMethod || undefined) as PlantInstanceCreate['planting_method'],
         quantity,
         source: source || undefined,
         notes: plantNotes || undefined,
@@ -263,9 +264,9 @@ export function PlotDetail() {
           <ArrowLeft className="w-5 h-5" />
         </Button>
         <div className="flex-1">
-          <h2 className="text-xl font-semibold">{(plot as any).name}</h2>
+          <h2 className="text-xl font-semibold">{plot.name}</h2>
           <p className="text-sm text-muted-foreground capitalize">
-            {(plot as any).plot_type?.replace('_', ' ')}
+            {plot.plot_type?.replace('_', ' ')}
             {dims && ` - ${dims.length_ft}' x ${dims.width_ft}'`}
           </p>
         </div>
@@ -559,7 +560,7 @@ export function PlotDetail() {
               />
               {search && !selectedCatalogId && catalogResults.length > 0 && (
                 <div className="border rounded-md max-h-40 overflow-y-auto">
-                  {catalogResults.map((plant: any) => (
+                  {catalogResults.map((plant) => (
                     <button
                       key={plant.id}
                       className={`w-full text-left px-3 py-2 text-sm hover:bg-muted ${

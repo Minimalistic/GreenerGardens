@@ -13,9 +13,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import type { SoilTest, Plot } from '@gardenvault/shared';
 
-function phColor(ph: number | null): string {
-  if (ph === null) return 'text-muted-foreground';
+function phColor(ph: number | null | undefined): string {
+  if (ph == null) return 'text-muted-foreground';
   if (ph < 5.5) return 'text-red-500';
   if (ph < 6.0) return 'text-orange-500';
   if (ph <= 7.0) return 'text-green-500';
@@ -23,47 +24,49 @@ function phColor(ph: number | null): string {
   return 'text-red-500';
 }
 
-function nutrientLevel(ppm: number | null, low: number, high: number): string {
-  if (ppm === null) return 'N/A';
+function nutrientLevel(ppm: number | null | undefined, low: number, high: number): string {
+  if (ppm == null) return 'N/A';
   if (ppm < low) return 'Low';
   if (ppm <= high) return 'Optimal';
   return 'High';
 }
 
-function nutrientColor(ppm: number | null, low: number, high: number): string {
-  if (ppm === null) return 'text-muted-foreground';
+function nutrientColor(ppm: number | null | undefined, low: number, high: number): string {
+  if (ppm == null) return 'text-muted-foreground';
   if (ppm < low) return 'text-red-500';
   if (ppm <= high) return 'text-green-500';
   return 'text-orange-500';
 }
 
-const soilTestColumns: Column<any>[] = [
+type SoilTestRow = SoilTest & Record<string, unknown>;
+
+const soilTestColumns: Column<SoilTestRow>[] = [
   { key: 'test_date', label: 'Date' },
-  { key: 'ph', label: 'pH', render: (row) => row.ph !== null ? (
+  { key: 'ph', label: 'pH', render: (row) => row.ph != null ? (
     <span className={`font-medium ${phColor(row.ph)}`}>{row.ph}</span>
   ) : '-' },
-  { key: 'nitrogen_ppm', label: 'N (ppm)', render: (row) => row.nitrogen_ppm !== null ? (
+  { key: 'nitrogen_ppm', label: 'N (ppm)', render: (row) => row.nitrogen_ppm != null ? (
     <span className={nutrientColor(row.nitrogen_ppm, 25, 50)}>
       {row.nitrogen_ppm} <Badge variant="outline" className={`ml-1 text-xs ${nutrientColor(row.nitrogen_ppm, 25, 50)}`}>{nutrientLevel(row.nitrogen_ppm, 25, 50)}</Badge>
     </span>
   ) : '-' },
-  { key: 'phosphorus_ppm', label: 'P (ppm)', render: (row) => row.phosphorus_ppm !== null ? (
+  { key: 'phosphorus_ppm', label: 'P (ppm)', render: (row) => row.phosphorus_ppm != null ? (
     <span className={nutrientColor(row.phosphorus_ppm, 15, 40)}>
       {row.phosphorus_ppm} <Badge variant="outline" className={`ml-1 text-xs ${nutrientColor(row.phosphorus_ppm, 15, 40)}`}>{nutrientLevel(row.phosphorus_ppm, 15, 40)}</Badge>
     </span>
   ) : '-' },
-  { key: 'potassium_ppm', label: 'K (ppm)', render: (row) => row.potassium_ppm !== null ? (
+  { key: 'potassium_ppm', label: 'K (ppm)', render: (row) => row.potassium_ppm != null ? (
     <span className={nutrientColor(row.potassium_ppm, 100, 200)}>
       {row.potassium_ppm} <Badge variant="outline" className={`ml-1 text-xs ${nutrientColor(row.potassium_ppm, 100, 200)}`}>{nutrientLevel(row.potassium_ppm, 100, 200)}</Badge>
     </span>
   ) : '-' },
-  { key: 'organic_matter_pct', label: 'Organic %', render: (row) => row.organic_matter_pct !== null ? `${row.organic_matter_pct}%` : '-' },
+  { key: 'organic_matter_pct', label: 'Organic %', render: (row) => row.organic_matter_pct != null ? `${row.organic_matter_pct}%` : '-' },
   { key: 'moisture_level', label: 'Moisture', render: (row) => row.moisture_level ? (
     <span className="capitalize">{row.moisture_level.replace(/_/g, ' ')}</span>
   ) : '-' },
 ];
 
-function CreateSoilTestDialog({ plots }: { plots: any[] }) {
+function CreateSoilTestDialog({ plots }: { plots: Plot[] }) {
   const [open, setOpen] = useState(false);
   const createSoilTest = useCreateSoilTest();
   const { toast } = useToast();
@@ -120,7 +123,7 @@ function CreateSoilTestDialog({ plots }: { plots: any[] }) {
             <Select value={form.plot_id} onValueChange={v => setForm({ ...form, plot_id: v })}>
               <SelectTrigger><SelectValue placeholder="Select plot" /></SelectTrigger>
               <SelectContent>
-                {plots.map((p: any) => (
+                {plots.map((p) => (
                   <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>
                 ))}
               </SelectContent>
@@ -204,7 +207,7 @@ export function SoilTestsPage() {
         <Select value={selectedPlot || ''} onValueChange={v => setSelectedPlot(v)}>
           <SelectTrigger><SelectValue placeholder="Choose a plot to view tests" /></SelectTrigger>
           <SelectContent>
-            {plots.map((p: any) => (
+            {plots.map((p) => (
               <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>
             ))}
           </SelectContent>
@@ -225,10 +228,10 @@ export function SoilTestsPage() {
           </CardContent>
         </Card>
       ) : view === 'table' ? (
-        <DataTable data={tests} columns={soilTestColumns} exportFilename="soil-tests" />
+        <DataTable data={tests as SoilTestRow[]} columns={soilTestColumns} exportFilename="soil-tests" />
       ) : (
         <div className="space-y-3">
-          {tests.map((test: any) => (
+          {tests.map((test) => (
             <Card key={test.id}>
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">

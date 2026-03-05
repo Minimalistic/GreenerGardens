@@ -7,6 +7,46 @@ import type Database from 'better-sqlite3';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SEED_FILE = path.resolve(__dirname, '../../../../seed_data/plant_catalog.json');
 
+interface SeedPlant {
+  common_name: string;
+  scientific_name?: string;
+  family?: string;
+  plant_type: string;
+  lifecycle?: string;
+  description?: string;
+  image_url?: string;
+  emoji?: string;
+  sun_exposure?: string;
+  water_needs?: string;
+  min_zone?: number;
+  max_zone?: number;
+  soil_ph_min?: number;
+  soil_ph_max?: number;
+  spacing_inches?: number;
+  row_spacing_inches?: number;
+  height_inches_min?: number;
+  height_inches_max?: number;
+  days_to_germination_min?: number;
+  days_to_germination_max?: number;
+  days_to_maturity_min?: number;
+  days_to_maturity_max?: number;
+  planting_depth_inches?: number;
+  indoor_start_weeks_before_frost?: number;
+  outdoor_sow_weeks_after_frost?: number;
+  transplant_weeks_after_last_frost?: number;
+  succession_planting_interval_days?: number;
+  harvest_instructions?: string;
+  storage_instructions?: string;
+  companions?: unknown[];
+  antagonists?: unknown[];
+  rotation_family?: string;
+  growing_tips?: string[];
+  wikipedia_url?: string;
+  common_pests?: unknown[];
+  common_diseases?: unknown[];
+  disease_resistance?: Record<string, string>;
+}
+
 export function seedPlantCatalog(db: Database.Database): void {
   if (!fs.existsSync(SEED_FILE)) {
     console.log('No seed data file found at', SEED_FILE);
@@ -17,10 +57,10 @@ export function seedPlantCatalog(db: Database.Database): void {
 
   // Build set of existing plant names to avoid duplicates
   const existing = new Set<string>(
-    (db.prepare('SELECT common_name FROM plant_catalog').all() as any[]).map(r => r.common_name.toLowerCase()),
+    (db.prepare('SELECT common_name FROM plant_catalog').all() as { common_name: string }[]).map(r => r.common_name.toLowerCase()),
   );
 
-  const newPlants = plants.filter((p: any) => !existing.has(p.common_name.toLowerCase()));
+  const newPlants = plants.filter((p: SeedPlant) => !existing.has(p.common_name.toLowerCase()));
   if (newPlants.length === 0) {
     console.log(`Plant catalog up to date (${existing.size} entries)`);
     return;
@@ -43,7 +83,7 @@ export function seedPlantCatalog(db: Database.Database): void {
     )
   `);
 
-  const insertAll = db.transaction((items: any[]) => {
+  const insertAll = db.transaction((items: SeedPlant[]) => {
     for (const p of items) {
       stmt.run(
         uuid(),
@@ -93,7 +133,7 @@ export function updatePlantImages(db: Database.Database): void {
   if (!fs.existsSync(SEED_FILE)) return;
 
   const plants = JSON.parse(fs.readFileSync(SEED_FILE, 'utf-8'));
-  const plantsWithImages = plants.filter((p: any) => p.image_url);
+  const plantsWithImages = plants.filter((p: SeedPlant) => p.image_url);
   if (plantsWithImages.length === 0) return;
 
   const stmt = db.prepare(
@@ -101,7 +141,7 @@ export function updatePlantImages(db: Database.Database): void {
   );
 
   let updated = 0;
-  const updateAll = db.transaction((items: any[]) => {
+  const updateAll = db.transaction((items: SeedPlant[]) => {
     for (const p of items) {
       const result = stmt.run(p.image_url, p.common_name, p.image_url);
       if (result.changes > 0) updated++;
@@ -118,7 +158,7 @@ export function updatePlantEmojis(db: Database.Database): void {
   if (!fs.existsSync(SEED_FILE)) return;
 
   const plants = JSON.parse(fs.readFileSync(SEED_FILE, 'utf-8'));
-  const plantsWithEmojis = plants.filter((p: any) => p.emoji);
+  const plantsWithEmojis = plants.filter((p: SeedPlant) => p.emoji);
   if (plantsWithEmojis.length === 0) return;
 
   const stmt = db.prepare(
@@ -126,7 +166,7 @@ export function updatePlantEmojis(db: Database.Database): void {
   );
 
   let updated = 0;
-  const updateAll = db.transaction((items: any[]) => {
+  const updateAll = db.transaction((items: SeedPlant[]) => {
     for (const p of items) {
       const result = stmt.run(p.emoji, p.common_name);
       if (result.changes > 0) updated++;
@@ -149,7 +189,7 @@ export function updatePlantCompanions(db: Database.Database): void {
   );
 
   let updated = 0;
-  const updateAll = db.transaction((items: any[]) => {
+  const updateAll = db.transaction((items: SeedPlant[]) => {
     for (const p of items) {
       if (!p.companions && !p.antagonists) continue;
       const result = stmt.run(
@@ -171,7 +211,7 @@ export function updatePlantWikipediaUrls(db: Database.Database): void {
   if (!fs.existsSync(SEED_FILE)) return;
 
   const plants = JSON.parse(fs.readFileSync(SEED_FILE, 'utf-8'));
-  const plantsWithUrls = plants.filter((p: any) => p.wikipedia_url);
+  const plantsWithUrls = plants.filter((p: SeedPlant) => p.wikipedia_url);
   if (plantsWithUrls.length === 0) return;
 
   const stmt = db.prepare(
@@ -179,7 +219,7 @@ export function updatePlantWikipediaUrls(db: Database.Database): void {
   );
 
   let updated = 0;
-  const updateAll = db.transaction((items: any[]) => {
+  const updateAll = db.transaction((items: SeedPlant[]) => {
     for (const p of items) {
       const result = stmt.run(p.wikipedia_url, p.common_name);
       if (result.changes > 0) updated++;
@@ -197,7 +237,7 @@ export function updatePlantPestData(db: Database.Database): void {
 
   const plants = JSON.parse(fs.readFileSync(SEED_FILE, 'utf-8'));
   const plantsWithPestData = plants.filter(
-    (p: any) => p.common_pests || p.common_diseases || p.disease_resistance,
+    (p: SeedPlant) => p.common_pests || p.common_diseases || p.disease_resistance,
   );
   if (plantsWithPestData.length === 0) return;
 
@@ -207,7 +247,7 @@ export function updatePlantPestData(db: Database.Database): void {
   );
 
   let updated = 0;
-  const updateAll = db.transaction((items: any[]) => {
+  const updateAll = db.transaction((items: SeedPlant[]) => {
     for (const p of items) {
       const result = stmt.run(
         JSON.stringify(p.common_pests ?? []),

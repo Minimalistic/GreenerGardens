@@ -1,5 +1,5 @@
 import type Database from 'better-sqlite3';
-import { BaseRepository } from './base.repository.js';
+import { BaseRepository, type SqlParam } from './base.repository.js';
 
 export interface TaskRow {
   id: string;
@@ -82,7 +82,7 @@ export class TaskRepository extends BaseRepository<TaskRow> {
     offset?: number;
   }): TaskRow[] {
     const conditions: string[] = [];
-    const params: any[] = [];
+    const params: SqlParam[] = [];
 
     if (filters.status) {
       conditions.push('t.status = ?');

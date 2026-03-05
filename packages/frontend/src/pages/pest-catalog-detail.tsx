@@ -11,6 +11,10 @@ import { ArrowLeft, AlertTriangle, Zap, Target, Calendar, MapPin, Shield, Leaf, 
 import { plantTypeEmoji } from '@/lib/plant-type-emoji';
 import { PLANT_TYPE_COLORS } from '@/lib/plant-type-colors';
 import { cn } from '@/lib/utils';
+import type { PestCatalog, TreatmentEntry } from '@gardenvault/shared';
+import type { LucideIcon } from 'lucide-react';
+
+type Treatment = string | TreatmentEntry;
 
 const SEVERITY_COLORS: Record<string, string> = {
   low: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
@@ -39,7 +43,7 @@ export function PestCatalogDetail() {
   const { data: catalogData } = usePlantCatalogSearch({ limit: 500 });
 
   const plantLookup = useMemo(() => {
-    const entries = (catalogData as any)?.data ?? [];
+    const entries = catalogData?.data ?? [];
     const map = new Map<string, { id: string; emoji?: string; plant_type?: string }>();
     for (const entry of entries) {
       map.set(entry.common_name.toLowerCase(), { id: entry.id, emoji: entry.emoji, plant_type: entry.plant_type });
@@ -56,7 +60,7 @@ export function PestCatalogDetail() {
     );
   }
 
-  const pest = data?.data as any;
+  const pest = data?.data as PestCatalog | undefined;
   if (!pest) return <p>Pest not found</p>;
 
   const affectedPlants: string[] = pest.affected_plants ?? [];
@@ -64,10 +68,10 @@ export function PestCatalogDetail() {
   const symptoms: string[] = pest.symptoms ?? [];
   const favorableConditions: string[] = pest.favorable_conditions ?? [];
   const prevention: string[] = pest.prevention ?? [];
-  const organicTreatments: any[] = pest.organic_treatments ?? [];
-  const chemicalTreatments: any[] = pest.chemical_treatments ?? [];
-  const biologicalTreatments: any[] = pest.biological_treatments ?? [];
-  const culturalTreatments: any[] = pest.cultural_treatments ?? [];
+  const organicTreatments: Treatment[] = pest.organic_treatments ?? [];
+  const chemicalTreatments: Treatment[] = pest.chemical_treatments ?? [];
+  const biologicalTreatments: Treatment[] = pest.biological_treatments ?? [];
+  const culturalTreatments: Treatment[] = pest.cultural_treatments ?? [];
 
   return (
     <div className="space-y-4 max-w-3xl mx-auto">
@@ -89,7 +93,7 @@ export function PestCatalogDetail() {
           <Badge className={`${CATEGORY_COLORS[pest.category] ?? ''} capitalize`} variant="outline">
             {pest.category}
           </Badge>
-          <Badge className={`${SEVERITY_COLORS[pest.severity_potential] ?? ''} capitalize`} variant="outline">
+          <Badge className={`${SEVERITY_COLORS[pest.severity_potential ?? ''] ?? ''} capitalize`} variant="outline">
             {pest.severity_potential}
           </Badge>
         </div>
@@ -108,9 +112,9 @@ export function PestCatalogDetail() {
           {pest.description && <p className="text-sm">{pest.description}</p>}
 
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-            <FactCard icon={AlertTriangle} label="Severity" value={pest.severity_potential} />
-            <FactCard icon={Zap} label="Spread Rate" value={pest.spread_rate} />
-            <FactCard icon={Target} label="Damage Type" value={pest.damage_type?.replace(/_/g, ' ')} />
+            <FactCard icon={AlertTriangle} label="Severity" value={pest.severity_potential ?? ''} />
+            <FactCard icon={Zap} label="Spread Rate" value={pest.spread_rate ?? ''} />
+            <FactCard icon={Target} label="Damage Type" value={pest.damage_type?.replace(/_/g, ' ') ?? ''} />
             {pest.seasonality && <FactCard icon={Calendar} label="Seasonality" value={pest.seasonality} />}
             {(pest.min_zone || pest.max_zone) && (
               <FactCard icon={MapPin} label="USDA Zones" value={`${pest.min_zone ?? '?'} - ${pest.max_zone ?? '?'}`} />
@@ -254,7 +258,7 @@ export function PestCatalogDetail() {
   );
 }
 
-function FactCard({ icon: Icon, label, value }: { icon: any; label: string; value: string }) {
+function FactCard({ icon: Icon, label, value }: { icon: LucideIcon; label: string; value: string }) {
   return (
     <div className="rounded-lg border p-3 text-center">
       <Icon className="w-4 h-4 mx-auto mb-1 text-muted-foreground" />
@@ -266,9 +270,9 @@ function FactCard({ icon: Icon, label, value }: { icon: any; label: string; valu
 
 function TreatmentSection({ title, icon: Icon, iconColor, treatments }: {
   title: string;
-  icon: any;
+  icon: LucideIcon;
   iconColor: string;
-  treatments: any[];
+  treatments: Treatment[];
 }) {
   return (
     <Card>

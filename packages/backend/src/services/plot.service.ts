@@ -30,7 +30,7 @@ export class PlotService {
     return this.plotRepo.findByGardenId(gardenId).map(p => this.deserializePlot(p));
   }
 
-  create(data: unknown): any {
+  create(data: unknown) {
     const parsed = PlotCreateSchema.parse(data);
 
     // Verify garden exists
@@ -65,7 +65,7 @@ export class PlotService {
     return result;
   }
 
-  update(id: string, data: unknown): any {
+  update(id: string, data: unknown) {
     const parsed = PlotUpdateSchema.parse(data);
 
     const result = this.db.transaction(() => {
@@ -140,7 +140,7 @@ export class PlotService {
     `).run(plotId, plotId);
   }
 
-  private deserializePlot(row: PlotRow): any {
+  private deserializePlot(row: PlotRow) {
     return {
       ...row,
       dimensions: JSON.parse(row.dimensions_json),

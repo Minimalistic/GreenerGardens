@@ -1,5 +1,5 @@
 import type Database from 'better-sqlite3';
-import { BaseRepository } from './base.repository.js';
+import { BaseRepository, type SqlParam } from './base.repository.js';
 
 export interface FeedbackRow {
   id: string;
@@ -26,7 +26,7 @@ export class FeedbackRepository extends BaseRepository<FeedbackRow> {
     offset?: number;
   }): FeedbackRow[] {
     const conditions: string[] = [];
-    const params: any[] = [];
+    const params: SqlParam[] = [];
 
     if (filters.feedback_type) {
       conditions.push('feedback_type = ?');

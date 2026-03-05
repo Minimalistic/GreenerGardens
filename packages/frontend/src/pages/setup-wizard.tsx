@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { lookupZoneClient, lookupFrostDatesClient, lookupZoneAccurate } from '@/lib/zone-utils';
 import { Sprout, MapPin, Thermometer, Check } from 'lucide-react';
+import type { GardenCreate } from '@gardenvault/shared';
 
 type Step = 'welcome' | 'name' | 'location' | 'zone' | 'summary';
 
@@ -88,7 +89,7 @@ export function SetupWizard() {
   };
 
   const handleComplete = async () => {
-    const body: any = { name: data.name };
+    const body: GardenCreate = { name: data.name };
     if (data.address) body.address = data.address;
     if (data.latitude != null) body.latitude = data.latitude;
     if (data.longitude != null) body.longitude = data.longitude;

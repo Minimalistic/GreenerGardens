@@ -57,7 +57,7 @@ export class BackupService {
   }
 
   runIntegrityCheck(): string {
-    const result = this.db.pragma('integrity_check') as any[];
+    const result = this.db.pragma('integrity_check') as { integrity_check: string }[];
     return result[0]?.integrity_check ?? 'unknown';
   }
 

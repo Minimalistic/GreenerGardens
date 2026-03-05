@@ -48,7 +48,7 @@ export function EntityNotes({ entityType, entityId }: EntityNotesProps) {
     );
   };
 
-  const startEdit = (note: any) => {
+  const startEdit = (note: { id: string; content: string }) => {
     setEditingId(note.id);
     setEditContent(note.content);
   };
@@ -104,7 +104,7 @@ export function EntityNotes({ entityType, entityId }: EntityNotesProps) {
 
         {notes.length > 0 && (
           <div className="space-y-2 border-t pt-3">
-            {notes.map((note: any) => (
+            {notes.map((note) => (
               <div
                 key={note.id}
                 className={`text-sm rounded-md border p-2 ${note.pinned ? 'border-primary' : ''}`}

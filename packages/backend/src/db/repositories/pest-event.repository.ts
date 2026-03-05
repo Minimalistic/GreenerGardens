@@ -1,5 +1,5 @@
 import type Database from 'better-sqlite3';
-import { BaseRepository } from './base.repository.js';
+import { BaseRepository, type SqlParam } from './base.repository.js';
 
 export interface PestEventRow {
   id: string;
@@ -34,7 +34,7 @@ export class PestEventRepository extends BaseRepository<PestEventRow> {
     offset?: number;
   }): PestEventRow[] {
     const conditions: string[] = [];
-    const params: any[] = [];
+    const params: SqlParam[] = [];
 
     if (filters.entity_type) { conditions.push('entity_type = ?'); params.push(filters.entity_type); }
     if (filters.entity_id) { conditions.push('entity_id = ?'); params.push(filters.entity_id); }
@@ -57,7 +57,7 @@ export class PestEventRepository extends BaseRepository<PestEventRow> {
     outcome?: string;
   }): number {
     const conditions: string[] = [];
-    const params: any[] = [];
+    const params: SqlParam[] = [];
 
     if (filters.entity_type) { conditions.push('entity_type = ?'); params.push(filters.entity_type); }
     if (filters.entity_id) { conditions.push('entity_id = ?'); params.push(filters.entity_id); }
@@ -65,7 +65,7 @@ export class PestEventRepository extends BaseRepository<PestEventRow> {
 
     const where = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
 
-    const row = this.db.prepare(`SELECT COUNT(*) as count FROM pest_events ${where}`).get(...params) as any;
+    const row = this.db.prepare(`SELECT COUNT(*) as count FROM pest_events ${where}`).get(...params) as { count: number };
     return row.count;
   }
 

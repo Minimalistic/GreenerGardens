@@ -157,8 +157,8 @@ export function useSendMessage() {
                 bufferRef.current += payload.text;
                 scheduleReveal();
               }
-            } catch (e: any) {
-              if (e.message && e.message !== 'Unexpected end of JSON input') {
+            } catch (e: unknown) {
+              if (e instanceof Error && e.message !== 'Unexpected end of JSON input') {
                 throw e;
               }
             }

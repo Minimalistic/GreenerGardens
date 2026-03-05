@@ -10,7 +10,15 @@ import { cn } from '@/lib/utils';
 import { PLANT_TYPE_COLORS } from '@/lib/plant-type-colors';
 import { plantTypeEmoji } from '@/lib/plant-type-emoji';
 
-function GuideSection({ title, icon: Icon, entries }: { title: string; icon: typeof Sprout; entries: any[] }) {
+interface GuideEntry {
+  plant_id: string;
+  common_name: string;
+  plant_type: string;
+  emoji?: string;
+  days_remaining: number;
+}
+
+function GuideSection({ title, icon: Icon, entries }: { title: string; icon: typeof Sprout; entries: GuideEntry[] }) {
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -34,7 +42,7 @@ function GuideSection({ title, icon: Icon, entries }: { title: string; icon: typ
         {title}
       </h4>
       <div className="flex flex-wrap gap-2">
-        {entries.slice(0, 5).map((entry: any) => (
+        {entries.slice(0, 5).map((entry: GuideEntry) => (
           <Badge
             key={entry.plant_id}
             variant="outline"
@@ -70,7 +78,7 @@ function GuideSection({ title, icon: Icon, entries }: { title: string; icon: typ
           }}
         >
           <div className="flex flex-wrap gap-2 pt-2">
-            {entries.slice(5).map((entry: any) => (
+            {entries.slice(5).map((entry: GuideEntry) => (
               <Badge
                 key={entry.plant_id}
                 variant="outline"

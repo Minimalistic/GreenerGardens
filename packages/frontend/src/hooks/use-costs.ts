@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import type { CostEntry, CostEntryCreate, CostEntryUpdate } from '@gardenvault/shared';
 
 export function useCosts(options?: { category?: string }) {
   const params = new URLSearchParams();
@@ -7,7 +8,7 @@ export function useCosts(options?: { category?: string }) {
   const qs = params.toString();
   return useQuery({
     queryKey: ['costs', options],
-    queryFn: () => api.get<{ data: any[] }>(`/costs${qs ? `?${qs}` : ''}`),
+    queryFn: () => api.get<{ data: CostEntry[] }>(`/costs${qs ? `?${qs}` : ''}`),
   });
 }
 
@@ -15,21 +16,21 @@ export function useCostSummary(year?: number) {
   const qs = year ? `?year=${year}` : '';
   return useQuery({
     queryKey: ['costs', 'summary', year],
-    queryFn: () => api.get<{ data: any[] }>(`/costs/summary${qs}`),
+    queryFn: () => api.get<{ data: Record<string, unknown>[] }>(`/costs/summary${qs}`),
   });
 }
 
 export function useCostYearly() {
   return useQuery({
     queryKey: ['costs', 'yearly'],
-    queryFn: () => api.get<{ data: any[] }>('/costs/yearly'),
+    queryFn: () => api.get<{ data: Record<string, unknown>[] }>('/costs/yearly'),
   });
 }
 
 export function useCreateCost() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (data: any) => api.post<{ data: any }>('/costs', data),
+    mutationFn: (data: CostEntryCreate) => api.post<{ data: CostEntry }>('/costs', data),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['costs'] });
     },
@@ -39,7 +40,7 @@ export function useCreateCost() {
 export function useUpdateCost() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: any }) => api.patch<{ data: any }>(`/costs/${id}`, data),
+    mutationFn: ({ id, data }: { id: string; data: CostEntryUpdate }) => api.patch<{ data: CostEntry }>(`/costs/${id}`, data),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['costs'] });
     },

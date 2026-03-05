@@ -9,9 +9,9 @@ import { useForm } from 'react-hook-form';
 import { Save } from 'lucide-react';
 
 interface DisplayPrefsFormData {
-  temperature_unit: string;
-  measurement_unit: string;
-  date_format: string;
+  temperature_unit: 'fahrenheit' | 'celsius';
+  measurement_unit: 'imperial' | 'metric';
+  date_format: 'MM/DD/YYYY' | 'DD/MM/YYYY' | 'YYYY-MM-DD';
 }
 
 export function DisplayPrefsSettings() {
@@ -56,7 +56,7 @@ export function DisplayPrefsSettings() {
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label>Temperature</Label>
-            <Select defaultValue={settings?.settings?.temperature_unit ?? 'fahrenheit'} onValueChange={v => setValue('temperature_unit', v)}>
+            <Select defaultValue={settings?.settings?.temperature_unit ?? 'fahrenheit'} onValueChange={v => setValue('temperature_unit', v as DisplayPrefsFormData['temperature_unit'])}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="fahrenheit">Fahrenheit</SelectItem>
@@ -66,7 +66,7 @@ export function DisplayPrefsSettings() {
           </div>
           <div className="space-y-2">
             <Label>Measurements</Label>
-            <Select defaultValue={settings?.settings?.measurement_unit ?? 'imperial'} onValueChange={v => setValue('measurement_unit', v)}>
+            <Select defaultValue={settings?.settings?.measurement_unit ?? 'imperial'} onValueChange={v => setValue('measurement_unit', v as DisplayPrefsFormData['measurement_unit'])}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="imperial">Imperial (ft, lbs)</SelectItem>
@@ -76,7 +76,7 @@ export function DisplayPrefsSettings() {
           </div>
           <div className="space-y-2">
             <Label>Date Format</Label>
-            <Select defaultValue={settings?.settings?.date_format ?? 'MM/DD/YYYY'} onValueChange={v => setValue('date_format', v)}>
+            <Select defaultValue={settings?.settings?.date_format ?? 'MM/DD/YYYY'} onValueChange={v => setValue('date_format', v as DisplayPrefsFormData['date_format'])}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="MM/DD/YYYY">MM/DD/YYYY</SelectItem>

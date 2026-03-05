@@ -21,7 +21,7 @@ export function runMigrations(db: Database.Database, migrationsDir?: string): vo
   // Get list of applied migrations
   const applied = new Set(
     db.prepare('SELECT name FROM _migrations').all()
-      .map((row: any) => row.name)
+      .map((row) => (row as { name: string }).name)
   );
 
   // Read migration files

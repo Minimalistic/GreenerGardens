@@ -23,8 +23,8 @@ export function tagRoutes(fastify: FastifyInstance, tagService: TagService) {
     reply.status(204);
   });
 
-  fastify.post<{ Params: { id: string } }>('/api/v1/tags/:id/entities', async (request, reply) => {
-    const { entity_type, entity_id } = request.body as any;
+  fastify.post<{ Params: { id: string }; Body: { entity_type: string; entity_id: string } }>('/api/v1/tags/:id/entities', async (request, reply) => {
+    const { entity_type, entity_id } = request.body;
     tagService.addEntityTag(request.params.id, entity_type, entity_id);
     reply.status(201);
     return { success: true };

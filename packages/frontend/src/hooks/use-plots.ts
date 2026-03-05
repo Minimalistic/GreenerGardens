@@ -35,7 +35,7 @@ export function useUpdatePlot() {
     mutationFn: ({ id, data }: { id: string; data: PlotUpdate }) =>
       api.patch<ApiResponse<Plot>>(`/plots/${id}`, data),
     onSuccess: (result, variables) => {
-      const gardenId = (result as any)?.data?.garden_id;
+      const gardenId = result?.data?.garden_id;
       if (gardenId) {
         queryClient.invalidateQueries({ queryKey: ['plots', gardenId] });
       } else {

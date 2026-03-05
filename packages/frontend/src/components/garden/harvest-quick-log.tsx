@@ -6,6 +6,16 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
+import type { HarvestCreate } from '@gardenvault/shared';
+
+interface HarvestFormData {
+  quantity: number;
+  unit: string;
+  quality: string;
+  destination: string;
+  date_harvested: string;
+  notes: string;
+}
 
 const UNITS = ['lb', 'oz', 'kg', 'g', 'count', 'bunch', 'basket', 'pint', 'quart', 'gallon'];
 const QUALITY = ['excellent', 'good', 'fair', 'poor'];
@@ -33,16 +43,16 @@ export function HarvestQuickLog({ open, onOpenChange, plantInstanceId, plotId }:
     },
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: HarvestFormData) => {
     try {
       await createHarvest.mutateAsync({
         plant_instance_id: plantInstanceId,
         plot_id: plotId,
         date_harvested: data.date_harvested,
         quantity: Number(data.quantity),
-        unit: data.unit as any,
-        quality: data.quality as any,
-        destination: data.destination as any,
+        unit: data.unit as HarvestCreate['unit'],
+        quality: data.quality as HarvestCreate['quality'],
+        destination: data.destination as HarvestCreate['destination'],
         notes: data.notes || undefined,
       });
       toast({ title: 'Harvest logged!' });

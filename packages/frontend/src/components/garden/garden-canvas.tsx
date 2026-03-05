@@ -3,6 +3,7 @@ import { Stage, Layer, Rect, Text, Group, Transformer } from 'react-konva';
 import type Konva from 'konva';
 import type { SubPlotWithPlant } from '@/hooks/use-sub-plots';
 import { plantTypeEmoji } from '@/lib/plant-type-emoji';
+import type { Plot, PlotGeometry } from '@gardenvault/shared';
 
 export const PX_PER_FT = 40;
 
@@ -28,10 +29,10 @@ interface ContextMenuEvent {
 }
 
 interface Props {
-  plots: any[];
+  plots: Plot[];
   selectedPlotId: string | null;
   onSelectPlot: (id: string | null) => void;
-  onPlotDragEnd: (id: string, geometry: any) => void;
+  onPlotDragEnd: (id: string, geometry: PlotGeometry) => void;
   onContextMenu?: (e: ContextMenuEvent) => void;
   onPlotDoubleClick?: (id: string) => void;
   subPlotsByPlot?: Map<string, SubPlotWithPlant[]>;
@@ -264,7 +265,7 @@ export function GardenCanvas({
   }, [subPlotsByPlot]);
 
   // Record the known-good edges from state when a transform begins
-  const handleTransformStart = useCallback((geometry: any) => {
+  const handleTransformStart = useCallback((geometry: PlotGeometry) => {
     transformAnchor.current = {
       left: geometry.x,
       top: geometry.y,
@@ -276,7 +277,7 @@ export function GardenCanvas({
   }, []);
 
   // Snap in real-time during transform using the known anchor edges
-  const handleTransform = useCallback((plotId: string, geometry: any) => {
+  const handleTransform = useCallback((plotId: string, geometry: PlotGeometry) => {
     if (!snapEnabled || !transformAnchor.current) return;
     const node = plotRefs.current.get(plotId);
     if (!node) return;
@@ -332,7 +333,7 @@ export function GardenCanvas({
     node.scaleY(newHeight / geometry.height);
   }, [snapEnabled, getMinPlotSize]);
 
-  const handleTransformEnd = useCallback((plotId: string, geometry: any) => {
+  const handleTransformEnd = useCallback((plotId: string, geometry: PlotGeometry) => {
     const node = plotRefs.current.get(plotId);
     if (!node) return;
 
@@ -551,7 +552,7 @@ export function GardenCanvas({
         </Layer>
 
         <Layer>
-          {plots.map((plot: any) => {
+          {plots.map((plot) => {
             const dims = plot.dimensions;
             const defaultW = dims ? dims.width_ft * PX_PER_FT : 120;
             const defaultH = dims ? dims.length_ft * PX_PER_FT : 80;

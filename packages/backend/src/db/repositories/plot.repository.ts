@@ -41,7 +41,7 @@ export class PlotRepository extends BaseRepository<PlotRow> {
           WHERE (json_extract(je.value, '$.entity_type') = 'plot' AND json_extract(je.value, '$.entity_id') = ?)
              OR (json_extract(je.value, '$.entity_type') = 'plant_instance' AND json_extract(je.value, '$.entity_id') IN (SELECT id FROM plant_instances WHERE plot_id = ?))
         ) AS notes
-    `).get(id, id, id, id, id, id) as any;
+    `).get(id, id, id, id, id, id) as { sub_plots: number; plant_instances: number; harvests: number; soil_tests: number; notes: number };
     return row;
   }
 }

@@ -19,6 +19,7 @@ import {
   useDeletePlantCatalogEntry,
 } from '@/hooks/use-plant-catalog';
 import { Trash2 } from 'lucide-react';
+import type { PlantCatalog, PlantCatalogCreate } from '@gardenvault/shared';
 
 const PLANT_TYPES = ['vegetable', 'fruit', 'herb', 'flower', 'tree', 'shrub', 'vine', 'grass', 'succulent', 'other'] as const;
 const LIFECYCLES = ['annual', 'biennial', 'perennial'] as const;
@@ -28,7 +29,7 @@ const WATER_OPTIONS = ['low', 'moderate', 'high', 'very_high'] as const;
 interface PlantFormDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  plant?: Record<string, any>;
+  plant?: PlantCatalog;
   onDeleted?: () => void;
 }
 
@@ -65,7 +66,7 @@ const EMPTY_FORM = {
   antagonists: '',
 };
 
-function plantToForm(plant: Record<string, any>) {
+function plantToForm(plant: PlantCatalog) {
   return {
     common_name: plant.common_name ?? '',
     scientific_name: plant.scientific_name ?? '',
@@ -113,12 +114,12 @@ function formToPayload(form: typeof EMPTY_FORM) {
     common_name: form.common_name.trim(),
     scientific_name: optStr(form.scientific_name),
     family: optStr(form.family),
-    plant_type: form.plant_type as any,
-    lifecycle: (form.lifecycle || undefined) as any,
+    plant_type: form.plant_type as PlantCatalogCreate['plant_type'],
+    lifecycle: (form.lifecycle || undefined) as PlantCatalogCreate['lifecycle'],
     description: optStr(form.description),
     image_url: optStr(form.image_url),
-    sun_exposure: (form.sun_exposure || undefined) as any,
-    water_needs: (form.water_needs || undefined) as any,
+    sun_exposure: (form.sun_exposure || undefined) as PlantCatalogCreate['sun_exposure'],
+    water_needs: (form.water_needs || undefined) as PlantCatalogCreate['water_needs'],
     min_zone: optInt(form.min_zone),
     max_zone: optInt(form.max_zone),
     soil_ph_min: optNum(form.soil_ph_min),
@@ -177,7 +178,7 @@ export function PlantFormDialog({ open, onOpenChange, plant, onDeleted }: PlantF
         { onSuccess: () => onOpenChange(false) },
       );
     } else {
-      createMutation.mutate(payload as any, {
+      createMutation.mutate(payload, {
         onSuccess: () => onOpenChange(false),
       });
     }

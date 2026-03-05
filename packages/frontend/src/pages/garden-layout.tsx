@@ -21,7 +21,7 @@ import { Plus, Map as MapIcon, Sprout, Trash2, Copy, Clipboard } from 'lucide-re
 import { useForm } from 'react-hook-form';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ConfirmDeleteDialog } from '@/components/confirm-delete-dialog';
-import type { SubPlot, ApiResponse } from '@gardenvault/shared';
+import type { SubPlot, ApiResponse, Plot, PlotCreate, PlotGeometry } from '@gardenvault/shared';
 
 interface PlotFormData {
   name: string;
@@ -96,10 +96,10 @@ export function GardenLayout() {
   }, [currentGardenId, gardens, setCurrentGardenId]);
 
   const plots = plotsData?.data ?? [];
-  const selectedPlot = plots.find((p: any) => p.id === selectedPlotId);
+  const selectedPlot = plots.find((p) => p.id === selectedPlotId);
 
   // Sub-plots for canvas overlay (always loaded)
-  const plotIds = useMemo(() => plots.map((p: any) => p.id as string), [plots]);
+  const plotIds = useMemo(() => plots.map((p) => p.id), [plots]);
   const subPlotQueries = useSubPlotsForPlots(plotIds);
   const subPlotsByPlot = useMemo(() => {
     const map = new Map<string, SubPlotWithPlant[]>();
@@ -115,7 +115,7 @@ export function GardenLayout() {
 
   const handleCopy = useCallback(() => {
     if (!selectedPlotId) return;
-    const plot = plots.find((p: any) => p.id === selectedPlotId);
+    const plot = plots.find((p) => p.id === selectedPlotId);
     if (!plot) return;
     const dims = plot.dimensions;
     const defaultW = dims ? dims.width_ft * PX_PER_FT : 120;
@@ -143,7 +143,7 @@ export function GardenLayout() {
       await createPlot.mutateAsync({
         garden_id: currentGardenId,
         name: `${clipboard.name} (copy)`,
-        plot_type: clipboard.plot_type as any,
+        plot_type: clipboard.plot_type as PlotCreate['plot_type'],
         dimensions: clipboard.dimensions,
         geometry: {
           ...clipboard.geometry,
@@ -151,8 +151,8 @@ export function GardenLayout() {
           y: clipboard.geometry.y + offsetPx,
         },
         soil_type: clipboard.soil_type ?? undefined,
-        sun_exposure: (clipboard.sun_exposure as any) ?? undefined,
-        irrigation: (clipboard.irrigation as any) ?? undefined,
+        sun_exposure: clipboard.sun_exposure as PlotCreate['sun_exposure'],
+        irrigation: clipboard.irrigation as PlotCreate['irrigation'],
         is_covered: clipboard.is_covered ?? false,
         tags: clipboard.tags ?? [],
       });
@@ -164,7 +164,7 @@ export function GardenLayout() {
 
   const handleDuplicate = useCallback(async () => {
     if (!selectedPlotId) return;
-    const plot = plots.find((p: any) => p.id === selectedPlotId);
+    const plot = plots.find((p) => p.id === selectedPlotId);
     if (!plot || !currentGardenId) return;
     const dims = plot.dimensions;
     const defaultW = dims ? dims.width_ft * PX_PER_FT : 120;
@@ -176,12 +176,12 @@ export function GardenLayout() {
       const newPlot = await createPlot.mutateAsync({
         garden_id: currentGardenId,
         name: `${plot.name} (copy)`,
-        plot_type: plot.plot_type as any,
+        plot_type: plot.plot_type as PlotCreate['plot_type'],
         dimensions: plot.dimensions,
         geometry: { ...g, x: g.x + offsetPx, y: g.y + offsetPx },
         soil_type: plot.soil_type ?? undefined,
-        sun_exposure: (plot.sun_exposure as any) ?? undefined,
-        irrigation: (plot.irrigation as any) ?? undefined,
+        sun_exposure: plot.sun_exposure as PlotCreate['sun_exposure'],
+        irrigation: plot.irrigation as PlotCreate['irrigation'],
         is_covered: plot.is_covered ?? false,
         tags: plot.tags ?? [],
       });
@@ -276,15 +276,15 @@ export function GardenLayout() {
       await createPlot.mutateAsync({
         garden_id: currentGardenId,
         name: formData.name,
-        plot_type: formData.plot_type as any,
+        plot_type: formData.plot_type as PlotCreate['plot_type'],
         dimensions: {
           length_ft: Number(formData.length_ft),
           width_ft: Number(formData.width_ft),
           height_ft: Number(formData.height_ft),
         },
         soil_type: formData.soil_type || undefined,
-        sun_exposure: formData.sun_exposure as any,
-        irrigation: formData.irrigation as any,
+        sun_exposure: formData.sun_exposure as PlotCreate['sun_exposure'],
+        irrigation: formData.irrigation as PlotCreate['irrigation'],
         is_covered: false,
         tags: [],
       });
@@ -296,14 +296,14 @@ export function GardenLayout() {
     }
   };
 
-  const handlePlotDragEnd = useCallback(async (plotId: string, geometry: any) => {
+  const handlePlotDragEnd = useCallback(async (plotId: string, geometry: PlotGeometry) => {
     try {
       // Derive physical dimensions from geometry so they stay in sync after resize
-      const plot = plots.find((p: any) => p.id === plotId);
+      const plot = plots.find((p) => p.id === plotId);
       const oldGeom = plot?.geometry;
       const sizeChanged = oldGeom && (oldGeom.width !== geometry.width || oldGeom.height !== geometry.height);
 
-      const data: any = { geometry };
+      const data: { geometry: PlotGeometry; dimensions?: { width_ft: number; length_ft: number; height_ft?: number } } = { geometry };
       if (sizeChanged) {
         data.dimensions = {
           width_ft: +(geometry.width / PX_PER_FT).toFixed(1),
@@ -474,11 +474,11 @@ export function GardenLayout() {
         {selectedPlot && (
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-base">{(selectedPlot as any).name}</CardTitle>
+              <CardTitle className="text-base">{selectedPlot.name}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               <p className="text-sm text-muted-foreground capitalize">
-                {(selectedPlot as any).plot_type?.replace('_', ' ')}
+                {selectedPlot.plot_type?.replace('_', ' ')}
               </p>
               <div className="flex gap-2">
                 <Button
@@ -524,7 +524,7 @@ export function GardenLayout() {
             </CardHeader>
             <CardContent>
               <div className="space-y-1">
-                {plots.map((plot: any) => (
+                {plots.map((plot) => (
                   <button
                     key={plot.id}
                     className={`w-full text-left text-sm px-2 py-1.5 rounded hover:bg-muted transition-colors ${

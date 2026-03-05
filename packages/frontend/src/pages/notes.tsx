@@ -8,6 +8,12 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import type { Note } from '@gardenvault/shared';
+
+interface EntityLink {
+  entity_type: string;
+  entity_id: string;
+}
 
 function CreateNoteDialog() {
   const [open, setOpen] = useState(false);
@@ -86,7 +92,7 @@ export function NotesPage() {
     });
   };
 
-  const startEdit = (note: any) => {
+  const startEdit = (note: { id: string; content: string }) => {
     setEditingId(note.id);
     setEditContent(note.content);
   };
@@ -127,7 +133,7 @@ export function NotesPage() {
         </Card>
       ) : (
         <div className="space-y-3">
-          {notes.map((note: any) => (
+          {notes.map((note) => (
             <Card key={note.id} className={note.pinned ? 'border-primary' : ''}>
               <CardContent className="py-4">
                 <div className="flex items-start justify-between gap-4">
@@ -184,7 +190,7 @@ export function NotesPage() {
                               {new Date(note.note_date + 'T12:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric', year: 'numeric' })}
                             </Badge>
                           )}
-                          {note.entity_links?.length > 0 && note.entity_links.map((link: any) => {
+                          {note.entity_links?.length > 0 && note.entity_links.map((link: EntityLink) => {
                             const path = entityLinkPath(link.entity_type, link.entity_id);
                             return (
                               <Badge

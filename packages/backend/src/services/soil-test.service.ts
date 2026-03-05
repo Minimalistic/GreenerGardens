@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import type Database from 'better-sqlite3';
 import { SoilTestCreateSchema, SoilTestUpdateSchema } from '@gardenvault/shared';
-import type { SoilTestRepository } from '../db/repositories/soil-test.repository.js';
+import type { SoilTestRepository, SoilTestRow } from '../db/repositories/soil-test.repository.js';
 import type { HistoryLogger } from './history.middleware.js';
 import { NotFoundError } from '../utils/errors.js';
 
@@ -74,7 +74,7 @@ export class SoilTestService {
     })();
   }
 
-  private deserialize(row: Record<string, any>) {
+  private deserialize(row: SoilTestRow) {
     return {
       ...row,
       amendments_applied: typeof row.amendments_applied === 'string' ? JSON.parse(row.amendments_applied) : row.amendments_applied,

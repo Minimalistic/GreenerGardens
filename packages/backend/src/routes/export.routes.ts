@@ -64,7 +64,7 @@ export function exportRoutes(fastify: FastifyInstance, db: Database.Database) {
         return { success: false, error: { code: 'VALIDATION_ERROR', message: `Invalid entity type: ${entityType}` } };
       }
 
-      const rows = db.prepare(`SELECT * FROM ${entityType}`).all() as Record<string, any>[];
+      const rows = db.prepare(`SELECT * FROM ${entityType}`).all() as Record<string, unknown>[];
       if (rows.length === 0) {
         reply.header('Content-Type', 'text/csv').send('');
         return;

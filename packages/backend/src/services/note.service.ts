@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import type Database from 'better-sqlite3';
 import { NoteCreateSchema, NoteUpdateSchema } from '@gardenvault/shared';
-import type { NoteRepository } from '../db/repositories/note.repository.js';
+import type { NoteRepository, NoteRow } from '../db/repositories/note.repository.js';
 import type { HistoryLogger } from './history.middleware.js';
 import { NotFoundError } from '../utils/errors.js';
 
@@ -82,7 +82,7 @@ export class NoteService {
     })();
   }
 
-  private deserialize(row: Record<string, any>) {
+  private deserialize(row: NoteRow) {
     return {
       ...row,
       entity_links: typeof row.entity_links === 'string' ? JSON.parse(row.entity_links) : row.entity_links,
