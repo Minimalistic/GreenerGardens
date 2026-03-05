@@ -60,6 +60,31 @@ import {
 import type { ForecastItem } from '@/hooks/use-weather';
 import { formatDistanceToNow, format, subDays } from 'date-fns';
 
+// ── Chart tooltip style ──────────────────────────────────────────────────────
+
+const chartTooltipStyle: React.CSSProperties = {
+  fontSize: 13,
+  backgroundColor: 'rgba(20, 40, 28, 0.85)',
+  border: '1px solid rgba(74, 222, 128, 0.4)',
+  borderRadius: 10,
+  color: '#d1fae5',
+  backdropFilter: 'blur(8px)',
+  padding: '8px 12px',
+  boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+  lineHeight: '1.5',
+};
+
+const chartTooltipLabelStyle: React.CSSProperties = {
+  color: '#86efac',
+  fontWeight: 600,
+  marginBottom: 2,
+};
+
+const chartTooltipItemStyle: React.CSSProperties = {
+  color: '#d1fae5',
+  padding: '1px 0',
+};
+
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 function getWeatherIcon(main: string, className: string = 'w-5 h-5') {
@@ -228,6 +253,133 @@ function InteractiveDetailItem({
   );
 }
 
+// ── Bento Metric Tile ────────────────────────────────────────────────────────
+
+function BentoMetricTile({
+  icon: Icon,
+  label,
+  value,
+  subValue,
+  metricKey,
+  className = '',
+}: {
+  icon: typeof Thermometer;
+  label: string;
+  value: string;
+  subValue?: string;
+  metricKey?: string;
+  className?: string;
+}) {
+  const info = metricKey ? METRIC_INFO[metricKey] : undefined;
+
+  const tile = (
+    <div className={`rounded-2xl border bg-card p-4 flex flex-col justify-between gap-2 ${info ? 'cursor-help hover:bg-muted/50 transition-colors' : ''} ${className}`}>
+      <div className="flex items-center justify-between">
+        <span className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">{label}</span>
+        <Icon className="w-4 h-4 text-muted-foreground/60" />
+      </div>
+      <div>
+        <p className="text-xl font-semibold tracking-tight leading-none">{value}</p>
+        {subValue && <p className="text-[11px] text-muted-foreground mt-1">{subValue}</p>}
+      </div>
+    </div>
+  );
+
+  if (!info) return tile;
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>{tile}</TooltipTrigger>
+      <TooltipContent side="top" className="max-w-xs">
+        <p className="text-xs leading-relaxed">{info.tip}</p>
+        {info.link && (
+          <a
+            href={info.link.href}
+            className="text-xs text-primary flex items-center gap-1 mt-1.5 hover:underline"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {info.link.label}
+            <ExternalLink className="w-3 h-3" />
+          </a>
+        )}
+      </TooltipContent>
+    </Tooltip>
+  );
+}
+
+// ── Radar Bento Tile ─────────────────────────────────────────────────────────
+
+function RadarBentoTile({ lat, lon, zoom }: { lat: number; lon: number; zoom: number }) {
+  const [expanded, setExpanded] = useState(false);
+  const src = `https://www.rainviewer.com/map.html?loc=${lat},${lon},${zoom}&oFa=1&oC=1&oU=0&oCS=1&oF=0&oAP=1&c=1&o=83&lm=1&layer=radar&sm=1&sn=1`;
+
+  return (
+    <>
+      <div className="col-span-2 lg:row-span-3 rounded-2xl border overflow-hidden relative group min-h-[240px]">
+        <div className="absolute top-3 left-3 z-10 bg-background/80 backdrop-blur-sm rounded-md px-2 py-1 text-xs font-medium shadow-sm">
+          Live Radar
+        </div>
+        <iframe
+          src={src}
+          className="absolute inset-0 w-full h-full"
+          title="Live Radar"
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          sandbox="allow-scripts allow-same-origin"
+        />
+        <div className="absolute inset-0 bg-transparent cursor-pointer" onClick={() => setExpanded(true)} />
+        <div className="absolute bottom-3 right-3 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+          <button
+            onClick={() => setExpanded(true)}
+            className="bg-background/90 backdrop-blur-sm border rounded-lg p-1.5 hover:bg-background shadow-sm"
+            title="Expand"
+          >
+            <Expand className="w-3.5 h-3.5" />
+          </button>
+          <a
+            href={src}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-background/90 backdrop-blur-sm border rounded-lg p-1.5 hover:bg-background shadow-sm"
+            title="Open in new tab"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
+        </div>
+      </div>
+
+      <Dialog open={expanded} onOpenChange={setExpanded}>
+        <DialogContent className="max-w-[95vw] w-[95vw] max-h-[90vh] h-[90vh] p-0 flex flex-col">
+          <DialogHeader className="px-4 pt-4 pb-2 shrink-0">
+            <DialogTitle className="text-sm flex items-center justify-between">
+              Live Radar
+              <a
+                href={src}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-primary hover:underline flex items-center gap-1 font-normal"
+              >
+                Open in new tab
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            </DialogTitle>
+          </DialogHeader>
+          <div className="flex-1 min-h-0 px-4 pb-4">
+            <iframe
+              src={src}
+              className="w-full h-full rounded-lg border"
+              title="Live Radar"
+              referrerPolicy="no-referrer"
+              sandbox="allow-scripts allow-same-origin"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}
+
 // ── Hourly Strip ─────────────────────────────────────────────────────────────
 
 function HourlyStrip({ entries }: { entries: ForecastItem[] }) {
@@ -316,7 +468,9 @@ function ForecastDayRow({ day, isExpanded, onToggle }: { day: DayForecast; isExp
               <XAxis dataKey="time" tick={{ fontSize: 10 }} />
               <YAxis tick={{ fontSize: 10 }} domain={['auto', 'auto']} unit="°" />
               <RechartsTooltip
-                contentStyle={{ fontSize: 11 }}
+                contentStyle={chartTooltipStyle}
+                labelStyle={chartTooltipLabelStyle}
+                itemStyle={chartTooltipItemStyle}
                 formatter={(value: number, name: string) => [
                   `${value}°F`,
                   name === 'temp' ? 'Temperature' : 'Feels Like',
@@ -333,7 +487,9 @@ function ForecastDayRow({ day, isExpanded, onToggle }: { day: DayForecast; isExp
                 <XAxis dataKey="time" tick={{ fontSize: 9 }} />
                 <YAxis tick={{ fontSize: 9 }} domain={[0, 100]} unit="%" />
                 <RechartsTooltip
-                  contentStyle={{ fontSize: 11 }}
+                  contentStyle={chartTooltipStyle}
+                  labelStyle={chartTooltipLabelStyle}
+                  itemStyle={chartTooltipItemStyle}
                   formatter={(value: number, name: string) => [
                     `${value}%`,
                     name === 'humidity' ? 'Humidity' : 'Rain Chance',
@@ -349,7 +505,9 @@ function ForecastDayRow({ day, isExpanded, onToggle }: { day: DayForecast; isExp
                 <XAxis dataKey="time" tick={{ fontSize: 9 }} />
                 <YAxis tick={{ fontSize: 9 }} unit=" mph" />
                 <RechartsTooltip
-                  contentStyle={{ fontSize: 11 }}
+                  contentStyle={chartTooltipStyle}
+                  labelStyle={chartTooltipLabelStyle}
+                  itemStyle={chartTooltipItemStyle}
                   formatter={(value: number) => [`${value} mph`, 'Wind']}
                 />
                 <Area type="monotone" dataKey="wind" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.15} strokeWidth={2} />
@@ -490,7 +648,9 @@ function HistoryChart({ dailySummary }: { dailySummary: Array<{ date: string; hi
           <XAxis dataKey="shortLabel" tick={{ fontSize: 11 }} />
           <YAxis tick={{ fontSize: 11 }} domain={['auto', 'auto']} unit="°" />
           <RechartsTooltip
-            contentStyle={{ fontSize: 12 }}
+            contentStyle={chartTooltipStyle}
+            labelStyle={chartTooltipLabelStyle}
+            itemStyle={chartTooltipItemStyle}
             labelFormatter={(label) => {
               const point = chartData.find((d) => d.shortLabel === label);
               return point?.label ?? label;
@@ -520,7 +680,9 @@ function HistoryChart({ dailySummary }: { dailySummary: Array<{ date: string; hi
             <XAxis dataKey="shortLabel" tick={{ fontSize: 11 }} />
             <YAxis tick={{ fontSize: 11 }} unit='"' />
             <RechartsTooltip
-              contentStyle={{ fontSize: 12 }}
+              contentStyle={chartTooltipStyle}
+              labelStyle={chartTooltipLabelStyle}
+              itemStyle={chartTooltipItemStyle}
               formatter={(value: number) => [`${value.toFixed(2)}"`, 'Precipitation']}
             />
             <Bar dataKey="precip" fill="#3b82f6" fillOpacity={0.7} radius={[3, 3, 0, 0]} />
@@ -638,6 +800,7 @@ export function WeatherPage() {
 
   // Today's hourly entries from forecast
   const todayEntries = dailyForecast.length > 0 ? dailyForecast[0].entries : [];
+  const currentWeatherMain = todayEntries.length > 0 ? todayEntries[0].weather_main : null;
 
   if (!configured) {
     return (
@@ -685,7 +848,7 @@ export function WeatherPage() {
 
   return (
     <TooltipProvider delayDuration={300}>
-      <div className="max-w-4xl mx-auto space-y-6">
+      <div className="max-w-5xl mx-auto space-y-6">
 
         {/* ── Nav ── */}
         <div className="flex items-center justify-between">
@@ -730,32 +893,92 @@ export function WeatherPage() {
           </div>
         )}
 
-        {/* ── Hero: Current Weather ── */}
+        {/* ── At-a-Glance Dashboard ── */}
         {weather && (
-          <div className="text-center py-4">
-            {locationName && (
-              <p className="text-sm text-muted-foreground flex items-center justify-center gap-1 mb-2">
-                <MapPin className="w-3.5 h-3.5" />
-                {locationName}
-                {location?.usda_zone && (
-                  <span className="ml-1.5 text-xs bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 px-1.5 py-0.5 rounded-full">
-                    Zone {location.usda_zone}
-                  </span>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 grid-flow-dense">
+            {/* Temperature Hero — large tile */}
+            <div className="col-span-2 lg:row-span-2 rounded-2xl border bg-card p-6 flex flex-col justify-center">
+              {locationName && (
+                <p className="text-sm text-muted-foreground flex items-center gap-1 mb-3">
+                  <MapPin className="w-3.5 h-3.5" />
+                  {locationName}
+                  {location?.usda_zone && (
+                    <span className="ml-1.5 text-xs bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 px-1.5 py-0.5 rounded-full">
+                      Zone {location.usda_zone}
+                    </span>
+                  )}
+                </p>
+              )}
+              <div className="flex items-baseline gap-4">
+                <span className="text-7xl sm:text-8xl font-extralight tracking-tight">
+                  {weather.temperature_f != null ? `${Math.round(weather.temperature_f)}°` : '--'}
+                </span>
+                {currentWeatherMain && (
+                  <div className="text-muted-foreground">
+                    {getWeatherIcon(currentWeatherMain, 'w-10 h-10')}
+                  </div>
                 )}
-              </p>
-            )}
-            <div className="text-7xl sm:text-8xl font-extralight tracking-tight">
-              {weather.temperature_f != null ? `${Math.round(weather.temperature_f)}°` : '--'}
+              </div>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-sm text-muted-foreground">
+                {weather.feels_like_f != null && weather.feels_like_f !== weather.temperature_f && (
+                  <span>Feels like {Math.round(weather.feels_like_f)}°</span>
+                )}
+                {dailyForecast.length > 0 && (
+                  <span>H:{dailyForecast[0].high}° L:{dailyForecast[0].low}°</span>
+                )}
+              </div>
             </div>
-            {weather.feels_like_f != null && weather.feels_like_f !== weather.temperature_f && (
-              <p className="text-sm text-muted-foreground mt-1">
-                Feels like {Math.round(weather.feels_like_f)}°
-              </p>
+
+            {/* Radar — tall tile on right */}
+            {lat != null && lon != null && (
+              <RadarBentoTile lat={lat} lon={lon} zoom={zoom} />
             )}
-            {dailyForecast.length > 0 && (
-              <p className="text-sm text-muted-foreground mt-1">
-                H:{dailyForecast[0].high}° L:{dailyForecast[0].low}°
-              </p>
+
+            {/* Metric tiles */}
+            {weather.humidity_pct != null && (
+              <BentoMetricTile icon={Droplets} label="Humidity" value={`${Math.round(weather.humidity_pct)}%`} metricKey="humidity" />
+            )}
+            {weather.wind_speed_mph != null && (
+              <BentoMetricTile icon={Wind} label="Wind" value={`${weather.wind_speed_mph} mph`} subValue={weather.wind_direction ?? undefined} metricKey="wind" />
+            )}
+
+            {/* Sunrise + Sunset combo — wide tile */}
+            {weather.sunrise && weather.sunset && (
+              <div className="col-span-2 rounded-2xl border bg-card p-4 flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <Sunrise className="w-5 h-5 text-amber-500 shrink-0" />
+                  <div>
+                    <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">Sunrise</p>
+                    <p className="text-lg font-semibold tracking-tight leading-none">{format(new Date(weather.sunrise), 'h:mm a')}</p>
+                  </div>
+                </div>
+                {weather.day_length_hours != null && (
+                  <div className="text-center px-2">
+                    <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">Daylight</p>
+                    <p className="text-sm font-medium">{weather.day_length_hours.toFixed(1)} hrs</p>
+                  </div>
+                )}
+                <div className="flex items-center gap-3">
+                  <div className="text-right">
+                    <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">Sunset</p>
+                    <p className="text-lg font-semibold tracking-tight leading-none">{format(new Date(weather.sunset), 'h:mm a')}</p>
+                  </div>
+                  <Sunset className="w-5 h-5 text-orange-500 shrink-0" />
+                </div>
+              </div>
+            )}
+
+            {weather.uv_index != null && (
+              <BentoMetricTile icon={Sun} label="UV Index" value={String(weather.uv_index)} metricKey="uvIndex" />
+            )}
+            {weather.cloud_cover_pct != null && (
+              <BentoMetricTile icon={CloudSun} label="Cloud Cover" value={`${Math.round(weather.cloud_cover_pct)}%`} metricKey="cloudCover" />
+            )}
+            {weather.pressure_inhg != null && (
+              <BentoMetricTile icon={Gauge} label="Pressure" value={`${weather.pressure_inhg}`} subValue="inHg" metricKey="pressure" />
+            )}
+            {weather.precipitation_inches != null && weather.precipitation_inches > 0 && (
+              <BentoMetricTile icon={CloudRain} label="Precip" value={`${weather.precipitation_inches}"`} subValue={weather.precipitation_type} metricKey="precipitation" />
             )}
           </div>
         )}
@@ -786,58 +1009,6 @@ export function WeatherPage() {
                   onToggle={() => setExpandedDay(expandedDay === day.date ? null : day.date)}
                 />
               ))}
-            </CardContent>
-          </Card>
-        )}
-
-        {/* ── Radar Map (hero, full width) ── */}
-        {lat && lon && (
-          <WeatherMapCard
-            title="Live Radar"
-            iframeSrc={`https://www.rainviewer.com/map.html?loc=${lat},${lon},${zoom}&oFa=1&oC=1&oU=0&oCS=1&oF=0&oAP=1&c=1&o=83&lm=1&layer=radar&sm=1&sn=1`}
-            fullUrl={`https://www.rainviewer.com/map.html?loc=${lat},${lon},${zoom}&oFa=1&oC=1&oU=0&oCS=1&oF=0&oAP=1&c=1&o=83&lm=1&layer=radar&sm=1&sn=1`}
-            className="[&>div:last-of-type]:min-h-[280px] sm:[&>div:last-of-type]:min-h-[340px]"
-          />
-        )}
-
-        {/* ── Conditions Grid ── */}
-        {weather && (
-          <Card>
-            <CardHeader className="pb-0">
-              <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                Conditions
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-3">
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                {weather.humidity_pct != null && (
-                  <InteractiveDetailItem icon={Droplets} label="Humidity" value={`${Math.round(weather.humidity_pct)}%`} metricKey="humidity" />
-                )}
-                {weather.wind_speed_mph != null && (
-                  <InteractiveDetailItem icon={Wind} label="Wind" value={`${weather.wind_speed_mph} mph ${weather.wind_direction ?? ''}`} metricKey="wind" />
-                )}
-                {weather.cloud_cover_pct != null && (
-                  <InteractiveDetailItem icon={CloudSun} label="Cloud Cover" value={`${Math.round(weather.cloud_cover_pct)}%`} metricKey="cloudCover" />
-                )}
-                {weather.uv_index != null && (
-                  <InteractiveDetailItem icon={Sun} label="UV Index" value={String(weather.uv_index)} metricKey="uvIndex" />
-                )}
-                {weather.pressure_inhg != null && (
-                  <InteractiveDetailItem icon={Gauge} label="Pressure" value={`${weather.pressure_inhg} inHg`} metricKey="pressure" />
-                )}
-                {weather.precipitation_inches != null && weather.precipitation_inches > 0 && (
-                  <InteractiveDetailItem icon={CloudRain} label="Precipitation" value={`${weather.precipitation_inches}" ${weather.precipitation_type}`} metricKey="precipitation" />
-                )}
-                {weather.sunrise && (
-                  <InteractiveDetailItem icon={Sunrise} label="Sunrise" value={format(new Date(weather.sunrise), 'h:mm a')} metricKey="sunrise" />
-                )}
-                {weather.sunset && (
-                  <InteractiveDetailItem icon={Sunset} label="Sunset" value={format(new Date(weather.sunset), 'h:mm a')} metricKey="sunset" />
-                )}
-                {weather.day_length_hours != null && (
-                  <InteractiveDetailItem icon={Eye} label="Day Length" value={`${weather.day_length_hours.toFixed(1)} hrs`} metricKey="dayLength" />
-                )}
-              </div>
             </CardContent>
           </Card>
         )}
