@@ -2,6 +2,7 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import { Stage, Layer, Rect, Text, Group, Transformer, Line } from 'react-konva';
 import type Konva from 'konva';
 import { PX_PER_FT } from './garden-canvas';
+import { useTheme } from '@/components/theme-provider';
 import type { SubPlotWithPlant } from '@/hooks/use-sub-plots';
 import { plantTypeEmoji } from '@/lib/plant-type-emoji';
 
@@ -38,6 +39,9 @@ export function SubPlotCanvas({
   onSubPlotDragEnd,
   onSubPlotDoubleClick,
 }: Props) {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
+
   const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<Konva.Stage>(null);
   const transformerRef = useRef<Konva.Transformer>(null);
@@ -361,6 +365,11 @@ export function SubPlotCanvas({
   const shadowBlur = Math.max(0.5, 2 / scale);
   const selectedShadowBlur = Math.max(1, 6 / scale);
 
+  // Grid colors — dimmer in light mode, much dimmer in dark mode
+  const gridStroke = isDark ? '#555' : '#c5c2b5';
+  const gridOpacity = isDark ? 0.25 : 0.45;
+  const gridLabelColor = isDark ? '#666' : '#aaa';
+
   const colCount = Math.ceil(canvasWidth / PX_PER_FT);
   const rowCount = Math.ceil(canvasHeight / PX_PER_FT);
 
@@ -438,18 +447,18 @@ export function SubPlotCanvas({
             <Line
               key={`gv-${i}`}
               points={[i * PX_PER_FT, 0, i * PX_PER_FT, canvasHeight]}
-              stroke="#c5c2b5"
+              stroke={gridStroke}
               strokeWidth={gridLineWidth}
-              opacity={0.6}
+              opacity={gridOpacity}
             />
           ))}
           {Array.from({ length: rowCount + 1 }).map((_, i) => (
             <Line
               key={`gh-${i}`}
               points={[0, i * PX_PER_FT, canvasWidth, i * PX_PER_FT]}
-              stroke="#c5c2b5"
+              stroke={gridStroke}
               strokeWidth={gridLineWidth}
-              opacity={0.6}
+              opacity={gridOpacity}
             />
           ))}
 
@@ -458,14 +467,14 @@ export function SubPlotCanvas({
             if (i === 0) return null;
             if (colCount > 10 && i % 5 !== 0) return null;
             return (
-              <Text key={`lx-${i}`} x={i * PX_PER_FT + textPad} y={textPad} text={`${i}'`} fontSize={dimFontSize} fill="#999" />
+              <Text key={`lx-${i}`} x={i * PX_PER_FT + textPad} y={textPad} text={`${i}'`} fontSize={dimFontSize} fill={gridLabelColor} />
             );
           })}
           {Array.from({ length: rowCount + 1 }).map((_, i) => {
             if (i === 0) return null;
             if (rowCount > 10 && i % 5 !== 0) return null;
             return (
-              <Text key={`ly-${i}`} x={textPad} y={i * PX_PER_FT + textPad} text={`${i}'`} fontSize={dimFontSize} fill="#999" />
+              <Text key={`ly-${i}`} x={textPad} y={i * PX_PER_FT + textPad} text={`${i}'`} fontSize={dimFontSize} fill={gridLabelColor} />
             );
           })}
         </Layer>

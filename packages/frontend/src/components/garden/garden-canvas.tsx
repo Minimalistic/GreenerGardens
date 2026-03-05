@@ -3,6 +3,7 @@ import { Stage, Layer, Rect, Text, Group, Transformer } from 'react-konva';
 import type Konva from 'konva';
 import type { SubPlotWithPlant } from '@/hooks/use-sub-plots';
 import { plantTypeEmoji } from '@/lib/plant-type-emoji';
+import { useTheme } from '@/components/theme-provider';
 import type { Plot, PlotGeometry, GardenObject, GardenObjectGeometry } from '@gardenvault/shared';
 
 export const PX_PER_FT = 40;
@@ -80,6 +81,9 @@ export function GardenCanvas({
   onPlotDoubleClick,
   subPlotsByPlot,
 }: Props) {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
+
   const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<Konva.Stage>(null);
   const transformerRef = useRef<Konva.Transformer>(null);
@@ -505,6 +509,13 @@ export function GardenCanvas({
 
   const zoomPercent = Math.round(stageScale * 100);
 
+  // Grid colors — dimmer in light mode, much dimmer in dark mode
+  const gridMajorColor = isDark ? '#555' : '#c5c2b5';
+  const gridMinorColor = isDark ? '#444' : '#e5e2d9';
+  const gridMajorOpacity = isDark ? 0.3 : 0.5;
+  const gridMinorOpacity = isDark ? 0.15 : 0.3;
+  const gridLabelColor = isDark ? '#666' : '#aaa';
+
   // Get the minimum size for the currently selected item (for transformer bounds)
   const getSelectedMinSize = useCallback(() => {
     if (selectedPlotId) return getMinPlotSize(selectedPlotId);
@@ -586,8 +597,8 @@ export function GardenCanvas({
                 y={visibleTopLeft.y}
                 width={1 / stageScale}
                 height={visibleBottomRight.y - visibleTopLeft.y}
-                fill={col % 5 === 0 ? '#c5c2b5' : '#e5e2d9'}
-                opacity={col % 5 === 0 ? 0.7 : 0.4}
+                fill={col % 5 === 0 ? gridMajorColor : gridMinorColor}
+                opacity={col % 5 === 0 ? gridMajorOpacity : gridMinorOpacity}
               />
             );
           })}
@@ -600,8 +611,8 @@ export function GardenCanvas({
                 y={row * PX_PER_FT}
                 width={visibleBottomRight.x - visibleTopLeft.x}
                 height={1 / stageScale}
-                fill={row % 5 === 0 ? '#c5c2b5' : '#e5e2d9'}
-                opacity={row % 5 === 0 ? 0.7 : 0.4}
+                fill={row % 5 === 0 ? gridMajorColor : gridMinorColor}
+                opacity={row % 5 === 0 ? gridMajorOpacity : gridMinorOpacity}
               />
             );
           })}
@@ -617,7 +628,7 @@ export function GardenCanvas({
                 y={Math.max(visibleTopLeft.y + 2 / stageScale, 2 / stageScale)}
                 text={`${col}'`}
                 fontSize={9 / stageScale}
-                fill="#999"
+                fill={gridLabelColor}
               />
             );
           })}
@@ -631,7 +642,7 @@ export function GardenCanvas({
                 y={row * PX_PER_FT + 2 / stageScale}
                 text={`${row}'`}
                 fontSize={9 / stageScale}
-                fill="#999"
+                fill={gridLabelColor}
               />
             );
           })}
