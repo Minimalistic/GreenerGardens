@@ -17,7 +17,7 @@ import {
   useUpdatePlantInstance,
 } from '@/hooks/use-plant-instances';
 import { SubPlotCanvas } from '@/components/garden/sub-plot-canvas';
-import { EntityNotes } from '@/components/notes/entity-notes';
+import { ContextualNotesPanel } from '@/components/notes/contextual-notes-panel';
 import { PlantStatusBadge } from '@/components/garden/plant-status-badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -611,7 +611,7 @@ export function PlotDetail() {
             </Card>
           )}
 
-          <EntityNotes entityType="plot" entityId={plotId!} />
+          <ContextualNotesPanel entityType="plot" entityId={plotId!} entityName={plot?.name} />
         </div>
       </div>
 

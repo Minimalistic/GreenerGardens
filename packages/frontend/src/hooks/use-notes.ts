@@ -56,6 +56,26 @@ export function useNotesByEntity(entityType: string | null, entityId: string | n
   });
 }
 
+interface NoteGroup {
+  entity_type: string;
+  entity_id: string;
+  entity_name: string;
+  notes: Note[];
+}
+
+interface ContextualNotesResponse {
+  groups: NoteGroup[];
+  total: number;
+}
+
+export function useContextualNotes(entityType: string | null, entityId: string | null) {
+  return useQuery({
+    queryKey: ['notes', 'context', entityType, entityId],
+    queryFn: () => api.get<{ data: ContextualNotesResponse }>(`/notes/context/${entityType}/${entityId}`),
+    enabled: !!entityType && !!entityId,
+  });
+}
+
 export function useNotesByDate(date: string | null) {
   return useQuery({
     queryKey: ['notes', 'date', date],

@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, StickyNote, Pin, Trash2, Pencil, Check, X, Calendar } from 'lucide-react';
+import { Plus, StickyNote, Pin, Trash2, Pencil, Check, X, Calendar, Search, Type } from 'lucide-react';
+import { NoteContent } from '@/components/notes/note-content';
 import { useNotes, useCreateNote, useDeleteNote, useUpdateNote } from '@/hooks/use-notes';
+import { entityLinkLabel, entityLinkPath } from '@/lib/note-utils';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
@@ -23,12 +26,13 @@ function CreateNoteDialog() {
   const { toast } = useToast();
   const { push: pushUndo } = useUndoRedo();
   const [content, setContent] = useState('');
+  const [isMarkdown, setIsMarkdown] = useState(false);
 
   const handleCreate = () => {
     if (!content.trim()) return;
     const noteContent = content.trim();
     createNote.mutate(
-      { content: noteContent },
+      { content: noteContent, content_type: isMarkdown ? 'markdown' : 'text' },
       {
         onSuccess: (result) => {
           const newId = result?.data?.id;
@@ -61,30 +65,23 @@ function CreateNoteDialog() {
           placeholder="Write your garden note..."
           rows={6}
         />
-        <Button onClick={handleCreate} disabled={createNote.isPending} className="w-full">
-          {createNote.isPending ? 'Saving...' : 'Save Note'}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            type="button"
+            size="sm"
+            variant={isMarkdown ? 'default' : 'outline'}
+            onClick={() => setIsMarkdown(!isMarkdown)}
+          >
+            <Type className="w-4 h-4 mr-1" />
+            Markdown
+          </Button>
+          <Button onClick={handleCreate} disabled={createNote.isPending} className="flex-1">
+            {createNote.isPending ? 'Saving...' : 'Save Note'}
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   );
-}
-
-function entityLinkLabel(type: string): string {
-  switch (type) {
-    case 'plot': return 'Plot';
-    case 'plant_instance': return 'Plant';
-    case 'plant_catalog': return 'Catalog Plant';
-    default: return type;
-  }
-}
-
-function entityLinkPath(type: string, id: string): string | null {
-  switch (type) {
-    case 'plot': return `/garden/plots/${id}`;
-    case 'plant_instance': return `/plants/${id}`;
-    case 'plant_catalog': return `/catalog/${id}`;
-    default: return null;
-  }
 }
 
 export function NotesPage() {
@@ -97,8 +94,18 @@ export function NotesPage() {
   const { push: pushUndo } = useUndoRedo();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editContent, setEditContent] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const notes = data?.data ?? [];
+  const allNotes = data?.data ?? [];
+
+  const notes = useMemo(() => {
+    if (!searchQuery.trim()) return allNotes;
+    const q = searchQuery.toLowerCase();
+    return allNotes.filter(note =>
+      note.content.toLowerCase().includes(q) ||
+      note.tags?.some((tag: string) => tag.toLowerCase().includes(q))
+    );
+  }, [allNotes, searchQuery]);
 
   const togglePin = (id: string, pinned: boolean) => {
     updateNote.mutate({ id, pinned: !pinned }, {
@@ -154,11 +161,21 @@ export function NotesPage() {
         <CreateNoteDialog />
       </div>
 
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+        <Input
+          value={searchQuery}
+          onChange={e => setSearchQuery(e.target.value)}
+          placeholder="Search notes..."
+          className="pl-9"
+        />
+      </div>
+
       {notes.length === 0 ? (
         <Card>
           <CardContent className="py-8 text-center text-muted-foreground">
             <StickyNote className="w-12 h-12 mx-auto mb-3 opacity-50" />
-            <p>No notes yet. Start documenting your garden!</p>
+            <p>{searchQuery ? 'No matching notes found.' : 'No notes yet. Start documenting your garden!'}</p>
           </CardContent>
         </Card>
       ) : (
@@ -195,8 +212,8 @@ export function NotesPage() {
                       </div>
                     ) : (
                       <>
-                        <p className="whitespace-pre-wrap">{note.content}</p>
-                        <div className="flex items-center gap-2 mt-2">
+                        <NoteContent content={note.content} contentType={note.content_type} />
+                        <div className="flex items-center gap-2 mt-2 flex-wrap">
                           <span className="text-xs text-muted-foreground">
                             {new Date(note.created_at).toLocaleDateString()}
                           </span>

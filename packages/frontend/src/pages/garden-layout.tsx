@@ -17,6 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
+import { ContextualNotesPanel } from '@/components/notes/contextual-notes-panel';
 import { Plus, Map as MapIcon, Trash2, Copy, Clipboard, Shapes } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -802,6 +803,10 @@ export function GardenLayout() {
               </div>
             </CardContent>
           </Card>
+        )}
+
+        {currentGardenId && (
+          <ContextualNotesPanel entityType="garden" entityId={currentGardenId} entityName="Garden" />
         )}
       </div>
 

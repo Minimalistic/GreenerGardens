@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Pin, Trash2, StickyNote, Pencil, Check, X } from 'lucide-react';
+import { Pin, Trash2, StickyNote, Pencil, Check, X, Type } from 'lucide-react';
+import { NoteContent } from '@/components/notes/note-content';
 import { useNotesByEntity, useCreateNote, useUpdateNote, useDeleteNote } from '@/hooks/use-notes';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -23,13 +24,14 @@ export function EntityNotes({ entityType, entityId }: EntityNotesProps) {
   const [content, setContent] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editContent, setEditContent] = useState('');
+  const [isMarkdown, setIsMarkdown] = useState(false);
 
   const notes = data?.data ?? [];
 
   const handleCreate = () => {
     if (!content.trim()) return;
     const noteContent = content.trim();
-    const noteData = { content: noteContent, entity_links: [{ entity_type: entityType, entity_id: entityId }] };
+    const noteData = { content: noteContent, content_type: isMarkdown ? 'markdown' as const : 'text' as const, entity_links: [{ entity_type: entityType, entity_id: entityId }] };
     createNote.mutate(
       noteData,
       {
@@ -118,14 +120,26 @@ export function EntityNotes({ entityType, entityId }: EntityNotesProps) {
             className="resize-none"
           />
           {content.trim() && (
-            <Button
-              size="sm"
-              onClick={handleCreate}
-              disabled={createNote.isPending}
-              className="w-full"
-            >
-              {createNote.isPending ? 'Adding...' : 'Add Note'}
-            </Button>
+            <div className="flex items-center gap-1">
+              <Button
+                type="button"
+                size="icon"
+                variant={isMarkdown ? 'default' : 'outline'}
+                className="h-8 w-8 shrink-0"
+                onClick={() => setIsMarkdown(!isMarkdown)}
+                title="Toggle markdown"
+              >
+                <Type className="w-3 h-3" />
+              </Button>
+              <Button
+                size="sm"
+                onClick={handleCreate}
+                disabled={createNote.isPending}
+                className="flex-1"
+              >
+                {createNote.isPending ? 'Adding...' : 'Add Note'}
+              </Button>
+            </div>
           )}
         </div>
 
@@ -162,7 +176,7 @@ export function EntityNotes({ entityType, entityId }: EntityNotesProps) {
                   </div>
                 ) : (
                   <>
-                    <p className="whitespace-pre-wrap">{note.content}</p>
+                    <NoteContent content={note.content} contentType={note.content_type} />
                     <div className="flex items-center justify-between mt-1">
                       <span className="text-xs text-muted-foreground">
                         {formatDistanceToNow(new Date(note.created_at), { addSuffix: true })}

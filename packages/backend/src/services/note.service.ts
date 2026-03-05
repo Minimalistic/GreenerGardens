@@ -82,6 +82,41 @@ export class NoteService {
     })();
   }
 
+  findByContext(entityType: string, entityId: string) {
+    const rows = this.noteRepo.findByContext(entityType, entityId);
+
+    // Group by context entity, deduplicating notes
+    const seenNoteIds = new Set<string>();
+    const groupMap = new Map<string, { entity_type: string; entity_id: string; entity_name: string; notes: any[] }>();
+
+    for (const row of rows) {
+      const key = `${row.context_entity_type}:${row.context_entity_id}`;
+      if (!groupMap.has(key)) {
+        groupMap.set(key, {
+          entity_type: row.context_entity_type,
+          entity_id: row.context_entity_id,
+          entity_name: row.context_entity_name,
+          notes: [],
+        });
+      }
+      if (!seenNoteIds.has(row.id)) {
+        seenNoteIds.add(row.id);
+        groupMap.get(key)!.notes.push(this.deserialize(row));
+      }
+    }
+
+    // Sort: "self" group first, then alphabetically by entity name
+    const groups = Array.from(groupMap.values()).sort((a, b) => {
+      const aIsSelf = a.entity_type === entityType && a.entity_id === entityId;
+      const bIsSelf = b.entity_type === entityType && b.entity_id === entityId;
+      if (aIsSelf && !bIsSelf) return -1;
+      if (!aIsSelf && bIsSelf) return 1;
+      return a.entity_name.localeCompare(b.entity_name);
+    });
+
+    return { groups, total: seenNoteIds.size };
+  }
+
   private deserialize(row: NoteRow) {
     return {
       ...row,

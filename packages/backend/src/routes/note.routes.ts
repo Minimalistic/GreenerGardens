@@ -51,4 +51,12 @@ export function noteRoutes(fastify: FastifyInstance, noteService: NoteService) {
       return { success: true, data };
     },
   );
+
+  fastify.get<{ Params: { entityType: string; entityId: string } }>(
+    '/api/v1/notes/context/:entityType/:entityId',
+    async (request) => {
+      const data = noteService.findByContext(request.params.entityType, request.params.entityId);
+      return { success: true, data };
+    },
+  );
 }
