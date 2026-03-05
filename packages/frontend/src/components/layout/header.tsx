@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Sun, Moon, Monitor, ChevronDown, Check, Settings, Wrench } from 'lucide-react';
+import { Sun, Moon, Monitor, ChevronDown, Check, Settings, Wrench, Bug } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -13,6 +13,7 @@ import { useGardens } from '@/hooks/use-gardens';
 import { useTheme } from '@/components/theme-provider';
 import { GardenManagerDialog } from '@/components/garden/garden-manager-dialog';
 import { SettingsDialog } from '@/components/settings-dialog';
+import { FeedbackDialog } from '@/components/feedback/feedback-dialog';
 
 interface HeaderProps {
   title: string;
@@ -24,6 +25,7 @@ export function Header({ title }: HeaderProps) {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [managerOpen, setManagerOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
 
   const gardens = gardensData?.data ?? [];
 
@@ -64,10 +66,24 @@ export function Header({ title }: HeaderProps) {
               </DropdownMenuContent>
             </DropdownMenu>
           )}
-          <Button variant="ghost" size="icon" onClick={() => setSettingsOpen(true)}>
-            <Wrench className="w-4 h-4" />
-            <span className="sr-only">Settings</span>
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Wrench className="w-4 h-4" />
+                <span className="sr-only">Settings</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setSettingsOpen(true)}>
+                <Settings className="w-4 h-4 mr-2" />
+                Settings
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFeedbackOpen(true)}>
+                <Bug className="w-4 h-4 mr-2" />
+                Send Feedback
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -101,6 +117,7 @@ export function Header({ title }: HeaderProps) {
       </header>
       <GardenManagerDialog open={managerOpen} onOpenChange={setManagerOpen} />
       <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
+      <FeedbackDialog open={feedbackOpen} onOpenChange={setFeedbackOpen} />
     </>
   );
 }
