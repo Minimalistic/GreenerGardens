@@ -8,8 +8,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PlantTypeBadge } from '@/components/garden/plant-type-badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
+import { SectionNav } from '@/components/ui/section-nav';
 import { ArrowLeft, Sun, Droplets, Ruler, Clock, Pencil, ExternalLink, ShieldAlert } from 'lucide-react';
 import { EntityNotes } from '@/components/notes/entity-notes';
 import { PlantActivityTab } from '@/components/garden/plant-activity-tab';
@@ -19,6 +19,16 @@ import type { LucideIcon } from 'lucide-react';
 
 type Companion = string | { name: string; relationship?: string; notes?: string };
 type PestEntry = { name: string; susceptibility?: string; notes?: string };
+
+const PLANT_SECTIONS = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'growing', label: 'Growing' },
+  { id: 'planting', label: 'Planting' },
+  { id: 'companions', label: 'Companions' },
+  { id: 'pests', label: 'Pests' },
+  { id: 'notes', label: 'Notes' },
+  { id: 'activity', label: 'Activity' },
+];
 
 export function PlantDetail() {
   const { plantId } = useParams<{ plantId: string }>();
@@ -167,227 +177,234 @@ export function PlantDetail() {
         </div>
       )}
 
-      <Tabs defaultValue="overview">
-        <TabsList className="w-full overflow-x-auto justify-start sm:justify-center">
-          <TabsTrigger value="overview" className="px-2 sm:px-3 text-xs sm:text-sm">Overview</TabsTrigger>
-          <TabsTrigger value="growing" className="px-2 sm:px-3 text-xs sm:text-sm">Growing</TabsTrigger>
-          <TabsTrigger value="planting" className="px-2 sm:px-3 text-xs sm:text-sm">Planting</TabsTrigger>
-          <TabsTrigger value="companions" className="px-2 sm:px-3 text-xs sm:text-sm">Companions</TabsTrigger>
-          <TabsTrigger value="pests" className="px-2 sm:px-3 text-xs sm:text-sm">Pests</TabsTrigger>
-          <TabsTrigger value="notes" className="px-2 sm:px-3 text-xs sm:text-sm">Notes</TabsTrigger>
-          <TabsTrigger value="activity" className="px-2 sm:px-3 text-xs sm:text-sm">Activity</TabsTrigger>
-        </TabsList>
+      <SectionNav sections={PLANT_SECTIONS} />
 
-        <TabsContent value="overview" className="space-y-4">
-          {p.description && <p className="text-sm">{p.description}</p>}
-          {wikiLoading && (
-            <Card>
+      {/* Overview */}
+      <section id="overview" className="scroll-mt-14 space-y-4">
+        <h3 className="text-lg font-semibold">Overview</h3>
+        {p.description && <p className="text-sm">{p.description}</p>}
+        {wikiLoading && (
+          <Card>
+            <CardContent className="pt-4 flex gap-4">
+              <Skeleton className="w-24 h-24 rounded shrink-0" />
+              <div className="flex-1 space-y-2">
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-5/6" />
+              </div>
+            </CardContent>
+          </Card>
+        )}
+        {wikiResponse?.data && (
+          <a
+            href={p.wikipedia_url || `https://en.wikipedia.org/wiki/${encodeURIComponent((p.common_name as string).replace(/ /g, '_'))}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block"
+          >
+            <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
               <CardContent className="pt-4 flex gap-4">
-                <Skeleton className="w-24 h-24 rounded shrink-0" />
-                <div className="flex-1 space-y-2">
-                  <Skeleton className="h-4 w-3/4" />
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-5/6" />
+                {wikiResponse.data.thumbnail_url && (
+                  <img
+                    src={wikiResponse.data.thumbnail_url}
+                    alt={p.common_name}
+                    className="w-24 h-24 rounded object-cover shrink-0"
+                  />
+                )}
+                <div className="flex-1 min-w-0">
+                  {wikiResponse.data.description && (
+                    <p className="text-sm italic text-muted-foreground mb-1">
+                      {wikiResponse.data.description}
+                    </p>
+                  )}
+                  {wikiResponse.data.extract && (
+                    <p className="text-sm line-clamp-4">{wikiResponse.data.extract}</p>
+                  )}
+                  <span className="inline-flex items-center gap-1 text-xs text-muted-foreground mt-2">
+                    <ExternalLink className="w-3 h-3" />
+                    Source: Wikipedia (CC BY-SA 4.0)
+                  </span>
                 </div>
               </CardContent>
             </Card>
+          </a>
+        )}
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          {p.sun_exposure && (
+            <InfoCard icon={Sun} label="Sun" value={p.sun_exposure.replace(/_/g, ' ')} />
           )}
-          {wikiResponse?.data && (
-            <a
-              href={p.wikipedia_url || `https://en.wikipedia.org/wiki/${encodeURIComponent((p.common_name as string).replace(/ /g, '_'))}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block"
-            >
-              <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
-                <CardContent className="pt-4 flex gap-4">
-                  {wikiResponse.data.thumbnail_url && (
-                    <img
-                      src={wikiResponse.data.thumbnail_url}
-                      alt={p.common_name}
-                      className="w-24 h-24 rounded object-cover shrink-0"
-                    />
-                  )}
-                  <div className="flex-1 min-w-0">
-                    {wikiResponse.data.description && (
-                      <p className="text-sm italic text-muted-foreground mb-1">
-                        {wikiResponse.data.description}
-                      </p>
+          {p.water_needs && (
+            <InfoCard icon={Droplets} label="Water" value={p.water_needs.replace(/_/g, ' ')} />
+          )}
+          {p.spacing_inches && (
+            <InfoCard icon={Ruler} label="Spacing" value={`${p.spacing_inches}"`} />
+          )}
+          {p.days_to_maturity_min && (
+            <InfoCard
+              icon={Clock}
+              label="Maturity"
+              value={`${p.days_to_maturity_min}-${p.days_to_maturity_max ?? '?'} days`}
+            />
+          )}
+        </div>
+        {(p.growing_tips?.length ?? 0) > 0 && (
+          <Card>
+            <CardHeader><CardTitle className="text-sm">Growing Tips</CardTitle></CardHeader>
+            <CardContent>
+              <ul className="text-sm space-y-1 list-disc list-inside">
+                {p.growing_tips!.map((tip: string, i: number) => (
+                  <li key={i}>{tip}</li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        )}
+      </section>
+
+      {/* Growing */}
+      <section id="growing" className="scroll-mt-14 space-y-4">
+        <h3 className="text-lg font-semibold">Growing</h3>
+        <Card>
+          <CardContent className="pt-4 space-y-2">
+            {p.lifecycle && <InfoRow label="Lifecycle" value={p.lifecycle} />}
+            {p.family && <InfoRow label="Family" value={p.family} />}
+            {(p.min_zone || p.max_zone) && (
+              <InfoRow label="USDA Zones" value={`${p.min_zone ?? '?'} - ${p.max_zone ?? '?'}`} />
+            )}
+            {(p.soil_ph_min || p.soil_ph_max) && (
+              <InfoRow label="Soil pH" value={`${p.soil_ph_min ?? '?'} - ${p.soil_ph_max ?? '?'}`} />
+            )}
+            {(p.height_inches_min || p.height_inches_max) && (
+              <InfoRow label="Height" value={`${p.height_inches_min ?? '?'}" - ${p.height_inches_max ?? '?'}"`} />
+            )}
+            {p.row_spacing_inches && <InfoRow label="Row Spacing" value={`${p.row_spacing_inches}"`} />}
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Planting */}
+      <section id="planting" className="scroll-mt-14 space-y-4">
+        <h3 className="text-lg font-semibold">Planting</h3>
+        <Card>
+          <CardContent className="pt-4 space-y-2">
+            {p.planting_depth_inches != null && (
+              <InfoRow label="Planting Depth" value={`${p.planting_depth_inches}"`} />
+            )}
+            {(p.days_to_germination_min || p.days_to_germination_max) && (
+              <InfoRow label="Germination" value={`${p.days_to_germination_min ?? '?'}-${p.days_to_germination_max ?? '?'} days`} />
+            )}
+            {p.indoor_start_weeks_before_frost && (
+              <InfoRow label="Start Indoors" value={`${p.indoor_start_weeks_before_frost} weeks before last frost`} />
+            )}
+            {p.outdoor_sow_weeks_after_frost != null && (
+              <InfoRow label="Direct Sow" value={`${p.outdoor_sow_weeks_after_frost} weeks after last frost`} />
+            )}
+          </CardContent>
+        </Card>
+        {p.harvest_instructions && (
+          <Card>
+            <CardHeader><CardTitle className="text-sm">Harvest</CardTitle></CardHeader>
+            <CardContent><p className="text-sm">{p.harvest_instructions}</p></CardContent>
+          </Card>
+        )}
+        {p.storage_instructions && (
+          <Card>
+            <CardHeader><CardTitle className="text-sm">Storage</CardTitle></CardHeader>
+            <CardContent><p className="text-sm">{p.storage_instructions}</p></CardContent>
+          </Card>
+        )}
+      </section>
+
+      {/* Companions */}
+      <section id="companions" className="scroll-mt-14 space-y-4">
+        <h3 className="text-lg font-semibold">Companions</h3>
+        {(p.companions?.length ?? 0) > 0 && (
+          <Card>
+            <CardHeader><CardTitle className="text-sm text-green-700 dark:text-green-400">Good Companions</CardTitle></CardHeader>
+            <CardContent className="space-y-2">
+              {p.companions!.map((c: Companion, i: number) => {
+                const name = typeof c === 'string' ? c : c.name;
+                const notes = typeof c === 'string' ? null : c.notes;
+                const rel = typeof c === 'string' ? null : c.relationship;
+                const linkedId = plantNameToId(name);
+                return (
+                  <div key={i} className="flex items-start gap-2">
+                    {linkedId ? (
+                      <Link to={`/catalog/${linkedId}`}>
+                        <Badge variant="outline" className="bg-green-50 dark:bg-green-950 shrink-0 hover:bg-green-100 dark:hover:bg-green-900 cursor-pointer transition-colors">{name}</Badge>
+                      </Link>
+                    ) : (
+                      <Badge variant="outline" className="bg-green-50 dark:bg-green-950 shrink-0">{name}</Badge>
                     )}
-                    {wikiResponse.data.extract && (
-                      <p className="text-sm line-clamp-4">{wikiResponse.data.extract}</p>
-                    )}
-                    <span className="inline-flex items-center gap-1 text-xs text-muted-foreground mt-2">
-                      <ExternalLink className="w-3 h-3" />
-                      Source: Wikipedia (CC BY-SA 4.0)
-                    </span>
+                    <div className="text-xs text-muted-foreground">
+                      {rel && <span className="capitalize">{rel.replace(/_/g, ' ')}</span>}
+                      {rel && notes && <span> &mdash; </span>}
+                      {notes && <span>{notes}</span>}
+                    </div>
                   </div>
-                </CardContent>
-              </Card>
-            </a>
-          )}
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {p.sun_exposure && (
-              <InfoCard icon={Sun} label="Sun" value={p.sun_exposure.replace(/_/g, ' ')} />
-            )}
-            {p.water_needs && (
-              <InfoCard icon={Droplets} label="Water" value={p.water_needs.replace(/_/g, ' ')} />
-            )}
-            {p.spacing_inches && (
-              <InfoCard icon={Ruler} label="Spacing" value={`${p.spacing_inches}"`} />
-            )}
-            {p.days_to_maturity_min && (
-              <InfoCard
-                icon={Clock}
-                label="Maturity"
-                value={`${p.days_to_maturity_min}-${p.days_to_maturity_max ?? '?'} days`}
-              />
-            )}
-          </div>
-          {(p.growing_tips?.length ?? 0) > 0 && (
-            <Card>
-              <CardHeader><CardTitle className="text-sm">Growing Tips</CardTitle></CardHeader>
-              <CardContent>
-                <ul className="text-sm space-y-1 list-disc list-inside">
-                  {p.growing_tips!.map((tip: string, i: number) => (
-                    <li key={i}>{tip}</li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          )}
-        </TabsContent>
-
-        <TabsContent value="growing" className="space-y-4">
-          <Card>
-            <CardContent className="pt-4 space-y-2">
-              {p.lifecycle && <InfoRow label="Lifecycle" value={p.lifecycle} />}
-              {p.family && <InfoRow label="Family" value={p.family} />}
-              {(p.min_zone || p.max_zone) && (
-                <InfoRow label="USDA Zones" value={`${p.min_zone ?? '?'} - ${p.max_zone ?? '?'}`} />
-              )}
-              {(p.soil_ph_min || p.soil_ph_max) && (
-                <InfoRow label="Soil pH" value={`${p.soil_ph_min ?? '?'} - ${p.soil_ph_max ?? '?'}`} />
-              )}
-              {(p.height_inches_min || p.height_inches_max) && (
-                <InfoRow label="Height" value={`${p.height_inches_min ?? '?'}" - ${p.height_inches_max ?? '?'}"`} />
-              )}
-              {p.row_spacing_inches && <InfoRow label="Row Spacing" value={`${p.row_spacing_inches}"`} />}
+                );
+              })}
             </CardContent>
           </Card>
-        </TabsContent>
-
-        <TabsContent value="planting" className="space-y-4">
+        )}
+        {(p.antagonists?.length ?? 0) > 0 && (
           <Card>
-            <CardContent className="pt-4 space-y-2">
-              {p.planting_depth_inches != null && (
-                <InfoRow label="Planting Depth" value={`${p.planting_depth_inches}"`} />
-              )}
-              {(p.days_to_germination_min || p.days_to_germination_max) && (
-                <InfoRow label="Germination" value={`${p.days_to_germination_min ?? '?'}-${p.days_to_germination_max ?? '?'} days`} />
-              )}
-              {p.indoor_start_weeks_before_frost && (
-                <InfoRow label="Start Indoors" value={`${p.indoor_start_weeks_before_frost} weeks before last frost`} />
-              )}
-              {p.outdoor_sow_weeks_after_frost != null && (
-                <InfoRow label="Direct Sow" value={`${p.outdoor_sow_weeks_after_frost} weeks after last frost`} />
-              )}
+            <CardHeader><CardTitle className="text-sm text-red-700 dark:text-red-400">Avoid Planting Near</CardTitle></CardHeader>
+            <CardContent className="space-y-2">
+              {p.antagonists!.map((a: Companion, i: number) => {
+                const name = typeof a === 'string' ? a : a.name;
+                const notes = typeof a === 'string' ? null : a.notes;
+                const rel = typeof a === 'string' ? null : a.relationship;
+                const linkedId = plantNameToId(name);
+                return (
+                  <div key={i} className="flex items-start gap-2">
+                    {linkedId ? (
+                      <Link to={`/catalog/${linkedId}`}>
+                        <Badge variant="outline" className="bg-red-50 dark:bg-red-950 shrink-0 hover:bg-red-100 dark:hover:bg-red-900 cursor-pointer transition-colors">{name}</Badge>
+                      </Link>
+                    ) : (
+                      <Badge variant="outline" className="bg-red-50 dark:bg-red-950 shrink-0">{name}</Badge>
+                    )}
+                    <div className="text-xs text-muted-foreground">
+                      {rel && <span className="capitalize">{rel.replace(/_/g, ' ')}</span>}
+                      {rel && notes && <span> &mdash; </span>}
+                      {notes && <span>{notes}</span>}
+                    </div>
+                  </div>
+                );
+              })}
             </CardContent>
           </Card>
-          {p.harvest_instructions && (
-            <Card>
-              <CardHeader><CardTitle className="text-sm">Harvest</CardTitle></CardHeader>
-              <CardContent><p className="text-sm">{p.harvest_instructions}</p></CardContent>
-            </Card>
-          )}
-          {p.storage_instructions && (
-            <Card>
-              <CardHeader><CardTitle className="text-sm">Storage</CardTitle></CardHeader>
-              <CardContent><p className="text-sm">{p.storage_instructions}</p></CardContent>
-            </Card>
-          )}
-        </TabsContent>
+        )}
+        {p.rotation_family && (
+          <Card>
+            <CardContent className="pt-4">
+              <InfoRow label="Rotation Family" value={p.rotation_family} />
+            </CardContent>
+          </Card>
+        )}
+        {!p.companions?.length && !p.antagonists?.length && !p.rotation_family && (
+          <p className="text-sm text-muted-foreground text-center py-4">No companion data available.</p>
+        )}
+      </section>
 
-        <TabsContent value="companions" className="space-y-4">
-          {(p.companions?.length ?? 0) > 0 && (
-            <Card>
-              <CardHeader><CardTitle className="text-sm text-green-700 dark:text-green-400">Good Companions</CardTitle></CardHeader>
-              <CardContent className="space-y-2">
-                {p.companions!.map((c: Companion, i: number) => {
-                  const name = typeof c === 'string' ? c : c.name;
-                  const notes = typeof c === 'string' ? null : c.notes;
-                  const rel = typeof c === 'string' ? null : c.relationship;
-                  const linkedId = plantNameToId(name);
-                  return (
-                    <div key={i} className="flex items-start gap-2">
-                      {linkedId ? (
-                        <Link to={`/catalog/${linkedId}`}>
-                          <Badge variant="outline" className="bg-green-50 dark:bg-green-950 shrink-0 hover:bg-green-100 dark:hover:bg-green-900 cursor-pointer transition-colors">{name}</Badge>
-                        </Link>
-                      ) : (
-                        <Badge variant="outline" className="bg-green-50 dark:bg-green-950 shrink-0">{name}</Badge>
-                      )}
-                      <div className="text-xs text-muted-foreground">
-                        {rel && <span className="capitalize">{rel.replace(/_/g, ' ')}</span>}
-                        {rel && notes && <span> &mdash; </span>}
-                        {notes && <span>{notes}</span>}
-                      </div>
-                    </div>
-                  );
-                })}
-              </CardContent>
-            </Card>
-          )}
-          {(p.antagonists?.length ?? 0) > 0 && (
-            <Card>
-              <CardHeader><CardTitle className="text-sm text-red-700 dark:text-red-400">Avoid Planting Near</CardTitle></CardHeader>
-              <CardContent className="space-y-2">
-                {p.antagonists!.map((a: Companion, i: number) => {
-                  const name = typeof a === 'string' ? a : a.name;
-                  const notes = typeof a === 'string' ? null : a.notes;
-                  const rel = typeof a === 'string' ? null : a.relationship;
-                  const linkedId = plantNameToId(name);
-                  return (
-                    <div key={i} className="flex items-start gap-2">
-                      {linkedId ? (
-                        <Link to={`/catalog/${linkedId}`}>
-                          <Badge variant="outline" className="bg-red-50 dark:bg-red-950 shrink-0 hover:bg-red-100 dark:hover:bg-red-900 cursor-pointer transition-colors">{name}</Badge>
-                        </Link>
-                      ) : (
-                        <Badge variant="outline" className="bg-red-50 dark:bg-red-950 shrink-0">{name}</Badge>
-                      )}
-                      <div className="text-xs text-muted-foreground">
-                        {rel && <span className="capitalize">{rel.replace(/_/g, ' ')}</span>}
-                        {rel && notes && <span> &mdash; </span>}
-                        {notes && <span>{notes}</span>}
-                      </div>
-                    </div>
-                  );
-                })}
-              </CardContent>
-            </Card>
-          )}
-          {p.rotation_family && (
-            <Card>
-              <CardContent className="pt-4">
-                <InfoRow label="Rotation Family" value={p.rotation_family} />
-              </CardContent>
-            </Card>
-          )}
-        </TabsContent>
+      {/* Pests */}
+      <section id="pests" className="scroll-mt-14 space-y-4">
+        <h3 className="text-lg font-semibold">Pests & Diseases</h3>
+        <PestsDiseasesSection plant={p} pestNameToId={pestNameToId} />
+      </section>
 
-        <TabsContent value="pests" className="space-y-4">
-          <PestsDiseasesTab plant={p} pestNameToId={pestNameToId} />
-        </TabsContent>
+      {/* Notes */}
+      <section id="notes" className="scroll-mt-14 space-y-4">
+        <h3 className="text-lg font-semibold">Notes</h3>
+        <EntityNotes entityType="plant_catalog" entityId={plantId!} />
+      </section>
 
-        <TabsContent value="notes">
-          <EntityNotes entityType="plant_catalog" entityId={plantId!} />
-        </TabsContent>
-
-        <TabsContent value="activity">
-          <PlantActivityTab plantId={plantId!} />
-        </TabsContent>
-      </Tabs>
+      {/* Activity */}
+      <section id="activity" className="scroll-mt-14 space-y-4">
+        <h3 className="text-lg font-semibold">Activity</h3>
+        <PlantActivityTab plantId={plantId!} />
+      </section>
 
       <PlantFormDialog
         open={formOpen}
@@ -431,7 +448,7 @@ const RESISTANCE_COLORS: Record<string, string> = {
   immune: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
 };
 
-function PestsDiseasesTab({ plant, pestNameToId }: { plant: PlantCatalog & { common_pests?: PestEntry[]; common_diseases?: PestEntry[]; disease_resistance?: Record<string, string> }; pestNameToId: (name: string) => string | undefined }) {
+function PestsDiseasesSection({ plant, pestNameToId }: { plant: PlantCatalog & { common_pests?: PestEntry[]; common_diseases?: PestEntry[]; disease_resistance?: Record<string, string> }; pestNameToId: (name: string) => string | undefined }) {
   const commonPests: PestEntry[] = plant.common_pests ?? [];
   const commonDiseases: PestEntry[] = plant.common_diseases ?? [];
   const diseaseResistance: Record<string, string> = plant.disease_resistance ?? {};

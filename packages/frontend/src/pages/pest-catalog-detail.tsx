@@ -5,8 +5,8 @@ import { usePlantCatalogSearch } from '@/hooks/use-plant-catalog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
+import { SectionNav } from '@/components/ui/section-nav';
 import { ArrowLeft, AlertTriangle, Zap, Target, Calendar, MapPin, Shield, Leaf, FlaskConical, Bug as BugIcon, Shovel } from 'lucide-react';
 import { plantTypeEmoji } from '@/lib/plant-type-emoji';
 import { PLANT_TYPE_COLORS } from '@/lib/plant-type-colors';
@@ -35,6 +35,13 @@ const CATEGORY_COLORS: Record<string, string> = {
   nutritional: 'bg-lime-100 text-lime-800 dark:bg-lime-900 dark:text-lime-200',
   environmental: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200',
 };
+
+const PEST_SECTIONS = [
+  { id: 'pest-overview', label: 'Overview' },
+  { id: 'pest-identification', label: 'Identification' },
+  { id: 'pest-treatment', label: 'Treatment' },
+  { id: 'pest-plants', label: 'Affected Plants' },
+];
 
 export function PestCatalogDetail() {
   const { pestId } = useParams<{ pestId: string }>();
@@ -99,161 +106,166 @@ export function PestCatalogDetail() {
         </div>
       </div>
 
-      <Tabs defaultValue="overview">
-        <TabsList className="w-full overflow-x-auto justify-start sm:justify-center">
-          <TabsTrigger value="overview" className="px-2 sm:px-3 text-xs sm:text-sm">Overview</TabsTrigger>
-          <TabsTrigger value="identification" className="px-2 sm:px-3 text-xs sm:text-sm">Identification</TabsTrigger>
-          <TabsTrigger value="treatment" className="px-2 sm:px-3 text-xs sm:text-sm">Treatment</TabsTrigger>
-          <TabsTrigger value="plants" className="px-2 sm:px-3 text-xs sm:text-sm">Affected Plants</TabsTrigger>
-        </TabsList>
+      <SectionNav sections={PEST_SECTIONS} />
 
-        {/* Overview Tab */}
-        <TabsContent value="overview" className="space-y-4">
-          {pest.description && <p className="text-sm">{pest.description}</p>}
+      {/* Overview */}
+      <section id="pest-overview" className="scroll-mt-14 space-y-4">
+        <h3 className="text-lg font-semibold">Overview</h3>
+        {pest.description && <p className="text-sm">{pest.description}</p>}
 
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-            <FactCard icon={AlertTriangle} label="Severity" value={pest.severity_potential ?? ''} />
-            <FactCard icon={Zap} label="Spread Rate" value={pest.spread_rate ?? ''} />
-            <FactCard icon={Target} label="Damage Type" value={pest.damage_type?.replace(/_/g, ' ') ?? ''} />
-            {pest.seasonality && <FactCard icon={Calendar} label="Seasonality" value={pest.seasonality} />}
-            {(pest.min_zone || pest.max_zone) && (
-              <FactCard icon={MapPin} label="USDA Zones" value={`${pest.min_zone ?? '?'} - ${pest.max_zone ?? '?'}`} />
-            )}
-            {pest.subcategory && <FactCard icon={BugIcon} label="Subcategory" value={pest.subcategory} />}
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <FactCard icon={AlertTriangle} label="Severity" value={pest.severity_potential ?? ''} />
+          <FactCard icon={Zap} label="Spread Rate" value={pest.spread_rate ?? ''} />
+          <FactCard icon={Target} label="Damage Type" value={pest.damage_type?.replace(/_/g, ' ') ?? ''} />
+          {pest.seasonality && <FactCard icon={Calendar} label="Seasonality" value={pest.seasonality} />}
+          {(pest.min_zone || pest.max_zone) && (
+            <FactCard icon={MapPin} label="USDA Zones" value={`${pest.min_zone ?? '?'} - ${pest.max_zone ?? '?'}`} />
+          )}
+          {pest.subcategory && <FactCard icon={BugIcon} label="Subcategory" value={pest.subcategory} />}
+        </div>
+
+        {favorableConditions.length > 0 && (
+          <Card>
+            <CardHeader><CardTitle className="text-sm">Favorable Conditions</CardTitle></CardHeader>
+            <CardContent>
+              <ul className="text-sm space-y-1 list-disc list-inside">
+                {favorableConditions.map((c, i) => <li key={i}>{c}</li>)}
+              </ul>
+            </CardContent>
+          </Card>
+        )}
+      </section>
+
+      {/* Identification */}
+      <section id="pest-identification" className="scroll-mt-14 space-y-4">
+        <h3 className="text-lg font-semibold">Identification</h3>
+        {appearance.length > 0 && (
+          <Card>
+            <CardHeader><CardTitle className="text-sm">Appearance</CardTitle></CardHeader>
+            <CardContent>
+              <ul className="text-sm space-y-1 list-disc list-inside">
+                {appearance.map((a, i) => <li key={i}>{a}</li>)}
+              </ul>
+            </CardContent>
+          </Card>
+        )}
+
+        {symptoms.length > 0 && (
+          <Card>
+            <CardHeader><CardTitle className="text-sm">Symptoms</CardTitle></CardHeader>
+            <CardContent>
+              <ul className="text-sm space-y-1 list-disc list-inside">
+                {symptoms.map((s, i) => <li key={i}>{s}</li>)}
+              </ul>
+            </CardContent>
+          </Card>
+        )}
+
+        {pest.life_cycle && (
+          <Card>
+            <CardHeader><CardTitle className="text-sm">Life Cycle</CardTitle></CardHeader>
+            <CardContent>
+              <p className="text-sm">{pest.life_cycle}</p>
+            </CardContent>
+          </Card>
+        )}
+
+        {appearance.length === 0 && symptoms.length === 0 && !pest.life_cycle && (
+          <p className="text-sm text-muted-foreground text-center py-4">No identification data available.</p>
+        )}
+      </section>
+
+      {/* Treatment */}
+      <section id="pest-treatment" className="scroll-mt-14 space-y-4">
+        <h3 className="text-lg font-semibold">Treatment</h3>
+        {prevention.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm flex items-center gap-2">
+                <Shield className="w-4 h-4 text-blue-500" /> Prevention
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="text-sm space-y-1 list-disc list-inside">
+                {prevention.map((p, i) => <li key={i}>{p}</li>)}
+              </ul>
+            </CardContent>
+          </Card>
+        )}
+
+        {organicTreatments.length > 0 && (
+          <TreatmentSection
+            title="Organic Treatments"
+            icon={Leaf}
+            iconColor="text-green-500"
+            treatments={organicTreatments}
+          />
+        )}
+
+        {biologicalTreatments.length > 0 && (
+          <TreatmentSection
+            title="Biological Controls"
+            icon={BugIcon}
+            iconColor="text-teal-500"
+            treatments={biologicalTreatments}
+          />
+        )}
+
+        {culturalTreatments.length > 0 && (
+          <TreatmentSection
+            title="Cultural Practices"
+            icon={Shovel}
+            iconColor="text-amber-500"
+            treatments={culturalTreatments}
+          />
+        )}
+
+        {chemicalTreatments.length > 0 && (
+          <TreatmentSection
+            title="Chemical Treatments"
+            icon={FlaskConical}
+            iconColor="text-red-500"
+            treatments={chemicalTreatments}
+          />
+        )}
+
+        {prevention.length === 0 && organicTreatments.length === 0 && biologicalTreatments.length === 0 && culturalTreatments.length === 0 && chemicalTreatments.length === 0 && (
+          <p className="text-sm text-muted-foreground text-center py-4">No treatment data available.</p>
+        )}
+      </section>
+
+      {/* Affected Plants */}
+      <section id="pest-plants" className="scroll-mt-14 space-y-4">
+        <h3 className="text-lg font-semibold">Affected Plants</h3>
+        {affectedPlants.length === 0 && (
+          <p className="text-sm text-muted-foreground text-center py-8">
+            No specific plants listed.
+          </p>
+        )}
+        {affectedPlants.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {affectedPlants.map((name, i) => {
+              const plant = plantLookup(name);
+              const emoji = plant?.emoji || plantTypeEmoji(plant?.plant_type);
+              const colorClass = plant?.plant_type ? PLANT_TYPE_COLORS[plant.plant_type] ?? PLANT_TYPE_COLORS.other : '';
+              const badge = (
+                <Badge
+                  key={i}
+                  variant="outline"
+                  className={cn(
+                    plant?.id && 'cursor-pointer hover:ring-1 hover:ring-ring',
+                    colorClass,
+                  )}
+                >
+                  <span className="mr-0.5 plant-emoji">{emoji}</span>
+                  {name}
+                </Badge>
+              );
+              return plant?.id ? <Link key={i} to={`/catalog/${plant.id}`}>{badge}</Link> : badge;
+            })}
           </div>
-
-          {favorableConditions.length > 0 && (
-            <Card>
-              <CardHeader><CardTitle className="text-sm">Favorable Conditions</CardTitle></CardHeader>
-              <CardContent>
-                <ul className="text-sm space-y-1 list-disc list-inside">
-                  {favorableConditions.map((c, i) => <li key={i}>{c}</li>)}
-                </ul>
-              </CardContent>
-            </Card>
-          )}
-        </TabsContent>
-
-        {/* Identification Tab */}
-        <TabsContent value="identification" className="space-y-4">
-          {appearance.length > 0 && (
-            <Card>
-              <CardHeader><CardTitle className="text-sm">Appearance</CardTitle></CardHeader>
-              <CardContent>
-                <ul className="text-sm space-y-1 list-disc list-inside">
-                  {appearance.map((a, i) => <li key={i}>{a}</li>)}
-                </ul>
-              </CardContent>
-            </Card>
-          )}
-
-          {symptoms.length > 0 && (
-            <Card>
-              <CardHeader><CardTitle className="text-sm">Symptoms</CardTitle></CardHeader>
-              <CardContent>
-                <ul className="text-sm space-y-1 list-disc list-inside">
-                  {symptoms.map((s, i) => <li key={i}>{s}</li>)}
-                </ul>
-              </CardContent>
-            </Card>
-          )}
-
-          {pest.life_cycle && (
-            <Card>
-              <CardHeader><CardTitle className="text-sm">Life Cycle</CardTitle></CardHeader>
-              <CardContent>
-                <p className="text-sm">{pest.life_cycle}</p>
-              </CardContent>
-            </Card>
-          )}
-        </TabsContent>
-
-        {/* Treatment Tab */}
-        <TabsContent value="treatment" className="space-y-4">
-          {prevention.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-sm flex items-center gap-2">
-                  <Shield className="w-4 h-4 text-blue-500" /> Prevention
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="text-sm space-y-1 list-disc list-inside">
-                  {prevention.map((p, i) => <li key={i}>{p}</li>)}
-                </ul>
-              </CardContent>
-            </Card>
-          )}
-
-          {organicTreatments.length > 0 && (
-            <TreatmentSection
-              title="Organic Treatments"
-              icon={Leaf}
-              iconColor="text-green-500"
-              treatments={organicTreatments}
-            />
-          )}
-
-          {biologicalTreatments.length > 0 && (
-            <TreatmentSection
-              title="Biological Controls"
-              icon={BugIcon}
-              iconColor="text-teal-500"
-              treatments={biologicalTreatments}
-            />
-          )}
-
-          {culturalTreatments.length > 0 && (
-            <TreatmentSection
-              title="Cultural Practices"
-              icon={Shovel}
-              iconColor="text-amber-500"
-              treatments={culturalTreatments}
-            />
-          )}
-
-          {chemicalTreatments.length > 0 && (
-            <TreatmentSection
-              title="Chemical Treatments"
-              icon={FlaskConical}
-              iconColor="text-red-500"
-              treatments={chemicalTreatments}
-            />
-          )}
-        </TabsContent>
-
-        {/* Affected Plants Tab */}
-        <TabsContent value="plants" className="space-y-4">
-          {affectedPlants.length === 0 && (
-            <p className="text-sm text-muted-foreground text-center py-8">
-              No specific plants listed.
-            </p>
-          )}
-          {affectedPlants.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {affectedPlants.map((name, i) => {
-                const plant = plantLookup(name);
-                const emoji = plant?.emoji || plantTypeEmoji(plant?.plant_type);
-                const colorClass = plant?.plant_type ? PLANT_TYPE_COLORS[plant.plant_type] ?? PLANT_TYPE_COLORS.other : '';
-                const badge = (
-                  <Badge
-                    key={i}
-                    variant="outline"
-                    className={cn(
-                      plant?.id && 'cursor-pointer hover:ring-1 hover:ring-ring',
-                      colorClass,
-                    )}
-                  >
-                    <span className="mr-0.5 plant-emoji">{emoji}</span>
-                    {name}
-                  </Badge>
-                );
-                return plant?.id ? <Link key={i} to={`/catalog/${plant.id}`}>{badge}</Link> : badge;
-              })}
-            </div>
-          )}
-        </TabsContent>
-      </Tabs>
+        )}
+      </section>
     </div>
   );
 }
