@@ -44,6 +44,20 @@ export function SectionNav({ sections }: SectionNavProps) {
       const offset = 80; // account for sticky nav height + some padding
       let bestId = sections[0]?.id ?? '';
 
+      // If scrolled to (near) the bottom, activate the last section
+      const atBottom = scrollParent.scrollHeight - scrollParent.scrollTop - scrollParent.clientHeight < 32;
+      if (atBottom) {
+        // Find the last section that actually exists in the DOM
+        for (let i = sections.length - 1; i >= 0; i--) {
+          if (document.getElementById(sections[i].id)) {
+            bestId = sections[i].id;
+            break;
+          }
+        }
+        setActiveId(bestId);
+        return;
+      }
+
       for (const section of sections) {
         const el = document.getElementById(section.id);
         if (!el) continue;

@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { Sidebar } from './sidebar';
 import { Header } from './header';
 import { MobileNav } from './mobile-nav';
+import { AppFooter } from './app-footer';
 import { Toaster } from '@/components/ui/toaster';
 import { useAssistantContext } from '@/contexts/assistant-context';
 import { FloatingChatButton } from '@/components/chat/floating-chat-button';
@@ -41,6 +42,7 @@ export function AppShell() {
         <div className="flex flex-1 min-h-0">
           <main className="flex-1 min-w-0 overflow-y-auto p-4 pb-20 lg:pb-4">
             <Outlet />
+            <AppFooter />
           </main>
           {/* AI Chat Sidebar — animated width container */}
           <div
