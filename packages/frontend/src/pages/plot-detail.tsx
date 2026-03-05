@@ -11,6 +11,7 @@ import type { SubPlotWithPlant } from '@/hooks/use-sub-plots';
 import { usePlantCatalogSearch } from '@/hooks/use-plant-catalog';
 import {
   useCreatePlantInstance,
+  useDeletePlantInstance,
   useUpdatePlantStatus,
   useUpdatePlantHealth,
   useUpdatePlantInstance,
@@ -27,6 +28,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { useUndoRedo } from '@/contexts/undo-redo-context';
 import { SuccessionPlantingDialog } from '@/components/garden/succession-planting-dialog';
 import { ArrowLeft, Layers, Sprout, Plus, Trash2, X, Copy, ChevronDown, ExternalLink, Pencil, ClipboardList } from 'lucide-react';
 import { PlantTypeBadge } from '@/components/garden/plant-type-badge';
@@ -74,6 +76,7 @@ export function PlotDetail() {
   const { data: plotData, isLoading } = usePlot(plotId ?? null);
   const { data: subPlotsData } = useSubPlotsWithPlants(plotId ?? null);
   const { toast } = useToast();
+  const { push: pushUndo } = useUndoRedo();
 
   const createSubPlot = useCreateSubPlot();
   const updateSubPlot = useUpdateSubPlot();
@@ -99,6 +102,7 @@ export function PlotDetail() {
   const [taskDialogOpen, setTaskDialogOpen] = useState(false);
   const { data: catalogData } = usePlantCatalogSearch({ search, limit: 10 });
   const createInstance = useCreatePlantInstance();
+  const deleteInstance = useDeletePlantInstance();
   const updateStatus = useUpdatePlantStatus();
   const updateHealth = useUpdatePlantHealth();
   const updatePlantInstance = useUpdatePlantInstance();
@@ -125,11 +129,19 @@ export function PlotDetail() {
   const handleAddSubPlot = async () => {
     if (!plotId) return;
     try {
-      await createSubPlot.mutateAsync({
+      const result = await createSubPlot.mutateAsync({
         plot_id: plotId,
         grid_position: { row: 0, col: 0 },
         geometry: { x: 0, y: 0, width: 40, height: 40, rotation: 0 },
       });
+      const newId = result?.data?.id;
+      if (newId) {
+        pushUndo({
+          label: 'Add sub-plot',
+          undo: async () => { await deleteSubPlot.mutateAsync({ id: newId, plotId }); },
+          redo: async () => { await createSubPlot.mutateAsync({ plot_id: plotId, grid_position: { row: 0, col: 0 }, geometry: { x: 0, y: 0, width: 40, height: 40, rotation: 0 } }); },
+        });
+      }
       toast({ title: 'Sub-plot added' });
     } catch {
       toast({ title: 'Failed to add sub-plot', variant: 'destructive' });
@@ -138,7 +150,16 @@ export function PlotDetail() {
 
   const handleSubPlotDragEnd = async (id: string, geometry: { x: number; y: number; width: number; height: number; rotation: number }) => {
     try {
+      const sp = subPlots.find(s => s.id === id);
+      const oldGeom = sp?.geometry;
       await updateSubPlot.mutateAsync({ id, data: { geometry } });
+      if (oldGeom) {
+        pushUndo({
+          label: 'Move/resize sub-plot',
+          undo: async () => { await updateSubPlot.mutateAsync({ id, data: { geometry: oldGeom } }); },
+          redo: async () => { await updateSubPlot.mutateAsync({ id, data: { geometry } }); },
+        });
+      }
     } catch {
       // silent - will refetch
     }
@@ -166,7 +187,7 @@ export function PlotDetail() {
   const handleCreatePlant = async () => {
     if (!selectedCatalogId || !plotId || !plantDialog.subPlotId) return;
     try {
-      await createInstance.mutateAsync({
+      const result = await createInstance.mutateAsync({
         plant_catalog_id: selectedCatalogId,
         plot_id: plotId,
         sub_plot_id: plantDialog.subPlotId,
@@ -180,6 +201,20 @@ export function PlotDetail() {
         notes: plantNotes || undefined,
         tags: [],
       });
+      const newId = result?.data?.id;
+      if (newId) {
+        pushUndo({
+          label: 'Assign plant',
+          undo: async () => { await deleteInstance.mutateAsync(newId); },
+          redo: async () => { await createInstance.mutateAsync({
+            plant_catalog_id: selectedCatalogId, plot_id: plotId, sub_plot_id: plantDialog.subPlotId!,
+            variety_name: varietyName || undefined, status: plantStatus as PlantInstanceCreate['status'],
+            health: 'good', date_planted: datePlanted || undefined,
+            planting_method: (plantingMethod || undefined) as PlantInstanceCreate['planting_method'],
+            quantity, source: source || undefined, notes: plantNotes || undefined, tags: [],
+          }); },
+        });
+      }
       toast({ title: 'Plant assigned!' });
       setPlantDialog({ open: false, subPlotId: null });
     } catch {
@@ -233,6 +268,15 @@ export function PlotDetail() {
         });
       }
 
+      const newId = newSubPlot?.data?.id;
+      if (newId) {
+        pushUndo({
+          label: 'Duplicate sub-plot',
+          undo: async () => { await deleteSubPlot.mutateAsync({ id: newId, plotId }); },
+          redo: async () => { await createSubPlot.mutateAsync({ plot_id: plotId, grid_position: { row: 0, col: 0 }, geometry: { x: sp.geometry.x + offsetPx, y: sp.geometry.y + offsetPx, width: sp.geometry.width, height: sp.geometry.height, rotation: sp.geometry.rotation }, notes: sp.notes || undefined }); },
+        });
+      }
+
       toast({ title: 'Sub-plot duplicated' });
     } catch {
       toast({ title: 'Failed to duplicate sub-plot', variant: 'destructive' });
@@ -240,10 +284,18 @@ export function PlotDetail() {
   };
 
   const handleDeleteSubPlot = async () => {
-    if (!selectedSubPlotId) return;
+    if (!selectedSubPlotId || !plotId) return;
     if (!confirm('Delete this sub-plot?')) return;
+    const sp = subPlots.find(s => s.id === selectedSubPlotId);
     try {
-      await deleteSubPlot.mutateAsync({ id: selectedSubPlotId, plotId: plotId! });
+      await deleteSubPlot.mutateAsync({ id: selectedSubPlotId, plotId });
+      if (sp) {
+        pushUndo({
+          label: 'Delete sub-plot',
+          undo: async () => { await createSubPlot.mutateAsync({ plot_id: plotId, grid_position: { row: 0, col: 0 }, geometry: sp.geometry, notes: sp.notes || undefined }); },
+          redo: async () => { await deleteSubPlot.mutateAsync({ id: selectedSubPlotId, plotId }); },
+        });
+      }
       setSelectedSubPlotId(null);
       toast({ title: 'Sub-plot deleted' });
     } catch {
@@ -332,8 +384,14 @@ export function PlotDetail() {
                       <Select
                         value={selectedSubPlot.status ?? 'planned'}
                         onValueChange={async (status) => {
+                          const oldStatus = selectedSubPlot.status ?? 'planned';
                           try {
                             await updateStatus.mutateAsync({ id: selectedSubPlot.plant_instance_id!, status });
+                            pushUndo({
+                              label: `Change status to ${status.replace('_', ' ')}`,
+                              undo: async () => { await updateStatus.mutateAsync({ id: selectedSubPlot.plant_instance_id!, status: oldStatus }); },
+                              redo: async () => { await updateStatus.mutateAsync({ id: selectedSubPlot.plant_instance_id!, status }); },
+                            });
                             toast({ title: `Status updated to ${status.replace('_', ' ')}` });
                           } catch {
                             toast({ title: 'Failed to update status', variant: 'destructive' });
@@ -359,8 +417,14 @@ export function PlotDetail() {
                       <Select
                         value={selectedSubPlot.health ?? 'good'}
                         onValueChange={async (health) => {
+                          const oldHealth = selectedSubPlot.health ?? 'good';
                           try {
                             await updateHealth.mutateAsync({ id: selectedSubPlot.plant_instance_id!, health });
+                            pushUndo({
+                              label: `Change health to ${health}`,
+                              undo: async () => { await updateHealth.mutateAsync({ id: selectedSubPlot.plant_instance_id!, health: oldHealth }); },
+                              redo: async () => { await updateHealth.mutateAsync({ id: selectedSubPlot.plant_instance_id!, health }); },
+                            });
                             toast({ title: `Health updated to ${health}` });
                           } catch {
                             toast({ title: 'Failed to update health', variant: 'destructive' });
@@ -404,9 +468,15 @@ export function PlotDetail() {
                           autoFocus
                           onBlur={async (e) => {
                             const val = e.target.value;
-                            if (val && val !== selectedSubPlot.expected_harvest_date) {
+                            const oldVal = selectedSubPlot.expected_harvest_date;
+                            if (val && val !== oldVal) {
                               try {
                                 await updatePlantInstance.mutateAsync({ id: selectedSubPlot.plant_instance_id!, data: { expected_harvest_date: val } });
+                                pushUndo({
+                                  label: 'Change harvest date',
+                                  undo: async () => { await updatePlantInstance.mutateAsync({ id: selectedSubPlot.plant_instance_id!, data: { expected_harvest_date: oldVal ?? '' } }); },
+                                  redo: async () => { await updatePlantInstance.mutateAsync({ id: selectedSubPlot.plant_instance_id!, data: { expected_harvest_date: val } }); },
+                                });
                                 toast({ title: 'Expected harvest date updated' });
                               } catch {
                                 toast({ title: 'Failed to update', variant: 'destructive' });
@@ -417,9 +487,15 @@ export function PlotDetail() {
                           onKeyDown={async (e) => {
                             if (e.key === 'Enter') {
                               const val = (e.target as HTMLInputElement).value;
-                              if (val && val !== selectedSubPlot.expected_harvest_date) {
+                              const oldVal = selectedSubPlot.expected_harvest_date;
+                              if (val && val !== oldVal) {
                                 try {
                                   await updatePlantInstance.mutateAsync({ id: selectedSubPlot.plant_instance_id!, data: { expected_harvest_date: val } });
+                                  pushUndo({
+                                    label: 'Change harvest date',
+                                    undo: async () => { await updatePlantInstance.mutateAsync({ id: selectedSubPlot.plant_instance_id!, data: { expected_harvest_date: oldVal ?? '' } }); },
+                                    redo: async () => { await updatePlantInstance.mutateAsync({ id: selectedSubPlot.plant_instance_id!, data: { expected_harvest_date: val } }); },
+                                  });
                                   toast({ title: 'Expected harvest date updated' });
                                 } catch {
                                   toast({ title: 'Failed to update', variant: 'destructive' });

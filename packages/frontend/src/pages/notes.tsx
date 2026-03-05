@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import { useUndoRedo } from '@/contexts/undo-redo-context';
 import type { Note } from '@gardenvault/shared';
 
 interface EntityLink {
@@ -18,15 +19,26 @@ interface EntityLink {
 function CreateNoteDialog() {
   const [open, setOpen] = useState(false);
   const createNote = useCreateNote();
+  const deleteNote = useDeleteNote();
   const { toast } = useToast();
+  const { push: pushUndo } = useUndoRedo();
   const [content, setContent] = useState('');
 
   const handleCreate = () => {
     if (!content.trim()) return;
+    const noteContent = content.trim();
     createNote.mutate(
-      { content },
+      { content: noteContent },
       {
-        onSuccess: () => {
+        onSuccess: (result) => {
+          const newId = result?.data?.id;
+          if (newId) {
+            pushUndo({
+              label: 'Create note',
+              undo: async () => { await deleteNote.mutateAsync(newId); },
+              redo: async () => { await createNote.mutateAsync({ content: noteContent }); },
+            });
+          }
           toast({ title: 'Note created' });
           setOpen(false);
           setContent('');
@@ -79,8 +91,10 @@ export function NotesPage() {
   const navigate = useNavigate();
   const { data } = useNotes();
   const deleteNote = useDeleteNote();
+  const createNote = useCreateNote();
   const updateNote = useUpdateNote();
   const { toast } = useToast();
+  const { push: pushUndo } = useUndoRedo();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editContent, setEditContent] = useState('');
 
@@ -88,7 +102,14 @@ export function NotesPage() {
 
   const togglePin = (id: string, pinned: boolean) => {
     updateNote.mutate({ id, pinned: !pinned }, {
-      onSuccess: () => toast({ title: pinned ? 'Unpinned' : 'Pinned' }),
+      onSuccess: () => {
+        pushUndo({
+          label: pinned ? 'Unpin note' : 'Pin note',
+          undo: async () => { await updateNote.mutateAsync({ id, pinned }); },
+          redo: async () => { await updateNote.mutateAsync({ id, pinned: !pinned }); },
+        });
+        toast({ title: pinned ? 'Unpinned' : 'Pinned' });
+      },
     });
   };
 
@@ -104,10 +125,19 @@ export function NotesPage() {
 
   const saveEdit = () => {
     if (!editingId || !editContent.trim()) return;
+    const note = notes.find(n => n.id === editingId);
+    const oldContent = note?.content ?? '';
+    const newContent = editContent.trim();
+    const noteId = editingId;
     updateNote.mutate(
-      { id: editingId, content: editContent.trim() },
+      { id: noteId, content: newContent },
       {
         onSuccess: () => {
+          pushUndo({
+            label: 'Edit note',
+            undo: async () => { await updateNote.mutateAsync({ id: noteId, content: oldContent }); },
+            redo: async () => { await updateNote.mutateAsync({ id: noteId, content: newContent }); },
+          });
           setEditingId(null);
           setEditContent('');
           toast({ title: 'Note updated' });
@@ -226,7 +256,19 @@ export function NotesPage() {
                       <Button
                         size="sm"
                         variant="ghost"
-                        onClick={() => { if (!confirm('Delete this note?')) return; deleteNote.mutate(note.id, { onSuccess: () => toast({ title: 'Deleted' }) }); }}
+                        onClick={() => {
+                          if (!confirm('Delete this note?')) return;
+                          deleteNote.mutate(note.id, {
+                            onSuccess: () => {
+                              pushUndo({
+                                label: 'Delete note',
+                                undo: async () => { await createNote.mutateAsync({ content: note.content, pinned: note.pinned, tags: note.tags, note_date: note.note_date, entity_links: note.entity_links }); },
+                                redo: async () => { await deleteNote.mutateAsync(note.id); },
+                              });
+                              toast({ title: 'Deleted' });
+                            },
+                          });
+                        }}
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>

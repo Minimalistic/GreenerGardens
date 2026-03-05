@@ -42,6 +42,24 @@ export function weatherRoutes(fastify: FastifyInstance, weatherService: WeatherS
     return { success: true, data };
   });
 
+  fastify.get<{ Querystring: { garden_id?: string } }>('/api/v1/weather/nws-alerts', async (request) => {
+    const gardenId = request.query.garden_id;
+    if (!gardenId) {
+      return { success: true, data: { alerts: [], headline: null } };
+    }
+    const result = await weatherService.fetchNwsAlerts(gardenId);
+    return { success: true, data: result };
+  });
+
+  fastify.get<{ Querystring: { garden_id?: string } }>('/api/v1/weather/location', async (request) => {
+    const gardenId = request.query.garden_id;
+    if (!gardenId) {
+      return { success: true, data: null };
+    }
+    const location = weatherService.getGardenLocation(gardenId);
+    return { success: true, data: location };
+  });
+
   fastify.post<{ Querystring: { garden_id?: string } }>('/api/v1/weather/refresh', async (request) => {
     const gardenId = request.query.garden_id;
     if (!gardenId) {

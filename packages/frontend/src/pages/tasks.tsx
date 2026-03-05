@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
+import { useUndoRedo } from '@/contexts/undo-redo-context';
 import {
   Dialog,
   DialogContent,
@@ -193,15 +194,31 @@ function RescheduleDialog({ task, open, onOpenChange }: {
   const updateTask = useUpdateTask();
   const updatePlantInstance = useUpdatePlantInstance();
   const { toast } = useToast();
+  const { push: pushUndo } = useUndoRedo();
 
   const handleConfirm = () => {
     if (!task || !date) return;
+    const oldDate = task.due_date;
     updateTask.mutate({ id: task.id, data: { due_date: date } }, {
       onSuccess: () => {
-        // If it's a harvest task linked to a plant instance, sync the expected harvest date
         if (task.task_type === 'harvesting' && task.entity_type === 'plant_instance' && task.entity_id) {
           updatePlantInstance.mutate({ id: task.entity_id, data: { expected_harvest_date: date } });
         }
+        pushUndo({
+          label: `Reschedule task "${task.title}"`,
+          undo: async () => {
+            await updateTask.mutateAsync({ id: task.id, data: { due_date: oldDate ?? '' } });
+            if (task.task_type === 'harvesting' && task.entity_type === 'plant_instance' && task.entity_id && oldDate) {
+              await updatePlantInstance.mutateAsync({ id: task.entity_id, data: { expected_harvest_date: oldDate } });
+            }
+          },
+          redo: async () => {
+            await updateTask.mutateAsync({ id: task.id, data: { due_date: date } });
+            if (task.task_type === 'harvesting' && task.entity_type === 'plant_instance' && task.entity_id) {
+              await updatePlantInstance.mutateAsync({ id: task.entity_id, data: { expected_harvest_date: date } });
+            }
+          },
+        });
         toast({ title: `Rescheduled to ${new Date(date + 'T12:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric' })}` });
         onOpenChange(false);
       },
@@ -275,7 +292,9 @@ export function TasksPage() {
   const isLoading = overdueLoading || todayLoading;
   const completeTask = useCompleteTask();
   const skipTask = useSkipTask();
+  const updateTask = useUpdateTask();
   const { toast } = useToast();
+  const { push: pushUndo } = useUndoRedo();
 
   const overdue = overdueData?.data ?? [];
   const today = todayData?.data ?? [];
@@ -294,14 +313,32 @@ export function TasksPage() {
   );
 
   const handleComplete = (id: string) => {
+    const task = allTasks.find(t => t.id === id) ?? overdue.find(t => t.id === id) ?? today.find(t => t.id === id) ?? week.find(t => t.id === id);
+    const oldStatus = task?.status ?? 'pending';
     completeTask.mutate(id, {
-      onSuccess: () => toast({ title: 'Task completed' }),
+      onSuccess: () => {
+        pushUndo({
+          label: `Complete task "${task?.title ?? ''}"`,
+          undo: async () => { await updateTask.mutateAsync({ id, data: { status: oldStatus } }); },
+          redo: async () => { await completeTask.mutateAsync(id); },
+        });
+        toast({ title: 'Task completed' });
+      },
     });
   };
 
   const handleSkip = (id: string) => {
+    const task = allTasks.find(t => t.id === id) ?? overdue.find(t => t.id === id) ?? today.find(t => t.id === id) ?? week.find(t => t.id === id);
+    const oldStatus = task?.status ?? 'pending';
     skipTask.mutate(id, {
-      onSuccess: () => toast({ title: 'Task skipped' }),
+      onSuccess: () => {
+        pushUndo({
+          label: `Skip task "${task?.title ?? ''}"`,
+          undo: async () => { await updateTask.mutateAsync({ id, data: { status: oldStatus } }); },
+          redo: async () => { await skipTask.mutateAsync(id); },
+        });
+        toast({ title: 'Task skipped' });
+      },
     });
   };
 

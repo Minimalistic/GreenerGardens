@@ -4,7 +4,8 @@ import { useGardenContext } from '@/contexts/garden-context';
 import { usePlotsByGarden } from '@/hooks/use-plots';
 import { usePlantInstances } from '@/hooks/use-plant-instances';
 import { useHarvestStats } from '@/hooks/use-harvests';
-import { useTodayTasks, useOverdueTasks, useCompleteTask } from '@/hooks/use-tasks';
+import { useTodayTasks, useOverdueTasks, useCompleteTask, useUpdateTask } from '@/hooks/use-tasks';
+import { useUndoRedo } from '@/contexts/undo-redo-context';
 import { StatCard } from '@/components/garden/stat-card';
 import { ActivityFeed } from '@/components/garden/activity-feed';
 import { EmptyState } from '@/components/garden/empty-state';
@@ -24,6 +25,8 @@ export function Dashboard() {
   const { data: todayTasksData } = useTodayTasks();
   const { data: overdueTasksData } = useOverdueTasks();
   const completeTask = useCompleteTask();
+  const updateTask = useUpdateTask();
+  const { push: pushUndo } = useUndoRedo();
 
   const plotCount = plotsData?.data?.length ?? 0;
   const plantCount = plantsData?.data?.length ?? 0;
@@ -103,7 +106,19 @@ export function Dashboard() {
                       onClick={route ? () => navigate(route) : undefined}
                     >
                       <button
-                        onClick={(e) => { e.stopPropagation(); completeTask.mutate(task.id); }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const oldStatus = task.status;
+                          completeTask.mutate(task.id, {
+                            onSuccess: () => {
+                              pushUndo({
+                                label: `Complete task "${task.title}"`,
+                                undo: async () => { await updateTask.mutateAsync({ id: task.id, data: { status: oldStatus } }); },
+                                redo: async () => { await completeTask.mutateAsync(task.id); },
+                              });
+                            },
+                          });
+                        }}
                         className="text-muted-foreground hover:text-primary shrink-0"
                       >
                         <CheckCircle2 className="w-4 h-4" />

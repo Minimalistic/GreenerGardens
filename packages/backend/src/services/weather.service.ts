@@ -226,6 +226,92 @@ export class WeatherService {
     };
   }
 
+  async fetchNwsAlerts(gardenId: string) {
+    const garden = this.gardenRepo.findById(gardenId);
+    if (!garden || !garden.latitude || !garden.longitude) {
+      return { alerts: [], headline: null, error: 'Garden location not set' };
+    }
+
+    try {
+      // NWS alerts by lat/lon — free, no API key
+      const alertsUrl = `https://api.weather.gov/alerts/active?point=${garden.latitude},${garden.longitude}`;
+      const alertsRes = await fetch(alertsUrl, {
+        headers: { 'User-Agent': '(GreenerGardens, gardenvault@local)', Accept: 'application/geo+json' },
+      });
+      if (!alertsRes.ok) throw new Error(`NWS alerts API returned ${alertsRes.status}`);
+
+      const alertsJson = await alertsRes.json() as {
+        features: Array<{
+          properties: {
+            event: string;
+            headline: string;
+            description: string;
+            severity: string;
+            urgency: string;
+            onset: string;
+            expires: string;
+            senderName: string;
+          };
+        }>;
+      };
+
+      const alerts = alertsJson.features.map((f) => ({
+        event: f.properties.event,
+        headline: f.properties.headline,
+        description: f.properties.description,
+        severity: f.properties.severity,
+        urgency: f.properties.urgency,
+        onset: f.properties.onset,
+        expires: f.properties.expires,
+        sender: f.properties.senderName,
+      }));
+
+      // Reverse geocode via Nominatim for accurate city name
+      let headline: string | null = null;
+      try {
+        const geoUrl = `https://nominatim.openstreetmap.org/reverse?lat=${garden.latitude}&lon=${garden.longitude}&format=json&addressdetails=1&zoom=12`;
+        const geoRes = await fetch(geoUrl, {
+          headers: { 'User-Agent': 'GardenVault/1.0 (weather location)' },
+          signal: AbortSignal.timeout(5000),
+        });
+        if (geoRes.ok) {
+          const geoJson = await geoRes.json() as {
+            address?: {
+              city?: string;
+              town?: string;
+              village?: string;
+              municipality?: string;
+              state?: string;
+            };
+          };
+          const addr = geoJson.address;
+          const city = addr?.city ?? addr?.town ?? addr?.village ?? addr?.municipality;
+          if (city && addr?.state) {
+            headline = `${city}, ${addr.state}`;
+          }
+        }
+      } catch {
+        // Non-critical — location name is optional
+      }
+
+      return { alerts, headline, error: null };
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      return { alerts: [], headline: null, error: message };
+    }
+  }
+
+  getGardenLocation(gardenId: string) {
+    const garden = this.gardenRepo.findById(gardenId);
+    if (!garden) return null;
+    return {
+      latitude: garden.latitude ?? null,
+      longitude: garden.longitude ?? null,
+      address: garden.address ?? null,
+      usda_zone: garden.usda_zone ?? null,
+    };
+  }
+
   private mapForecastItem(gardenId: string, item: OpenWeatherForecastResponse['list'][0]) {
     const precipInches = item.rain?.['3h']
       ? mmToInches(item.rain['3h'])

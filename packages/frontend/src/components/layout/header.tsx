@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Sun, Moon, Monitor, Wrench, Bug, Settings } from 'lucide-react';
+import { UndoRedoControls } from '@/components/undo-redo-controls';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -27,6 +28,7 @@ export function Header({ title }: HeaderProps) {
           <div className="flex-1">
             <h1 className="text-lg font-semibold">{title}</h1>
           </div>
+          <UndoRedoControls />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">

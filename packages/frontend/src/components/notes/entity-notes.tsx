@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { useUndoRedo } from '@/contexts/undo-redo-context';
 import { formatDistanceToNow } from 'date-fns';
 
 interface EntityNotesProps {
@@ -18,6 +19,7 @@ export function EntityNotes({ entityType, entityId }: EntityNotesProps) {
   const updateNote = useUpdateNote();
   const deleteNote = useDeleteNote();
   const { toast } = useToast();
+  const { push: pushUndo } = useUndoRedo();
   const [content, setContent] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editContent, setEditContent] = useState('');
@@ -26,13 +28,20 @@ export function EntityNotes({ entityType, entityId }: EntityNotesProps) {
 
   const handleCreate = () => {
     if (!content.trim()) return;
+    const noteContent = content.trim();
+    const noteData = { content: noteContent, entity_links: [{ entity_type: entityType, entity_id: entityId }] };
     createNote.mutate(
+      noteData,
       {
-        content: content.trim(),
-        entity_links: [{ entity_type: entityType, entity_id: entityId }],
-      },
-      {
-        onSuccess: () => {
+        onSuccess: (result) => {
+          const newId = result?.data?.id;
+          if (newId) {
+            pushUndo({
+              label: 'Add note',
+              undo: async () => { await deleteNote.mutateAsync(newId); },
+              redo: async () => { await createNote.mutateAsync(noteData); },
+            });
+          }
           setContent('');
           toast({ title: 'Note added' });
         },
@@ -44,7 +53,16 @@ export function EntityNotes({ entityType, entityId }: EntityNotesProps) {
   const togglePin = (id: string, pinned: boolean) => {
     updateNote.mutate(
       { id, pinned: !pinned },
-      { onSuccess: () => toast({ title: pinned ? 'Unpinned' : 'Pinned' }) },
+      {
+        onSuccess: () => {
+          pushUndo({
+            label: pinned ? 'Unpin note' : 'Pin note',
+            undo: async () => { await updateNote.mutateAsync({ id, pinned }); },
+            redo: async () => { await updateNote.mutateAsync({ id, pinned: !pinned }); },
+          });
+          toast({ title: pinned ? 'Unpinned' : 'Pinned' });
+        },
+      },
     );
   };
 
@@ -60,10 +78,19 @@ export function EntityNotes({ entityType, entityId }: EntityNotesProps) {
 
   const saveEdit = () => {
     if (!editingId || !editContent.trim()) return;
+    const note = notes.find(n => n.id === editingId);
+    const oldContent = note?.content ?? '';
+    const newContent = editContent.trim();
+    const noteId = editingId;
     updateNote.mutate(
-      { id: editingId, content: editContent.trim() },
+      { id: noteId, content: newContent },
       {
         onSuccess: () => {
+          pushUndo({
+            label: 'Edit note',
+            undo: async () => { await updateNote.mutateAsync({ id: noteId, content: oldContent }); },
+            redo: async () => { await updateNote.mutateAsync({ id: noteId, content: newContent }); },
+          });
           setEditingId(null);
           setEditContent('');
           toast({ title: 'Note updated' });
@@ -164,7 +191,14 @@ export function EntityNotes({ entityType, entityId }: EntityNotesProps) {
                           onClick={() => {
                             if (!confirm('Delete this note?')) return;
                             deleteNote.mutate(note.id, {
-                              onSuccess: () => toast({ title: 'Deleted' }),
+                              onSuccess: () => {
+                                pushUndo({
+                                  label: 'Delete note',
+                                  undo: async () => { await createNote.mutateAsync({ content: note.content, entity_links: note.entity_links, pinned: note.pinned }); },
+                                  redo: async () => { await deleteNote.mutateAsync(note.id); },
+                                });
+                                toast({ title: 'Deleted' });
+                              },
                             });
                           }}
                         >

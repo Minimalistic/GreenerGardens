@@ -13,6 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import { useUndoRedo } from '@/contexts/undo-redo-context';
 import type { SoilTest, Plot } from '@gardenvault/shared';
 
 function phColor(ph: number | null | undefined): string {
@@ -69,7 +70,9 @@ const soilTestColumns: Column<SoilTestRow>[] = [
 function CreateSoilTestDialog({ plots }: { plots: Plot[] }) {
   const [open, setOpen] = useState(false);
   const createSoilTest = useCreateSoilTest();
+  const deleteSoilTest = useDeleteSoilTest();
   const { toast } = useToast();
+  const { push: pushUndo } = useUndoRedo();
 
   const [form, setForm] = useState({
     plot_id: '',
@@ -101,7 +104,23 @@ function CreateSoilTestDialog({ plots }: { plots: Plot[] }) {
         notes: form.notes || null,
       },
       {
-        onSuccess: () => {
+        onSuccess: (result) => {
+          const newId = result?.data?.id;
+          if (newId) {
+            pushUndo({
+              label: 'Record soil test',
+              undo: async () => { await deleteSoilTest.mutateAsync(newId); },
+              redo: async () => { await createSoilTest.mutateAsync({
+                plot_id: form.plot_id, test_date: form.test_date,
+                ph: form.ph ? parseFloat(form.ph) : null,
+                nitrogen_ppm: form.nitrogen_ppm ? parseFloat(form.nitrogen_ppm) : null,
+                phosphorus_ppm: form.phosphorus_ppm ? parseFloat(form.phosphorus_ppm) : null,
+                potassium_ppm: form.potassium_ppm ? parseFloat(form.potassium_ppm) : null,
+                organic_matter_pct: form.organic_matter_pct ? parseFloat(form.organic_matter_pct) : null,
+                moisture_level: form.moisture_level || null, notes: form.notes || null,
+              }); },
+            });
+          }
           toast({ title: 'Soil test recorded' });
           setOpen(false);
         },
@@ -181,7 +200,9 @@ export function SoilTestsPage() {
   const [selectedPlot, setSelectedPlot] = useState<string | null>(null);
   const { data: testsData } = useSoilTests(selectedPlot);
   const deleteSoilTest = useDeleteSoilTest();
+  const createSoilTest = useCreateSoilTest();
   const { toast } = useToast();
+  const { push: pushUndo } = useUndoRedo();
 
   const tests = testsData?.data ?? [];
 
@@ -238,7 +259,22 @@ export function SoilTestsPage() {
                   <CardTitle className="text-sm font-medium">{test.test_date}</CardTitle>
                   <Button size="sm" variant="ghost" onClick={() => {
                     if (!confirm('Delete this soil test?')) return;
-                    deleteSoilTest.mutate(test.id, { onSuccess: () => toast({ title: 'Deleted' }) });
+                    deleteSoilTest.mutate(test.id, {
+                      onSuccess: () => {
+                        pushUndo({
+                          label: 'Delete soil test',
+                          undo: async () => { await createSoilTest.mutateAsync({
+                            plot_id: test.plot_id, test_date: test.test_date,
+                            ph: test.ph, nitrogen_ppm: test.nitrogen_ppm,
+                            phosphorus_ppm: test.phosphorus_ppm, potassium_ppm: test.potassium_ppm,
+                            organic_matter_pct: test.organic_matter_pct, moisture_level: test.moisture_level,
+                            notes: test.notes,
+                          }); },
+                          redo: async () => { await deleteSoilTest.mutateAsync(test.id); },
+                        });
+                        toast({ title: 'Deleted' });
+                      },
+                    });
                   }}>Delete</Button>
                 </div>
               </CardHeader>

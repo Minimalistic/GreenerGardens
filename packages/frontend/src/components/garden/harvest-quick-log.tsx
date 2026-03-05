@@ -1,11 +1,12 @@
 import { useForm } from 'react-hook-form';
-import { useCreateHarvest } from '@/hooks/use-harvests';
+import { useCreateHarvest, useDeleteHarvest } from '@/hooks/use-harvests';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
+import { useUndoRedo } from '@/contexts/undo-redo-context';
 import type { HarvestCreate } from '@gardenvault/shared';
 
 interface HarvestFormData {
@@ -30,7 +31,9 @@ interface Props {
 
 export function HarvestQuickLog({ open, onOpenChange, plantInstanceId, plotId }: Props) {
   const createHarvest = useCreateHarvest();
+  const deleteHarvest = useDeleteHarvest();
   const { toast } = useToast();
+  const { push: pushUndo } = useUndoRedo();
 
   const { register, handleSubmit, reset, setValue, watch } = useForm({
     defaultValues: {
@@ -45,7 +48,7 @@ export function HarvestQuickLog({ open, onOpenChange, plantInstanceId, plotId }:
 
   const onSubmit = async (data: HarvestFormData) => {
     try {
-      await createHarvest.mutateAsync({
+      const harvestData = {
         plant_instance_id: plantInstanceId,
         plot_id: plotId,
         date_harvested: data.date_harvested,
@@ -54,7 +57,16 @@ export function HarvestQuickLog({ open, onOpenChange, plantInstanceId, plotId }:
         quality: data.quality as HarvestCreate['quality'],
         destination: data.destination as HarvestCreate['destination'],
         notes: data.notes || undefined,
-      });
+      };
+      const result = await createHarvest.mutateAsync(harvestData);
+      const newId = result?.data?.id;
+      if (newId) {
+        pushUndo({
+          label: 'Log harvest',
+          undo: async () => { await deleteHarvest.mutateAsync(newId); },
+          redo: async () => { await createHarvest.mutateAsync(harvestData); },
+        });
+      }
       toast({ title: 'Harvest logged!' });
       reset();
       onOpenChange(false);

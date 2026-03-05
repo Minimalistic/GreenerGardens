@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { useCreateTask } from '@/hooks/use-tasks';
+import { useCreateTask, useDeleteTask } from '@/hooks/use-tasks';
 import type { TaskCreate } from '@/hooks/use-tasks';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
+import { useUndoRedo } from '@/contexts/undo-redo-context';
 import {
   Dialog,
   DialogContent,
@@ -34,7 +35,9 @@ export function CreateTaskDialog({ open, onOpenChange, entityType, entityId, ent
   const [priority, setPriority] = useState('medium');
   const [taskType, setTaskType] = useState('other');
   const createTask = useCreateTask();
+  const deleteTask = useDeleteTask();
   const { toast } = useToast();
+  const { push: pushUndo } = useUndoRedo();
 
   const resetForm = () => {
     setTitle('');
@@ -60,7 +63,15 @@ export function CreateTaskDialog({ open, onOpenChange, entityType, entityId, ent
     }
 
     createTask.mutate(data, {
-      onSuccess: () => {
+      onSuccess: (result) => {
+        const newId = result?.data?.id;
+        if (newId) {
+          pushUndo({
+            label: `Create task "${data.title}"`,
+            undo: async () => { await deleteTask.mutateAsync(newId); },
+            redo: async () => { await createTask.mutateAsync(data); },
+          });
+        }
         toast({ title: 'Task created' });
         resetForm();
         onOpenChange(false);

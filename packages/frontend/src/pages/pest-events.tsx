@@ -13,6 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import { useUndoRedo } from '@/contexts/undo-redo-context';
 import type { PestEvent, Plot } from '@gardenvault/shared';
 
 type PestEventRow = PestEvent & Record<string, unknown>;
@@ -135,7 +136,9 @@ function PestEventFormFields({
 function CreatePestEventDialog() {
   const [open, setOpen] = useState(false);
   const createPestEvent = useCreatePestEvent();
+  const deletePestEvent = useDeletePestEvent();
   const { toast } = useToast();
+  const { push: pushUndo } = useUndoRedo();
 
   const [form, setForm] = useState({
     pest_name: '',
@@ -153,10 +156,19 @@ function CreatePestEventDialog() {
       return;
     }
     const [entity_type, entity_id] = form.affected.split(':');
+    const pestData = { entity_type, entity_id, pest_name: form.pest_name, pest_type: form.pest_type, severity: form.severity, detected_date: form.detected_date, treatment_applied: form.treatment_applied || undefined, notes: form.notes || undefined };
     createPestEvent.mutate(
-      { entity_type, entity_id, pest_name: form.pest_name, pest_type: form.pest_type, severity: form.severity, detected_date: form.detected_date, treatment_applied: form.treatment_applied || undefined, notes: form.notes || undefined },
+      pestData,
       {
-        onSuccess: () => {
+        onSuccess: (result) => {
+          const newId = result?.data?.id;
+          if (newId) {
+            pushUndo({
+              label: `Report pest "${form.pest_name}"`,
+              undo: async () => { await deletePestEvent.mutateAsync(newId); },
+              redo: async () => { await createPestEvent.mutateAsync(pestData); },
+            });
+          }
           toast({ title: 'Pest event reported' });
           setOpen(false);
           setForm(f => ({ ...f, pest_name: '', notes: '', treatment_applied: '', affected: '' }));
@@ -185,7 +197,9 @@ function CreatePestEventDialog() {
 function EditPestEventDialog({ event, open, onOpenChange }: { event: PestEventRow; open: boolean; onOpenChange: (v: boolean) => void }) {
   const updatePestEvent = useUpdatePestEvent();
   const deletePestEvent = useDeletePestEvent();
+  const createPestEvent = useCreatePestEvent();
   const { toast } = useToast();
+  const { push: pushUndo } = useUndoRedo();
 
   const [form, setForm] = useState({
     pest_name: '',
@@ -217,10 +231,17 @@ function EditPestEventDialog({ event, open, onOpenChange }: { event: PestEventRo
       return;
     }
     const [entity_type, entity_id] = form.affected.split(':');
+    const newData = { id: event.id, entity_type, entity_id, pest_name: form.pest_name, pest_type: form.pest_type, severity: form.severity, detected_date: form.detected_date, treatment_applied: form.treatment_applied || undefined, notes: form.notes || undefined };
+    const oldData = { id: event.id, entity_type: event.entity_type, entity_id: event.entity_id, pest_name: event.pest_name, pest_type: event.pest_type, severity: event.severity, detected_date: event.detected_date, treatment_applied: event.treatment_applied ?? undefined, notes: event.notes ?? undefined };
     updatePestEvent.mutate(
-      { id: event.id, entity_type, entity_id, pest_name: form.pest_name, pest_type: form.pest_type, severity: form.severity, detected_date: form.detected_date, treatment_applied: form.treatment_applied || undefined, notes: form.notes || undefined },
+      newData,
       {
         onSuccess: () => {
+          pushUndo({
+            label: `Edit pest event "${form.pest_name}"`,
+            undo: async () => { await updatePestEvent.mutateAsync(oldData); },
+            redo: async () => { await updatePestEvent.mutateAsync(newData); },
+          });
           toast({ title: 'Pest event updated' });
           onOpenChange(false);
         },
@@ -233,6 +254,11 @@ function EditPestEventDialog({ event, open, onOpenChange }: { event: PestEventRo
     if (!confirm('Delete this pest event?')) return;
     deletePestEvent.mutate(event.id, {
       onSuccess: () => {
+        pushUndo({
+          label: `Delete pest event "${event.pest_name}"`,
+          undo: async () => { await createPestEvent.mutateAsync({ entity_type: event.entity_type, entity_id: event.entity_id, pest_name: event.pest_name, pest_type: event.pest_type, severity: event.severity, detected_date: event.detected_date, treatment_applied: event.treatment_applied ?? undefined, notes: event.notes ?? undefined }); },
+          redo: async () => { await deletePestEvent.mutateAsync(event.id); },
+        });
         toast({ title: 'Pest event deleted' });
         onOpenChange(false);
       },
@@ -272,6 +298,7 @@ export function PestEventsPage() {
   const { data } = usePestEvents({ outcome: outcomeFilter, pest_type: pestTypeFilter, severity: severityFilter });
   const updatePestEvent = useUpdatePestEvent();
   const { toast } = useToast();
+  const { push: pushUndo } = useUndoRedo();
 
   const [editEvent, setEditEvent] = useState<PestEventRow | null>(null);
 
@@ -279,10 +306,21 @@ export function PestEventsPage() {
 
   const handleResolve = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
+    const event = events.find(ev => ev.id === id);
+    const oldOutcome = event?.outcome;
+    const oldResolvedDate = event?.resolved_date;
+    const resolvedDate = new Date().toISOString().split('T')[0];
     updatePestEvent.mutate(
-      { id, outcome: 'resolved', resolved_date: new Date().toISOString().split('T')[0] },
+      { id, outcome: 'resolved', resolved_date: resolvedDate },
       {
-        onSuccess: () => toast({ title: 'Pest event resolved' }),
+        onSuccess: () => {
+          pushUndo({
+            label: `Resolve pest event "${event?.pest_name ?? ''}"`,
+            undo: async () => { await updatePestEvent.mutateAsync({ id, outcome: oldOutcome ?? 'ongoing', resolved_date: oldResolvedDate ?? undefined }); },
+            redo: async () => { await updatePestEvent.mutateAsync({ id, outcome: 'resolved', resolved_date: resolvedDate }); },
+          });
+          toast({ title: 'Pest event resolved' });
+        },
         onError: () => toast({ title: 'Failed to update', variant: 'destructive' }),
       },
     );

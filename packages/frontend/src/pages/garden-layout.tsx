@@ -6,6 +6,7 @@ import { useSubPlotsForPlots, type SubPlotWithPlant } from '@/hooks/use-sub-plot
 import { useGardenObjects, useCreateGardenObject, useUpdateGardenObject, useDeleteGardenObject } from '@/hooks/use-garden-objects';
 import { api } from '@/lib/api';
 import { useCanvasKeyboard } from '@/hooks/use-canvas-keyboard';
+import { useUndoRedo } from '@/contexts/undo-redo-context';
 import { GardenCanvas, PX_PER_FT } from '@/components/garden/garden-canvas';
 import { CanvasContextMenu } from '@/components/garden/canvas-context-menu';
 import { EmptyState } from '@/components/garden/empty-state';
@@ -89,6 +90,7 @@ export function GardenLayout() {
   const updateObject = useUpdateGardenObject();
   const deleteObject = useDeleteGardenObject();
   const { toast } = useToast();
+  const { push: pushUndo } = useUndoRedo();
   const [plotDialogOpen, setPlotDialogOpen] = useState(false);
   const [objectDialogOpen, setObjectDialogOpen] = useState(false);
   const [selectedPlotId, setSelectedPlotId] = useState<string | null>(null);
@@ -179,7 +181,7 @@ export function GardenLayout() {
     if (!clipboard || !currentGardenId) return;
     try {
       const offsetPx = 2 * PX_PER_FT;
-      await createPlot.mutateAsync({
+      const pasteData = {
         garden_id: currentGardenId,
         name: `${clipboard.name} (copy)`,
         plot_type: clipboard.plot_type as PlotCreate['plot_type'],
@@ -194,12 +196,21 @@ export function GardenLayout() {
         irrigation: clipboard.irrigation as PlotCreate['irrigation'],
         is_covered: clipboard.is_covered ?? false,
         tags: clipboard.tags ?? [],
-      });
+      };
+      const result = await createPlot.mutateAsync(pasteData);
+      const newId = result?.data?.id;
+      if (newId) {
+        pushUndo({
+          label: 'Paste plot',
+          undo: async () => { await deletePlot.mutateAsync({ id: newId, gardenId: currentGardenId }); },
+          redo: async () => { await createPlot.mutateAsync(pasteData); },
+        });
+      }
       toast({ title: 'Plot pasted' });
     } catch {
       toast({ title: 'Failed to paste plot', variant: 'destructive' });
     }
-  }, [clipboard, currentGardenId, createPlot, toast]);
+  }, [clipboard, currentGardenId, createPlot, deletePlot, toast, pushUndo]);
 
   const handleDuplicate = useCallback(async () => {
     if (!selectedPlotId) return;
@@ -251,13 +262,30 @@ export function GardenLayout() {
             });
           }
         }
+
+        pushUndo({
+          label: `Duplicate plot "${plot.name}"`,
+          undo: async () => { await deletePlot.mutateAsync({ id: newPlotId, gardenId: currentGardenId }); },
+          redo: async () => { await createPlot.mutateAsync({
+            garden_id: currentGardenId,
+            name: `${plot.name} (copy)`,
+            plot_type: plot.plot_type as PlotCreate['plot_type'],
+            dimensions: plot.dimensions,
+            geometry: { ...g, x: g.x + offsetPx, y: g.y + offsetPx },
+            soil_type: plot.soil_type ?? undefined,
+            sun_exposure: plot.sun_exposure as PlotCreate['sun_exposure'],
+            irrigation: plot.irrigation as PlotCreate['irrigation'],
+            is_covered: plot.is_covered ?? false,
+            tags: plot.tags ?? [],
+          }); },
+        });
       }
 
       toast({ title: 'Plot duplicated' });
     } catch {
       toast({ title: 'Failed to duplicate plot', variant: 'destructive' });
     }
-  }, [selectedPlotId, plots, currentGardenId, createPlot, toast]);
+  }, [selectedPlotId, plots, currentGardenId, createPlot, deletePlot, toast, pushUndo]);
 
   // --- Delete ---
 
@@ -267,9 +295,29 @@ export function GardenLayout() {
   }, []);
 
   const confirmDeletePlot = useCallback(async () => {
-    if (!plotToDelete) return;
+    if (!plotToDelete || !currentGardenId) return;
+    const plot = plots.find((p) => p.id === plotToDelete);
     try {
-      await deletePlot.mutateAsync({ id: plotToDelete, gardenId: currentGardenId! });
+      await deletePlot.mutateAsync({ id: plotToDelete, gardenId: currentGardenId });
+      if (plot) {
+        const plotData = {
+          garden_id: currentGardenId,
+          name: plot.name,
+          plot_type: plot.plot_type as PlotCreate['plot_type'],
+          dimensions: plot.dimensions,
+          geometry: plot.geometry ?? undefined,
+          soil_type: plot.soil_type ?? undefined,
+          sun_exposure: plot.sun_exposure as PlotCreate['sun_exposure'],
+          irrigation: plot.irrigation as PlotCreate['irrigation'],
+          is_covered: plot.is_covered ?? false,
+          tags: plot.tags ?? [],
+        };
+        pushUndo({
+          label: `Delete plot "${plot.name}"`,
+          undo: async () => { await createPlot.mutateAsync(plotData); },
+          redo: async () => { await deletePlot.mutateAsync({ id: plotToDelete, gardenId: currentGardenId }); },
+        });
+      }
       setSelectedPlotId(null);
       setDeleteDialogOpen(false);
       setPlotToDelete(null);
@@ -277,18 +325,32 @@ export function GardenLayout() {
     } catch {
       toast({ title: 'Failed to delete plot', variant: 'destructive' });
     }
-  }, [plotToDelete, deletePlot, currentGardenId, toast]);
+  }, [plotToDelete, deletePlot, createPlot, currentGardenId, toast, plots, pushUndo]);
 
   const handleDeleteObject = useCallback(async (id: string) => {
     if (!currentGardenId) return;
+    const obj = gardenObjects.find((o) => o.id === id);
     try {
       await deleteObject.mutateAsync({ id, gardenId: currentGardenId });
+      if (obj) {
+        const objData = {
+          garden_id: currentGardenId,
+          name: obj.name,
+          object_type: obj.object_type,
+          geometry: obj.geometry,
+        };
+        pushUndo({
+          label: `Delete "${obj.name}"`,
+          undo: async () => { await createObject.mutateAsync(objData); },
+          redo: async () => { await deleteObject.mutateAsync({ id, gardenId: currentGardenId }); },
+        });
+      }
       setSelectedObjectId(null);
       toast({ title: 'Object deleted' });
     } catch {
       toast({ title: 'Failed to delete object', variant: 'destructive' });
     }
-  }, [currentGardenId, deleteObject, toast]);
+  }, [currentGardenId, deleteObject, createObject, gardenObjects, toast, pushUndo]);
 
   // --- Keyboard shortcuts ---
 
@@ -321,22 +383,31 @@ export function GardenLayout() {
 
   const onCreatePlot = async (formData: PlotFormData) => {
     if (!currentGardenId) return;
+    const plotData = {
+      garden_id: currentGardenId,
+      name: formData.name,
+      plot_type: formData.plot_type as PlotCreate['plot_type'],
+      dimensions: {
+        length_ft: Number(formData.length_ft),
+        width_ft: Number(formData.width_ft),
+        height_ft: Number(formData.height_ft),
+      },
+      soil_type: formData.soil_type || undefined,
+      sun_exposure: formData.sun_exposure as PlotCreate['sun_exposure'],
+      irrigation: formData.irrigation as PlotCreate['irrigation'],
+      is_covered: false,
+      tags: [] as string[],
+    };
     try {
-      await createPlot.mutateAsync({
-        garden_id: currentGardenId,
-        name: formData.name,
-        plot_type: formData.plot_type as PlotCreate['plot_type'],
-        dimensions: {
-          length_ft: Number(formData.length_ft),
-          width_ft: Number(formData.width_ft),
-          height_ft: Number(formData.height_ft),
-        },
-        soil_type: formData.soil_type || undefined,
-        sun_exposure: formData.sun_exposure as PlotCreate['sun_exposure'],
-        irrigation: formData.irrigation as PlotCreate['irrigation'],
-        is_covered: false,
-        tags: [],
-      });
+      const result = await createPlot.mutateAsync(plotData);
+      const newId = result?.data?.id;
+      if (newId) {
+        pushUndo({
+          label: `Create plot "${formData.name}"`,
+          undo: async () => { await deletePlot.mutateAsync({ id: newId, gardenId: currentGardenId }); },
+          redo: async () => { await createPlot.mutateAsync(plotData); },
+        });
+      }
       toast({ title: 'Plot created!' });
       setPlotDialogOpen(false);
       plotForm.reset();
@@ -347,19 +418,28 @@ export function GardenLayout() {
 
   const onCreateObject = async (formData: ObjectFormData) => {
     if (!currentGardenId) return;
+    const objData = {
+      garden_id: currentGardenId,
+      name: formData.name,
+      object_type: formData.object_type as GardenObject['object_type'],
+      geometry: {
+        x: PX_PER_FT * 2,
+        y: PX_PER_FT * 2,
+        width: Number(formData.width_ft) * PX_PER_FT,
+        height: Number(formData.length_ft) * PX_PER_FT,
+        rotation: 0,
+      },
+    };
     try {
-      await createObject.mutateAsync({
-        garden_id: currentGardenId,
-        name: formData.name,
-        object_type: formData.object_type as GardenObject['object_type'],
-        geometry: {
-          x: PX_PER_FT * 2,
-          y: PX_PER_FT * 2,
-          width: Number(formData.width_ft) * PX_PER_FT,
-          height: Number(formData.length_ft) * PX_PER_FT,
-          rotation: 0,
-        },
-      });
+      const result = await createObject.mutateAsync(objData);
+      const newId = result?.data?.id;
+      if (newId) {
+        pushUndo({
+          label: `Place object "${formData.name}"`,
+          undo: async () => { await deleteObject.mutateAsync({ id: newId, gardenId: currentGardenId }); },
+          redo: async () => { await createObject.mutateAsync(objData); },
+        });
+      }
       toast({ title: 'Object placed!' });
       setObjectDialogOpen(false);
       objectForm.reset();
@@ -372,6 +452,7 @@ export function GardenLayout() {
     try {
       const plot = plots.find((p) => p.id === plotId);
       const oldGeom = plot?.geometry;
+      const oldDims = plot?.dimensions;
       const sizeChanged = oldGeom && (oldGeom.width !== geometry.width || oldGeom.height !== geometry.height);
 
       const data: { geometry: PlotGeometry; dimensions?: { width_ft: number; length_ft: number; height_ft?: number } } = { geometry };
@@ -384,19 +465,40 @@ export function GardenLayout() {
       }
 
       await updatePlot.mutateAsync({ id: plotId, data });
+
+      if (oldGeom) {
+        const undoData: typeof data = { geometry: oldGeom };
+        if (sizeChanged && oldDims) {
+          undoData.dimensions = { width_ft: oldDims.width_ft, length_ft: oldDims.length_ft, ...(oldDims.height_ft != null ? { height_ft: oldDims.height_ft } : {}) };
+        }
+        pushUndo({
+          label: `Move/resize plot "${plot?.name ?? ''}"`,
+          undo: async () => { await updatePlot.mutateAsync({ id: plotId, data: undoData }); },
+          redo: async () => { await updatePlot.mutateAsync({ id: plotId, data }); },
+        });
+      }
     } catch {
       // silent fail on drag
     }
-  }, [updatePlot, plots]);
+  }, [updatePlot, plots, pushUndo]);
 
   const handleObjectDragEnd = useCallback(async (objectId: string, geometry: GardenObjectGeometry) => {
     if (!currentGardenId) return;
     try {
+      const obj = gardenObjects.find((o) => o.id === objectId);
+      const oldGeom = obj?.geometry;
       await updateObject.mutateAsync({ id: objectId, data: { geometry }, gardenId: currentGardenId });
+      if (oldGeom) {
+        pushUndo({
+          label: `Move/resize "${obj?.name ?? 'object'}"`,
+          undo: async () => { await updateObject.mutateAsync({ id: objectId, data: { geometry: oldGeom }, gardenId: currentGardenId }); },
+          redo: async () => { await updateObject.mutateAsync({ id: objectId, data: { geometry }, gardenId: currentGardenId }); },
+        });
+      }
     } catch {
       // silent fail on drag
     }
-  }, [updateObject, currentGardenId]);
+  }, [updateObject, currentGardenId, gardenObjects, pushUndo]);
 
   if (gardenLoading || plotsLoading) {
     return (
@@ -623,6 +725,7 @@ export function GardenLayout() {
                 <div className="flex justify-between"><span>Duplicate</span><kbd className="bg-muted px-1 rounded">{mod}D</kbd></div>
                 <div className="flex justify-between"><span>Delete</span><kbd className="bg-muted px-1 rounded">Del</kbd></div>
                 <div className="flex justify-between"><span>Deselect</span><kbd className="bg-muted px-1 rounded">Esc</kbd></div>
+                <div className="flex justify-between"><span>Undo</span><kbd className="bg-muted px-1 rounded">{mod}Z</kbd></div>
               </div>
             </CardContent>
           </Card>

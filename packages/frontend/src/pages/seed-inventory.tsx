@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
+import { useUndoRedo } from '@/contexts/undo-redo-context';
 import type { SeedInventory, PlantCatalog } from '@gardenvault/shared';
 
 interface SeedFormData {
@@ -103,6 +104,7 @@ export function SeedInventoryPage() {
   const updateSeed = useUpdateSeedInventory();
   const deleteSeed = useDeleteSeedInventory();
   const { toast } = useToast();
+  const { push: pushUndo } = useUndoRedo();
 
   const seeds = (data?.data ?? []) as SeedRow[];
 
@@ -166,10 +168,35 @@ export function SeedInventoryPage() {
         lot_number: form.lot_number || undefined,
       };
       if (editId) {
+        const oldSeed = seeds.find(s => s.id === editId);
         await updateSeed.mutateAsync({ id: editId, data: payload });
+        if (oldSeed) {
+          const oldPayload = {
+            plant_catalog_id: oldSeed.plant_catalog_id, variety_name: oldSeed.variety_name ?? '',
+            brand: oldSeed.brand ?? '', source: oldSeed.source ?? '',
+            quantity_packets: oldSeed.quantity_packets, quantity_seeds_approx: oldSeed.quantity_seeds_approx ?? undefined,
+            purchase_date: oldSeed.purchase_date ?? '', expiration_date: oldSeed.expiration_date ?? '',
+            lot_number: oldSeed.lot_number ?? undefined, germination_rate_tested: oldSeed.germination_rate_tested ?? undefined,
+            storage_location: oldSeed.storage_location ?? '', cost_cents: oldSeed.cost_cents ?? undefined,
+            notes: oldSeed.notes ?? '',
+          };
+          pushUndo({
+            label: `Update seed "${form.variety_name || 'packet'}"`,
+            undo: async () => { await updateSeed.mutateAsync({ id: editId!, data: oldPayload }); },
+            redo: async () => { await updateSeed.mutateAsync({ id: editId!, data: payload }); },
+          });
+        }
         toast({ title: 'Seed packet updated' });
       } else {
-        await createSeed.mutateAsync(payload);
+        const result = await createSeed.mutateAsync(payload);
+        const newId = result?.data?.id;
+        if (newId) {
+          pushUndo({
+            label: `Add seed "${form.variety_name || 'packet'}"`,
+            undo: async () => { await deleteSeed.mutateAsync(newId); },
+            redo: async () => { await createSeed.mutateAsync(payload); },
+          });
+        }
         toast({ title: 'Seed packet added' });
       }
       setDialogOpen(false);
@@ -180,8 +207,23 @@ export function SeedInventoryPage() {
 
   const handleDelete = async (id: string) => {
     if (!confirm('Delete this seed packet?')) return;
+    const seed = seeds.find(s => s.id === id);
     try {
       await deleteSeed.mutateAsync(id);
+      if (seed) {
+        pushUndo({
+          label: `Delete seed "${seed.variety_name || 'packet'}"`,
+          undo: async () => { await createSeed.mutateAsync({
+            plant_catalog_id: seed.plant_catalog_id, variety_name: seed.variety_name ?? '',
+            brand: seed.brand ?? '', source: seed.source ?? '',
+            quantity_packets: seed.quantity_packets, quantity_seeds_approx: seed.quantity_seeds_approx ?? undefined,
+            purchase_date: seed.purchase_date ?? '', expiration_date: seed.expiration_date ?? '',
+            storage_location: seed.storage_location ?? '', cost_cents: seed.cost_cents ?? undefined,
+            notes: seed.notes ?? '',
+          }); },
+          redo: async () => { await deleteSeed.mutateAsync(id); },
+        });
+      }
       toast({ title: 'Seed packet deleted' });
     } catch {
       toast({ title: 'Failed to delete', variant: 'destructive' });

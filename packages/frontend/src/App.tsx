@@ -5,6 +5,7 @@ import { queryClient } from '@/lib/query-client';
 import { GardenProvider } from '@/contexts/garden-context';
 import { AssistantProvider } from '@/contexts/assistant-context';
 import { ThemeProvider } from '@/components/theme-provider';
+import { UndoRedoProvider } from '@/contexts/undo-redo-context';
 import { SetupGuard } from '@/components/layout/setup-guard';
 import { AppShell } from '@/components/layout/app-shell';
 import { LoadingSpinner } from '@/components/loading-spinner';
@@ -39,6 +40,7 @@ export default function App() {
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
         <GardenProvider>
+          <UndoRedoProvider>
           <AssistantProvider>
           <BrowserRouter>
           <ErrorBoundary>
@@ -76,6 +78,7 @@ export default function App() {
           </ErrorBoundary>
           </BrowserRouter>
           </AssistantProvider>
+          </UndoRedoProvider>
         </GardenProvider>
       </QueryClientProvider>
     </ThemeProvider>

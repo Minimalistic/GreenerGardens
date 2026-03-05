@@ -13,6 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
+import { useUndoRedo } from '@/contexts/undo-redo-context';
 import { ArrowLeft, Clock, Pencil, Map, Plus } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { useState } from 'react';
@@ -40,6 +41,7 @@ export function PlantInstanceDetail() {
   const { data: tasksData } = useTasks();
   const updateTask = useUpdateTask();
   const { toast } = useToast();
+  const { push: pushUndo } = useUndoRedo();
   const [harvestOpen, setHarvestOpen] = useState(false);
   const [taskDialogOpen, setTaskDialogOpen] = useState(false);
   const [editingHarvestDate, setEditingHarvestDate] = useState(false);
@@ -57,8 +59,16 @@ export function PlantInstanceDetail() {
   if (!plant) return <p>Plant not found</p>;
 
   const handleStatusChange = async (status: string) => {
+    const oldStatus = plant?.status;
     try {
       await updateStatus.mutateAsync({ id: instanceId!, status });
+      if (oldStatus) {
+        pushUndo({
+          label: `Change status to ${status.replace('_', ' ')}`,
+          undo: async () => { await updateStatus.mutateAsync({ id: instanceId!, status: oldStatus }); },
+          redo: async () => { await updateStatus.mutateAsync({ id: instanceId!, status }); },
+        });
+      }
       toast({ title: `Status updated to ${status.replace('_', ' ')}` });
     } catch {
       toast({ title: 'Failed to update status', variant: 'destructive' });
@@ -66,8 +76,16 @@ export function PlantInstanceDetail() {
   };
 
   const handleHealthChange = async (health: string) => {
+    const oldHealth = plant?.health;
     try {
       await updateHealth.mutateAsync({ id: instanceId!, health });
+      if (oldHealth) {
+        pushUndo({
+          label: `Change health to ${health}`,
+          undo: async () => { await updateHealth.mutateAsync({ id: instanceId!, health: oldHealth }); },
+          redo: async () => { await updateHealth.mutateAsync({ id: instanceId!, health }); },
+        });
+      }
       toast({ title: `Health updated to ${health}` });
     } catch {
       toast({ title: 'Failed to update health', variant: 'destructive' });
@@ -80,12 +98,28 @@ export function PlantInstanceDetail() {
   );
 
   const handleHarvestDateChange = async (newDate: string) => {
+    const oldDate = plant?.expected_harvest_date ?? '';
+    const oldTaskDate = harvestTask?.due_date ?? null;
     try {
       await updatePlantInstance.mutateAsync({ id: instanceId!, data: { expected_harvest_date: newDate } });
-      // Sync the harvest task due_date if one exists
       if (harvestTask) {
         await updateTask.mutateAsync({ id: harvestTask.id, data: { due_date: newDate } });
       }
+      pushUndo({
+        label: 'Change harvest date',
+        undo: async () => {
+          await updatePlantInstance.mutateAsync({ id: instanceId!, data: { expected_harvest_date: oldDate } });
+          if (harvestTask && oldTaskDate) {
+            await updateTask.mutateAsync({ id: harvestTask.id, data: { due_date: oldTaskDate } });
+          }
+        },
+        redo: async () => {
+          await updatePlantInstance.mutateAsync({ id: instanceId!, data: { expected_harvest_date: newDate } });
+          if (harvestTask) {
+            await updateTask.mutateAsync({ id: harvestTask.id, data: { due_date: newDate } });
+          }
+        },
+      });
       toast({ title: 'Expected harvest date updated' });
       setEditingHarvestDate(false);
     } catch {

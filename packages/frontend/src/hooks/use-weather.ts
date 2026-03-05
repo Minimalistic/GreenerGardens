@@ -118,4 +118,68 @@ export function useWeatherDailySummary(start: string, end: string) {
   });
 }
 
+interface NwsAlert {
+  event: string;
+  headline: string;
+  description: string;
+  severity: string;
+  urgency: string;
+  onset: string;
+  expires: string;
+  sender: string;
+}
+
+interface NwsAlertsResponse {
+  success: boolean;
+  data: {
+    alerts: NwsAlert[];
+    headline: string | null;
+    error: string | null;
+  };
+}
+
+interface LocationResponse {
+  success: boolean;
+  data: {
+    latitude: number | null;
+    longitude: number | null;
+    address: string | null;
+    usda_zone: string | null;
+  } | null;
+}
+
+export function useNwsAlerts() {
+  const { currentGardenId } = useGardenContext();
+  return useQuery({
+    queryKey: ['weather', 'nws-alerts', currentGardenId],
+    queryFn: () => api.get<NwsAlertsResponse>(`/weather/nws-alerts?garden_id=${currentGardenId}`),
+    enabled: !!currentGardenId,
+    refetchInterval: 15 * 60 * 1000,
+    staleTime: 10 * 60 * 1000,
+  });
+}
+
+export function useWeatherLocation() {
+  const { currentGardenId } = useGardenContext();
+  return useQuery({
+    queryKey: ['weather', 'location', currentGardenId],
+    queryFn: () => api.get<LocationResponse>(`/weather/location?garden_id=${currentGardenId}`),
+    enabled: !!currentGardenId,
+    staleTime: 60 * 60 * 1000,
+  });
+}
+
+export function useWeatherHistory(start: string, end: string, enabled = true) {
+  const { currentGardenId } = useGardenContext();
+  return useQuery({
+    queryKey: ['weather', 'history', currentGardenId, start, end],
+    queryFn: () =>
+      api.get<{ success: boolean; data: WeatherReading[] }>(
+        `/weather/history?garden_id=${currentGardenId}&start=${start}&end=${end}`,
+      ),
+    enabled: !!currentGardenId && !!start && !!end && enabled,
+    staleTime: 60 * 60 * 1000,
+  });
+}
+
 export type { WeatherReading, ForecastItem, DailySummary };
