@@ -1,17 +1,13 @@
 import { useState } from 'react';
-import { Sun, Moon, Monitor, ChevronDown, Check, Settings, Wrench, Bug } from 'lucide-react';
+import { Sun, Moon, Monitor, Wrench, Bug, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useGardenContext } from '@/contexts/garden-context';
-import { useGardens } from '@/hooks/use-gardens';
 import { useTheme } from '@/components/theme-provider';
-import { GardenManagerDialog } from '@/components/garden/garden-manager-dialog';
 import { SettingsDialog } from '@/components/settings-dialog';
 import { FeedbackDialog } from '@/components/feedback/feedback-dialog';
 
@@ -20,14 +16,9 @@ interface HeaderProps {
 }
 
 export function Header({ title }: HeaderProps) {
-  const { currentGardenId, setCurrentGardenId, garden } = useGardenContext();
-  const { data: gardensData } = useGardens();
   const { theme, setTheme, resolvedTheme } = useTheme();
-  const [managerOpen, setManagerOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
-
-  const gardens = gardensData?.data ?? [];
 
   return (
     <>
@@ -36,36 +27,6 @@ export function Header({ title }: HeaderProps) {
           <div className="flex-1">
             <h1 className="text-lg font-semibold">{title}</h1>
           </div>
-          {garden && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="hidden sm:flex gap-1">
-                  {garden.name}
-                  <ChevronDown className="w-3.5 h-3.5 opacity-50" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {gardens.map((g) => (
-                  <DropdownMenuItem
-                    key={g.id}
-                    onClick={() => setCurrentGardenId(g.id)}
-                  >
-                    {g.id === currentGardenId ? (
-                      <Check className="w-4 h-4 mr-2" />
-                    ) : (
-                      <span className="w-4 h-4 mr-2" />
-                    )}
-                    {g.name}
-                  </DropdownMenuItem>
-                ))}
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => setManagerOpen(true)}>
-                  <Settings className="w-4 h-4 mr-2" />
-                  Manage Gardens...
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -115,7 +76,6 @@ export function Header({ title }: HeaderProps) {
           </DropdownMenu>
         </div>
       </header>
-      <GardenManagerDialog open={managerOpen} onOpenChange={setManagerOpen} />
       <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
       <FeedbackDialog open={feedbackOpen} onOpenChange={setFeedbackOpen} />
     </>

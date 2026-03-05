@@ -20,6 +20,7 @@ export * from './schemas/seed-inventory.schema.js';
 export * from './schemas/cost-entry.schema.js';
 export * from './schemas/pest-catalog.schema.js';
 export * from './schemas/feedback.schema.js';
+export * from './schemas/garden-object.schema.js';
 
 // API types
 export * from './api/responses.js';

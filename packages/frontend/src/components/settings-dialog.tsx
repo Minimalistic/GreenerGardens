@@ -13,7 +13,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { AlertTriangle, Trash2, FlaskConical, Loader2 } from 'lucide-react';
 import { useResetDatabase, useSeedTestData } from '@/hooks/use-admin';
 import { useToast } from '@/hooks/use-toast';
-import { useGardenContext } from '@/contexts/garden-context';
 
 interface SettingsDialogProps {
   open: boolean;
@@ -22,7 +21,6 @@ interface SettingsDialogProps {
 
 export function SettingsDialog({ open, onOpenChange }: SettingsDialogProps) {
   const { toast } = useToast();
-  const { clearCurrentGardenId } = useGardenContext();
   const resetDatabase = useResetDatabase();
   const seedTestData = useSeedTestData();
 
@@ -50,11 +48,9 @@ export function SettingsDialog({ open, onOpenChange }: SettingsDialogProps) {
     try {
       if (confirmAction === 'reset') {
         await resetDatabase.mutateAsync();
-        clearCurrentGardenId();
         toast({ title: 'Database cleared', description: 'All user data has been removed.' });
       } else {
         const result = await seedTestData.mutateAsync();
-        clearCurrentGardenId();
         const s = result.data.summary;
         toast({
           title: 'Test data loaded',

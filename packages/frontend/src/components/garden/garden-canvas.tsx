@@ -3,14 +3,15 @@ import { Stage, Layer, Rect, Text, Group, Transformer } from 'react-konva';
 import type Konva from 'konva';
 import type { SubPlotWithPlant } from '@/hooks/use-sub-plots';
 import { plantTypeEmoji } from '@/lib/plant-type-emoji';
-import type { Plot, PlotGeometry } from '@gardenvault/shared';
+import type { Plot, PlotGeometry, GardenObject, GardenObjectGeometry } from '@gardenvault/shared';
 
 export const PX_PER_FT = 40;
 
 const MIN_SCALE = 0.1;
 const MAX_SCALE = 3;
 const ZOOM_SPEED = 1.08;
-const FIT_PADDING = 40; // px padding when fitting to content
+const BUTTON_ZOOM = 1.3;
+const FIT_PADDING = 40;
 
 const PLOT_COLORS: Record<string, string> = {
   raised_bed: '#4A7C59',
@@ -22,6 +23,22 @@ const PLOT_COLORS: Record<string, string> = {
   other: '#999',
 };
 
+const OBJECT_COLORS: Record<string, string> = {
+  house: '#78716c',
+  shed: '#a1887f',
+  greenhouse: '#81c784',
+  chicken_coop: '#d4a373',
+  fence: '#8d6e63',
+  tree: '#2e7d32',
+  path: '#bdbdbd',
+  driveway: '#9e9e9e',
+  pond: '#42a5f5',
+  compost: '#6d4c41',
+  patio: '#b0bec5',
+  deck: '#a1887f',
+  other: '#90a4ae',
+};
+
 interface ContextMenuEvent {
   x: number;
   y: number;
@@ -30,9 +47,13 @@ interface ContextMenuEvent {
 
 interface Props {
   plots: Plot[];
+  gardenObjects?: GardenObject[];
   selectedPlotId: string | null;
+  selectedObjectId?: string | null;
   onSelectPlot: (id: string | null) => void;
+  onSelectObject?: (id: string | null) => void;
   onPlotDragEnd: (id: string, geometry: PlotGeometry) => void;
+  onObjectDragEnd?: (id: string, geometry: GardenObjectGeometry) => void;
   onContextMenu?: (e: ContextMenuEvent) => void;
   onPlotDoubleClick?: (id: string) => void;
   subPlotsByPlot?: Map<string, SubPlotWithPlant[]>;
@@ -48,9 +69,13 @@ function clampScale(s: number) {
 
 export function GardenCanvas({
   plots,
+  gardenObjects = [],
   selectedPlotId,
+  selectedObjectId,
   onSelectPlot,
+  onSelectObject,
   onPlotDragEnd,
+  onObjectDragEnd,
   onContextMenu,
   onPlotDoubleClick,
   subPlotsByPlot,
@@ -59,7 +84,7 @@ export function GardenCanvas({
   const stageRef = useRef<Konva.Stage>(null);
   const transformerRef = useRef<Konva.Transformer>(null);
   const plotRefs = useRef<Map<string, Konva.Group>>(new Map());
-  // Track the known-good grid-aligned edges when a transform starts
+  const objectRefs = useRef<Map<string, Konva.Group>>(new Map());
   const transformAnchor = useRef<{ left: number; top: number; right: number; bottom: number; width: number; height: number } | null>(null);
   const [size, setSize] = useState({ width: 800, height: 600 });
   const [snapEnabled, setSnapEnabled] = useState(true);
@@ -67,22 +92,33 @@ export function GardenCanvas({
   const [stageScale, setStageScale] = useState(1);
   const hasFitted = useRef(false);
 
-  // Compute bounding box of all plots
+  // Compute bounding box of all plots and objects
   const getContentBounds = useCallback(() => {
-    if (plots.length === 0) return { x: 0, y: 0, width: 800, height: 600 };
-    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    const allGeometries: { x: number; y: number; width: number; height: number }[] = [];
+
     for (const plot of plots) {
       const dims = plot.dimensions;
       const defaultW = dims ? dims.width_ft * PX_PER_FT : 120;
       const defaultH = dims ? dims.length_ft * PX_PER_FT : 80;
       const g = plot.geometry ?? { x: PX_PER_FT, y: PX_PER_FT, width: defaultW, height: defaultH };
+      allGeometries.push(g);
+    }
+
+    for (const obj of gardenObjects) {
+      if (obj.geometry) allGeometries.push(obj.geometry);
+    }
+
+    if (allGeometries.length === 0) return { x: 0, y: 0, width: 800, height: 600 };
+
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    for (const g of allGeometries) {
       minX = Math.min(minX, g.x);
       minY = Math.min(minY, g.y);
       maxX = Math.max(maxX, g.x + g.width);
       maxY = Math.max(maxY, g.y + g.height);
     }
     return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
-  }, [plots]);
+  }, [plots, gardenObjects]);
 
   const fitToContent = useCallback(() => {
     const bounds = getContentBounds();
@@ -95,6 +131,25 @@ export function GardenCanvas({
     setStagePos({ x: newX, y: newY });
   }, [getContentBounds, size]);
 
+  // Zoom by factor, centered on viewport center
+  const zoomByFactor = useCallback((factor: number) => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    const oldScale = stageScale;
+    const newScale = clampScale(oldScale * factor);
+    const cx = size.width / 2;
+    const cy = size.height / 2;
+    const pointTo = {
+      x: (cx - stagePos.x) / oldScale,
+      y: (cy - stagePos.y) / oldScale,
+    };
+    setStageScale(newScale);
+    setStagePos({
+      x: cx - pointTo.x * newScale,
+      y: cy - pointTo.y * newScale,
+    });
+  }, [stageScale, size, stagePos]);
+
   // Resize observer
   useEffect(() => {
     if (!containerRef.current) return;
@@ -106,12 +161,12 @@ export function GardenCanvas({
     return () => observer.disconnect();
   }, []);
 
-  // Fit to content on first render when we have plots and a valid size
+  // Fit to content on first render when we have content and a valid size
   useEffect(() => {
-    if (hasFitted.current || plots.length === 0 || size.width <= 1) return;
+    if (hasFitted.current || (plots.length === 0 && gardenObjects.length === 0) || size.width <= 1) return;
     hasFitted.current = true;
     fitToContent();
-  }, [plots, size, fitToContent]);
+  }, [plots, gardenObjects, size, fitToContent]);
 
   // Wheel zoom (centered on pointer)
   const handleWheel = useCallback((e: Konva.KonvaEventObject<WheelEvent>) => {
@@ -159,7 +214,6 @@ export function GardenCanvas({
     const dist = Math.sqrt((p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2);
     const center = { x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 };
 
-    // Get center relative to stage container
     const rect = stage.container().getBoundingClientRect();
     const stageCenter = { x: center.x - rect.left, y: center.y - rect.top };
 
@@ -173,7 +227,6 @@ export function GardenCanvas({
         y: (stageCenter.y - stage.y()) / oldScale,
       };
 
-      // Also apply panning from center movement
       const dx = stageCenter.x - lastPinchCenter.current.x;
       const dy = stageCenter.y - lastPinchCenter.current.y;
 
@@ -204,9 +257,8 @@ export function GardenCanvas({
     return () => el.removeEventListener('touchmove', prevent);
   }, []);
 
-  // Stage drag (pan) — only when dragging the stage background itself
+  // Stage drag (pan)
   const handleDragStart = useCallback((e: Konva.KonvaEventObject<DragEvent>) => {
-    // Only allow stage itself to be dragged (for panning)
     if (e.target !== e.target.getStage()) return;
   }, []);
 
@@ -216,7 +268,7 @@ export function GardenCanvas({
     }
   }, []);
 
-  // Attach transformer to selected plot
+  // Attach transformer to selected plot or object
   useEffect(() => {
     const tr = transformerRef.current;
     if (!tr) return;
@@ -229,15 +281,26 @@ export function GardenCanvas({
         return;
       }
     }
+
+    if (selectedObjectId) {
+      const node = objectRefs.current.get(selectedObjectId);
+      if (node) {
+        tr.nodes([node]);
+        tr.getLayer()?.batchDraw();
+        return;
+      }
+    }
+
     tr.nodes([]);
     tr.getLayer()?.batchDraw();
-  }, [selectedPlotId, plots]);
+  }, [selectedPlotId, selectedObjectId, plots, gardenObjects]);
 
   const handleStageClick = useCallback((e: Konva.KonvaEventObject<MouseEvent>) => {
     if (e.target === e.target.getStage()) {
       onSelectPlot(null);
+      onSelectObject?.(null);
     }
-  }, [onSelectPlot]);
+  }, [onSelectPlot, onSelectObject]);
 
   const handleDragMove = useCallback((e: Konva.KonvaEventObject<DragEvent>) => {
     if (!snapEnabled) return;
@@ -264,8 +327,7 @@ export function GardenCanvas({
     };
   }, [subPlotsByPlot]);
 
-  // Record the known-good edges from state when a transform begins
-  const handleTransformStart = useCallback((geometry: PlotGeometry) => {
+  const handleTransformStart = useCallback((geometry: { x: number; y: number; width: number; height: number }) => {
     transformAnchor.current = {
       left: geometry.x,
       top: geometry.y,
@@ -276,16 +338,13 @@ export function GardenCanvas({
     };
   }, []);
 
-  // Snap in real-time during transform using the known anchor edges
-  const handleTransform = useCallback((plotId: string, geometry: PlotGeometry) => {
+  const handleTransform = useCallback((refMap: React.MutableRefObject<Map<string, Konva.Group>>, itemId: string, geometry: { x: number; y: number; width: number; height: number }, minW = PX_PER_FT, minH = PX_PER_FT) => {
     if (!snapEnabled || !transformAnchor.current) return;
-    const node = plotRefs.current.get(plotId);
+    const node = refMap.current.get(itemId);
     if (!node) return;
 
     const anchor = transformAnchor.current;
-    const { minW, minH } = getMinPlotSize(plotId);
 
-    // Current position and visual dimensions from Konva
     const currentX = node.x();
     const currentY = node.y();
     const actualWidth = geometry.width * node.scaleX();
@@ -293,7 +352,6 @@ export function GardenCanvas({
     const currentRight = currentX + actualWidth;
     const currentBottom = currentY + actualHeight;
 
-    // Detect which edges are moving vs anchored
     const leftMoved = Math.abs(currentX - anchor.left) > 0.5;
     const topMoved = Math.abs(currentY - anchor.top) > 0.5;
     const rightMoved = Math.abs(currentRight - anchor.right) > 0.5;
@@ -326,15 +384,23 @@ export function GardenCanvas({
     const newWidth = Math.max(minW, newRight - newLeft);
     const newHeight = Math.max(minH, newBottom - newTop);
 
-    // Apply snapped values back to the node
     node.x(newLeft);
     node.y(newTop);
     node.scaleX(newWidth / geometry.width);
     node.scaleY(newHeight / geometry.height);
-  }, [snapEnabled, getMinPlotSize]);
+  }, [snapEnabled]);
 
-  const handleTransformEnd = useCallback((plotId: string, geometry: PlotGeometry) => {
-    const node = plotRefs.current.get(plotId);
+  const handlePlotTransform = useCallback((plotId: string, geometry: { x: number; y: number; width: number; height: number }) => {
+    const { minW, minH } = getMinPlotSize(plotId);
+    handleTransform(plotRefs, plotId, geometry, minW, minH);
+  }, [handleTransform, getMinPlotSize]);
+
+  const handleObjectTransform = useCallback((objectId: string, geometry: { x: number; y: number; width: number; height: number }) => {
+    handleTransform(objectRefs, objectId, geometry);
+  }, [handleTransform]);
+
+  const handleTransformEnd = useCallback((refMap: React.MutableRefObject<Map<string, Konva.Group>>, itemId: string, geometry: { x: number; y: number; width: number; height: number }, minW: number, minH: number, onDragEnd: (id: string, geom: PlotGeometry) => void) => {
+    const node = refMap.current.get(itemId);
     if (!node) return;
 
     const scaleX = node.scaleX();
@@ -342,8 +408,6 @@ export function GardenCanvas({
 
     node.scaleX(1);
     node.scaleY(1);
-
-    const { minW, minH } = getMinPlotSize(plotId);
 
     let newX = node.x();
     let newY = node.y();
@@ -361,14 +425,24 @@ export function GardenCanvas({
 
     transformAnchor.current = null;
 
-    onPlotDragEnd(plotId, {
+    onDragEnd(itemId, {
       x: newX,
       y: newY,
       width: newWidth,
       height: newHeight,
       rotation: 0,
     });
-  }, [onPlotDragEnd, snapEnabled, getMinPlotSize]);
+  }, [snapEnabled]);
+
+  const handlePlotTransformEnd = useCallback((plotId: string, geometry: { x: number; y: number; width: number; height: number }) => {
+    const { minW, minH } = getMinPlotSize(plotId);
+    handleTransformEnd(plotRefs, plotId, geometry, minW, minH, onPlotDragEnd);
+  }, [handleTransformEnd, getMinPlotSize, onPlotDragEnd]);
+
+  const handleObjectTransformEnd = useCallback((objectId: string, geometry: { x: number; y: number; width: number; height: number }) => {
+    if (!onObjectDragEnd) return;
+    handleTransformEnd(objectRefs, objectId, geometry, PX_PER_FT, PX_PER_FT, onObjectDragEnd);
+  }, [handleTransformEnd, onObjectDragEnd]);
 
   // Right-click handler
   const handleContextMenu = useCallback((e: Konva.KonvaEventObject<PointerEvent>) => {
@@ -378,11 +452,9 @@ export function GardenCanvas({
     const stage = stageRef.current;
     if (!stage) return;
 
-    // Determine if we clicked on a plot
     const target = e.target;
     let plotId: string | null = null;
 
-    // Walk up the node tree to find the plot group
     let node: Konva.Node | null = target;
     while (node && node !== stage) {
       for (const [id, groupNode] of plotRefs.current.entries()) {
@@ -407,20 +479,14 @@ export function GardenCanvas({
   }, [onContextMenu, onSelectPlot]);
 
   // Hover cursor
-  const handleMouseEnterPlot = useCallback(() => {
+  const handleMouseEnter = useCallback(() => {
     const stage = stageRef.current;
-    if (stage) {
-      const container = stage.container();
-      container.style.cursor = 'pointer';
-    }
+    if (stage) stage.container().style.cursor = 'pointer';
   }, []);
 
-  const handleMouseLeavePlot = useCallback(() => {
+  const handleMouseLeave = useCallback(() => {
     const stage = stageRef.current;
-    if (stage) {
-      const container = stage.container();
-      container.style.cursor = 'default';
-    }
+    if (stage) stage.container().style.cursor = 'default';
   }, []);
 
   // Compute visible grid extent based on viewport
@@ -439,10 +505,30 @@ export function GardenCanvas({
 
   const zoomPercent = Math.round(stageScale * 100);
 
+  // Get the minimum size for the currently selected item (for transformer bounds)
+  const getSelectedMinSize = useCallback(() => {
+    if (selectedPlotId) return getMinPlotSize(selectedPlotId);
+    return { minW: PX_PER_FT, minH: PX_PER_FT };
+  }, [selectedPlotId, getMinPlotSize]);
+
   return (
     <div ref={containerRef} className="w-full h-full rounded-lg border bg-card overflow-hidden relative touch-none">
       {/* Top toolbar */}
-      <div className="absolute top-2 right-2 z-10 flex items-center gap-1.5">
+      <div className="absolute top-2 right-2 z-10 flex items-center gap-1">
+        <button
+          onClick={() => zoomByFactor(1 / BUTTON_ZOOM)}
+          className="w-7 h-7 flex items-center justify-center text-sm font-bold rounded border bg-background text-muted-foreground border-border hover:bg-muted transition-colors"
+          title="Zoom out"
+        >
+          &minus;
+        </button>
+        <button
+          onClick={() => zoomByFactor(BUTTON_ZOOM)}
+          className="w-7 h-7 flex items-center justify-center text-sm font-bold rounded border bg-background text-muted-foreground border-border hover:bg-muted transition-colors"
+          title="Zoom in"
+        >
+          +
+        </button>
         <button
           onClick={fitToContent}
           className="px-2 py-1 text-xs font-medium rounded border bg-background text-muted-foreground border-border hover:bg-muted transition-colors"
@@ -490,7 +576,7 @@ export function GardenCanvas({
         onDragEnd={handleStageDragEnd}
       >
         <Layer listening={false}>
-          {/* Grid lines — computed from visible viewport */}
+          {/* Grid lines */}
           {Array.from({ length: gridEndCol - gridStartCol + 1 }).map((_, i) => {
             const col = gridStartCol + i;
             return (
@@ -551,6 +637,85 @@ export function GardenCanvas({
           })}
         </Layer>
 
+        {/* Objects layer (rendered below plots) */}
+        <Layer>
+          {gardenObjects.map((obj) => {
+            const g = obj.geometry ?? { x: PX_PER_FT, y: PX_PER_FT, width: 120, height: 80, rotation: 0 };
+            const isSelected = obj.id === selectedObjectId;
+            const color = obj.color || OBJECT_COLORS[obj.object_type] || OBJECT_COLORS.other;
+            const widthFt = (g.width / PX_PER_FT).toFixed(0);
+            const heightFt = (g.height / PX_PER_FT).toFixed(0);
+
+            return (
+              <Group
+                key={obj.id}
+                ref={(node: Konva.Group) => {
+                  if (node) objectRefs.current.set(obj.id, node);
+                  else objectRefs.current.delete(obj.id);
+                }}
+                x={g.x}
+                y={g.y}
+                rotation={0}
+                draggable
+                onClick={() => { onSelectObject?.(obj.id); onSelectPlot(null); }}
+                onTap={() => { onSelectObject?.(obj.id); onSelectPlot(null); }}
+                onDragMove={handleDragMove}
+                onDragEnd={(e) => {
+                  const x = snapEnabled ? snapTo(e.target.x(), PX_PER_FT) : e.target.x();
+                  const y = snapEnabled ? snapTo(e.target.y(), PX_PER_FT) : e.target.y();
+                  onObjectDragEnd?.(obj.id, { ...g, x, y });
+                }}
+                onTransformStart={() => handleTransformStart(g)}
+                onTransform={() => handleObjectTransform(obj.id, g)}
+                onTransformEnd={() => handleObjectTransformEnd(obj.id, g)}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
+                <Rect
+                  width={g.width}
+                  height={g.height}
+                  fill={color}
+                  opacity={obj.opacity ?? 0.7}
+                  cornerRadius={2}
+                  stroke={isSelected ? '#F4D03F' : 'rgba(0,0,0,0.3)'}
+                  strokeWidth={isSelected ? 3 : 1}
+                  shadowColor="rgba(0,0,0,0.1)"
+                  shadowBlur={isSelected ? 6 : 1}
+                  dash={obj.object_type === 'fence' ? [8, 4] : undefined}
+                />
+                {obj.label_visible !== false && (
+                  <>
+                    <Text
+                      text={obj.name}
+                      x={4}
+                      y={4}
+                      fontSize={11}
+                      fontStyle="bold"
+                      fill="white"
+                      width={g.width - 8}
+                      ellipsis
+                      wrap="none"
+                      listening={false}
+                    />
+                    <Text
+                      text={`${widthFt}' x ${heightFt}'`}
+                      x={4}
+                      y={g.height - 16}
+                      fontSize={9}
+                      fill="rgba(255,255,255,0.7)"
+                      width={g.width - 8}
+                      ellipsis
+                      wrap="none"
+                      listening={false}
+                    />
+                  </>
+                )}
+              </Group>
+            );
+          })}
+        </Layer>
+
+        {/* Plots layer */}
         <Layer>
           {plots.map((plot) => {
             const dims = plot.dimensions;
@@ -562,9 +727,7 @@ export function GardenCanvas({
             const widthFt = (g.width / PX_PER_FT).toFixed(1).replace(/\.0$/, '');
             const heightFt = (g.height / PX_PER_FT).toFixed(1).replace(/\.0$/, '');
 
-            // Sub-plot data
             const subPlots = subPlotsByPlot?.get(plot.id);
-            const hasSubPlots = subPlots && subPlots.length > 0;
 
             return (
               <Group
@@ -577,8 +740,8 @@ export function GardenCanvas({
                 y={g.y}
                 rotation={0}
                 draggable
-                onClick={() => onSelectPlot(plot.id)}
-                onTap={() => onSelectPlot(plot.id)}
+                onClick={() => { onSelectPlot(plot.id); onSelectObject?.(null); }}
+                onTap={() => { onSelectPlot(plot.id); onSelectObject?.(null); }}
                 onDblClick={() => onPlotDoubleClick?.(plot.id)}
                 onDblTap={() => onPlotDoubleClick?.(plot.id)}
                 onDragMove={handleDragMove}
@@ -588,12 +751,11 @@ export function GardenCanvas({
                   onPlotDragEnd(plot.id, { ...g, x, y });
                 }}
                 onTransformStart={() => handleTransformStart(g)}
-                onTransform={() => handleTransform(plot.id, g)}
-                onTransformEnd={() => handleTransformEnd(plot.id, g)}
-                onMouseEnter={handleMouseEnterPlot}
-                onMouseLeave={handleMouseLeavePlot}
+                onTransform={() => handlePlotTransform(plot.id, g)}
+                onTransformEnd={() => handlePlotTransformEnd(plot.id, g)}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
               >
-                {/* Plot background — always dirt-colored fill, sub-plots overlay on top */}
                 <Rect
                   width={g.width}
                   height={g.height}
@@ -681,10 +843,7 @@ export function GardenCanvas({
             anchorFill="#fff"
             anchorSize={14}
             boundBoxFunc={(oldBox, newBox) => {
-              // Only enforce minimum size — snapping is handled by onTransform
-              const { minW, minH } = selectedPlotId
-                ? getMinPlotSize(selectedPlotId)
-                : { minW: PX_PER_FT, minH: PX_PER_FT };
+              const { minW, minH } = getSelectedMinSize();
               if (newBox.width < minW || newBox.height < minH) {
                 return oldBox;
               }

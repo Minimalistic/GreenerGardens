@@ -1,14 +1,13 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGardenContext } from '@/contexts/garden-context';
-import { useGardens } from '@/hooks/use-gardens';
 import { usePlotsByGarden, useCreatePlot, useUpdatePlot, useDeletePlot, usePlotDeletionImpact } from '@/hooks/use-plots';
 import { useSubPlotsForPlots, type SubPlotWithPlant } from '@/hooks/use-sub-plots';
+import { useGardenObjects, useCreateGardenObject, useUpdateGardenObject, useDeleteGardenObject } from '@/hooks/use-garden-objects';
 import { api } from '@/lib/api';
 import { useCanvasKeyboard } from '@/hooks/use-canvas-keyboard';
 import { GardenCanvas, PX_PER_FT } from '@/components/garden/garden-canvas';
 import { CanvasContextMenu } from '@/components/garden/canvas-context-menu';
-import { GardenManagerDialog } from '@/components/garden/garden-manager-dialog';
 import { EmptyState } from '@/components/garden/empty-state';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,11 +16,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Map as MapIcon, Sprout, Trash2, Copy, Clipboard } from 'lucide-react';
+import { Plus, Map as MapIcon, Trash2, Copy, Clipboard, Shapes } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ConfirmDeleteDialog } from '@/components/confirm-delete-dialog';
-import type { SubPlot, ApiResponse, Plot, PlotCreate, PlotGeometry } from '@gardenvault/shared';
+import type { SubPlot, ApiResponse, Plot, PlotCreate, PlotGeometry, GardenObject, GardenObjectGeometry } from '@gardenvault/shared';
 
 interface PlotFormData {
   name: string;
@@ -32,6 +31,13 @@ interface PlotFormData {
   soil_type: string;
   sun_exposure: string;
   irrigation: string;
+}
+
+interface ObjectFormData {
+  name: string;
+  object_type: string;
+  width_ft: number;
+  length_ft: number;
 }
 
 interface ClipboardData {
@@ -52,28 +58,48 @@ interface ContextMenuState {
   plotId: string | null;
 }
 
+const OBJECT_TYPES = [
+  { value: 'house', label: 'House' },
+  { value: 'shed', label: 'Shed' },
+  { value: 'greenhouse', label: 'Greenhouse' },
+  { value: 'chicken_coop', label: 'Chicken Coop' },
+  { value: 'fence', label: 'Fence' },
+  { value: 'tree', label: 'Tree' },
+  { value: 'path', label: 'Path / Walkway' },
+  { value: 'driveway', label: 'Driveway' },
+  { value: 'pond', label: 'Pond' },
+  { value: 'compost', label: 'Compost' },
+  { value: 'patio', label: 'Patio' },
+  { value: 'deck', label: 'Deck' },
+  { value: 'other', label: 'Other' },
+];
+
 const isMac = typeof navigator !== 'undefined' && navigator.platform.toUpperCase().includes('MAC');
 const mod = isMac ? '\u2318' : 'Ctrl+';
 
 export function GardenLayout() {
   const navigate = useNavigate();
-  const { currentGardenId, setCurrentGardenId } = useGardenContext();
-  const { data: gardensData, isLoading: gardensLoading } = useGardens();
+  const { currentGardenId, isLoading: gardenLoading } = useGardenContext();
   const { data: plotsData, isLoading: plotsLoading } = usePlotsByGarden(currentGardenId);
+  const { data: objectsData } = useGardenObjects(currentGardenId);
   const createPlot = useCreatePlot();
   const updatePlot = useUpdatePlot();
   const deletePlot = useDeletePlot();
+  const createObject = useCreateGardenObject();
+  const updateObject = useUpdateGardenObject();
+  const deleteObject = useDeleteGardenObject();
   const { toast } = useToast();
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [plotDialogOpen, setPlotDialogOpen] = useState(false);
+  const [objectDialogOpen, setObjectDialogOpen] = useState(false);
   const [selectedPlotId, setSelectedPlotId] = useState<string | null>(null);
+  const [selectedObjectId, setSelectedObjectId] = useState<string | null>(null);
   const [clipboard, setClipboard] = useState<ClipboardData | null>(null);
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
-  const [managerOpen, setManagerOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [plotToDelete, setPlotToDelete] = useState<string | null>(null);
   const { data: impactData } = usePlotDeletionImpact(plotToDelete, deleteDialogOpen);
 
-  const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<PlotFormData>({
+  const plotForm = useForm<PlotFormData>({
     defaultValues: {
       name: '',
       plot_type: 'raised_bed',
@@ -86,19 +112,32 @@ export function GardenLayout() {
     },
   });
 
-  const gardens = gardensData?.data ?? [];
-
-  // Auto-select a garden if none is selected but gardens exist
-  useEffect(() => {
-    if (!currentGardenId && gardens.length > 0) {
-      setCurrentGardenId(gardens[0].id);
-    }
-  }, [currentGardenId, gardens, setCurrentGardenId]);
+  const objectForm = useForm<ObjectFormData>({
+    defaultValues: {
+      name: '',
+      object_type: 'house',
+      width_ft: 10,
+      length_ft: 10,
+    },
+  });
 
   const plots = plotsData?.data ?? [];
+  const gardenObjects = objectsData?.data ?? [];
   const selectedPlot = plots.find((p) => p.id === selectedPlotId);
+  const selectedObject = gardenObjects.find((o) => o.id === selectedObjectId);
 
-  // Sub-plots for canvas overlay (always loaded)
+  // Clear object selection when plot selected and vice versa
+  const handleSelectPlot = useCallback((id: string | null) => {
+    setSelectedPlotId(id);
+    if (id) setSelectedObjectId(null);
+  }, []);
+
+  const handleSelectObject = useCallback((id: string | null) => {
+    setSelectedObjectId(id);
+    if (id) setSelectedPlotId(null);
+  }, []);
+
+  // Sub-plots for canvas overlay
   const plotIds = useMemo(() => plots.map((p) => p.id), [plots]);
   const subPlotQueries = useSubPlotsForPlots(plotIds);
   const subPlotsByPlot = useMemo(() => {
@@ -240,21 +279,34 @@ export function GardenLayout() {
     }
   }, [plotToDelete, deletePlot, currentGardenId, toast]);
 
+  const handleDeleteObject = useCallback(async (id: string) => {
+    if (!currentGardenId) return;
+    try {
+      await deleteObject.mutateAsync({ id, gardenId: currentGardenId });
+      setSelectedObjectId(null);
+      toast({ title: 'Object deleted' });
+    } catch {
+      toast({ title: 'Failed to delete object', variant: 'destructive' });
+    }
+  }, [currentGardenId, deleteObject, toast]);
+
   // --- Keyboard shortcuts ---
 
   useCanvasKeyboard(
     useMemo(() => ({
       onDelete: () => {
         if (selectedPlotId) openDeleteDialog(selectedPlotId);
+        else if (selectedObjectId) handleDeleteObject(selectedObjectId);
       },
       onCopy: handleCopy,
       onPaste: handlePaste,
       onDuplicate: handleDuplicate,
       onEscape: () => {
         setSelectedPlotId(null);
+        setSelectedObjectId(null);
         setContextMenu(null);
       },
-    }), [selectedPlotId, openDeleteDialog, handleCopy, handlePaste, handleDuplicate]),
+    }), [selectedPlotId, selectedObjectId, openDeleteDialog, handleDeleteObject, handleCopy, handlePaste, handleDuplicate]),
   );
 
   // --- Context menu ---
@@ -268,10 +320,7 @@ export function GardenLayout() {
   }, []);
 
   const onCreatePlot = async (formData: PlotFormData) => {
-    if (!currentGardenId) {
-      toast({ title: 'No garden selected', description: 'Please select or create a garden first.', variant: 'destructive' });
-      return;
-    }
+    if (!currentGardenId) return;
     try {
       await createPlot.mutateAsync({
         garden_id: currentGardenId,
@@ -289,16 +338,38 @@ export function GardenLayout() {
         tags: [],
       });
       toast({ title: 'Plot created!' });
-      setDialogOpen(false);
-      reset();
+      setPlotDialogOpen(false);
+      plotForm.reset();
     } catch {
       toast({ title: 'Failed to create plot', variant: 'destructive' });
     }
   };
 
+  const onCreateObject = async (formData: ObjectFormData) => {
+    if (!currentGardenId) return;
+    try {
+      await createObject.mutateAsync({
+        garden_id: currentGardenId,
+        name: formData.name,
+        object_type: formData.object_type as GardenObject['object_type'],
+        geometry: {
+          x: PX_PER_FT * 2,
+          y: PX_PER_FT * 2,
+          width: Number(formData.width_ft) * PX_PER_FT,
+          height: Number(formData.length_ft) * PX_PER_FT,
+          rotation: 0,
+        },
+      });
+      toast({ title: 'Object placed!' });
+      setObjectDialogOpen(false);
+      objectForm.reset();
+    } catch {
+      toast({ title: 'Failed to create object', variant: 'destructive' });
+    }
+  };
+
   const handlePlotDragEnd = useCallback(async (plotId: string, geometry: PlotGeometry) => {
     try {
-      // Derive physical dimensions from geometry so they stay in sync after resize
       const plot = plots.find((p) => p.id === plotId);
       const oldGeom = plot?.geometry;
       const sizeChanged = oldGeom && (oldGeom.width !== geometry.width || oldGeom.height !== geometry.height);
@@ -318,7 +389,16 @@ export function GardenLayout() {
     }
   }, [updatePlot, plots]);
 
-  if (gardensLoading || plotsLoading) {
+  const handleObjectDragEnd = useCallback(async (objectId: string, geometry: GardenObjectGeometry) => {
+    if (!currentGardenId) return;
+    try {
+      await updateObject.mutateAsync({ id: objectId, data: { geometry }, gardenId: currentGardenId });
+    } catch {
+      // silent fail on drag
+    }
+  }, [updateObject, currentGardenId]);
+
+  if (gardenLoading || plotsLoading) {
     return (
       <div className="flex flex-col lg:flex-row gap-4 h-[calc(100vh-12rem)] lg:h-[calc(100vh-8rem)]">
         <div className="flex-1 min-h-[400px]">
@@ -333,45 +413,29 @@ export function GardenLayout() {
     );
   }
 
-  // No gardens exist — prompt user to create one
-  if (gardens.length === 0 && !currentGardenId) {
-    return (
-      <>
-        <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
-          <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
-            <Sprout className="w-8 h-8 text-muted-foreground" />
-          </div>
-          <h3 className="text-lg font-semibold mb-2">Create Your Garden</h3>
-          <p className="text-muted-foreground max-w-sm mb-6">
-            Give your garden a name to get started. You can add plots, plants, and more after.
-          </p>
-          <Button onClick={() => setManagerOpen(true)}>
-            <Plus className="w-4 h-4 mr-2" />
-            Create Garden
-          </Button>
-        </div>
-        <GardenManagerDialog open={managerOpen} onOpenChange={setManagerOpen} />
-      </>
-    );
-  }
+  const hasContent = plots.length > 0 || gardenObjects.length > 0;
 
   return (
     <div className="flex flex-col lg:flex-row gap-4 h-[calc(100vh-12rem)] lg:h-[calc(100vh-8rem)]">
       <div className="flex-1 min-h-[400px] relative">
-        {plots.length === 0 ? (
+        {!hasContent ? (
           <EmptyState
             icon={MapIcon}
             title="No Plots Yet"
-            description="Create your first plot to start designing your garden layout."
+            description="Create your first plot or place objects to start designing your garden layout."
             actionLabel="Create Plot"
-            onAction={() => setDialogOpen(true)}
+            onAction={() => setPlotDialogOpen(true)}
           />
         ) : (
           <GardenCanvas
             plots={plots}
+            gardenObjects={gardenObjects}
             selectedPlotId={selectedPlotId}
-            onSelectPlot={setSelectedPlotId}
+            selectedObjectId={selectedObjectId}
+            onSelectPlot={handleSelectPlot}
+            onSelectObject={handleSelectObject}
             onPlotDragEnd={handlePlotDragEnd}
+            onObjectDragEnd={handleObjectDragEnd}
             onContextMenu={handleContextMenu}
             onPlotDoubleClick={(id) => navigate(`/garden/plots/${id}`)}
             subPlotsByPlot={subPlotsByPlot}
@@ -399,7 +463,8 @@ export function GardenLayout() {
       </div>
 
       <div className="w-full lg:w-72 space-y-4">
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        {/* Add Plot */}
+        <Dialog open={plotDialogOpen} onOpenChange={setPlotDialogOpen}>
           <DialogTrigger asChild>
             <Button className="w-full">
               <Plus className="w-4 h-4 mr-2" />
@@ -410,15 +475,15 @@ export function GardenLayout() {
             <DialogHeader>
               <DialogTitle>Create New Plot</DialogTitle>
             </DialogHeader>
-            <form onSubmit={handleSubmit(onCreatePlot)} className="space-y-4">
+            <form onSubmit={plotForm.handleSubmit(onCreatePlot)} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="plotName">Name</Label>
-                <Input id="plotName" {...register('name', { required: 'Plot name is required' })} placeholder="e.g., Main Raised Bed" />
-                {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
+                <Input id="plotName" {...plotForm.register('name', { required: 'Plot name is required' })} placeholder="e.g., Main Raised Bed" />
+                {plotForm.formState.errors.name && <p className="text-sm text-destructive">{plotForm.formState.errors.name.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label>Type</Label>
-                <Select defaultValue="raised_bed" onValueChange={v => setValue('plot_type', v)}>
+                <Select defaultValue="raised_bed" onValueChange={v => plotForm.setValue('plot_type', v)}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="raised_bed">Raised Bed</SelectItem>
@@ -432,20 +497,20 @@ export function GardenLayout() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 <div className="space-y-1">
                   <Label className="text-xs">Length (ft)</Label>
-                  <Input type="number" step="0.5" {...register('length_ft', { valueAsNumber: true })} />
+                  <Input type="number" step="0.5" {...plotForm.register('length_ft', { valueAsNumber: true })} />
                 </div>
                 <div className="space-y-1">
                   <Label className="text-xs">Width (ft)</Label>
-                  <Input type="number" step="0.5" {...register('width_ft', { valueAsNumber: true })} />
+                  <Input type="number" step="0.5" {...plotForm.register('width_ft', { valueAsNumber: true })} />
                 </div>
                 <div className="space-y-1">
                   <Label className="text-xs">Height (ft)</Label>
-                  <Input type="number" step="0.5" {...register('height_ft', { valueAsNumber: true })} />
+                  <Input type="number" step="0.5" {...plotForm.register('height_ft', { valueAsNumber: true })} />
                 </div>
               </div>
               <div className="space-y-2">
                 <Label>Sun Exposure</Label>
-                <Select defaultValue="full_sun" onValueChange={v => setValue('sun_exposure', v)}>
+                <Select defaultValue="full_sun" onValueChange={v => plotForm.setValue('sun_exposure', v)}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="full_sun">Full Sun</SelectItem>
@@ -457,6 +522,52 @@ export function GardenLayout() {
               </div>
               <Button type="submit" className="w-full" disabled={createPlot.isPending}>
                 {createPlot.isPending ? 'Creating...' : 'Create Plot'}
+              </Button>
+            </form>
+          </DialogContent>
+        </Dialog>
+
+        {/* Add Object */}
+        <Dialog open={objectDialogOpen} onOpenChange={setObjectDialogOpen}>
+          <DialogTrigger asChild>
+            <Button variant="outline" className="w-full">
+              <Shapes className="w-4 h-4 mr-2" />
+              Add Object
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Place Property Object</DialogTitle>
+            </DialogHeader>
+            <form onSubmit={objectForm.handleSubmit(onCreateObject)} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="objName">Name</Label>
+                <Input id="objName" {...objectForm.register('name', { required: 'Name is required' })} placeholder="e.g., Main House" />
+                {objectForm.formState.errors.name && <p className="text-sm text-destructive">{objectForm.formState.errors.name.message}</p>}
+              </div>
+              <div className="space-y-2">
+                <Label>Type</Label>
+                <Select defaultValue="house" onValueChange={v => objectForm.setValue('object_type', v)}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {OBJECT_TYPES.map(t => (
+                      <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="space-y-1">
+                  <Label className="text-xs">Width (ft)</Label>
+                  <Input type="number" step="1" {...objectForm.register('width_ft', { valueAsNumber: true })} />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Length (ft)</Label>
+                  <Input type="number" step="1" {...objectForm.register('length_ft', { valueAsNumber: true })} />
+                </div>
+              </div>
+              <Button type="submit" className="w-full" disabled={createObject.isPending}>
+                {createObject.isPending ? 'Placing...' : 'Place Object'}
               </Button>
             </form>
           </DialogContent>
@@ -517,6 +628,33 @@ export function GardenLayout() {
           </Card>
         )}
 
+        {selectedObject && (
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base">{selectedObject.name}</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <p className="text-sm text-muted-foreground capitalize">
+                {selectedObject.object_type?.replace('_', ' ')}
+              </p>
+              {selectedObject.geometry && (
+                <p className="text-xs text-muted-foreground">
+                  {(selectedObject.geometry.width / PX_PER_FT).toFixed(0)}' x {(selectedObject.geometry.height / PX_PER_FT).toFixed(0)}'
+                </p>
+              )}
+              <Button
+                size="sm"
+                variant="destructive"
+                className="w-full"
+                onClick={() => handleDeleteObject(selectedObjectId!)}
+              >
+                <Trash2 className="w-4 h-4 mr-2" />
+                Delete Object
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+
         {plots.length > 0 && (
           <Card>
             <CardHeader className="pb-2">
@@ -530,9 +668,32 @@ export function GardenLayout() {
                     className={`w-full text-left text-sm px-2 py-1.5 rounded hover:bg-muted transition-colors ${
                       plot.id === selectedPlotId ? 'bg-muted font-medium' : ''
                     }`}
-                    onClick={() => setSelectedPlotId(plot.id)}
+                    onClick={() => handleSelectPlot(plot.id)}
                   >
                     {plot.name}
+                  </button>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {gardenObjects.length > 0 && (
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm">Objects ({gardenObjects.length})</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-1">
+                {gardenObjects.map((obj) => (
+                  <button
+                    key={obj.id}
+                    className={`w-full text-left text-sm px-2 py-1.5 rounded hover:bg-muted transition-colors ${
+                      obj.id === selectedObjectId ? 'bg-muted font-medium' : ''
+                    }`}
+                    onClick={() => handleSelectObject(obj.id)}
+                  >
+                    {obj.name}
                   </button>
                 ))}
               </div>

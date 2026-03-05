@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCompleteSetup } from '@/hooks/use-setup';
-import { useGardenContext } from '@/contexts/garden-context';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -25,7 +24,6 @@ interface GardenData {
 
 export function SetupWizard() {
   const navigate = useNavigate();
-  const { setCurrentGardenId } = useGardenContext();
   const setupMutation = useCompleteSetup();
   const [step, setStep] = useState<Step>('welcome');
   const [detecting, setDetecting] = useState(false);
@@ -98,8 +96,7 @@ export function SetupWizard() {
     if (data.last_frost_date) body.last_frost_date = data.last_frost_date;
     if (data.first_frost_date) body.first_frost_date = data.first_frost_date;
 
-    const result = await setupMutation.mutateAsync(body);
-    setCurrentGardenId(result.data.id);
+    await setupMutation.mutateAsync(body);
     navigate('/dashboard');
   };
 
