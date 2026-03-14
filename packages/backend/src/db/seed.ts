@@ -232,6 +232,100 @@ export function updatePlantWikipediaUrls(db: Database.Database): void {
   }
 }
 
+/**
+ * Seeds a default garden with the full property layout template.
+ * Only runs when no gardens exist yet.
+ *
+ * Property: ~152' (N-S) x ~110' (E-W), Duluth MN
+ * House: 3 contiguous rectangles, north edges aligned at y=76'
+ *   Left wing:  14' x 27'  (x=37)
+ *   Center:     29' x 30'  (x=51)  — front edge 46' from curb
+ *   Right wing: 20' x 24'  (x=80)
+ */
+export function seedDefaultGarden(db: Database.Database): void {
+  const gardenCount = (db.prepare('SELECT COUNT(*) as cnt FROM gardens').get() as { cnt: number }).cnt;
+  if (gardenCount > 0) return;
+
+  const PX_PER_FT = 40;
+  const gardenId = uuid();
+  const now = new Date().toISOString();
+
+  // Create garden with property dimensions and location
+  db.prepare(`
+    INSERT INTO gardens (id, name, description, address, latitude, longitude, usda_zone, timezone,
+                         last_frost_date, first_frost_date, total_area_sqft, settings,
+                         created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).run(
+    gardenId,
+    'My Garden',
+    '152\' x 110\' residential property',
+    '4721 Glenwood St. Duluth MN, 55804',
+    46.84044525679375,
+    -92.02815002841402,
+    '4b',
+    'America/Chicago',
+    '05-01',
+    '10-01',
+    16720,
+    JSON.stringify({ property_width_ft: 110, property_height_ft: 152 }),
+    now,
+    now,
+  );
+
+  // Full property layout: { name, type, x_ft, y_ft, w_ft, h_ft }
+  const objects: { name: string; type: string; x: number; y: number; w: number; h: number }[] = [
+    // House — 3 sections, north edges aligned at y=76'
+    { name: 'House (Left Wing)',   type: 'house',     x: 37, y: 76, w: 14, h: 27 },
+    { name: 'House (Center)',      type: 'house',     x: 51, y: 76, w: 29, h: 30 },
+    { name: 'House (Right Wing)',  type: 'house',     x: 80, y: 76, w: 20, h: 24 },
+    // Backyard garden fence enclosure
+    { name: 'Backyard Garden',     type: 'fence',     x: 16, y: 32, w: 32, h: 36 },
+    // Driveway (house to street)
+    { name: 'Driveway',           type: 'driveway',   x: 87, y: 100, w:  8, h: 43 },
+    { name: 'Driveway Entrance',  type: 'driveway',   x: 87, y: 147, w:  8, h:  4 },
+    // Walkways & stairs
+    { name: 'BrickPatio',         type: 'path',       x: 80, y: 100, w:  7, h:  2 },
+    { name: 'FrontStairs',        type: 'path',       x: 55, y: 106, w:  4, h:  4 },
+    { name: 'Front Walkway',      type: 'path',       x: 56, y: 110, w:  2, h: 33 },
+    { name: 'Front Walkway 2',    type: 'path',       x: 56, y: 147, w:  2, h:  4 },
+    { name: 'Walkway',            type: 'path',       x: 84, y: 111, w:  3, h:  6 },
+    { name: 'Walkway2',           type: 'path',       x: 58, y: 113, w: 26, h:  2 },
+    // Street infrastructure
+    { name: 'Sidewalk',           type: 'path',       x:  0, y: 143, w: 110, h:  4 },
+    { name: 'Curb',               type: 'other',      x:  0, y: 151, w: 110, h:  1 },
+  ];
+
+  const objStmt = db.prepare(`
+    INSERT INTO garden_objects (id, garden_id, name, object_type, geometry_json, color, opacity, label_visible, z_index, created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  for (const obj of objects) {
+    objStmt.run(
+      uuid(),
+      gardenId,
+      obj.name,
+      obj.type,
+      JSON.stringify({
+        x: obj.x * PX_PER_FT,
+        y: obj.y * PX_PER_FT,
+        width: obj.w * PX_PER_FT,
+        height: obj.h * PX_PER_FT,
+        rotation: 0,
+      }),
+      null,
+      0.7,
+      1,
+      0,
+      now,
+      now,
+    );
+  }
+
+  console.log('Seeded default garden with property layout (14 objects)');
+}
+
 export function updatePlantPestData(db: Database.Database): void {
   if (!fs.existsSync(SEED_FILE)) return;
 

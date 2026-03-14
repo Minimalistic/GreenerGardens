@@ -12,7 +12,7 @@ export class BackupService {
     maxBackups?: number,
   ) {
     this.backupDir = backupDir ?? path.resolve(process.cwd(), 'data', 'backups');
-    this.maxBackups = maxBackups ?? 7;
+    this.maxBackups = maxBackups ?? 30;
     if (!fs.existsSync(this.backupDir)) {
       fs.mkdirSync(this.backupDir, { recursive: true });
     }

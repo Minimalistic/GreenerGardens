@@ -5,6 +5,8 @@ export const GardenSettingsSchema = z.object({
   temperature_unit: z.enum(['fahrenheit', 'celsius']).default('fahrenheit'),
   measurement_unit: z.enum(['imperial', 'metric']).default('imperial'),
   date_format: z.enum(['MM/DD/YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD']).default('MM/DD/YYYY'),
+  property_width_ft: z.number().positive().optional(),
+  property_height_ft: z.number().positive().optional(),
 }).passthrough();
 
 export const GardenCreateSchema = z.object({

@@ -18,7 +18,8 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { ContextualNotesPanel } from '@/components/notes/contextual-notes-panel';
-import { Plus, Map as MapIcon, Trash2, Copy, Clipboard, Shapes } from 'lucide-react';
+import { Plus, Map as MapIcon, Trash2, Copy, Clipboard, Shapes, Lock, Unlock, ChevronDown } from 'lucide-react';
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import { useForm } from 'react-hook-form';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ConfirmDeleteDialog } from '@/components/confirm-delete-dialog';
@@ -81,7 +82,7 @@ const mod = isMac ? '\u2318' : 'Ctrl+';
 
 export function GardenLayout() {
   const navigate = useNavigate();
-  const { currentGardenId, isLoading: gardenLoading } = useGardenContext();
+  const { currentGardenId, garden, isLoading: gardenLoading } = useGardenContext();
   const { data: plotsData, isLoading: plotsLoading } = usePlotsByGarden(currentGardenId);
   const { data: objectsData } = useGardenObjects(currentGardenId);
   const createPlot = useCreatePlot();
@@ -100,6 +101,15 @@ export function GardenLayout() {
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [plotToDelete, setPlotToDelete] = useState<string | null>(null);
+  const [objectsLocked, setObjectsLocked] = useState(true);
+
+  const propertyBounds = useMemo(() => {
+    const s = garden?.settings;
+    if (s?.property_width_ft && s?.property_height_ft) {
+      return { width_ft: s.property_width_ft, height_ft: s.property_height_ft };
+    }
+    return undefined;
+  }, [garden]);
   const { data: impactData } = usePlotDeletionImpact(plotToDelete, deleteDialogOpen);
 
   const plotForm = useForm<PlotFormData>({
@@ -542,6 +552,8 @@ export function GardenLayout() {
             onContextMenu={handleContextMenu}
             onPlotDoubleClick={(id) => navigate(`/garden/plots/${id}`)}
             subPlotsByPlot={subPlotsByPlot}
+            propertyBounds={propertyBounds}
+            objectsLocked={objectsLocked}
           />
         )}
 
@@ -586,7 +598,7 @@ export function GardenLayout() {
               </div>
               <div className="space-y-2">
                 <Label>Type</Label>
-                <Select defaultValue="raised_bed" onValueChange={v => plotForm.setValue('plot_type', v)}>
+                <Select value={plotForm.watch('plot_type')} onValueChange={v => plotForm.setValue('plot_type', v)}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="raised_bed">Raised Bed</SelectItem>
@@ -613,7 +625,7 @@ export function GardenLayout() {
               </div>
               <div className="space-y-2">
                 <Label>Sun Exposure</Label>
-                <Select defaultValue="full_sun" onValueChange={v => plotForm.setValue('sun_exposure', v)}>
+                <Select value={plotForm.watch('sun_exposure')} onValueChange={v => plotForm.setValue('sun_exposure', v)}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="full_sun">Full Sun</SelectItem>
@@ -650,7 +662,7 @@ export function GardenLayout() {
               </div>
               <div className="space-y-2">
                 <Label>Type</Label>
-                <Select defaultValue="house" onValueChange={v => objectForm.setValue('object_type', v)}>
+                <Select value={objectForm.watch('object_type')} onValueChange={v => objectForm.setValue('object_type', v)}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
                     {OBJECT_TYPES.map(t => (
@@ -675,6 +687,32 @@ export function GardenLayout() {
             </form>
           </DialogContent>
         </Dialog>
+
+        {/* Object lock toggle */}
+        {gardenObjects.length > 0 && (
+          <Button
+            variant={objectsLocked ? 'secondary' : 'outline'}
+            className="w-full"
+            onClick={() => {
+              setObjectsLocked(l => !l);
+              if (!objectsLocked) {
+                setSelectedObjectId(null);
+              }
+            }}
+          >
+            {objectsLocked ? (
+              <>
+                <Lock className="w-4 h-4 mr-2" />
+                Objects Locked
+              </>
+            ) : (
+              <>
+                <Unlock className="w-4 h-4 mr-2" />
+                Objects Unlocked
+              </>
+            )}
+          </Button>
+        )}
 
         {/* Clipboard indicator */}
         {clipboard && (
@@ -783,26 +821,33 @@ export function GardenLayout() {
         )}
 
         {gardenObjects.length > 0 && (
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Objects ({gardenObjects.length})</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-1">
-                {gardenObjects.map((obj) => (
-                  <button
-                    key={obj.id}
-                    className={`w-full text-left text-sm px-2 py-1.5 rounded hover:bg-muted transition-colors ${
-                      obj.id === selectedObjectId ? 'bg-muted font-medium' : ''
-                    }`}
-                    onClick={() => handleSelectObject(obj.id)}
-                  >
-                    {obj.name}
-                  </button>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+          <Collapsible defaultOpen={false}>
+            <Card>
+              <CollapsibleTrigger className="w-full">
+                <CardHeader className="pb-2 flex flex-row items-center justify-between">
+                  <CardTitle className="text-sm">Objects ({gardenObjects.length})</CardTitle>
+                  <ChevronDown className="w-4 h-4 text-muted-foreground transition-transform [[data-state=open]_&]:rotate-180" />
+                </CardHeader>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <CardContent>
+                  <div className="space-y-1">
+                    {gardenObjects.map((obj) => (
+                      <button
+                        key={obj.id}
+                        className={`w-full text-left text-sm px-2 py-1.5 rounded hover:bg-muted transition-colors ${
+                          obj.id === selectedObjectId ? 'bg-muted font-medium' : ''
+                        }`}
+                        onClick={() => handleSelectObject(obj.id)}
+                      >
+                        {obj.name}
+                      </button>
+                    ))}
+                  </div>
+                </CardContent>
+              </CollapsibleContent>
+            </Card>
+          </Collapsible>
         )}
 
         {currentGardenId && (

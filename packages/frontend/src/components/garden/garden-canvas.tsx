@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
-import { Stage, Layer, Rect, Text, Group, Transformer } from 'react-konva';
+import { Stage, Layer, Rect, Line, Text, Group, Transformer } from 'react-konva';
 import type Konva from 'konva';
 import type { SubPlotWithPlant } from '@/hooks/use-sub-plots';
 import { plantTypeEmoji } from '@/lib/plant-type-emoji';
@@ -32,7 +32,7 @@ const OBJECT_COLORS: Record<string, string> = {
   fence: '#8d6e63',
   tree: '#2e7d32',
   path: '#bdbdbd',
-  driveway: '#9e9e9e',
+  driveway: '#bdbdbd',
   pond: '#42a5f5',
   compost: '#6d4c41',
   patio: '#b0bec5',
@@ -44,6 +44,11 @@ interface ContextMenuEvent {
   x: number;
   y: number;
   plotId: string | null;
+}
+
+interface PropertyBounds {
+  width_ft: number;
+  height_ft: number;
 }
 
 interface Props {
@@ -58,6 +63,8 @@ interface Props {
   onContextMenu?: (e: ContextMenuEvent) => void;
   onPlotDoubleClick?: (id: string) => void;
   subPlotsByPlot?: Map<string, SubPlotWithPlant[]>;
+  propertyBounds?: PropertyBounds;
+  objectsLocked?: boolean;
 }
 
 function snapTo(value: number, grid: number) {
@@ -80,6 +87,8 @@ export function GardenCanvas({
   onContextMenu,
   onPlotDoubleClick,
   subPlotsByPlot,
+  propertyBounds,
+  objectsLocked = false,
 }: Props) {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === 'dark';
@@ -96,9 +105,19 @@ export function GardenCanvas({
   const [stageScale, setStageScale] = useState(1);
   const hasFitted = useRef(false);
 
-  // Compute bounding box of all plots and objects
+  // Compute bounding box of all plots, objects, and property boundary
   const getContentBounds = useCallback(() => {
     const allGeometries: { x: number; y: number; width: number; height: number }[] = [];
+
+    // Include property boundary as the primary bounds
+    if (propertyBounds) {
+      allGeometries.push({
+        x: 0,
+        y: 0,
+        width: propertyBounds.width_ft * PX_PER_FT,
+        height: propertyBounds.height_ft * PX_PER_FT,
+      });
+    }
 
     for (const plot of plots) {
       const dims = plot.dimensions;
@@ -122,7 +141,7 @@ export function GardenCanvas({
       maxY = Math.max(maxY, g.y + g.height);
     }
     return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
-  }, [plots, gardenObjects]);
+  }, [plots, gardenObjects, propertyBounds]);
 
   const fitToContent = useCallback(() => {
     const bounds = getContentBounds();
@@ -286,7 +305,7 @@ export function GardenCanvas({
       }
     }
 
-    if (selectedObjectId) {
+    if (selectedObjectId && !objectsLocked) {
       const node = objectRefs.current.get(selectedObjectId);
       if (node) {
         tr.nodes([node]);
@@ -297,7 +316,7 @@ export function GardenCanvas({
 
     tr.nodes([]);
     tr.getLayer()?.batchDraw();
-  }, [selectedPlotId, selectedObjectId, plots, gardenObjects]);
+  }, [selectedPlotId, selectedObjectId, objectsLocked, plots, gardenObjects]);
 
   const handleStageClick = useCallback((e: Konva.KonvaEventObject<MouseEvent>) => {
     if (e.target === e.target.getStage()) {
@@ -646,6 +665,51 @@ export function GardenCanvas({
               />
             );
           })}
+
+          {/* Property boundary */}
+          {propertyBounds && (
+            <>
+              <Rect
+                x={0}
+                y={0}
+                width={propertyBounds.width_ft * PX_PER_FT}
+                height={propertyBounds.height_ft * PX_PER_FT}
+                fill={isDark ? 'rgba(34,197,94,0.04)' : 'rgba(34,197,94,0.06)'}
+              />
+              <Line
+                points={[
+                  0, 0,
+                  propertyBounds.width_ft * PX_PER_FT, 0,
+                  propertyBounds.width_ft * PX_PER_FT, propertyBounds.height_ft * PX_PER_FT,
+                  0, propertyBounds.height_ft * PX_PER_FT,
+                  0, 0,
+                ]}
+                stroke={isDark ? '#4ade80' : '#16a34a'}
+                strokeWidth={2.5 / stageScale}
+                dash={[12 / stageScale, 6 / stageScale]}
+                opacity={0.8}
+              />
+              {/* Corner dimension labels */}
+              <Text
+                x={4 / stageScale}
+                y={propertyBounds.height_ft * PX_PER_FT + 4 / stageScale}
+                text={`${propertyBounds.width_ft}' × ${propertyBounds.height_ft}'`}
+                fontSize={11 / stageScale}
+                fill={isDark ? '#4ade80' : '#16a34a'}
+                opacity={0.7}
+              />
+              {/* North indicator */}
+              <Text
+                x={propertyBounds.width_ft * PX_PER_FT / 2 - 8 / stageScale}
+                y={-18 / stageScale}
+                text="N ↑"
+                fontSize={12 / stageScale}
+                fontStyle="bold"
+                fill={isDark ? '#4ade80' : '#16a34a'}
+                opacity={0.6}
+              />
+            </>
+          )}
         </Layer>
 
         {/* Objects layer (rendered below plots) */}
@@ -667,58 +731,129 @@ export function GardenCanvas({
                 x={g.x}
                 y={g.y}
                 rotation={0}
-                draggable
-                onClick={() => { onSelectObject?.(obj.id); onSelectPlot(null); }}
-                onTap={() => { onSelectObject?.(obj.id); onSelectPlot(null); }}
-                onDragMove={handleDragMove}
-                onDragEnd={(e) => {
+                draggable={!objectsLocked}
+                listening={!objectsLocked}
+                onClick={objectsLocked ? undefined : () => { onSelectObject?.(obj.id); onSelectPlot(null); }}
+                onTap={objectsLocked ? undefined : () => { onSelectObject?.(obj.id); onSelectPlot(null); }}
+                onDragMove={objectsLocked ? undefined : handleDragMove}
+                onDragEnd={objectsLocked ? undefined : (e) => {
                   const x = snapEnabled ? snapTo(e.target.x(), PX_PER_FT) : e.target.x();
                   const y = snapEnabled ? snapTo(e.target.y(), PX_PER_FT) : e.target.y();
                   onObjectDragEnd?.(obj.id, { ...g, x, y });
                 }}
-                onTransformStart={() => handleTransformStart(g)}
-                onTransform={() => handleObjectTransform(obj.id, g)}
-                onTransformEnd={() => handleObjectTransformEnd(obj.id, g)}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
+                onTransformStart={objectsLocked ? undefined : () => handleTransformStart(g)}
+                onTransform={objectsLocked ? undefined : () => handleObjectTransform(obj.id, g)}
+                onTransformEnd={objectsLocked ? undefined : () => handleObjectTransformEnd(obj.id, g)}
+                onMouseEnter={objectsLocked ? undefined : handleMouseEnter}
+                onMouseLeave={objectsLocked ? undefined : handleMouseLeave}
               >
-                <Rect
-                  width={g.width}
-                  height={g.height}
-                  fill={color}
-                  opacity={obj.opacity ?? 0.7}
-                  cornerRadius={2}
-                  stroke={isSelected ? '#F4D03F' : 'rgba(0,0,0,0.3)'}
-                  strokeWidth={isSelected ? 3 : 1}
-                  shadowColor="rgba(0,0,0,0.1)"
-                  shadowBlur={isSelected ? 6 : 1}
-                  dash={obj.object_type === 'fence' ? [8, 4] : undefined}
-                />
-                {obj.label_visible !== false && (
+                {obj.object_type === 'fence' ? (
                   <>
-                    <Text
-                      text={obj.name}
-                      x={4}
-                      y={4}
-                      fontSize={11}
-                      fontStyle="bold"
-                      fill="white"
-                      width={g.width - 8}
-                      ellipsis
-                      wrap="none"
-                      listening={false}
+                    {/* Fence: hollow enclosure with post markers */}
+                    <Rect
+                      width={g.width}
+                      height={g.height}
+                      fill="transparent"
+                      stroke={isSelected ? '#F4D03F' : color}
+                      strokeWidth={isSelected ? 3.5 : 2.5}
+                      dash={[10, 5]}
+                      shadowColor="rgba(0,0,0,0.15)"
+                      shadowBlur={isSelected ? 6 : 2}
                     />
-                    <Text
-                      text={`${widthFt}' x ${heightFt}'`}
-                      x={4}
-                      y={g.height - 16}
-                      fontSize={9}
-                      fill="rgba(255,255,255,0.7)"
-                      width={g.width - 8}
-                      ellipsis
-                      wrap="none"
-                      listening={false}
+                    {/* Fence posts at corners and every ~8ft along edges */}
+                    {(() => {
+                      const postSize = 5;
+                      const postColor = isSelected ? '#F4D03F' : (obj.color || '#6d4c41');
+                      const posts: { px: number; py: number }[] = [];
+                      const spacing = 8 * PX_PER_FT;
+                      // Top & bottom edges
+                      for (let x = 0; x <= g.width; x += spacing) {
+                        posts.push({ px: Math.min(x, g.width), py: 0 });
+                        posts.push({ px: Math.min(x, g.width), py: g.height });
+                      }
+                      // Ensure far corners
+                      posts.push({ px: g.width, py: 0 });
+                      posts.push({ px: g.width, py: g.height });
+                      // Left & right edges (skip corners already added)
+                      for (let y = spacing; y < g.height; y += spacing) {
+                        posts.push({ px: 0, py: y });
+                        posts.push({ px: g.width, py: y });
+                      }
+                      return posts.map((p, i) => (
+                        <Rect
+                          key={`post-${i}`}
+                          x={p.px - postSize / 2}
+                          y={p.py - postSize / 2}
+                          width={postSize}
+                          height={postSize}
+                          fill={postColor}
+                          cornerRadius={1}
+                          listening={false}
+                        />
+                      ));
+                    })()}
+                    {obj.label_visible !== false && (
+                      <>
+                        <Text
+                          text={obj.name}
+                          x={8}
+                          y={-16}
+                          fontSize={10}
+                          fontStyle="bold"
+                          fill={isDark ? '#d4a373' : '#6d4c41'}
+                          listening={false}
+                        />
+                        <Text
+                          text={`${widthFt}' × ${heightFt}'`}
+                          x={8}
+                          y={g.height + 4}
+                          fontSize={9}
+                          fill={isDark ? '#a1887f' : '#8d6e63'}
+                          listening={false}
+                        />
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <Rect
+                      width={g.width}
+                      height={g.height}
+                      fill={color}
+                      opacity={obj.opacity ?? 0.7}
+                      cornerRadius={2}
+                      stroke={isSelected ? '#F4D03F' : 'rgba(0,0,0,0.3)'}
+                      strokeWidth={isSelected ? 3 : 1}
+                      shadowColor="rgba(0,0,0,0.1)"
+                      shadowBlur={isSelected ? 6 : 1}
                     />
+                    {obj.label_visible !== false && (
+                      <>
+                        <Text
+                          text={obj.name}
+                          x={4}
+                          y={4}
+                          fontSize={11}
+                          fontStyle="bold"
+                          fill="white"
+                          width={g.width - 8}
+                          ellipsis
+                          wrap="none"
+                          listening={false}
+                        />
+                        <Text
+                          text={`${widthFt}' x ${heightFt}'`}
+                          x={4}
+                          y={g.height - 16}
+                          fontSize={9}
+                          fill="rgba(255,255,255,0.7)"
+                          width={g.width - 8}
+                          ellipsis
+                          wrap="none"
+                          listening={false}
+                        />
+                      </>
+                    )}
                   </>
                 )}
               </Group>

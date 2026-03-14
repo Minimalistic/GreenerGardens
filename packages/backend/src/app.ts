@@ -7,9 +7,11 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { getDb } from './db/connection.js';
 import { runMigrations } from './db/migrate.js';
-import { seedPlantCatalog, updatePlantImages, updatePlantEmojis, updatePlantCompanions, updatePlantWikipediaUrls, updatePlantPestData } from './db/seed.js';
+import { seedPlantCatalog, updatePlantImages, updatePlantEmojis, updatePlantCompanions, updatePlantWikipediaUrls, updatePlantPestData, seedDefaultGarden } from './db/seed.js';
 import { seedPestCatalog } from './db/seed-pest-catalog.js';
 import { registerRoutes } from './routes/index.js';
+import { BackupService } from './services/backup.service.js';
+import { startAutoBackup } from './jobs/auto-backup.job.js';
 import { NotFoundError, ValidationError } from './utils/errors.js';
 import { ZodError } from 'zod';
 
@@ -41,7 +43,7 @@ export async function buildApp() {
   });
 
   // Serve frontend static files in production
-  const frontendDist = path.resolve(__dirname, '../../../frontend/dist');
+  const frontendDist = path.resolve(__dirname, '../../frontend/dist');
   if (fs.existsSync(frontendDist)) {
     await server.register(fastifyStatic, {
       root: frontendDist,
@@ -65,6 +67,13 @@ export async function buildApp() {
 
   // Seed pest catalog
   seedPestCatalog(db);
+
+  // Seed default garden template (only if no gardens exist)
+  seedDefaultGarden(db);
+
+  // Start automatic backup scheduler
+  const backupService = new BackupService(db);
+  startAutoBackup(backupService);
 
   // Health check
   server.get('/api/v1/health', async () => {

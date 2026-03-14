@@ -36,7 +36,17 @@ export const GardenObjectCreateSchema = z.object({
   z_index: z.number().int().optional().default(0),
 });
 
-export const GardenObjectUpdateSchema = GardenObjectCreateSchema.omit({ garden_id: true }).partial();
+// Explicit update schema without defaults — prevents .default() values from
+// overwriting existing DB data on partial PATCH requests.
+export const GardenObjectUpdateSchema = z.object({
+  name: z.string().min(1).max(100),
+  object_type: GardenObjectTypeEnum,
+  geometry: GardenObjectGeometrySchema,
+  color: z.string().max(30).nullable(),
+  opacity: z.number().min(0).max(1),
+  label_visible: z.boolean(),
+  z_index: z.number().int(),
+}).partial();
 
 export const GardenObjectSchema = BaseEntitySchema.merge(
   GardenObjectCreateSchema.required({ name: true, garden_id: true }),

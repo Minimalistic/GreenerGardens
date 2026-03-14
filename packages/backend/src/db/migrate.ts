@@ -29,9 +29,24 @@ export function runMigrations(db: Database.Database, migrationsDir?: string): vo
     .filter(f => f.endsWith('.sql'))
     .sort();
 
-  for (const file of files) {
-    if (applied.has(file)) continue;
+  const pending = files.filter(f => !applied.has(f));
 
+  // Auto-backup before applying new migrations (skip for fresh DBs)
+  if (pending.length > 0 && applied.size > 0) {
+    try {
+      const backupDir = path.resolve(process.cwd(), 'data', 'backups');
+      if (!fs.existsSync(backupDir)) fs.mkdirSync(backupDir, { recursive: true });
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const backupPath = path.join(backupDir, `gardenvault-pre-migration-${timestamp}.db`);
+      db.backup(backupPath).then(() => {
+        console.log(`[Migration] Pre-migration backup: ${path.basename(backupPath)}`);
+      });
+    } catch (err) {
+      console.warn('[Migration] Pre-migration backup failed (continuing):', err);
+    }
+  }
+
+  for (const file of pending) {
     const sql = fs.readFileSync(path.join(dir, file), 'utf-8');
 
     // Run each migration in a transaction
