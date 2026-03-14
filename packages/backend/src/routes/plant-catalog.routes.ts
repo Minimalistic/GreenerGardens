@@ -5,13 +5,14 @@ import { safeParseInt } from '../utils/parse.js';
 
 export function plantCatalogRoutes(fastify: FastifyInstance, catalogService: PlantCatalogService) {
   fastify.get<{ Querystring: Record<string, string> }>('/api/v1/plant-catalog', async (request) => {
-    const { search, plant_type, lifecycle, sun_exposure, water_needs, min_zone, max_zone, page, limit } = request.query;
+    const { search, plant_type, lifecycle, sun_exposure, water_needs, min_zone, max_zone, zone, page, limit } = request.query;
     const result = catalogService.search({
       search,
       plant_type,
       lifecycle,
       sun_exposure,
       water_needs,
+      zone: zone ? parseInt(zone, 10) || undefined : undefined,
       min_zone: min_zone ? safeParseInt(min_zone, 1) : undefined,
       max_zone: max_zone ? safeParseInt(max_zone, 13) : undefined,
       page: safeParseInt(page, 1),

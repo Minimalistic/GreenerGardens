@@ -53,6 +53,7 @@ export interface SearchOptions extends FindAllOptions {
   water_needs?: string;
   min_zone?: number;
   max_zone?: number;
+  zone?: number;
 }
 
 export class PlantCatalogRepository extends BaseRepository<PlantCatalogRow> {
@@ -61,7 +62,7 @@ export class PlantCatalogRepository extends BaseRepository<PlantCatalogRow> {
   }
 
   search(options: SearchOptions = {}): { data: PlantCatalogRow[]; total: number } {
-    const { search, plant_type, lifecycle, sun_exposure, water_needs, min_zone, max_zone,
+    const { search, plant_type, lifecycle, sun_exposure, water_needs, min_zone, max_zone, zone,
       limit = 20, offset = 0, orderBy = 'common_name', orderDir = 'ASC' } = options;
 
     const conditions: string[] = [];
@@ -87,6 +88,10 @@ export class PlantCatalogRepository extends BaseRepository<PlantCatalogRow> {
     if (water_needs) {
       conditions.push('water_needs = ?');
       params.push(water_needs);
+    }
+    if (zone !== undefined) {
+      conditions.push('(min_zone IS NOT NULL AND min_zone <= ? AND max_zone IS NOT NULL AND max_zone >= ?)');
+      params.push(zone, zone);
     }
     if (min_zone !== undefined) {
       conditions.push('min_zone >= ?');

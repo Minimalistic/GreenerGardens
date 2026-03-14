@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePlantCatalogSearch } from '@/hooks/use-plant-catalog';
+import { useGardenContext } from '@/contexts/garden-context';
 import { PlantFormDialog } from '@/components/plant-form-dialog';
 import { DataTable, type Column } from '@/components/data-table';
 import { Input } from '@/components/ui/input';
@@ -9,7 +10,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { PlantTypeBadge } from '@/components/garden/plant-type-badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Search, LayoutGrid, TableIcon, Plus } from 'lucide-react';
+import { Search, LayoutGrid, TableIcon, Plus, MapPin } from 'lucide-react';
 import { plantTypeEmoji } from '@/lib/plant-type-emoji';
 import type { PlantCatalog } from '@gardenvault/shared';
 const TYPE_FILTERS = [
@@ -29,19 +30,24 @@ const SUN_ICONS: Record<string, string> = {
 
 export function PlantCatalogPage() {
   const navigate = useNavigate();
+  const { garden } = useGardenContext();
   const [search, setSearch] = useState('');
   const [plantType, setPlantType] = useState('');
   const [page, setPage] = useState(1);
   const [view, setView] = useState<'card' | 'table'>(() =>
     (localStorage.getItem('catalog-view') as 'card' | 'table') ?? 'card'
   );
+  const [zoneFilter, setZoneFilter] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
 
+  const gardenZone = garden?.usda_zone ?? null;
+  const zoneNumber = gardenZone ? parseInt(gardenZone, 10) : null;
   const limit = view === 'table' ? 200 : 24;
 
   const { data, isLoading } = usePlantCatalogSearch({
     search: search || undefined,
     plant_type: plantType || undefined,
+    zone: zoneFilter && zoneNumber ? zoneNumber : undefined,
     page: view === 'table' ? 1 : page,
     limit,
   });
@@ -98,6 +104,10 @@ export function PlantCatalogPage() {
         onClick={() => { setPlantType(row.plant_type); setPage(1); }}
       />
     )},
+    { key: 'min_zone', label: 'Zone', render: (row) =>
+      row.min_zone != null && row.max_zone != null ? `${row.min_zone}-${row.max_zone}` : '-',
+      getValue: (row) => row.min_zone ?? 99,
+    },
     { key: 'sun_exposure', label: 'Sun', render: (row) => (
       <span className="capitalize">{row.sun_exposure?.replace(/_/g, ' ') ?? '-'}</span>
     )},
@@ -135,6 +145,17 @@ export function PlantCatalogPage() {
             ))}
           </SelectContent>
         </Select>
+        {gardenZone && (
+          <Button
+            variant={zoneFilter ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => { setZoneFilter(f => !f); setPage(1); }}
+            title={zoneFilter ? 'Showing plants for your zone — click to show all' : `Filter to zone ${gardenZone}`}
+          >
+            <MapPin className="w-4 h-4 mr-1" />
+            Zone {gardenZone}
+          </Button>
+        )}
         <div className="flex gap-1">
           <Button variant={view === 'card' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('card')}>
             <LayoutGrid className="w-4 h-4" />
@@ -205,7 +226,12 @@ export function PlantCatalogPage() {
                   {plant.scientific_name && (
                     <p className="text-xs text-muted-foreground italic">{plant.scientific_name}</p>
                   )}
-                  <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-3 text-xs text-muted-foreground flex-wrap">
+                    {plant.min_zone != null && plant.max_zone != null && (
+                      <span title={`USDA Zones ${plant.min_zone}-${plant.max_zone}`}>
+                        Zone {plant.min_zone}-{plant.max_zone}
+                      </span>
+                    )}
                     {plant.sun_exposure && (
                       <span title={plant.sun_exposure}>
                         {SUN_ICONS[plant.sun_exposure] ?? ''} {plant.sun_exposure.replace(/_/g, ' ')}

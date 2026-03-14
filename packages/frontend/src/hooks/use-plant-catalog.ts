@@ -8,6 +8,7 @@ interface CatalogSearchParams {
   lifecycle?: string;
   sun_exposure?: string;
   water_needs?: string;
+  zone?: number;
   page?: number;
   limit?: number;
 }
@@ -19,6 +20,7 @@ export function usePlantCatalogSearch(params: CatalogSearchParams) {
   if (params.lifecycle) queryParams.set('lifecycle', params.lifecycle);
   if (params.sun_exposure) queryParams.set('sun_exposure', params.sun_exposure);
   if (params.water_needs) queryParams.set('water_needs', params.water_needs);
+  if (params.zone) queryParams.set('zone', String(params.zone));
   if (params.page) queryParams.set('page', String(params.page));
   if (params.limit) queryParams.set('limit', String(params.limit));
 

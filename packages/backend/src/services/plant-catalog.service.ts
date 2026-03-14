@@ -20,6 +20,7 @@ export class PlantCatalogService {
     water_needs?: string;
     min_zone?: number;
     max_zone?: number;
+    zone?: number;
     page?: number;
     limit?: number;
   }) {
