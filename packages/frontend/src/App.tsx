@@ -34,6 +34,7 @@ const HistoryPage = lazy(() => import('@/pages/history').then(m => ({ default: m
 const WeatherPage = lazy(() => import('@/pages/weather').then(m => ({ default: m.WeatherPage })));
 const PestCatalogPage = lazy(() => import('@/pages/pest-catalog').then(m => ({ default: m.PestCatalogPage })));
 const PestCatalogDetail = lazy(() => import('@/pages/pest-catalog-detail').then(m => ({ default: m.PestCatalogDetail })));
+const CostsPage = lazy(() => import('@/pages/costs').then(m => ({ default: m.CostsPage })));
 
 export default function App() {
   return (
@@ -68,6 +69,7 @@ export default function App() {
                 <Route path="/analytics" element={<AnalyticsPage />} />
                 <Route path="/seeds" element={<SeedInventoryPage />} />
                 <Route path="/weather" element={<WeatherPage />} />
+                <Route path="/costs" element={<CostsPage />} />
                 <Route path="/history" element={<HistoryPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
               </Route>

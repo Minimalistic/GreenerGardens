@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Map, BookOpen, Scissors, CheckSquare, CalendarDays, MessageSquare, Settings, Bug, FlaskConical, StickyNote, Search, BarChart3, Sprout, History, PanelLeftClose, PanelLeftOpen, CloudSun, ShieldAlert } from 'lucide-react';
+import { LayoutDashboard, Map, BookOpen, Scissors, CheckSquare, CalendarDays, MessageSquare, Settings, Bug, FlaskConical, StickyNote, Search, BarChart3, Sprout, History, PanelLeftClose, PanelLeftOpen, CloudSun, ShieldAlert, DollarSign } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
@@ -34,6 +34,7 @@ const sections: NavSection[] = [
       { to: '/pest-events', label: 'Pest Tracker', icon: Bug },
       { to: '/soil-tests', label: 'Soil Tests', icon: FlaskConical },
       { to: '/notes', label: 'Notes', icon: StickyNote },
+      { to: '/costs', label: 'Expenses', icon: DollarSign },
       { to: '/history', label: 'History', icon: History },
       { to: '/weather', label: 'Weather', icon: CloudSun },
     ],

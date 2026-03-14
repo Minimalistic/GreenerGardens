@@ -471,10 +471,10 @@ function ForecastDayRow({ day, isExpanded, onToggle }: { day: DayForecast; isExp
                 contentStyle={chartTooltipStyle}
                 labelStyle={chartTooltipLabelStyle}
                 itemStyle={chartTooltipItemStyle}
-                formatter={(value: number, name: string) => [
+                formatter={((value: number, name: string) => [
                   `${value}°F`,
                   name === 'temp' ? 'Temperature' : 'Feels Like',
-                ]}
+                ]) as any}
               />
               <Area type="monotone" dataKey="temp" stroke="#f59e0b" fill="#f59e0b" fillOpacity={0.15} strokeWidth={2} name="temp" />
               <Area type="monotone" dataKey="feelsLike" stroke="#f59e0b" fill="none" strokeWidth={1} strokeDasharray="4 4" name="feelsLike" />
@@ -490,10 +490,10 @@ function ForecastDayRow({ day, isExpanded, onToggle }: { day: DayForecast; isExp
                   contentStyle={chartTooltipStyle}
                   labelStyle={chartTooltipLabelStyle}
                   itemStyle={chartTooltipItemStyle}
-                  formatter={(value: number, name: string) => [
+                  formatter={((value: number, name: string) => [
                     `${value}%`,
                     name === 'humidity' ? 'Humidity' : 'Rain Chance',
-                  ]}
+                  ]) as any}
                 />
                 <Bar dataKey="humidity" fill="#3b82f6" fillOpacity={0.5} radius={[2, 2, 0, 0]} name="humidity" />
                 <Bar dataKey="precip" fill="#06b6d4" fillOpacity={0.5} radius={[2, 2, 0, 0]} name="precip" />
@@ -508,7 +508,7 @@ function ForecastDayRow({ day, isExpanded, onToggle }: { day: DayForecast; isExp
                   contentStyle={chartTooltipStyle}
                   labelStyle={chartTooltipLabelStyle}
                   itemStyle={chartTooltipItemStyle}
-                  formatter={(value: number) => [`${value} mph`, 'Wind']}
+                  formatter={((value: number) => [`${value} mph`, 'Wind']) as any}
                 />
                 <Area type="monotone" dataKey="wind" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.15} strokeWidth={2} />
               </AreaChart>
@@ -655,10 +655,10 @@ function HistoryChart({ dailySummary }: { dailySummary: Array<{ date: string; hi
               const point = chartData.find((d) => d.shortLabel === label);
               return point?.label ?? label;
             }}
-            formatter={(value: number, name: string) => {
+            formatter={((value: number, name: string) => {
               const labels: Record<string, string> = { high: 'High', low: 'Low', avg: 'Average' };
               return [`${value}°F`, labels[name] ?? name];
-            }}
+            }) as any}
           />
           <Legend
             formatter={(value: string) => {
@@ -683,7 +683,7 @@ function HistoryChart({ dailySummary }: { dailySummary: Array<{ date: string; hi
               contentStyle={chartTooltipStyle}
               labelStyle={chartTooltipLabelStyle}
               itemStyle={chartTooltipItemStyle}
-              formatter={(value: number) => [`${value.toFixed(2)}"`, 'Precipitation']}
+              formatter={((value: number) => [`${value.toFixed(2)}"`, 'Precipitation']) as any}
             />
             <Bar dataKey="precip" fill="#3b82f6" fillOpacity={0.7} radius={[3, 3, 0, 0]} />
           </BarChart>

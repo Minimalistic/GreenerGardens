@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, Map, CalendarDays, CheckSquare, MoreHorizontal,
   Scissors, BookOpen, MessageSquare, StickyNote, Settings,
-  Bug, FlaskConical, Search, BarChart3, Sprout, History,
+  Bug, FlaskConical, Search, BarChart3, Sprout, History, DollarSign,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
@@ -23,6 +23,7 @@ const overflowLinks = [
   { to: '/pest-events', label: 'Pest Tracker', icon: Bug },
   { to: '/soil-tests', label: 'Soil Tests', icon: FlaskConical },
   { to: '/notes', label: 'Notes', icon: StickyNote },
+  { to: '/costs', label: 'Expenses', icon: DollarSign },
   { to: '/history', label: 'History', icon: History },
   { to: '/search', label: 'Search', icon: Search },
   { to: '/assistant', label: 'Assistant', icon: MessageSquare },

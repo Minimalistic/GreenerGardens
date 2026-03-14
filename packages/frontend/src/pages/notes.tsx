@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, StickyNote, Pin, Trash2, Pencil, Check, X, Calendar, Search, Type } from 'lucide-react';
+import { Plus, StickyNote, Pin, Trash2, Pencil, Check, X, Calendar, Search, Type, LayoutGrid, TableIcon } from 'lucide-react';
 import { NoteContent } from '@/components/notes/note-content';
+import { DataTable, type Column } from '@/components/data-table';
 import { useNotes, useCreateNote, useDeleteNote, useUpdateNote } from '@/hooks/use-notes';
 import { entityLinkLabel, entityLinkPath } from '@/lib/note-utils';
 import { Card, CardContent } from '@/components/ui/card';
@@ -84,8 +85,39 @@ function CreateNoteDialog() {
   );
 }
 
+const noteColumns: Column<Note>[] = [
+  {
+    key: 'created_at', label: 'Date',
+    render: (row) => new Date(row.created_at).toLocaleDateString(),
+  },
+  {
+    key: 'content', label: 'Content',
+    render: (row) => row.content.length > 80 ? row.content.slice(0, 80) + '…' : row.content,
+  },
+  {
+    key: 'tags', label: 'Tags', sortable: false,
+    render: (row) => row.tags?.length > 0 ? (
+      <div className="flex gap-1 flex-wrap">
+        {row.tags.map((tag: string) => <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>)}
+      </div>
+    ) : '-',
+  },
+  {
+    key: 'pinned', label: 'Pinned',
+    render: (row) => row.pinned ? <Pin className="w-4 h-4 text-primary" /> : null,
+    getValue: (row) => row.pinned ? 1 : 0,
+  },
+];
+
 export function NotesPage() {
   const navigate = useNavigate();
+  const [view, setView] = useState<'card' | 'table'>(() =>
+    (localStorage.getItem('notes-view') as 'card' | 'table') ?? 'card'
+  );
+  const toggleView = (v: 'card' | 'table') => {
+    setView(v);
+    localStorage.setItem('notes-view', v);
+  };
   const { data } = useNotes();
   const deleteNote = useDeleteNote();
   const createNote = useCreateNote();
@@ -158,7 +190,17 @@ export function NotesPage() {
     <div className="space-y-4 max-w-3xl mx-auto">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">Garden Notes</h2>
-        <CreateNoteDialog />
+        <div className="flex items-center gap-2">
+          <div className="flex gap-1">
+            <Button variant={view === 'card' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('card')}>
+              <LayoutGrid className="w-4 h-4" />
+            </Button>
+            <Button variant={view === 'table' ? 'default' : 'outline'} size="sm" onClick={() => toggleView('table')}>
+              <TableIcon className="w-4 h-4" />
+            </Button>
+          </div>
+          <CreateNoteDialog />
+        </div>
       </div>
 
       <div className="relative">
@@ -178,6 +220,8 @@ export function NotesPage() {
             <p>{searchQuery ? 'No matching notes found.' : 'No notes yet. Start documenting your garden!'}</p>
           </CardContent>
         </Card>
+      ) : view === 'table' ? (
+        <DataTable data={notes as any} columns={noteColumns} searchable={false} exportFilename="garden-notes" />
       ) : (
         <div className="space-y-3">
           {notes.map((note) => (
