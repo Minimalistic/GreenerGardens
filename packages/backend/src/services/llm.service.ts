@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { v4 as uuid } from 'uuid';
+import type Database from 'better-sqlite3';
 import type { LlmConversationRepository } from '../db/repositories/llm.repository.js';
 import type { LlmMessageRepository } from '../db/repositories/llm.repository.js';
 import type { LlmContextService } from './llm-context.service.js';
@@ -25,6 +26,7 @@ export class LlmService {
   private client: Anthropic | null = null;
 
   constructor(
+    private db: Database.Database,
     private convRepo: LlmConversationRepository,
     private msgRepo: LlmMessageRepository,
     private contextService: LlmContextService,
@@ -38,23 +40,32 @@ export class LlmService {
     return !!process.env.ANTHROPIC_API_KEY;
   }
 
-  listConversations() {
-    return this.convRepo.findAll({ limit: 50, orderBy: 'updated_at', orderDir: 'DESC' });
+  listConversations(userId: string) {
+    return this.db.prepare(
+      'SELECT * FROM llm_conversations WHERE user_id = ? ORDER BY updated_at DESC LIMIT 50'
+    ).all(userId);
   }
 
-  getConversation(id: string) {
-    return this.convRepo.findById(id);
+  getConversation(id: string, userId: string) {
+    return this.db.prepare(
+      'SELECT * FROM llm_conversations WHERE id = ? AND user_id = ?'
+    ).get(id, userId);
   }
 
-  createConversation(title?: string) {
+  createConversation(title: string | undefined, userId: string) {
     const id = uuid();
     return this.convRepo.insert({
       id,
       title: title ?? null,
+      user_id: userId,
     });
   }
 
-  deleteConversation(id: string) {
+  deleteConversation(id: string, userId: string) {
+    const conv = this.db.prepare(
+      'SELECT * FROM llm_conversations WHERE id = ? AND user_id = ?'
+    ).get(id, userId);
+    if (!conv) return;
     this.convRepo.delete(id);
   }
 

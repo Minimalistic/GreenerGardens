@@ -5,8 +5,12 @@ import path from 'path';
 import os from 'os';
 
 export function exportRoutes(fastify: FastifyInstance, db: Database.Database) {
-  // GET /api/v1/export/database-file — download a consistent SQLite backup
+  // GET /api/v1/export/database-file — download a consistent SQLite backup (admin only)
   fastify.get('/api/v1/export/database-file', async (_request, reply) => {
+    if (!_request.user?.is_admin) {
+      reply.status(403);
+      return { success: false, error: { code: 'FORBIDDEN', message: 'Admin access required' } };
+    }
     const today = new Date().toISOString().split('T')[0];
     const fileName = `gardenvault-backup-${today}.db`;
     const tmpDir = os.tmpdir();

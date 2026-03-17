@@ -1,7 +1,10 @@
 import type { FastifyInstance } from 'fastify';
+import type Database from 'better-sqlite3';
 import type { WeatherService } from '../services/weather.service.js';
+import { assertGardenOwnership } from '../utils/ownership.js';
 
-export function weatherRoutes(fastify: FastifyInstance, weatherService: WeatherService) {
+export function weatherRoutes(fastify: FastifyInstance, weatherService: WeatherService, db: Database.Database) {
+  // Status check doesn't require garden ownership
   fastify.get('/api/v1/weather/status', async () => {
     return { success: true, data: { configured: weatherService.isConfigured() } };
   });
@@ -11,6 +14,7 @@ export function weatherRoutes(fastify: FastifyInstance, weatherService: WeatherS
     if (!gardenId) {
       return { success: true, data: null, error: 'garden_id query parameter required' };
     }
+    assertGardenOwnership(db, gardenId, request.userId);
     const result = await weatherService.fetchCurrentWeather(gardenId);
     return { success: true, ...result };
   });
@@ -20,6 +24,7 @@ export function weatherRoutes(fastify: FastifyInstance, weatherService: WeatherS
     if (!gardenId) {
       return { success: true, data: [], error: 'garden_id query parameter required' };
     }
+    assertGardenOwnership(db, gardenId, request.userId);
     const result = await weatherService.fetchForecast(gardenId);
     return { success: true, ...result };
   });
@@ -29,6 +34,7 @@ export function weatherRoutes(fastify: FastifyInstance, weatherService: WeatherS
     if (!garden_id || !start || !end) {
       return { success: true, data: [] };
     }
+    assertGardenOwnership(db, garden_id, request.userId);
     const data = weatherService.getReadingsByDateRange(garden_id, start, end);
     return { success: true, data };
   });
@@ -38,6 +44,7 @@ export function weatherRoutes(fastify: FastifyInstance, weatherService: WeatherS
     if (!garden_id || !start || !end) {
       return { success: true, data: [] };
     }
+    assertGardenOwnership(db, garden_id, request.userId);
     const data = weatherService.getDailySummaries(garden_id, start, end);
     return { success: true, data };
   });
@@ -47,6 +54,7 @@ export function weatherRoutes(fastify: FastifyInstance, weatherService: WeatherS
     if (!gardenId) {
       return { success: true, data: { alerts: [], headline: null } };
     }
+    assertGardenOwnership(db, gardenId, request.userId);
     const result = await weatherService.fetchNwsAlerts(gardenId);
     return { success: true, data: result };
   });
@@ -56,6 +64,7 @@ export function weatherRoutes(fastify: FastifyInstance, weatherService: WeatherS
     if (!gardenId) {
       return { success: true, data: null };
     }
+    assertGardenOwnership(db, gardenId, request.userId);
     const location = weatherService.getGardenLocation(gardenId);
     return { success: true, data: location };
   });
@@ -65,6 +74,7 @@ export function weatherRoutes(fastify: FastifyInstance, weatherService: WeatherS
     if (!gardenId) {
       return { success: true, data: null, error: 'garden_id query parameter required' };
     }
+    assertGardenOwnership(db, gardenId, request.userId);
     const result = await weatherService.fetchCurrentWeather(gardenId);
     return { success: true, ...result };
   });

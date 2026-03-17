@@ -44,8 +44,12 @@ export function adminRoutes(
   db: Database.Database,
   gardenRepo: GardenRepository,
 ) {
-  // Clear all user data (keeps plant catalog reference data)
+  // Clear all user data (keeps plant catalog reference data) — admin only
   fastify.post('/api/v1/admin/reset-database', async (_request, reply) => {
+    if (!_request.user?.is_admin) {
+      reply.status(403);
+      return { success: false, error: { code: 'FORBIDDEN', message: 'Admin access required' } };
+    }
     clearAllUserData(db);
     reply.status(200);
     return {
@@ -54,8 +58,12 @@ export function adminRoutes(
     };
   });
 
-  // Clear all user data and populate with test/demo data
+  // Clear all user data and populate with test/demo data — admin only
   fastify.post('/api/v1/admin/seed-test-data', async (_request, reply) => {
+    if (!_request.user?.is_admin) {
+      reply.status(403);
+      return { success: false, error: { code: 'FORBIDDEN', message: 'Admin access required' } };
+    }
     clearAllUserData(db);
     const summary = seedTestData(db);
 

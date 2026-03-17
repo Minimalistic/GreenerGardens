@@ -26,7 +26,7 @@ export function pushRoutes(fastify: FastifyInstance, pushService: PushService) {
       };
     }
 
-    const data = pushService.subscribe(subscription, preferences ?? {});
+    const data = pushService.subscribe(subscription, preferences ?? {}, request.userId);
     reply.status(201);
     return { success: true, data };
   });

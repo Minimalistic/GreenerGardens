@@ -1,10 +1,12 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { buildTestApp } from './helpers/test-app.js';
+import { buildTestApp, createTestUser } from './helpers/test-app.js';
 
 let app: Awaited<ReturnType<typeof buildTestApp>>;
+let cookie: string;
 
 beforeAll(async () => {
   app = await buildTestApp();
+  ({ cookie } = await createTestUser(app.authService, app.db));
 });
 
 afterAll(async () => {
@@ -24,6 +26,7 @@ describe('Push Notifications', () => {
     const res = await app.server.inject({
       method: 'GET',
       url: '/api/v1/push/vapid-key',
+      headers: { cookie },
     });
     expect(res.statusCode).toBe(200);
     const body = res.json();
@@ -36,6 +39,7 @@ describe('Push Notifications', () => {
     const res = await app.server.inject({
       method: 'POST',
       url: '/api/v1/push/subscribe',
+      headers: { cookie },
       payload: {
         subscription: testSubscription,
         preferences: { tasks: true, frost: true, harvests: false },
@@ -51,6 +55,7 @@ describe('Push Notifications', () => {
     const res = await app.server.inject({
       method: 'POST',
       url: '/api/v1/push/subscribe',
+      headers: { cookie },
       payload: {
         subscription: { endpoint: 'https://example.com' },
       },
@@ -64,6 +69,7 @@ describe('Push Notifications', () => {
     const res = await app.server.inject({
       method: 'POST',
       url: '/api/v1/push/subscribe',
+      headers: { cookie },
       payload: {
         subscription: testSubscription,
         preferences: { tasks: false, frost: true, harvests: true },
@@ -81,6 +87,7 @@ describe('Push Notifications', () => {
     const res = await app.server.inject({
       method: 'PATCH',
       url: '/api/v1/push/preferences',
+      headers: { cookie },
       payload: {
         endpoint: testSubscription.endpoint,
         preferences: { tasks: true, frost: false, harvests: true },
@@ -94,6 +101,7 @@ describe('Push Notifications', () => {
     const res = await app.server.inject({
       method: 'PATCH',
       url: '/api/v1/push/preferences',
+      headers: { cookie },
       payload: {
         endpoint: 'https://nonexistent.example.com/push',
         preferences: { tasks: true },
@@ -106,6 +114,7 @@ describe('Push Notifications', () => {
     const res = await app.server.inject({
       method: 'DELETE',
       url: '/api/v1/push/unsubscribe',
+      headers: { cookie },
       payload: { endpoint: testSubscription.endpoint },
     });
     expect(res.statusCode).toBe(200);
@@ -120,6 +129,7 @@ describe('Push Notifications', () => {
     const res = await app.server.inject({
       method: 'DELETE',
       url: '/api/v1/push/unsubscribe',
+      headers: { cookie },
       payload: { endpoint: 'https://nonexistent.example.com/push' },
     });
     expect(res.statusCode).toBe(404);

@@ -41,7 +41,7 @@ export class PushService {
     return process.env.VAPID_PUBLIC_KEY ?? null;
   }
 
-  subscribe(subscription: PushSubscriptionData, preferences: Record<string, boolean> = {}) {
+  subscribe(subscription: PushSubscriptionData, preferences: Record<string, boolean> = {}, userId?: string) {
     const id = uuid();
     const existing = this.db.prepare(
       'SELECT id FROM push_subscriptions WHERE endpoint = ?'
@@ -49,20 +49,21 @@ export class PushService {
 
     if (existing) {
       return this.db.prepare(
-        `UPDATE push_subscriptions SET keys_p256dh = ?, keys_auth = ?, preferences = ?, updated_at = datetime('now')
+        `UPDATE push_subscriptions SET keys_p256dh = ?, keys_auth = ?, preferences = ?, user_id = COALESCE(?, user_id), updated_at = datetime('now')
          WHERE id = ? RETURNING *`
       ).get(
         subscription.keys.p256dh,
         subscription.keys.auth,
         JSON.stringify(preferences),
+        userId ?? null,
         existing.id,
       );
     }
 
     return this.db.prepare(
-      `INSERT INTO push_subscriptions (id, endpoint, keys_p256dh, keys_auth, preferences)
-       VALUES (?, ?, ?, ?, ?) RETURNING *`
-    ).get(id, subscription.endpoint, subscription.keys.p256dh, subscription.keys.auth, JSON.stringify(preferences));
+      `INSERT INTO push_subscriptions (id, endpoint, keys_p256dh, keys_auth, preferences, user_id)
+       VALUES (?, ?, ?, ?, ?, ?) RETURNING *`
+    ).get(id, subscription.endpoint, subscription.keys.p256dh, subscription.keys.auth, JSON.stringify(preferences), userId ?? null);
   }
 
   unsubscribe(endpoint: string): boolean {

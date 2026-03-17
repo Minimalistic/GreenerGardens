@@ -6,7 +6,7 @@ export function feedbackRoutes(fastify: FastifyInstance, feedbackService: Feedba
     '/api/v1/feedback',
     async (request) => {
       const { type, status, limit, offset } = request.query;
-      const data = feedbackService.findAll({
+      const data = feedbackService.findAll(request.userId, {
         feedback_type: type,
         status,
         limit: limit ? parseInt(limit) : undefined,
@@ -17,23 +17,23 @@ export function feedbackRoutes(fastify: FastifyInstance, feedbackService: Feedba
   );
 
   fastify.post('/api/v1/feedback', async (request, reply) => {
-    const data = feedbackService.create(request.body);
+    const data = feedbackService.create(request.body, request.userId);
     reply.status(201);
     return { success: true, data };
   });
 
   fastify.get<{ Params: { id: string } }>('/api/v1/feedback/:id', async (request) => {
-    const data = feedbackService.findById(request.params.id);
+    const data = feedbackService.findById(request.params.id, request.userId);
     return { success: true, data };
   });
 
   fastify.patch<{ Params: { id: string } }>('/api/v1/feedback/:id', async (request) => {
-    const data = feedbackService.update(request.params.id, request.body);
+    const data = feedbackService.update(request.params.id, request.body, request.userId);
     return { success: true, data };
   });
 
   fastify.delete<{ Params: { id: string } }>('/api/v1/feedback/:id', async (request, reply) => {
-    feedbackService.delete(request.params.id);
+    feedbackService.delete(request.params.id, request.userId);
     reply.status(204);
   });
 }

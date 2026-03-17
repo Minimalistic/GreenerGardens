@@ -1,5 +1,6 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
+import cookie from '@fastify/cookie';
 import fastifyStatic from '@fastify/static';
 import multipart from '@fastify/multipart';
 import path from 'path';
@@ -10,8 +11,12 @@ import { runMigrations } from './db/migrate.js';
 import { seedPlantCatalog, updatePlantImages, updatePlantEmojis, updatePlantCompanions, updatePlantWikipediaUrls, updatePlantPestData, seedDefaultGarden } from './db/seed.js';
 import { seedPestCatalog } from './db/seed-pest-catalog.js';
 import { registerRoutes } from './routes/index.js';
+import { registerAuthRoutes } from './routes/auth.routes.js';
+import { AuthService } from './services/auth.service.js';
+import { authMiddleware } from './middleware/auth.middleware.js';
 import { BackupService } from './services/backup.service.js';
 import { startAutoBackup } from './jobs/auto-backup.job.js';
+import { startSessionCleanupJob } from './jobs/session-cleanup.job.js';
 import { NotFoundError, ValidationError } from './utils/errors.js';
 import { ZodError } from 'zod';
 
@@ -25,6 +30,9 @@ export async function buildApp() {
     origin: process.env.CORS_ORIGIN || true,
     credentials: true,
   });
+
+  // Cookie support (needed for session tokens)
+  await server.register(cookie as any);
 
   // Multipart file upload support
   await server.register(multipart, {
@@ -71,17 +79,31 @@ export async function buildApp() {
   // Seed default garden template (only if no gardens exist)
   seedDefaultGarden(db);
 
+  // Auth service
+  const authService = new AuthService(db);
+
   // Start automatic backup scheduler
   const backupService = new BackupService(db);
   startAutoBackup(backupService);
 
-  // Health check
+  // Start session cleanup job (hourly)
+  startSessionCleanupJob(authService);
+
+  // Health check (public)
   server.get('/api/v1/health', async () => {
     return { status: 'ok', name: 'GardenVault API', version: '0.1.0' };
   });
 
-  // Register all routes
-  registerRoutes(server, db);
+  // Auth routes (public — no auth middleware)
+  registerAuthRoutes(server, authService);
+
+  // All other routes wrapped in a protected scope with auth middleware
+  // This is idiomatic Fastify: plugin scoping applies the preHandler only to routes
+  // registered within this scope, avoiding a global hook + exclusion list.
+  server.register(async (protectedScope) => {
+    protectedScope.addHook('preHandler', authMiddleware(authService));
+    registerRoutes(protectedScope, db);
+  });
 
   // SPA fallback: serve index.html for non-API routes in production
   if (fs.existsSync(frontendDist)) {
@@ -92,7 +114,7 @@ export async function buildApp() {
           error: { code: 'NOT_FOUND', message: `Route ${request.method} ${request.url} not found` },
         });
       } else {
-        reply.sendFile('index.html');
+        (reply as any).sendFile('index.html');
       }
     });
   }

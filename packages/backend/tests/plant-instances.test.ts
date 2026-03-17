@@ -1,10 +1,12 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { buildTestApp } from './helpers/test-app.js';
+import { buildTestApp, createTestUser } from './helpers/test-app.js';
 
 let app: Awaited<ReturnType<typeof buildTestApp>>;
+let cookie: string;
 
 beforeAll(async () => {
   app = await buildTestApp({ seed: true });
+  ({ cookie } = await createTestUser(app.authService, app.db));
 });
 
 afterAll(async () => {
@@ -22,6 +24,7 @@ describe('Plant Instance lifecycle', () => {
     const gRes = await app.server.inject({
       method: 'POST',
       url: '/api/v1/gardens',
+      headers: { cookie },
       payload: { name: 'Instance Test Garden', latitude: 40.7, longitude: -74.0 },
     });
     gardenId = gRes.json().data.id;
@@ -30,6 +33,7 @@ describe('Plant Instance lifecycle', () => {
     const pRes = await app.server.inject({
       method: 'POST',
       url: '/api/v1/plots',
+      headers: { cookie },
       payload: {
         garden_id: gardenId,
         name: 'Bed A',
@@ -43,6 +47,7 @@ describe('Plant Instance lifecycle', () => {
     const cRes = await app.server.inject({
       method: 'GET',
       url: '/api/v1/plant-catalog?limit=1',
+      headers: { cookie },
     });
     expect(cRes.json().data.length).toBeGreaterThanOrEqual(1);
     catalogId = cRes.json().data[0].id;
@@ -52,6 +57,7 @@ describe('Plant Instance lifecycle', () => {
     const res = await app.server.inject({
       method: 'POST',
       url: '/api/v1/plant-instances',
+      headers: { cookie },
       payload: {
         plant_catalog_id: catalogId,
         plot_id: plotId,
@@ -71,6 +77,7 @@ describe('Plant Instance lifecycle', () => {
     const res = await app.server.inject({
       method: 'PATCH',
       url: `/api/v1/plant-instances/${instanceId}/status`,
+      headers: { cookie },
       payload: { status: 'seed_started' },
     });
     expect(res.statusCode).toBe(200);
@@ -82,6 +89,7 @@ describe('Plant Instance lifecycle', () => {
     const res = await app.server.inject({
       method: 'PATCH',
       url: `/api/v1/plant-instances/${instanceId}/status`,
+      headers: { cookie },
       payload: { status: 'vegetative' },
     });
     expect(res.statusCode).toBe(200);
@@ -89,13 +97,13 @@ describe('Plant Instance lifecycle', () => {
   });
 
   it('GET /api/v1/plant-instances lists instances', async () => {
-    const res = await app.server.inject({ method: 'GET', url: '/api/v1/plant-instances' });
+    const res = await app.server.inject({ method: 'GET', url: '/api/v1/plant-instances', headers: { cookie } });
     expect(res.statusCode).toBe(200);
     expect(res.json().data.length).toBeGreaterThanOrEqual(1);
   });
 
   it('GET /api/v1/plant-instances/:id returns the instance', async () => {
-    const res = await app.server.inject({ method: 'GET', url: `/api/v1/plant-instances/${instanceId}` });
+    const res = await app.server.inject({ method: 'GET', url: `/api/v1/plant-instances/${instanceId}`, headers: { cookie } });
     expect(res.statusCode).toBe(200);
     expect(res.json().data.id).toBe(instanceId);
   });
@@ -104,6 +112,7 @@ describe('Plant Instance lifecycle', () => {
     const res = await app.server.inject({
       method: 'POST',
       url: '/api/v1/plant-instances',
+      headers: { cookie },
       payload: {
         plant_catalog_id: '00000000-0000-0000-0000-000000000000',
         plot_id: plotId,
@@ -119,6 +128,7 @@ describe('Plant Instance lifecycle', () => {
     const res = await app.server.inject({
       method: 'POST',
       url: '/api/v1/plant-instances',
+      headers: { cookie },
       payload: {
         plant_catalog_id: catalogId,
         plot_id: '00000000-0000-0000-0000-000000000000',
@@ -135,6 +145,7 @@ describe('Plant Instance lifecycle', () => {
     const createRes = await app.server.inject({
       method: 'POST',
       url: '/api/v1/plant-instances',
+      headers: { cookie },
       payload: {
         plant_catalog_id: catalogId,
         plot_id: plotId,
@@ -148,12 +159,14 @@ describe('Plant Instance lifecycle', () => {
     const delRes = await app.server.inject({
       method: 'DELETE',
       url: `/api/v1/plant-instances/${tempId}`,
+      headers: { cookie },
     });
     expect(delRes.statusCode).toBe(204);
 
     const getRes = await app.server.inject({
       method: 'GET',
       url: `/api/v1/plant-instances/${tempId}`,
+      headers: { cookie },
     });
     expect(getRes.statusCode).toBe(404);
   });

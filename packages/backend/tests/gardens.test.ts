@@ -1,10 +1,12 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { buildTestApp } from './helpers/test-app.js';
+import { buildTestApp, createTestUser } from './helpers/test-app.js';
 
 let app: Awaited<ReturnType<typeof buildTestApp>>;
+let cookie: string;
 
 beforeAll(async () => {
   app = await buildTestApp();
+  ({ cookie } = await createTestUser(app.authService, app.db));
 });
 
 afterAll(async () => {
@@ -18,6 +20,7 @@ describe('Garden CRUD', () => {
     const res = await app.server.inject({
       method: 'POST',
       url: '/api/v1/gardens',
+      headers: { cookie },
       payload: {
         name: 'Test Garden',
         description: 'A test garden',
@@ -35,7 +38,7 @@ describe('Garden CRUD', () => {
   });
 
   it('GET /api/v1/gardens lists gardens', async () => {
-    const res = await app.server.inject({ method: 'GET', url: '/api/v1/gardens' });
+    const res = await app.server.inject({ method: 'GET', url: '/api/v1/gardens', headers: { cookie } });
     expect(res.statusCode).toBe(200);
     const body = res.json();
     expect(body.success).toBe(true);
@@ -43,7 +46,7 @@ describe('Garden CRUD', () => {
   });
 
   it('GET /api/v1/gardens/:id returns a garden', async () => {
-    const res = await app.server.inject({ method: 'GET', url: `/api/v1/gardens/${gardenId}` });
+    const res = await app.server.inject({ method: 'GET', url: `/api/v1/gardens/${gardenId}`, headers: { cookie } });
     expect(res.statusCode).toBe(200);
     const body = res.json();
     expect(body.data.id).toBe(gardenId);
@@ -54,6 +57,7 @@ describe('Garden CRUD', () => {
     const res = await app.server.inject({
       method: 'PATCH',
       url: `/api/v1/gardens/${gardenId}`,
+      headers: { cookie },
       payload: { name: 'Updated Garden', settings: { temperature_unit: 'celsius' } },
     });
     expect(res.statusCode).toBe(200);
@@ -62,10 +66,10 @@ describe('Garden CRUD', () => {
   });
 
   it('DELETE /api/v1/gardens/:id removes a garden', async () => {
-    const res = await app.server.inject({ method: 'DELETE', url: `/api/v1/gardens/${gardenId}` });
+    const res = await app.server.inject({ method: 'DELETE', url: `/api/v1/gardens/${gardenId}`, headers: { cookie } });
     expect(res.statusCode).toBe(204);
 
-    const getRes = await app.server.inject({ method: 'GET', url: `/api/v1/gardens/${gardenId}` });
+    const getRes = await app.server.inject({ method: 'GET', url: `/api/v1/gardens/${gardenId}`, headers: { cookie } });
     expect(getRes.statusCode).toBe(404);
   });
 
@@ -73,6 +77,7 @@ describe('Garden CRUD', () => {
     const res = await app.server.inject({
       method: 'POST',
       url: '/api/v1/gardens',
+      headers: { cookie },
       payload: { description: 'No name provided' },
     });
     // Zod validation error — returns 4xx or 5xx
@@ -85,6 +90,7 @@ describe('Garden CRUD', () => {
     const res = await app.server.inject({
       method: 'GET',
       url: '/api/v1/gardens/00000000-0000-0000-0000-000000000000',
+      headers: { cookie },
     });
     expect(res.statusCode).toBe(404);
   });
@@ -93,6 +99,7 @@ describe('Garden CRUD', () => {
     const res = await app.server.inject({
       method: 'PATCH',
       url: '/api/v1/gardens/00000000-0000-0000-0000-000000000000',
+      headers: { cookie },
       payload: { name: 'Ghost Garden' },
     });
     expect(res.statusCode).toBe(404);
@@ -102,6 +109,7 @@ describe('Garden CRUD', () => {
     const res = await app.server.inject({
       method: 'DELETE',
       url: '/api/v1/gardens/00000000-0000-0000-0000-000000000000',
+      headers: { cookie },
     });
     expect(res.statusCode).toBe(404);
   });
@@ -110,17 +118,19 @@ describe('Garden CRUD', () => {
     const r1 = await app.server.inject({
       method: 'POST',
       url: '/api/v1/gardens',
+      headers: { cookie },
       payload: { name: 'Garden Alpha' },
     });
     const r2 = await app.server.inject({
       method: 'POST',
       url: '/api/v1/gardens',
+      headers: { cookie },
       payload: { name: 'Garden Beta' },
     });
     expect(r1.statusCode).toBe(201);
     expect(r2.statusCode).toBe(201);
 
-    const listRes = await app.server.inject({ method: 'GET', url: '/api/v1/gardens' });
+    const listRes = await app.server.inject({ method: 'GET', url: '/api/v1/gardens', headers: { cookie } });
     const names = listRes.json().data.map((g: any) => g.name);
     expect(names).toContain('Garden Alpha');
     expect(names).toContain('Garden Beta');

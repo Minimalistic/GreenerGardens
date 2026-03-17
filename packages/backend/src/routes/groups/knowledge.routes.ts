@@ -33,7 +33,7 @@ export function registerKnowledgeRoutes(fastify: FastifyInstance, db: Database.D
   const pestCatalogRepo = new PestCatalogRepository(db);
 
   const llmContextService = new LlmContextService(db, gardenRepo);
-  const llmService = new LlmService(llmConvRepo, llmMsgRepo, llmContextService);
+  const llmService = new LlmService(db, llmConvRepo, llmMsgRepo, llmContextService);
   const companionService = new CompanionService(db, catalogRepo);
   const rotationService = new RotationService(db, catalogRepo);
   const searchService = new SearchService(db);

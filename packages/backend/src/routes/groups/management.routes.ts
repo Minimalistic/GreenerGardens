@@ -38,9 +38,9 @@ export function registerManagementRoutes(fastify: FastifyInstance, db: Database.
   const tagService = new TagService(db, tagRepo);
   const feedbackService = new FeedbackService(db, feedbackRepo, history);
 
-  uploadRoutes(fastify, uploadService);
-  pestEventRoutes(fastify, pestEventService);
-  soilTestRoutes(fastify, soilTestService);
+  uploadRoutes(fastify, uploadService, db);
+  pestEventRoutes(fastify, pestEventService, db);
+  soilTestRoutes(fastify, soilTestService, db);
   noteRoutes(fastify, noteService);
   tagRoutes(fastify, tagService);
   feedbackRoutes(fastify, feedbackService);

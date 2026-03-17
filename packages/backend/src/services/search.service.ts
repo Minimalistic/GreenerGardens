@@ -13,11 +13,11 @@ interface SearchResult {
 export class SearchService {
   constructor(private db: Database.Database) {}
 
-  search(query: string, limit = 50): SearchResult[] {
+  search(query: string, userId: string, limit = 50): SearchResult[] {
     const results: SearchResult[] = [];
     const pattern = `%${query}%`;
 
-    // Search plant catalog
+    // Search plant catalog (shared data — no user filter needed)
     const plants = this.db.prepare(
       `SELECT id, common_name, scientific_name, family, emoji, plant_type FROM plant_catalog
        WHERE common_name LIKE ? OR scientific_name LIKE ? OR family LIKE ?
@@ -36,10 +36,12 @@ export class SearchService {
       });
     }
 
-    // Search plots
+    // Search plots (scoped through garden ownership)
     const plots = this.db.prepare(
-      `SELECT id, name, notes FROM plots WHERE name LIKE ? OR notes LIKE ? LIMIT ?`
-    ).all(pattern, pattern, limit) as { id: string; name: string; notes: string | null }[];
+      `SELECT p.id, p.name, p.notes FROM plots p
+       JOIN gardens g ON p.garden_id = g.id
+       WHERE g.user_id = ? AND (p.name LIKE ? OR p.notes LIKE ?) LIMIT ?`
+    ).all(userId, pattern, pattern, limit) as { id: string; name: string; notes: string | null }[];
 
     for (const p of plots) {
       results.push({
@@ -51,10 +53,10 @@ export class SearchService {
       });
     }
 
-    // Search notes
+    // Search notes (direct user_id)
     const notes = this.db.prepare(
-      `SELECT id, content FROM notes WHERE content LIKE ? LIMIT ?`
-    ).all(pattern, limit) as { id: string; content: string }[];
+      `SELECT id, content FROM notes WHERE user_id = ? AND content LIKE ? LIMIT ?`
+    ).all(userId, pattern, limit) as { id: string; content: string }[];
 
     for (const n of notes) {
       results.push({
@@ -66,10 +68,15 @@ export class SearchService {
       });
     }
 
-    // Search tasks
+    // Search tasks (scoped through garden chain)
     const tasks = this.db.prepare(
-      `SELECT id, title, description FROM tasks WHERE title LIKE ? OR description LIKE ? LIMIT ?`
-    ).all(pattern, pattern, limit) as { id: string; title: string; description: string | null }[];
+      `SELECT t.id, t.title, t.description FROM tasks t
+       WHERE (t.entity_type = 'garden' AND t.entity_id IN (SELECT id FROM gardens WHERE user_id = ?))
+          OR (t.entity_type = 'plot' AND t.entity_id IN (SELECT id FROM plots WHERE garden_id IN (SELECT id FROM gardens WHERE user_id = ?)))
+          OR (t.entity_type = 'plant_instance' AND t.entity_id IN (SELECT id FROM plant_instances WHERE plot_id IN (SELECT id FROM plots WHERE garden_id IN (SELECT id FROM gardens WHERE user_id = ?))))
+       AND (t.title LIKE ? OR t.description LIKE ?)
+       LIMIT ?`
+    ).all(userId, userId, userId, pattern, pattern, limit) as { id: string; title: string; description: string | null }[];
 
     for (const t of tasks) {
       results.push({
@@ -81,10 +88,15 @@ export class SearchService {
       });
     }
 
-    // Search pest events
+    // Search pest events (scoped through garden chain)
     const pests = this.db.prepare(
-      `SELECT id, pest_name, notes FROM pest_events WHERE pest_name LIKE ? OR notes LIKE ? LIMIT ?`
-    ).all(pattern, pattern, limit) as { id: string; pest_name: string; notes: string | null }[];
+      `SELECT pe.id, pe.pest_name, pe.notes FROM pest_events pe
+       WHERE (pe.entity_type = 'garden' AND pe.entity_id IN (SELECT id FROM gardens WHERE user_id = ?))
+          OR (pe.entity_type = 'plot' AND pe.entity_id IN (SELECT id FROM plots WHERE garden_id IN (SELECT id FROM gardens WHERE user_id = ?)))
+          OR (pe.entity_type = 'plant_instance' AND pe.entity_id IN (SELECT id FROM plant_instances WHERE plot_id IN (SELECT id FROM plots WHERE garden_id IN (SELECT id FROM gardens WHERE user_id = ?))))
+       AND (pe.pest_name LIKE ? OR pe.notes LIKE ?)
+       LIMIT ?`
+    ).all(userId, userId, userId, pattern, pattern, limit) as { id: string; pest_name: string; notes: string | null }[];
 
     for (const pe of pests) {
       results.push({
@@ -96,10 +108,10 @@ export class SearchService {
       });
     }
 
-    // Search tags
+    // Search tags (direct user_id)
     const tags = this.db.prepare(
-      `SELECT id, name FROM tags WHERE name LIKE ? LIMIT ?`
-    ).all(pattern, limit) as { id: string; name: string }[];
+      `SELECT id, name FROM tags WHERE user_id = ? AND name LIKE ? LIMIT ?`
+    ).all(userId, pattern, limit) as { id: string; name: string }[];
 
     for (const tag of tags) {
       results.push({

@@ -1,10 +1,12 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { buildTestApp } from './helpers/test-app.js';
+import { buildTestApp, createTestUser } from './helpers/test-app.js';
 
 let app: Awaited<ReturnType<typeof buildTestApp>>;
+let cookie: string;
 
 beforeAll(async () => {
   app = await buildTestApp({ seed: true });
+  ({ cookie } = await createTestUser(app.authService, app.db));
 });
 
 afterAll(async () => {
@@ -17,12 +19,14 @@ describe('Export API', () => {
     await app.server.inject({
       method: 'POST',
       url: '/api/v1/gardens',
+      headers: { cookie },
       payload: { name: 'Export Test Garden' },
     });
 
     const res = await app.server.inject({
       method: 'GET',
       url: '/api/v1/export/gardens',
+      headers: { cookie },
     });
     expect(res.statusCode).toBe(200);
     const body = res.json();
@@ -35,6 +39,7 @@ describe('Export API', () => {
     const res = await app.server.inject({
       method: 'GET',
       url: '/api/v1/export/gardens/csv',
+      headers: { cookie },
     });
     expect(res.statusCode).toBe(200);
     expect(res.headers['content-type']).toContain('text/csv');
@@ -48,6 +53,7 @@ describe('Export API', () => {
     const res = await app.server.inject({
       method: 'GET',
       url: '/api/v1/export/plant_catalog',
+      headers: { cookie },
     });
     expect(res.statusCode).toBe(200);
     const body = res.json();
@@ -59,6 +65,7 @@ describe('Export API', () => {
     const res = await app.server.inject({
       method: 'GET',
       url: '/api/v1/export/unicorns',
+      headers: { cookie },
     });
     expect(res.statusCode).toBe(400);
     expect(res.json().success).toBe(false);
@@ -68,6 +75,7 @@ describe('Export API', () => {
     const res = await app.server.inject({
       method: 'GET',
       url: '/api/v1/export/unicorns/csv',
+      headers: { cookie },
     });
     expect(res.statusCode).toBe(400);
     expect(res.json().success).toBe(false);
@@ -78,6 +86,7 @@ describe('Export API', () => {
     const res = await app.server.inject({
       method: 'GET',
       url: '/api/v1/export/cost_entries',
+      headers: { cookie },
     });
     expect(res.statusCode).toBe(200);
     const body = res.json();
@@ -89,6 +98,7 @@ describe('Export API', () => {
     const res = await app.server.inject({
       method: 'GET',
       url: '/api/v1/export/cost_entries/csv',
+      headers: { cookie },
     });
     expect(res.statusCode).toBe(200);
     expect(res.payload).toBe('');

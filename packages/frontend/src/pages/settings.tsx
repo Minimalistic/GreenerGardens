@@ -5,6 +5,7 @@ import { GardenInfoSettings } from './settings/garden-info';
 import { DisplayPrefsSettings } from './settings/display-prefs';
 import { NotificationSettings } from './settings/notifications';
 import { DataManagementSettings } from './settings/data-management';
+import { AccountSettings } from './settings/account';
 
 export function SettingsPage() {
   const { data: settingsResp, isLoading } = useSettings();
@@ -30,11 +31,12 @@ export function SettingsPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <Tabs defaultValue="garden">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="garden">Garden</TabsTrigger>
           <TabsTrigger value="display">Display</TabsTrigger>
           <TabsTrigger value="notifications">Notifications</TabsTrigger>
           <TabsTrigger value="data">Data</TabsTrigger>
+          <TabsTrigger value="account">Account</TabsTrigger>
         </TabsList>
         <TabsContent value="garden">
           <GardenInfoSettings />
@@ -47,6 +49,9 @@ export function SettingsPage() {
         </TabsContent>
         <TabsContent value="data">
           <DataManagementSettings />
+        </TabsContent>
+        <TabsContent value="account">
+          <AccountSettings />
         </TabsContent>
       </Tabs>
     </div>

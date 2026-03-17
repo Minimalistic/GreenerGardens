@@ -12,28 +12,29 @@ export class GardenService {
     private history: HistoryLogger,
   ) {}
 
-  getSetupStatus() {
-    const count = this.gardenRepo.count();
-    return { is_setup_complete: count > 0, garden_count: count };
+  getSetupStatus(userId: string) {
+    const count = this.db.prepare('SELECT COUNT(*) as count FROM gardens WHERE user_id = ?').get(userId) as { count: number };
+    return { is_setup_complete: count.count > 0, garden_count: count.count };
   }
 
-  findAll() {
-    return this.gardenRepo.findAll({ orderBy: 'name', orderDir: 'ASC' }).map(g => this.deserialize(g));
+  findAll(userId: string) {
+    return (this.db.prepare('SELECT * FROM gardens WHERE user_id = ? ORDER BY name ASC').all(userId) as GardenRow[]).map(g => this.deserialize(g));
   }
 
-  findById(id: string) {
-    const garden = this.gardenRepo.findById(id);
+  findById(id: string, userId: string) {
+    const garden = this.db.prepare('SELECT * FROM gardens WHERE id = ? AND user_id = ?').get(id, userId) as GardenRow | undefined;
     if (!garden) throw new NotFoundError('Garden', id);
     return this.deserialize(garden);
   }
 
-  create(data: unknown) {
+  create(data: unknown, userId: string) {
     const parsed = GardenCreateSchema.parse(data);
     const id = uuid();
 
     const row: Record<string, any> = {
       id,
       ...parsed,
+      user_id: userId,
       settings: parsed.settings ? JSON.stringify(parsed.settings) : '{}',
     };
 
@@ -46,7 +47,7 @@ export class GardenService {
     return result;
   }
 
-  update(id: string, data: unknown) {
+  update(id: string, data: unknown, userId: string) {
     const parsed = GardenUpdateSchema.parse(data);
 
     const updateData: Record<string, any> = { ...parsed };
@@ -55,7 +56,7 @@ export class GardenService {
     }
 
     const result = this.db.transaction(() => {
-      const old = this.gardenRepo.findById(id);
+      const old = this.db.prepare('SELECT * FROM gardens WHERE id = ? AND user_id = ?').get(id, userId) as GardenRow | undefined;
       if (!old) throw new NotFoundError('Garden', id);
 
       const updated = this.gardenRepo.update(id, updateData);
@@ -68,15 +69,15 @@ export class GardenService {
     return result;
   }
 
-  getDeletionImpact(id: string) {
-    const garden = this.gardenRepo.findById(id);
+  getDeletionImpact(id: string, userId: string) {
+    const garden = this.db.prepare('SELECT * FROM gardens WHERE id = ? AND user_id = ?').get(id, userId) as GardenRow | undefined;
     if (!garden) throw new NotFoundError('Garden', id);
     return this.gardenRepo.getDeletionImpact(id);
   }
 
-  delete(id: string): void {
+  delete(id: string, userId: string): void {
     this.db.transaction(() => {
-      const old = this.gardenRepo.findById(id);
+      const old = this.db.prepare('SELECT * FROM gardens WHERE id = ? AND user_id = ?').get(id, userId) as GardenRow | undefined;
       if (!old) throw new NotFoundError('Garden', id);
 
       // Clean up orphan-prone polymorphic records before cascade delete

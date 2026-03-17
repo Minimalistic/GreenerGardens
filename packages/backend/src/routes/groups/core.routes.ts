@@ -48,14 +48,14 @@ export function registerCoreRoutes(fastify: FastifyInstance, db: Database.Databa
 
   setupRoutes(fastify, gardenService);
   gardenRoutes(fastify, gardenService, plotService);
-  plotRoutes(fastify, plotService, subPlotService);
-  subPlotRoutes(fastify, subPlotService);
+  plotRoutes(fastify, plotService, subPlotService, db);
+  subPlotRoutes(fastify, subPlotService, db);
   plantCatalogRoutes(fastify, catalogService);
-  plantInstanceRoutes(fastify, instanceService);
-  harvestRoutes(fastify, harvestService);
+  plantInstanceRoutes(fastify, instanceService, db);
+  harvestRoutes(fastify, harvestService, db);
   settingsRoutes(fastify, gardenService);
   zoneLookupRoutes(fastify);
-  gardenObjectRoutes(fastify, gardenObjectService);
+  gardenObjectRoutes(fastify, gardenObjectService, db);
 
   return { gardenRepo, instanceService };
 }

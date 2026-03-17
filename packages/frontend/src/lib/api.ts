@@ -3,6 +3,7 @@ const BASE_URL = '/api/v1';
 async function request<T>(method: string, path: string, body?: unknown): Promise<T> {
   const options: RequestInit = {
     method,
+    credentials: 'include', // Send session cookie on all requests
     signal: AbortSignal.timeout(30_000),
   };
 
@@ -26,6 +27,20 @@ async function request<T>(method: string, path: string, body?: unknown): Promise
   }
 
   if (res.status === 204) return undefined as T;
+
+  // Auth interceptors
+  if (res.status === 401) {
+    // Don't redirect for auth endpoints themselves (login, register, etc.)
+    if (!path.startsWith('/auth/')) {
+      window.location.href = '/login';
+    }
+  }
+
+  if (res.status === 423) {
+    // Session soft-expired, PIN required
+    window.dispatchEvent(new Event('session-locked'));
+    throw new ApiError('Session locked. Please enter your PIN.', 'PIN_REQUIRED', 423);
+  }
 
   let json: unknown;
   try {

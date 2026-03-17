@@ -17,26 +17,35 @@ export class SeedInventoryService {
     return { ...row, tags: row.tags ? JSON.parse(row.tags) : [] };
   }
 
-  findAll(options?: { limit?: number; offset?: number; expiring_soon?: boolean; low_quantity?: boolean }) {
-    if (options?.expiring_soon) return this.seedRepo.findExpiringSoonWithPlant().map(r => this.deserialize(r));
-    if (options?.low_quantity) return this.seedRepo.findLowQuantityWithPlant().map(r => this.deserialize(r));
-    return this.seedRepo.findAllWithPlant({ limit: options?.limit, offset: options?.offset }).map(r => this.deserialize(r));
+  findAll(userId: string, options?: { limit?: number; offset?: number; expiring_soon?: boolean; low_quantity?: boolean }) {
+    // For filtered queries, we need to scope by user_id
+    if (options?.expiring_soon) return this.seedRepo.findExpiringSoonWithPlant().filter((r: any) => r.user_id === userId).map(r => this.deserialize(r));
+    if (options?.low_quantity) return this.seedRepo.findLowQuantityWithPlant().filter((r: any) => r.user_id === userId).map(r => this.deserialize(r));
+    const rows = this.db.prepare(
+      `SELECT si.*, pc.common_name as plant_name, pc.emoji as plant_emoji
+       FROM seed_inventory si
+       LEFT JOIN plant_catalog pc ON si.plant_catalog_id = pc.id
+       WHERE si.user_id = ?
+       ORDER BY si.created_at DESC
+       LIMIT ? OFFSET ?`
+    ).all(userId, options?.limit ?? 100, options?.offset ?? 0) as any[];
+    return rows.map(r => this.deserialize(r));
   }
 
-  findById(id: string) {
-    const row = this.seedRepo.findById(id);
+  findById(id: string, userId: string) {
+    const row = this.db.prepare('SELECT * FROM seed_inventory WHERE id = ? AND user_id = ?').get(id, userId) as any;
     if (!row) throw new NotFoundError('SeedInventory', id);
     return this.deserialize(row);
   }
 
-  findByPlant(plantCatalogId: string) {
-    return this.seedRepo.findByPlant(plantCatalogId).map(r => this.deserialize(r));
+  findByPlant(plantCatalogId: string, userId: string) {
+    return (this.db.prepare('SELECT * FROM seed_inventory WHERE plant_catalog_id = ? AND user_id = ?').all(plantCatalogId, userId) as any[]).map(r => this.deserialize(r));
   }
 
-  create(data: unknown) {
+  create(data: unknown, userId: string) {
     const parsed = SeedInventoryCreateSchema.parse(data);
     const id = uuid();
-    const row: Record<string, any> = { id, ...parsed };
+    const row: Record<string, any> = { id, ...parsed, user_id: userId };
     if (row.tags) row.tags = JSON.stringify(row.tags);
 
     return this.db.transaction(() => {
@@ -46,13 +55,13 @@ export class SeedInventoryService {
     })();
   }
 
-  update(id: string, data: unknown) {
+  update(id: string, data: unknown, userId: string) {
     const parsed = SeedInventoryUpdateSchema.parse(data);
     const updateData: Record<string, any> = { ...parsed };
     if (updateData.tags) updateData.tags = JSON.stringify(updateData.tags);
 
     return this.db.transaction(() => {
-      const old = this.seedRepo.findById(id);
+      const old = this.db.prepare('SELECT * FROM seed_inventory WHERE id = ? AND user_id = ?').get(id, userId) as any;
       if (!old) throw new NotFoundError('SeedInventory', id);
       const updated = this.seedRepo.update(id, updateData);
       if (!updated) throw new NotFoundError('SeedInventory', id);
@@ -61,9 +70,9 @@ export class SeedInventoryService {
     })();
   }
 
-  deductSeeds(id: string, count: number) {
+  deductSeeds(id: string, count: number, userId: string) {
     return this.db.transaction(() => {
-      const old = this.seedRepo.findById(id);
+      const old = this.db.prepare('SELECT * FROM seed_inventory WHERE id = ? AND user_id = ?').get(id, userId) as any;
       if (!old) throw new NotFoundError('SeedInventory', id);
       const newQty = Math.max(0, (old.quantity_packets ?? 0) - count);
       const updated = this.seedRepo.update(id, { quantity_packets: newQty });
@@ -73,9 +82,9 @@ export class SeedInventoryService {
     })();
   }
 
-  delete(id: string): void {
+  delete(id: string, userId: string): void {
     this.db.transaction(() => {
-      const old = this.seedRepo.findById(id);
+      const old = this.db.prepare('SELECT * FROM seed_inventory WHERE id = ? AND user_id = ?').get(id, userId) as any;
       if (!old) throw new NotFoundError('SeedInventory', id);
       this.seedRepo.delete(id);
       this.history.logDelete('seed_inventory', old);

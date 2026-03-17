@@ -1,10 +1,12 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { buildTestApp } from './helpers/test-app.js';
+import { buildTestApp, createTestUser } from './helpers/test-app.js';
 
 let app: Awaited<ReturnType<typeof buildTestApp>>;
+let cookie: string;
 
 beforeAll(async () => {
   app = await buildTestApp({ seed: true });
+  ({ cookie } = await createTestUser(app.authService, app.db));
 });
 
 afterAll(async () => {
@@ -20,6 +22,7 @@ describe('Crop rotation', () => {
     const gRes = await app.server.inject({
       method: 'POST',
       url: '/api/v1/gardens',
+      headers: { cookie },
       payload: { name: 'Rotation Test Garden' },
     });
     gardenId = gRes.json().data.id;
@@ -27,6 +30,7 @@ describe('Crop rotation', () => {
     const pRes = await app.server.inject({
       method: 'POST',
       url: '/api/v1/plots',
+      headers: { cookie },
       payload: {
         garden_id: gardenId,
         name: 'Plot R1',
@@ -36,7 +40,7 @@ describe('Crop rotation', () => {
     });
     plotId = pRes.json().data.id;
 
-    const cRes = await app.server.inject({ method: 'GET', url: '/api/v1/plant-catalog?limit=200' });
+    const cRes = await app.server.inject({ method: 'GET', url: '/api/v1/plant-catalog?limit=300', headers: { cookie } });
     const tomato = cRes.json().data.find((p: any) => p.common_name.toLowerCase().includes('tomato'));
     expect(tomato).toBeDefined();
     tomatoId = tomato.id;
@@ -46,6 +50,7 @@ describe('Crop rotation', () => {
     const res = await app.server.inject({
       method: 'GET',
       url: `/api/v1/rotation/check?plot=${plotId}&plant=${tomatoId}`,
+      headers: { cookie },
     });
     expect(res.statusCode).toBe(200);
     const body = res.json();
@@ -57,6 +62,7 @@ describe('Crop rotation', () => {
     const res = await app.server.inject({
       method: 'GET',
       url: `/api/v1/rotation/history?plot=${plotId}`,
+      headers: { cookie },
     });
     expect(res.statusCode).toBe(200);
     expect(res.json().success).toBe(true);
@@ -66,6 +72,7 @@ describe('Crop rotation', () => {
     const res = await app.server.inject({
       method: 'GET',
       url: `/api/v1/rotation/suggest?plant=${tomatoId}&garden=${gardenId}`,
+      headers: { cookie },
     });
     expect(res.statusCode).toBe(200);
     expect(res.json().success).toBe(true);
@@ -75,6 +82,7 @@ describe('Crop rotation', () => {
     const res = await app.server.inject({
       method: 'GET',
       url: `/api/v1/rotation/suggest?plant=${tomatoId}`,
+      headers: { cookie },
     });
     expect(res.statusCode).toBe(200);
     expect(res.json().success).toBe(false);

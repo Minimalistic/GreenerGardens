@@ -12,31 +12,51 @@ export class NoteService {
     private history: HistoryLogger,
   ) {}
 
-  findAll(filters: { pinned?: boolean; limit?: number; offset?: number }) {
-    return this.noteRepo.findFiltered(filters).map(r => this.deserialize(r));
+  findAll(userId: string, filters: { pinned?: boolean; limit?: number; offset?: number }) {
+    // Scope to user's notes
+    const conditions: string[] = ['user_id = ?'];
+    const params: any[] = [userId];
+    if (filters.pinned !== undefined) {
+      conditions.push('pinned = ?');
+      params.push(filters.pinned ? 1 : 0);
+    }
+    const where = conditions.join(' AND ');
+    const limit = filters.limit ?? 100;
+    const offset = filters.offset ?? 0;
+    params.push(limit, offset);
+    const rows = this.db.prepare(
+      `SELECT * FROM notes WHERE ${where} ORDER BY created_at DESC LIMIT ? OFFSET ?`
+    ).all(...params) as NoteRow[];
+    return rows.map(r => this.deserialize(r));
   }
 
-  findById(id: string) {
-    const row = this.noteRepo.findById(id);
+  findById(id: string, userId: string) {
+    const row = this.db.prepare('SELECT * FROM notes WHERE id = ? AND user_id = ?').get(id, userId) as NoteRow | undefined;
     if (!row) throw new NotFoundError('Note', id);
     return this.deserialize(row);
   }
 
-  findByEntity(entityType: string, entityId: string) {
-    return this.noteRepo.findByEntity(entityType, entityId).map(r => this.deserialize(r));
+  findByEntity(entityType: string, entityId: string, userId: string) {
+    return this.noteRepo.findByEntity(entityType, entityId)
+      .filter((r: NoteRow) => (r as any).user_id === userId)
+      .map(r => this.deserialize(r));
   }
 
-  findByDate(date: string) {
-    return this.noteRepo.findByDate(date).map(r => this.deserialize(r));
+  findByDate(date: string, userId: string) {
+    const rows = this.db.prepare(
+      `SELECT * FROM notes WHERE user_id = ? AND date(COALESCE(note_date, created_at)) = date(?) ORDER BY created_at DESC`
+    ).all(userId, date) as NoteRow[];
+    return rows.map(r => this.deserialize(r));
   }
 
-  create(data: unknown) {
+  create(data: unknown, userId: string) {
     const parsed = NoteCreateSchema.parse(data);
     const id = uuid();
 
     const row: Record<string, any> = {
       id,
       ...parsed,
+      user_id: userId,
       entity_links: JSON.stringify(parsed.entity_links ?? []),
       photo_ids: JSON.stringify(parsed.photo_ids ?? []),
       tags: JSON.stringify(parsed.tags ?? []),
@@ -52,7 +72,7 @@ export class NoteService {
     return this.deserialize(result);
   }
 
-  update(id: string, data: unknown) {
+  update(id: string, data: unknown, userId: string) {
     const parsed = NoteUpdateSchema.parse(data);
     const updateData: Record<string, any> = { ...parsed };
 
@@ -62,7 +82,7 @@ export class NoteService {
     if (parsed.pinned !== undefined) updateData.pinned = parsed.pinned ? 1 : 0;
 
     const result = this.db.transaction(() => {
-      const old = this.noteRepo.findById(id);
+      const old = this.db.prepare('SELECT * FROM notes WHERE id = ? AND user_id = ?').get(id, userId) as NoteRow | undefined;
       if (!old) throw new NotFoundError('Note', id);
       const updated = this.noteRepo.update(id, updateData);
       if (!updated) throw new NotFoundError('Note', id);
@@ -73,9 +93,9 @@ export class NoteService {
     return this.deserialize(result);
   }
 
-  delete(id: string): void {
+  delete(id: string, userId: string): void {
     this.db.transaction(() => {
-      const old = this.noteRepo.findById(id);
+      const old = this.db.prepare('SELECT * FROM notes WHERE id = ? AND user_id = ?').get(id, userId) as NoteRow | undefined;
       if (!old) throw new NotFoundError('Note', id);
       this.noteRepo.delete(id);
       this.history.logDelete('note', old);

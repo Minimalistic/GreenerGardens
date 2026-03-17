@@ -1,4 +1,4 @@
-# Stage 1: Build frontend
+# Stage 1: Build shared + frontend
 FROM node:20-alpine AS frontend-build
 WORKDIR /app
 COPY package.json package-lock.json* ./
@@ -12,7 +12,7 @@ COPY tsconfig.base.json ./
 WORKDIR /app/packages/frontend
 RUN npm run build
 
-# Stage 2: Build backend
+# Stage 2: Build shared + backend
 FROM node:20-alpine AS backend-build
 WORKDIR /app
 COPY package.json package-lock.json* ./
@@ -23,6 +23,8 @@ RUN npm install
 COPY packages/shared packages/shared
 COPY packages/backend packages/backend
 COPY tsconfig.base.json ./
+# Build shared first, then backend
+RUN cd packages/shared && npm run build
 WORKDIR /app/packages/backend
 RUN npm run build
 
@@ -37,8 +39,10 @@ COPY packages/backend/package.json packages/backend/
 COPY packages/frontend/package.json packages/frontend/
 RUN npm install --omit=dev
 
-# Copy shared source (needed at runtime for schema imports)
-COPY packages/shared packages/shared
+# Copy built shared (compiled JS) and point main at dist
+COPY --from=backend-build /app/packages/shared/dist packages/shared/dist
+COPY packages/shared/package.json packages/shared/
+RUN sed -i 's|"main": "./src/index.ts"|"main": "./dist/index.js"|' packages/shared/package.json
 
 # Copy built backend
 COPY --from=backend-build /app/packages/backend/dist packages/backend/dist

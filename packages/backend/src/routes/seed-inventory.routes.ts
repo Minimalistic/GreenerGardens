@@ -7,7 +7,7 @@ export function seedInventoryRoutes(fastify: FastifyInstance, seedService: SeedI
     '/api/v1/seed-inventory',
     async (request) => {
       const { limit, offset, expiring_soon, low_quantity } = request.query;
-      const data = seedService.findAll({
+      const data = seedService.findAll(request.userId, {
         limit: limit ? safeParseInt(limit, 20) : undefined,
         offset: offset ? safeParseInt(offset, 0) : undefined,
         expiring_soon: expiring_soon === 'true',
@@ -18,7 +18,7 @@ export function seedInventoryRoutes(fastify: FastifyInstance, seedService: SeedI
   );
 
   fastify.post('/api/v1/seed-inventory', async (request, reply) => {
-    const data = seedService.create(request.body);
+    const data = seedService.create(request.body, request.userId);
     reply.status(201);
     return { success: true, data };
   });
@@ -27,30 +27,30 @@ export function seedInventoryRoutes(fastify: FastifyInstance, seedService: SeedI
   fastify.get<{ Params: { plantCatalogId: string } }>(
     '/api/v1/seed-inventory/plant/:plantCatalogId',
     async (request) => {
-      const data = seedService.findByPlant(request.params.plantCatalogId);
+      const data = seedService.findByPlant(request.params.plantCatalogId, request.userId);
       return { success: true, data };
     },
   );
 
   fastify.get<{ Params: { id: string } }>('/api/v1/seed-inventory/:id', async (request) => {
-    const data = seedService.findById(request.params.id);
+    const data = seedService.findById(request.params.id, request.userId);
     return { success: true, data };
   });
 
   fastify.patch<{ Params: { id: string } }>('/api/v1/seed-inventory/:id', async (request) => {
-    const data = seedService.update(request.params.id, request.body);
+    const data = seedService.update(request.params.id, request.body, request.userId);
     return { success: true, data };
   });
 
   fastify.delete<{ Params: { id: string } }>('/api/v1/seed-inventory/:id', async (request, reply) => {
-    seedService.delete(request.params.id);
+    seedService.delete(request.params.id, request.userId);
     reply.status(204);
   });
 
   fastify.post<{ Params: { id: string }; Body: { count: number } }>(
     '/api/v1/seed-inventory/:id/deduct',
     async (request) => {
-      const data = seedService.deductSeeds(request.params.id, request.body.count ?? 1);
+      const data = seedService.deductSeeds(request.params.id, request.body.count ?? 1, request.userId);
       return { success: true, data };
     },
   );

@@ -33,10 +33,10 @@ export function registerTrackingRoutes(fastify: FastifyInstance, db: Database.Da
   const taskService = new TaskService(db, taskRepo, history);
   const calendarService = new CalendarService(db, gardenRepo, catalogRepo, instanceRepo, taskRepo);
   historyRoutes(fastify, historyService);
-  weatherRoutes(fastify, weatherService);
+  weatherRoutes(fastify, weatherService, db);
   weatherCompareRoutes(fastify, db);
-  taskRoutes(fastify, taskService);
-  calendarRoutes(fastify, calendarService);
+  taskRoutes(fastify, taskService, db);
+  calendarRoutes(fastify, calendarService, db);
 
   return { weatherService, taskService, calendarService, gardenRepo };
 }

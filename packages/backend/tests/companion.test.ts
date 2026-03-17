@@ -1,10 +1,12 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { buildTestApp } from './helpers/test-app.js';
+import { buildTestApp, createTestUser } from './helpers/test-app.js';
 
 let app: Awaited<ReturnType<typeof buildTestApp>>;
+let cookie: string;
 
 beforeAll(async () => {
   app = await buildTestApp({ seed: true });
+  ({ cookie } = await createTestUser(app.authService, app.db));
 });
 
 afterAll(async () => {
@@ -16,7 +18,7 @@ describe('Companion planting', () => {
   let basilId: string;
 
   it('finds tomato and basil in catalog', async () => {
-    const res = await app.server.inject({ method: 'GET', url: '/api/v1/plant-catalog?limit=200' });
+    const res = await app.server.inject({ method: 'GET', url: '/api/v1/plant-catalog?limit=300', headers: { cookie } });
     const plants = res.json().data;
 
     const tomato = plants.find((p: any) => p.common_name.toLowerCase().includes('tomato'));
@@ -33,6 +35,7 @@ describe('Companion planting', () => {
     const res = await app.server.inject({
       method: 'GET',
       url: `/api/v1/companion/check?plant=${tomatoId}&neighbors=${basilId}`,
+      headers: { cookie },
     });
     expect(res.statusCode).toBe(200);
     const body = res.json();
@@ -44,6 +47,7 @@ describe('Companion planting', () => {
     const res = await app.server.inject({
       method: 'GET',
       url: `/api/v1/companion/suggestions?plant=${tomatoId}`,
+      headers: { cookie },
     });
     expect(res.statusCode).toBe(200);
     expect(res.json().success).toBe(true);

@@ -3,8 +3,8 @@ import type { GardenService } from '../services/garden.service.js';
 
 export function settingsRoutes(fastify: FastifyInstance, gardenService: GardenService) {
   // GET /api/v1/settings — returns the current garden's settings + garden info
-  fastify.get('/api/v1/settings', async () => {
-    const gardens = gardenService.findAll();
+  fastify.get('/api/v1/settings', async (request) => {
+    const gardens = gardenService.findAll(request.userId);
     if (gardens.length === 0) {
       return { success: true, data: null };
     }
@@ -30,12 +30,12 @@ export function settingsRoutes(fastify: FastifyInstance, gardenService: GardenSe
 
   // PATCH /api/v1/settings — update garden info and/or settings
   fastify.patch('/api/v1/settings', async (request) => {
-    const gardens = gardenService.findAll();
+    const gardens = gardenService.findAll(request.userId);
     if (gardens.length === 0) {
       return { success: false, error: { code: 'NO_GARDEN', message: 'No garden configured' } };
     }
     const gardenId = gardens[0].id;
-    const updated = gardenService.update(gardenId, request.body);
+    const updated = gardenService.update(gardenId, request.body, request.userId);
     return { success: true, data: updated };
   });
 }

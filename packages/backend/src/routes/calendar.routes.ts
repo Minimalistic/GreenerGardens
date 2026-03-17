@@ -1,9 +1,11 @@
 import type { FastifyInstance } from 'fastify';
+import type Database from 'better-sqlite3';
 import type { CalendarService } from '../services/calendar.service.js';
 import { replyError } from '../utils/reply-error.js';
 import { safeParseInt } from '../utils/parse.js';
+import { assertGardenOwnership } from '../utils/ownership.js';
 
-export function calendarRoutes(fastify: FastifyInstance, calendarService: CalendarService) {
+export function calendarRoutes(fastify: FastifyInstance, calendarService: CalendarService, db: Database.Database) {
   // GET /api/v1/calendar?garden_id=&month=&year=
   fastify.get<{ Querystring: { garden_id?: string; month?: string; year?: string } }>(
     '/api/v1/calendar',
@@ -12,6 +14,8 @@ export function calendarRoutes(fastify: FastifyInstance, calendarService: Calend
       if (!garden_id) {
         return replyError(reply, 400, 'VALIDATION_ERROR', 'garden_id query parameter required');
       }
+
+      assertGardenOwnership(db, garden_id, request.userId);
 
       const now = new Date();
       const m = safeParseInt(month, now.getMonth() + 1);
@@ -31,6 +35,7 @@ export function calendarRoutes(fastify: FastifyInstance, calendarService: Calend
         return replyError(reply, 400, 'VALIDATION_ERROR', 'garden_id query parameter required');
       }
 
+      assertGardenOwnership(db, gardenId, request.userId);
       const events = calendarService.getWeekEvents(gardenId);
       return { success: true, data: events };
     },
@@ -45,6 +50,7 @@ export function calendarRoutes(fastify: FastifyInstance, calendarService: Calend
         return replyError(reply, 400, 'VALIDATION_ERROR', 'garden_id query parameter required');
       }
 
+      assertGardenOwnership(db, gardenId, request.userId);
       const suggestions = calendarService.getPlantingSuggestions(gardenId);
       return { success: true, data: suggestions };
     },

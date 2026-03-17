@@ -11,13 +11,13 @@ export function analyticsRoutes(fastify: FastifyInstance, analyticsService: Anal
       let data;
       switch (groupBy) {
         case 'plot':
-          data = analyticsService.getYieldByPlot(year);
+          data = analyticsService.getYieldByPlot(request.userId, year);
           break;
         case 'month':
-          data = analyticsService.getSeasonalTimeline(year);
+          data = analyticsService.getSeasonalTimeline(request.userId, year);
           break;
         default:
-          data = analyticsService.getYieldByPlant(year);
+          data = analyticsService.getYieldByPlant(request.userId, year);
       }
       return { success: true, data };
     },
@@ -27,13 +27,13 @@ export function analyticsRoutes(fastify: FastifyInstance, analyticsService: Anal
     '/api/v1/analytics/harvests/destinations',
     async (request) => {
       const year = request.query.year ? safeParseInt(request.query.year, new Date().getFullYear()) : undefined;
-      const data = analyticsService.getDestinationBreakdown(year);
+      const data = analyticsService.getDestinationBreakdown(request.userId, year);
       return { success: true, data };
     },
   );
 
-  fastify.get('/api/v1/analytics/harvests/compare', async () => {
-    const data = analyticsService.getYearOverYear();
+  fastify.get('/api/v1/analytics/harvests/compare', async (request) => {
+    const data = analyticsService.getYearOverYear(request.userId);
     return { success: true, data };
   });
 }

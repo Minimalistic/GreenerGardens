@@ -10,48 +10,48 @@ export class TagService {
     private tagRepo: TagRepository,
   ) {}
 
-  findAll() {
-    return this.tagRepo.findAll({ orderBy: 'name', orderDir: 'ASC' });
+  findAll(userId: string) {
+    return this.db.prepare('SELECT * FROM tags WHERE user_id = ? ORDER BY name ASC').all(userId) as any[];
   }
 
-  findById(id: string) {
-    const tag = this.tagRepo.findById(id);
+  findById(id: string, userId: string) {
+    const tag = this.db.prepare('SELECT * FROM tags WHERE id = ? AND user_id = ?').get(id, userId) as any;
     if (!tag) throw new NotFoundError('Tag', id);
     return tag;
   }
 
-  create(data: unknown) {
+  create(data: unknown, userId: string) {
     const parsed = TagCreateSchema.parse(data);
     const id = uuid();
-    return this.tagRepo.insert({ id, ...parsed });
+    return this.tagRepo.insert({ id, ...parsed, user_id: userId });
   }
 
-  update(id: string, data: unknown) {
+  update(id: string, data: unknown, userId: string) {
+    // Verify ownership first
+    this.findById(id, userId);
     const parsed = TagUpdateSchema.parse(data);
     const result = this.tagRepo.update(id, parsed);
     if (!result) throw new NotFoundError('Tag', id);
     return result;
   }
 
-  delete(id: string): void {
-    const tag = this.tagRepo.findById(id);
-    if (!tag) throw new NotFoundError('Tag', id);
+  delete(id: string, userId: string): void {
+    this.findById(id, userId);
     this.tagRepo.delete(id);
   }
 
-  addEntityTag(tagId: string, entityType: string, entityId: string) {
-    const tag = this.tagRepo.findById(tagId);
-    if (!tag) throw new NotFoundError('Tag', tagId);
+  addEntityTag(tagId: string, entityType: string, entityId: string, userId: string) {
+    this.findById(tagId, userId);
     this.tagRepo.addEntityTag(tagId, entityType, entityId);
   }
 
-  removeEntityTag(tagId: string, entityType: string, entityId: string) {
+  removeEntityTag(tagId: string, entityType: string, entityId: string, userId: string) {
+    this.findById(tagId, userId);
     this.tagRepo.removeEntityTag(tagId, entityType, entityId);
   }
 
-  findEntitiesByTag(tagId: string) {
-    const tag = this.tagRepo.findById(tagId);
-    if (!tag) throw new NotFoundError('Tag', tagId);
+  findEntitiesByTag(tagId: string, userId: string) {
+    this.findById(tagId, userId);
     return this.tagRepo.findEntitiesByTag(tagId);
   }
 

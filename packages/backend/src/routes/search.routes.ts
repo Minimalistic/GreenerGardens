@@ -9,7 +9,7 @@ export function searchRoutes(fastify: FastifyInstance, searchService: SearchServ
       if (!q || q.trim().length === 0) {
         return { success: true, data: [] };
       }
-      const data = searchService.search(q.trim(), limit ? parseInt(limit) : 50);
+      const data = searchService.search(q.trim(), request.userId, limit ? parseInt(limit) : 50);
       return { success: true, data };
     },
   );

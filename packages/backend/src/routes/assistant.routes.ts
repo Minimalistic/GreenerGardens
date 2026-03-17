@@ -9,14 +9,14 @@ export function assistantRoutes(fastify: FastifyInstance, llmService: LlmService
   });
 
   // List conversations
-  fastify.get('/api/v1/assistant/conversations', async () => {
-    const data = llmService.listConversations();
+  fastify.get('/api/v1/assistant/conversations', async (request) => {
+    const data = llmService.listConversations(request.userId);
     return { success: true, data };
   });
 
   // Create conversation
   fastify.post<{ Body: { title?: string } }>('/api/v1/assistant/conversations', async (request, reply) => {
-    const data = llmService.createConversation(request.body?.title);
+    const data = llmService.createConversation(request.body?.title, request.userId);
     reply.status(201);
     return { success: true, data };
   });
@@ -40,6 +40,9 @@ export function assistantRoutes(fastify: FastifyInstance, llmService: LlmService
       const { message, garden_id } = parsed.data;
       const conversationId = request.params.id;
 
+      // Verify ownership
+      llmService.getConversation(conversationId, request.userId);
+
       // Set SSE headers on the raw Node response
       reply.raw.writeHead(200, {
         'Content-Type': 'text/event-stream',
@@ -62,7 +65,7 @@ export function assistantRoutes(fastify: FastifyInstance, llmService: LlmService
 
   // Delete conversation
   fastify.delete<{ Params: { id: string } }>('/api/v1/assistant/conversations/:id', async (request, reply) => {
-    llmService.deleteConversation(request.params.id);
+    llmService.deleteConversation(request.params.id, request.userId);
     reply.status(204);
   });
 }
