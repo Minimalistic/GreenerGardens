@@ -21,7 +21,7 @@
     "bcryptjs": "^3.0.3",
     "better-sqlite3": "^11.7.0",
     "dotenv": "^17.3.1",
-    "fastify": "^5.8.1",
+    "fastify": "^5.8.3",
     "fastq": "^1.20.1",
     "uuid": "^11.1.0",
     "web-push": "^3.6.7",
