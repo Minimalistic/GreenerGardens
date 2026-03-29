@@ -24,7 +24,7 @@ function cookieOptions(secure: boolean) {
 }
 
 export function registerAuthRoutes(fastify: FastifyInstance, authService: AuthService) {
-  const isProduction = process.env.NODE_ENV === 'production';
+  const secureCookies = process.env.COOKIE_SECURE === 'true';
 
   // Check if initial setup is needed
   fastify.get('/api/v1/auth/status', async () => {
@@ -43,7 +43,7 @@ export function registerAuthRoutes(fastify: FastifyInstance, authService: AuthSe
       parsed.display_name,
     );
 
-    reply.setCookie(COOKIE_NAME, token, cookieOptions(isProduction));
+    reply.setCookie(COOKIE_NAME, token, cookieOptions(secureCookies));
     return { success: true, data: { user } };
   });
 
@@ -56,7 +56,7 @@ export function registerAuthRoutes(fastify: FastifyInstance, authService: AuthSe
       parsed.password,
     );
 
-    reply.setCookie(COOKIE_NAME, token, cookieOptions(isProduction));
+    reply.setCookie(COOKIE_NAME, token, cookieOptions(secureCookies));
     reply.status(201);
     return { success: true, data: { user } };
   });
@@ -71,7 +71,7 @@ export function registerAuthRoutes(fastify: FastifyInstance, authService: AuthSe
       request.ip,
     );
 
-    reply.setCookie(COOKIE_NAME, token, cookieOptions(isProduction));
+    reply.setCookie(COOKIE_NAME, token, cookieOptions(secureCookies));
     return { success: true, data: { user } };
   });
 

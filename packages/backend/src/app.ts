@@ -47,7 +47,6 @@ export async function buildApp() {
   await server.register(fastifyStatic, {
     root: uploadPath,
     prefix: '/uploads/',
-    decorateReply: false,
   });
 
   // Serve frontend static files in production
@@ -114,7 +113,7 @@ export async function buildApp() {
           error: { code: 'NOT_FOUND', message: `Route ${request.method} ${request.url} not found` },
         });
       } else {
-        (reply as any).sendFile('index.html');
+        (reply as any).sendFile('index.html', frontendDist);
       }
     });
   }

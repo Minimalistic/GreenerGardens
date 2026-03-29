@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Sun, Moon, Monitor, Wrench, Bug, Settings } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Sun, Moon, Monitor, Wrench, Bug, Settings, Home } from 'lucide-react';
 import { UndoRedoControls } from '@/components/undo-redo-controls';
 import { Button } from '@/components/ui/button';
 import {
@@ -20,11 +20,32 @@ export function Header({ title }: HeaderProps) {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [showDashboard, setShowDashboard] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('from') === 'dashboard') {
+      localStorage.setItem('glenwood-dashboard', '1');
+      params.delete('from');
+      const clean = window.location.pathname + (params.toString() ? '?' + params : '') + window.location.hash;
+      history.replaceState(null, '', clean);
+    }
+    if (localStorage.getItem('glenwood-dashboard')) setShowDashboard(true);
+  }, []);
 
   return (
     <>
       <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="flex items-center h-14 px-4 gap-4">
+          {showDashboard && (
+            <a
+              href="http://100.71.235.97:3001"
+              className="flex items-center justify-center w-8 h-8 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+              title="Back to Dashboard"
+            >
+              <Home className="w-4 h-4" />
+            </a>
+          )}
           <div className="flex-1">
             <h1 className="text-lg font-semibold">{title}</h1>
           </div>
